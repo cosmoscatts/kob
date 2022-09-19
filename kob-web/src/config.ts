@@ -1,3 +1,5 @@
+import type { Component } from 'vue'
+import { CrownOutlined } from '@vicons/antd'
 import type { Menu } from '~/types'
 
 /** 是否为 `debug` 模式 */
@@ -41,8 +43,29 @@ export const appLayout = {
 export const appMenus: Menu[] = [
   {
     id: 101,
-    title: 'PK 对战',
+    label: 'PK 对战',
     path: '/pk',
-    icon: '',
+    icon: 'pk',
+  },
+  {
+    id: 102,
+    label: '对局列表',
+    path: '/record',
+    icon: 'record',
+  },
+  {
+    id: 103,
+    label: '排行榜',
+    path: '/rank',
+    icon: 'rank',
   },
 ]
+
+/**
+ * 菜单图标映射
+ */
+export const appMenuIconMap: Record<string, Component> = {
+  pk: CrownOutlined,
+  record: CrownOutlined,
+  rank: CrownOutlined,
+}
