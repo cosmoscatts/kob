@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="refParentEl">
+  <div ref="refParentEl" hw-full flex-center>
     <canvas ref="refCanvas" />
   </div>
 </template>
