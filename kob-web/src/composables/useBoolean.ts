@@ -1,4 +1,4 @@
-export function useBoolean(initValue: boolean) {
+export function useBoolean(initValue = false) {
   const bool = ref(initValue)
 
   function setBool(value: boolean) {
