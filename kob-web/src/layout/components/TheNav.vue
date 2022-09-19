@@ -3,17 +3,17 @@ import { NavAvatar, NavLogo, NavMenu } from './nav-items'
 </script>
 
 <template>
-  <div>
-    <NavLogo />
-    <NavMenu mx-4 />
+  <div flex-y-center>
+    <NavLogo ml-10 />
+    <NavMenu mx-5 />
     <div flex-auto />
-    <div flex-y-center>
+    <div flex-y-center mr-10>
       <a
-        icon-btn text-lg i-carbon-logo-github mx-4
+        icon-btn text-lg i-carbon-logo-github mx-5
         href="https://github.com/dud9/petite"
         target="_blank" title="GitHub"
       />
-      <DarkToggle mr-4 />
+      <DarkToggle mr-5 />
       <NavAvatar />
     </div>
   </div>

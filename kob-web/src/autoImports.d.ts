@@ -180,6 +180,7 @@ declare global {
   const useFullscreen: typeof import('@vueuse/core')['useFullscreen']
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
+  const useGlobalNaiveApi: typeof import('./composables/useTools')['useGlobalNaiveApi']
   const useHead: typeof import('@vueuse/head')['useHead']
   const useHeadMeta: typeof import('./composables/useTools')['useHeadMeta']
   const useIdle: typeof import('@vueuse/core')['useIdle']
@@ -260,6 +261,7 @@ declare global {
   const useTransition: typeof import('@vueuse/core')['useTransition']
   const useUrlSearchParams: typeof import('@vueuse/core')['useUrlSearchParams']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
+  const useUserStore: typeof import('./store/user')['useUserStore']
   const useVModel: typeof import('@vueuse/core')['useVModel']
   const useVModels: typeof import('@vueuse/core')['useVModels']
   const useVibrate: typeof import('@vueuse/core')['useVibrate']
@@ -471,6 +473,7 @@ declare module '@vue/runtime-core' {
     readonly useFullscreen: UnwrapRef<typeof import('@vueuse/core')['useFullscreen']>
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
+    readonly useGlobalNaiveApi: UnwrapRef<typeof import('./composables/useTools')['useGlobalNaiveApi']>
     readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useHeadMeta: UnwrapRef<typeof import('./composables/useTools')['useHeadMeta']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
@@ -551,6 +554,7 @@ declare module '@vue/runtime-core' {
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
+    readonly useUserStore: UnwrapRef<typeof import('./store/user')['useUserStore']>
     readonly useVModel: UnwrapRef<typeof import('@vueuse/core')['useVModel']>
     readonly useVModels: UnwrapRef<typeof import('@vueuse/core')['useVModels']>
     readonly useVibrate: UnwrapRef<typeof import('@vueuse/core')['useVibrate']>

@@ -6,6 +6,8 @@ specifiers:
   '@types/node': ^18.7.18
   '@unocss/preset-icons': ^0.45.21
   '@unocss/preset-wind': ^0.45.21
+  '@vicons/antd': ^0.12.0
+  '@vicons/ionicons5': ^0.12.0
   '@vitejs/plugin-vue': ^3.1.0
   '@vueuse/core': ^9.2.0
   '@vueuse/head': ^0.7.12
@@ -43,6 +45,8 @@ devDependencies:
   '@types/node': registry.npmmirror.com/@types/node/18.7.18
   '@unocss/preset-icons': registry.npmmirror.com/@unocss/preset-icons/0.45.21
   '@unocss/preset-wind': registry.npmmirror.com/@unocss/preset-wind/0.45.21
+  '@vicons/antd': registry.npmmirror.com/@vicons/antd/0.12.0
+  '@vicons/ionicons5': registry.npmmirror.com/@vicons/ionicons5/0.12.0
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.0_vite@3.1.2+vue@3.2.39
   eslint: registry.npmmirror.com/eslint/8.23.1
   naive-ui: registry.npmmirror.com/naive-ui/2.33.3_vue@3.2.39
@@ -851,6 +855,18 @@ packages:
       '@unocss/transformer-directives': registry.npmmirror.com/@unocss/transformer-directives/0.45.21
       magic-string: registry.npmmirror.com/magic-string/0.26.3
       vite: registry.npmmirror.com/vite/3.1.2
+    dev: true
+
+  registry.npmmirror.com/@vicons/antd/0.12.0:
+    resolution: {integrity: sha512-C0p6aO1EmGG1QHrqgUWQS1No20934OdWSRQshM5NIDK5H1On6tC26U0hT6Rmp40KfUsvhvX5YW8BoWJdNFifPg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vicons/antd/-/antd-0.12.0.tgz}
+    name: '@vicons/antd'
+    version: 0.12.0
+    dev: true
+
+  registry.npmmirror.com/@vicons/ionicons5/0.12.0:
+    resolution: {integrity: sha512-Iy1EUVRpX0WWxeu1VIReR1zsZLMc4fqpt223czR+Rpnrwu7pt46nbnC2ycO7ItI/uqDLJxnbcMC7FujKs9IfFA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vicons/ionicons5/-/ionicons5-0.12.0.tgz}
+    name: '@vicons/ionicons5'
+    version: 0.12.0
     dev: true
 
   registry.npmmirror.com/@vitejs/plugin-vue/3.1.0_vite@3.1.2+vue@3.2.39:

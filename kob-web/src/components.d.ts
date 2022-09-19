@@ -8,14 +8,18 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']
+    NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDropdown: typeof import('naive-ui')['NDropdown']
+    NEllipsis: typeof import('naive-ui')['NEllipsis']
     NGradientText: typeof import('naive-ui')['NGradientText']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NLoadingBarProvider: typeof import('naive-ui')['NLoadingBarProvider']
+    NMenu: typeof import('naive-ui')['NMenu']
     PreLoaded: typeof import('./components/PreLoaded.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

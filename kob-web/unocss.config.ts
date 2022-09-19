@@ -11,7 +11,7 @@ export default defineConfig({
   shortcuts: {
     'hw-full': 'h-full w-full',
     'hw-screen': 'h-screen w-screen',
-    'icon-btn': 'op30 hover:op100 hover:bg-primary_hover',
+    'icon-btn': 'op30 bg-dark dark:bg-white hover:op100 hover:bg-primary_hover cursor-pointer',
     'flex-center': 'flex justify-center items-center',
     'flex-x-center': 'flex justify-center',
     'flex-y-center': 'flex items-center',
