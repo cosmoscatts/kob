@@ -28,6 +28,7 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const customRef: typeof import('vue')['customRef']
+  const dayjs: typeof import('./composables/useTools')['dayjs']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
@@ -36,12 +37,14 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const formatDate: typeof import('./composables/useTools')['formatDate']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
+  const isDark: typeof import('./composables/useTheme')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
@@ -105,6 +108,7 @@ declare global {
   const toReactive: typeof import('@vueuse/core')['toReactive']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
+  const toggleDark: typeof import('./composables/useTheme')['toggleDark']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
   const tryOnBeforeUnmount: typeof import('@vueuse/core')['tryOnBeforeUnmount']
@@ -177,6 +181,7 @@ declare global {
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
   const useHead: typeof import('@vueuse/head')['useHead']
+  const useHeadMeta: typeof import('./composables/useTools')['useHeadMeta']
   const useIdle: typeof import('@vueuse/core')['useIdle']
   const useImage: typeof import('@vueuse/core')['useImage']
   const useInfiniteScroll: typeof import('@vueuse/core')['useInfiniteScroll']
@@ -185,6 +190,7 @@ declare global {
   const useIntervalFn: typeof import('@vueuse/core')['useIntervalFn']
   const useKeyModifier: typeof import('@vueuse/core')['useKeyModifier']
   const useLastChanged: typeof import('@vueuse/core')['useLastChanged']
+  const useLoading: typeof import('./composables/useTools')['useLoading']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']
@@ -238,6 +244,7 @@ declare global {
   const useTextDirection: typeof import('@vueuse/core')['useTextDirection']
   const useTextSelection: typeof import('@vueuse/core')['useTextSelection']
   const useTextareaAutosize: typeof import('@vueuse/core')['useTextareaAutosize']
+  const useThemeOverrides: typeof import('./composables/useTheme')['useThemeOverrides']
   const useThrottle: typeof import('@vueuse/core')['useThrottle']
   const useThrottleFn: typeof import('@vueuse/core')['useThrottleFn']
   const useThrottledRefHistory: typeof import('@vueuse/core')['useThrottledRefHistory']
@@ -279,6 +286,7 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
+  const writeThemeColorsToBody: typeof import('./composables/useTheme')['writeThemeColorsToBody']
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -311,6 +319,7 @@ declare module '@vue/runtime-core' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
+    readonly dayjs: UnwrapRef<typeof import('./composables/useTools')['dayjs']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -319,12 +328,14 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly formatDate: UnwrapRef<typeof import('./composables/useTools')['formatDate']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly isDark: UnwrapRef<typeof import('./composables/useTheme')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -388,6 +399,7 @@ declare module '@vue/runtime-core' {
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toggleDark: UnwrapRef<typeof import('./composables/useTheme')['toggleDark']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>
@@ -460,6 +472,7 @@ declare module '@vue/runtime-core' {
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
     readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
+    readonly useHeadMeta: UnwrapRef<typeof import('./composables/useTools')['useHeadMeta']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
     readonly useInfiniteScroll: UnwrapRef<typeof import('@vueuse/core')['useInfiniteScroll']>
@@ -468,6 +481,7 @@ declare module '@vue/runtime-core' {
     readonly useIntervalFn: UnwrapRef<typeof import('@vueuse/core')['useIntervalFn']>
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
+    readonly useLoading: UnwrapRef<typeof import('./composables/useTools')['useLoading']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
@@ -521,6 +535,7 @@ declare module '@vue/runtime-core' {
     readonly useTextDirection: UnwrapRef<typeof import('@vueuse/core')['useTextDirection']>
     readonly useTextSelection: UnwrapRef<typeof import('@vueuse/core')['useTextSelection']>
     readonly useTextareaAutosize: UnwrapRef<typeof import('@vueuse/core')['useTextareaAutosize']>
+    readonly useThemeOverrides: UnwrapRef<typeof import('./composables/useTheme')['useThemeOverrides']>
     readonly useThrottle: UnwrapRef<typeof import('@vueuse/core')['useThrottle']>
     readonly useThrottleFn: UnwrapRef<typeof import('@vueuse/core')['useThrottleFn']>
     readonly useThrottledRefHistory: UnwrapRef<typeof import('@vueuse/core')['useThrottledRefHistory']>
@@ -562,5 +577,6 @@ declare module '@vue/runtime-core' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly writeThemeColorsToBody: UnwrapRef<typeof import('./composables/useTheme')['writeThemeColorsToBody']>
   }
 }
