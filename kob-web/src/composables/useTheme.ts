@@ -4,3 +4,7 @@ export const toggleDark = useToggle(isDark)
 export function useThemeOverrides() {
 
 }
+
+export function writeThemeColorsToBody() {
+
+}
