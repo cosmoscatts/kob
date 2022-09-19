@@ -19,6 +19,6 @@ export function useBoolean(initValue: boolean) {
     setBool,
     setTrue,
     setFalse,
-    toggle
+    toggle,
   }
 }
