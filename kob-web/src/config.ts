@@ -1,3 +1,5 @@
+import type { Menu } from '~/types'
+
 /**
  * 项目基本信息
  */
@@ -21,6 +23,11 @@ export const appLayout = {
 /**
  * 项目菜单
  */
-export const appMenus = [
-
+export const appMenus: Menu[] = [
+  {
+    id: 101,
+    title: 'PK 对战',
+    path: '/pk',
+    icon: '',
+  },
 ]
