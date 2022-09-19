@@ -1,4 +1,10 @@
 import dayjs from 'dayjs'
+import type { ConfigProviderProps } from 'naive-ui'
+import {
+  createDiscreteApi,
+  darkTheme,
+  lightTheme,
+} from 'naive-ui'
 import { appMeta } from '~/config'
 
 /**
@@ -62,3 +68,31 @@ export function useLoading(initValue = false) {
     toggleLoading,
   }
 }
+
+export function useGlobalNaiveApi() {
+  const configProviderProps = computed<ConfigProviderProps>(() => {
+    return {
+      theme: isDark.value
+        ? darkTheme
+        : lightTheme,
+    }
+  })
+
+  const {
+    dialog,
+    message,
+    notification,
+    loadingBar,
+  } = createDiscreteApi(
+    ['message', 'dialog', 'notification', 'loadingBar'],
+    { configProviderProps },
+  )
+
+  return {
+    dialog,
+    message,
+    notification,
+    loadingBar,
+  }
+}
+

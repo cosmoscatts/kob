@@ -3,16 +3,16 @@ import { useThemeVars } from 'naive-ui'
 import { appMeta } from '~/config'
 
 const {
-  innerLoading = 1500,
+  beforeLeaveMs = 1500,
 } = defineProps<{
-  innerLoading: number
+  beforeLeaveMs: number
 }>()
 
 const themeVars = useThemeVars()
 
 // 控制内层动画
 const { loading, endLoading } = useLoading(true)
-useTimeoutFn(endLoading, innerLoading)
+useTimeoutFn(endLoading, beforeLeaveMs)
 </script>
 
 <template>
