@@ -1,5 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const toggle = toggleDark
+</script>
 
 <template>
-  1
+  <button
+    icon-btn text-lg
+    i="carbon-light-filled dark:carbon-asleep-filled"
+    @click="toggle()"
+  />
 </template>
+

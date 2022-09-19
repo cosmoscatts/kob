@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: BaseLayout,
+      redirect: '/pk',
     },
     {
       path: '/login',
@@ -15,6 +15,48 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
       },
+    },
+    {
+      path: '/pk',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'PK',
+          component: () => import('~/pages/pk/index.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
+    },
+    {
+      path: '/record',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'Record',
+          component: () => import('~/pages/record/index.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
+    },
+    {
+      path: '/rank',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'Rank',
+          component: () => import('~/pages/rank/index.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
     },
     {
       path: '/:pathMatch(.*)*',

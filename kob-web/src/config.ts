@@ -12,6 +12,7 @@ export const appMeta = {
   description: '惊世骇俗的贪吃蛇双人对抗游戏',
   author: 'duende',
   github: 'https://github.com/dud9/kob',
+  copyRight: 'KOB - 惊世骇俗的贪吃蛇双人对抗游戏',
 }
 
 /**
@@ -24,6 +25,12 @@ export const appLayout = {
   contentPadding: '20px',
   /** 底部栏高度 */
   footHeight: '50px',
+  /** `backTop` 距离页面右部的距离 */
+  backTopRight: 20,
+  /** `backTop` 距离页面底部的距离 */
+  backTopBottom: 200,
+  /** `backTop` 滚动时触发显示回到顶部的高度 */
+  backTopvisibilityHeight: 250,
 }
 
 /**
