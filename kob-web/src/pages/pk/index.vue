@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import GamePlayground from '~/components/GamePlayground.vue'
+</script>
 
 <template>
-  <div h-2000px>
-    1
+  <div mt-1rem>
+    <GamePlayground />
   </div>
 </template>
