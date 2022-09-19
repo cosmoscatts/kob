@@ -26,16 +26,17 @@ const refWrapper = ref()
       ref="refWrapper"
       position="absolute"
       :style="{
+        height: 'auto',
         marginTop: `${navHeight + 1}px`,
+        marginBottom: `${footHeight + 1}px`,
+        minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)`,
       }"
       :native-scrollbar="true"
     >
       <n-layout-content>
         <TheContent
           :style="{
-            height: 'auto',
             padding: `${contentPadding}px`,
-            minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)`,
           }"
         />
       </n-layout-content>
