@@ -22,7 +22,7 @@ export const appMeta = {
  */
 export const appLayout = {
   /** 主题色 */
-  primaryColor: '',
+  primaryColor: '#0d9488',
   /** 导航栏高度 */
   navHeight: 60,
   /** 内容区内边距 */

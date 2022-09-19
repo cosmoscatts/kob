@@ -1,12 +1,21 @@
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { commonDark, commonLight } from 'naive-ui'
+import { generatePrimaryColor } from '~/utils'
+import { appLayout } from '~/config'
 
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 
 export function useThemeOverrides(): GlobalThemeOverrides {
-  return {
+  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
 
+  return {
+    common: {
+      ...primaryColorOverrides,
+    },
+    LoadingBar: {
+      colorLoading: appLayout.primaryColor,
+    },
   }
 }
 
@@ -37,12 +46,19 @@ const colorPropertyMap: { [key: string]: string } = {
  * 将 `naive ui` 的通用颜色，并写入 `body`
  */
 export function writeThemeColorsToBody() {
+  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
+
   const colors: any = isDark.value
     ? commonDark
     : commonLight
 
+  const mergedColors = {
+    ...colors,
+    ...primaryColorOverrides,
+  }
+
   Object.entries(colorPropertyMap).forEach(([key, value]) => {
-    document.body.style.setProperty(value, colors[key])
+    document.body.style.setProperty(value, mergedColors[key])
   })
 }
 

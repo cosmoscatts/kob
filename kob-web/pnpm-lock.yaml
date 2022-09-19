@@ -13,11 +13,13 @@ specifiers:
   '@vueuse/head': ^0.7.12
   animate.css: ^4.1.1
   axios: ^0.27.2
+  colord: ^2.9.3
   dayjs: ^1.11.5
   eslint: ^8.23.1
   naive-ui: ^2.33.3
   pinia: ^2.0.22
   pinia-plugin-persist-uni: ^1.1.5
+  seemly: ^0.3.6
   typescript: ^4.6.4
   unocss: ^0.45.21
   unplugin-auto-import: ^0.11.2
@@ -33,9 +35,11 @@ dependencies:
   '@vueuse/head': registry.npmmirror.com/@vueuse/head/0.7.12_vue@3.2.39
   animate.css: registry.npmmirror.com/animate.css/4.1.1
   axios: registry.npmmirror.com/axios/0.27.2
+  colord: registry.npmmirror.com/colord/2.9.3
   dayjs: registry.npmmirror.com/dayjs/1.11.5
   pinia: registry.npmmirror.com/pinia/2.0.22_arz4dztosvwy2ghjrlh2wdhejm
   pinia-plugin-persist-uni: registry.npmmirror.com/pinia-plugin-persist-uni/1.1.5_pinia@2.0.22+vue@3.2.39
+  seemly: registry.npmmirror.com/seemly/0.3.6
   vue: registry.npmmirror.com/vue/3.2.39
   vue-router: registry.npmmirror.com/vue-router/4.1.5_vue@3.2.39
 
@@ -1451,6 +1455,12 @@ packages:
     name: color-name
     version: 1.1.4
     dev: true
+
+  registry.npmmirror.com/colord/2.9.3:
+    resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colord/-/colord-2.9.3.tgz}
+    name: colord
+    version: 2.9.3
+    dev: false
 
   registry.npmmirror.com/colorette/2.0.19:
     resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colorette/-/colorette-2.0.19.tgz}
@@ -3866,7 +3876,6 @@ packages:
     resolution: {integrity: sha512-lEV5VB8BUKTo/AfktXJcy+JeXns26ylbMkIUco8CYREsQijuz4mrXres2Q+vMLdwkuLxJdIPQ8IlCIxLYm71Yw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/seemly/-/seemly-0.3.6.tgz}
     name: seemly
     version: 0.3.6
-    dev: true
 
   registry.npmmirror.com/semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/semver/-/semver-5.7.1.tgz}
