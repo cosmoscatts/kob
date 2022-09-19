@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']
+    GamePlayground: typeof import('./components/GamePlayground.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']

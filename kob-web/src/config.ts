@@ -26,7 +26,7 @@ export const appLayout = {
   /** 导航栏高度 */
   navHeight: 60,
   /** 内容区内边距 */
-  contentPadding: 20,
+  contentPadding: 50,
   /** 底部栏高度 */
   footHeight: 50,
   /** `backTop` 距离页面右部的距离 */

@@ -8,6 +8,10 @@ body,
   overflow: hidden;
 }
 
+html.dark {
+  background-color: #101014;
+}
+
 /** 滑动块样式 */
 ::-webkit-scrollbar {
   width: 4px;

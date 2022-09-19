@@ -1,7 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div h-2000px>
-    1
-  </div>
+  1
 </template>

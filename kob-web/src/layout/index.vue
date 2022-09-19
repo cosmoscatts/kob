@@ -18,7 +18,7 @@ const refWrapper = ref()
 </script>
 
 <template>
-  <n-layout hw-screen of-hidden :native-scrollbar="false">
+  <n-layout hw-screen of-hidden>
     <n-layout-header bordered position="absolute">
       <TheNav w-full :style="{ height: `${navHeight}px` }" />
     </n-layout-header>
@@ -27,13 +27,17 @@ const refWrapper = ref()
       position="absolute"
       :style="{
         marginTop: `${navHeight + 1}px`,
-        height: 'auto',
-        minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)`,
       }"
-      :native-scrollbar="false"
+      :native-scrollbar="true"
     >
       <n-layout-content>
-        <TheContent ha :style="{ padding: `${contentPadding}px` }" />
+        <TheContent
+          :style="{
+            height: 'auto',
+            padding: `${contentPadding}px`,
+            minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)`,
+          }"
+        />
       </n-layout-content>
       <n-back-top
         :listen-to="refWrapper"
