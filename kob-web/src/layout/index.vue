@@ -28,16 +28,13 @@ const refWrapper = ref()
       :style="{
         marginTop: `${navHeight + 1}px`,
         height: 'auto',
-        minHeight: `calc(100% - ${navHeight + 1}px)`,
+        minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)`,
       }"
       :native-scrollbar="false"
     >
       <n-layout-content>
-        <TheContent ha :style="{ padding: `${contentPadding}px`, minHeight: `calc(100vh - ${navHeight + 1 + footHeight + 1}px)` }" />
+        <TheContent ha :style="{ padding: `${contentPadding}px` }" />
       </n-layout-content>
-      <n-layout-footer :style="{ height: `${footHeight}px` }" bordered>
-        <TheFoot hw-full />
-      </n-layout-footer>
       <n-back-top
         :listen-to="refWrapper"
         :right="backTopRight"
@@ -45,6 +42,9 @@ const refWrapper = ref()
         :visibility-height="backTopvisibilityHeight"
       />
     </n-layout>
+    <n-layout-footer :style="{ height: `${footHeight}px` }" bordered position="absolute">
+      <TheFoot hw-full />
+    </n-layout-footer>
   </n-layout>
 </template>
 

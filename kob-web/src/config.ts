@@ -19,12 +19,14 @@ export const appMeta = {
  * 项目基础布局
  */
 export const appLayout = {
+  /** 主题色 */
+  primaryColor: '',
   /** 导航栏高度 */
-  navHeight: '60px',
+  navHeight: 60,
   /** 内容区内边距 */
-  contentPadding: '20px',
+  contentPadding: 20,
   /** 底部栏高度 */
-  footHeight: '50px',
+  footHeight: 50,
   /** `backTop` 距离页面右部的距离 */
   backTopRight: 20,
   /** `backTop` 距离页面底部的距离 */

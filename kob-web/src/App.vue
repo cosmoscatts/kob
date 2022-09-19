@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
-import PreLoaded from './components/PreLoaded.vue'
 
+// 创建 `head` 数据
+useHeadMeta()
+
+// 主题和自定义主题覆盖
 const theme = computed(() => {
   return isDark.value
     ? darkTheme
     : null
 })
-
-// `useHead` 创建 `head` 数据
-useHeadMeta()
-
-// themeOverrides
-const themeOverrides = ref()
+const themeOverrides = useThemeOverrides()
 
 // 初始化 `loading`
 const { loading: appLoading, endLoading } = useLoading(true)
 
 // 定义 `loading` 整体时间和内层动画持续时间
 const LOADING_INTERVAL = 2500
-const LOADING_INNER_INTERVAL = 1800
+const BEFORE_LEAVE_MS = 1800
 useTimeoutFn(endLoading, LOADING_INTERVAL)
+
+// 将 `naive-ui` 自带颜色写入 `body`
+writeThemeColorsToBody()
 </script>
 
 <template>
@@ -31,7 +32,7 @@ useTimeoutFn(endLoading, LOADING_INTERVAL)
     :date-locale="dateZhCN"
   >
     <n-loading-bar-provider>
-      <PreLoaded v-if="appLoading" :inner-loading="LOADING_INNER_INTERVAL" />
+      <PreLoaded v-if="appLoading" :before-leave-ms="BEFORE_LEAVE_MS" />
       <RouterView v-else />
     </n-loading-bar-provider>
   </n-config-provider>
