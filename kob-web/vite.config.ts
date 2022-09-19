@@ -1,7 +1,51 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import DefineOptions from 'unplugin-vue-define-options/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import UnoCSS from 'unocss/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()]
+  resolve: {
+    alias: {
+      '~/': `${resolve(__dirname, 'src')}/`,
+    },
+  },
+
+  plugins: [
+    UnoCSS(),
+
+    Vue({
+      reactivityTransform: true,
+    }),
+
+    DefineOptions(),
+
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        'vue/macros',
+        '@vueuse/head',
+        '@vueuse/core',
+        'pinia',
+      ],
+      dts: 'src/autoImports.d.ts',
+      dirs: [
+        'src/server/api',
+        'src/composables',
+        'src/store',
+      ],
+      vueTemplate: true,
+    }),
+
+    Components({
+      resolvers: [
+        NaiveUiResolver(),
+      ],
+      dts: 'src/components.d.ts',
+    }),
+  ],
 })
