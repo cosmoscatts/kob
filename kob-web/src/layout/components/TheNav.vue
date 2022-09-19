@@ -10,7 +10,7 @@ import { NavAvatar, NavLogo, NavMenu } from './nav-items'
     <div flex-y-center mr-10>
       <a
         icon-btn text-lg i-carbon-logo-github mx-5
-        href="https://github.com/dud9/petite"
+        href="https://github.com/dud9/kob"
         target="_blank" title="GitHub"
       />
       <DarkToggle mr-5 />
