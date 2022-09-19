@@ -1,12 +1,12 @@
 import { Game } from './Game'
 
 export class GameMap extends Game {
-  ctx: HTMLCanvasElement
+  ctx: CanvasRenderingContext2D
   parent: HTMLElement
   /** `1` 单位长度 */
   L: number
 
-  constructor(ctx: HTMLCanvasElement, parent: HTMLElement) {
+  constructor(ctx: CanvasRenderingContext2D, parent: HTMLElement) {
     super()
 
     this.ctx = ctx
