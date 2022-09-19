@@ -1,19 +1,16 @@
-export function useBoolean(initValue = false) {
+export function useBoolean(initValue: boolean) {
   const bool = ref(initValue)
 
   function setBool(value: boolean) {
     bool.value = value
   }
-
   function setTrue() {
-    bool.value = true
+    setBool(true)
   }
-
   function setFalse() {
-    bool.value = false
+    setBool(false)
   }
-
-  function toggleBool() {
+  function toggle() {
     setBool(!bool.value)
   }
 
@@ -22,6 +19,6 @@ export function useBoolean(initValue = false) {
     setBool,
     setTrue,
     setFalse,
-    toggleBool,
+    toggle
   }
 }
