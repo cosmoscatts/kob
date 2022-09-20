@@ -1,22 +1,34 @@
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { commonDark, commonLight } from 'naive-ui'
+import type { ComputedRef } from 'vue'
 import { generatePrimaryColor } from '~/utils'
 import { appLayout } from '~/config'
 
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 
-export function useThemeOverrides(): GlobalThemeOverrides {
+export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
   const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
 
-  return {
-    common: {
-      ...primaryColorOverrides,
-    },
-    LoadingBar: {
-      colorLoading: appLayout.primaryColor,
-    },
-  }
+  const themeOverrides = computed(() => {
+    const bodyColor = isDark.value
+      ? '#121212'
+      : '#ffffff'
+    return {
+      common: {
+        ...primaryColorOverrides,
+      },
+      LoadingBar: {
+        colorLoading: appLayout.primaryColor,
+      },
+      Layout: {
+        color: bodyColor,
+        headerColor: bodyColor,
+        footerColor: bodyColor,
+      },
+    }
+  })
+  return themeOverrides
 }
 
 const colorPropertyMap: { [key: string]: string } = {
