@@ -15,7 +15,7 @@ export const appMeta = {
   description: '惊世骇俗的贪吃蛇双人对抗游戏',
   author: 'duende',
   github: 'https://github.com/dud9/kob',
-  copyRight: 'KOB - 惊世骇俗的贪吃蛇双人对抗游戏',
+  copyRight: 'KING OF BOTS © DUENDE',
 }
 
 /**

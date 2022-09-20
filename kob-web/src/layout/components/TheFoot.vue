@@ -5,7 +5,7 @@ const { copyRight } = appMeta
 </script>
 
 <template>
-  <div flex-center font-bold text-14px>
+  <div flex-center font-bold text-14px op30>
     {{ copyRight }}
   </div>
 </template>

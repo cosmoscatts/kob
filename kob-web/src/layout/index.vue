@@ -47,7 +47,10 @@ const refWrapper = ref()
         :visibility-height="backTopvisibilityHeight"
       />
     </n-layout>
-    <n-layout-footer :style="{ height: `${footHeight}px` }" bordered position="absolute">
+    <n-layout-footer
+      bordered position="absolute"
+      :style="{ height: `${footHeight}px` }"
+    >
       <TheFoot hw-full />
     </n-layout-footer>
   </n-layout>
