@@ -26,7 +26,7 @@ export class GameMap extends Game {
     this.L = 0
 
     this.rows = 13
-    this.cols = 13
+    this.cols = 14
 
     this.gameWalls = []
     this.insideRandomWallNum = 20
@@ -72,7 +72,7 @@ export class GameMap extends Game {
       for (let j = 0; j < 1000; j++) {
         const r = parseInt(String(Math.random() * rows))
         const c = parseInt(String(Math.random() * cols))
-        if (g[r][c] || g[c][r])
+        if (g[r][c] || g[rows - 1 - r][cols - 1 - c])
           continue
         if ((r === (rows - 2) && c === 1) || (r === 1 && c === (cols - 2)))
           continue
