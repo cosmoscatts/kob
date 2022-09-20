@@ -10,7 +10,7 @@ export const toggleDark = useToggle(isDark)
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
   const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
 
-  const themeOverrides = computed(() => {
+  const themeOverrides = computed<GlobalThemeOverrides>(() => {
     const bodyColor = isDark.value
       ? '#121212'
       : '#ffffff'

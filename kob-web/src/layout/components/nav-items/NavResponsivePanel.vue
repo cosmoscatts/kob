@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useThemeVars } from 'naive-ui'
 import NavMenu from './NavMenu.vue'
 import NavAvatar from './NavAvatar.vue'
 
-const themeVars = useThemeVars()
-
 let showNavPanel = $ref(false)
+
+const panelBodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
 
 function toggle() {
   showNavPanel = !showNavPanel
@@ -22,7 +21,7 @@ function toggle() {
   </div>
   <n-drawer
     :style="{
-      backgroundColor: themeVars.bodyColor,
+      backgroundColor: panelBodyColor,
     }"
     :width="240"
     :auto-focus="false"

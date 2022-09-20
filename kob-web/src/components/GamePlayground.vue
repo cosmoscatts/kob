@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GameMap from './GameMap.vue'
+
 </script>
 
 <template>
