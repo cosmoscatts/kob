@@ -110,7 +110,7 @@ export class GameSnake extends Game {
    * 更新蛇的下一步状态
    */
   updateNextStep() {
-    const { direction: d, snakeCells, dr, dc } = this
+    const { direction: d, snakeCells, dr, dc, gameMap } = this
 
     // 蛇头
     const head = snakeCells[0]
@@ -124,6 +124,10 @@ export class GameSnake extends Game {
     const cellLength = snakeCells.length
     for (let i = cellLength; i > 0; i--)
       this.snakeCells[i] = JSON.parse(JSON.stringify(this.snakeCells[i - 1]))
+
+    // 下一步操作非法（撞墙或者撞蛇），蛇死亡
+    if (!gameMap.checkValid(this.nextCell))
+      this.status = 'die'
   }
 
   move() {
@@ -170,10 +174,14 @@ export class GameSnake extends Game {
   }
 
   render() {
-    const { gameMap, color, snakeCells, eps } = this
+    const { gameMap, color, snakeCells, eps, status } = this
     const { ctx, L } = gameMap
 
-    ctx.fillStyle = color
+    // 蛇死亡 > 白色身体
+    ctx.fillStyle = status === 'die'
+      ? 'white'
+      : color
+
     for (const { x, y } of snakeCells) {
       ctx.beginPath()
       ctx.arc(x * L, y * L, L / 2 * 0.8, 0, Math.PI * 2)

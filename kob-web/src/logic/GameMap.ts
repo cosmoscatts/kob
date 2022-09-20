@@ -1,5 +1,6 @@
 import { Game } from './Game'
 import { GameSnake } from './GameSnake'
+import type { GameSnakeCell } from './GameSnakeCell'
 import { GameWall } from './GameWall'
 
 const COLOR_EVEN = '#AAD751'
@@ -164,6 +165,30 @@ export class GameMap extends Game {
   nextStep() {
     for (const snake of this.snakes)
       snake.updateNextStep()
+  }
+
+  /**
+   * 检测目标位置是否合法，未撞到两条蛇的身体或者墙
+   */
+  checkValid(cell: GameSnakeCell) {
+    for (const wall of this.gameWalls) {
+      if (wall.r === cell.r && wall.c === cell.c)
+        return false
+    }
+
+    for (const snake of this.snakes) {
+      let k = snake.snakeCells.length
+      // 当蛇尾会前进时，不需要判断是否会撞到蛇尾，直接忽略
+      if (!snake.checkTailIncreasing())
+        k -= 1
+
+      for (let i = 0; i < k; i++) {
+        if (snake.snakeCells[i].r === cell.r && snake.snakeCells[i].c === cell.c)
+          return false
+      }
+    }
+
+    return true
   }
 
   update() {
