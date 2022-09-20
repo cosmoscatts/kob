@@ -1,3 +1,6 @@
+/**
+ * 组成蛇的单元格
+ */
 export class GameSnakeCell {
   r: number
   c: number

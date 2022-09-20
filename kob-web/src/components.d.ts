@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BackGround: typeof import('./components/BackGround.vue')['default']
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']
     GameMap: typeof import('./components/GameMap.vue')['default']
     GamePlayground: typeof import('./components/GamePlayground.vue')['default']
