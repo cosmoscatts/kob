@@ -12,7 +12,7 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
 
   const themeOverrides = computed<GlobalThemeOverrides>(() => {
     const bodyColor = isDark.value
-      ? '#121212'
+      ? '#121314'
       : '#ffffff'
     return {
       common: {
