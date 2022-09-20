@@ -105,10 +105,25 @@ export class GameMap extends Game {
 
   addListeningEvents() {
     const canvas = this.ctx.canvas
-
     canvas.focus()
+    const [snake0, snake1] = this.snakes
     canvas.addEventListener('keydown', (e) => {
-      // if (e.key === '')
+      if (e.key === 'w')
+        snake0.setDirection(0)
+      else if (e.key === 'd')
+        snake0.setDirection(1)
+      else if (e.key === 's')
+        snake0.setDirection(2)
+      else if (e.key === 'a')
+        snake0.setDirection(3)
+      else if (e.key === 'ArrowUp')
+        snake1.setDirection(0)
+      else if (e.key === 'ArrowRight')
+        snake1.setDirection(1)
+      else if (e.key === 'ArrowDown')
+        snake1.setDirection(2)
+      else if (e.key === 'ArrowLeft')
+        snake1.setDirection(3)
     })
   }
 

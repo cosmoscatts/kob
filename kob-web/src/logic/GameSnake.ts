@@ -82,6 +82,13 @@ export class GameSnake extends Game {
   }
 
   /**
+   * 设置操作方向
+   */
+  setDirection(d: number) {
+    this.direction = d
+  }
+
+  /**
    * 更新蛇的下一步状态
    */
   updateNextStep() {
