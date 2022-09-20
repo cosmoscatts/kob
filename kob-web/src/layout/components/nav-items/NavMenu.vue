@@ -6,6 +6,12 @@ import { RouterLink } from 'vue-router'
 import type { Menu } from '~/types'
 import { appMenus, appMenuIconMap as iconMap } from '~/config'
 
+const {
+  mode = 'horizontal',
+} = defineProps<{
+  mode?: 'vertical' | 'horizontal'
+}>()
+
 // 渲染图标
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -59,7 +65,7 @@ const defaultSelectedMenuOptionKey = computed(() => {
 
 <template>
   <n-menu
-    mode="horizontal"
+    :mode="mode"
     :default-value="defaultSelectedMenuOptionKey"
     :options="menuOptions"
   />

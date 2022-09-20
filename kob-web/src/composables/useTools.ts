@@ -7,6 +7,10 @@ import {
 } from 'naive-ui'
 import { appMeta } from '~/config'
 
+export {
+  dayjs,
+}
+
 /**
  * 创建页面 `head` 数据
  */
@@ -21,10 +25,6 @@ export function useHeadMeta() {
       },
     ],
   })
-}
-
-export {
-  dayjs,
 }
 
 /**
@@ -63,10 +63,12 @@ export function useLoading(initValue = false) {
 
 export function useGlobalNaiveApi() {
   const configProviderProps = computed<ConfigProviderProps>(() => {
+    const themeOverrides = useThemeOverrides()
     return {
       theme: isDark.value
         ? darkTheme
         : lightTheme,
+      themeOverrides,
     }
   })
 
