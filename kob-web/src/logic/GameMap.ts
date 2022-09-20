@@ -1,6 +1,9 @@
 import { Game } from './Game'
 import { GameWall } from './GameWall'
 
+const COLOR_EVEN = '#AAD751'
+const COLOR_ODD = '#A2D149'
+
 export class GameMap extends Game {
   ctx: CanvasRenderingContext2D
   parent: HTMLElement
@@ -116,14 +119,11 @@ export class GameMap extends Game {
   render() {
     const { ctx, L, cols, rows } = this
 
-    const colorEven = '#bef264'
-    const colorOdd = '#65a30d'
-
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         ctx.fillStyle = ((r + c) & 1) === 0
-          ? colorEven
-          : colorOdd
+          ? COLOR_EVEN
+          : COLOR_ODD
         ctx.fillRect(c * L, r * L, L, L)
       }
     }

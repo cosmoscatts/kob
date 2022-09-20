@@ -1,6 +1,8 @@
 import { Game } from './Game'
 import type { GameMap } from './GameMap'
 
+const GAME_WALL_COLOR = '#B37226'
+
 export class GameWall extends Game {
   r: number
   c: number
@@ -13,7 +15,7 @@ export class GameWall extends Game {
     this.r = r
     this.c = c
     this.gameMap = gameMap
-    this.color = '#78350f'
+    this.color = GAME_WALL_COLOR
   }
 
   update() {
