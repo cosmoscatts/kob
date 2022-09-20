@@ -22,7 +22,7 @@ function toggle() {
   </div>
   <n-drawer
     :style="{
-      backgroundColor: themeVars.cardColor,
+      backgroundColor: themeVars.bodyColor,
     }"
     :width="240"
     :auto-focus="false"
