@@ -66,7 +66,7 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('~/pages/exception/not-found/index.vue'),
+      component: () => import('~/pages/exception/NotFound.vue'),
     },
   ],
   scrollBehavior() {
