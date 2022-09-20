@@ -63,7 +63,7 @@ export function useLoading(initValue = false) {
 
 export function useGlobalNaiveApi() {
   const configProviderProps = computed<ConfigProviderProps>(() => {
-    const themeOverrides = useThemeOverrides()
+    const { value: themeOverrides } = useThemeOverrides()
     return {
       theme: isDark.value
         ? darkTheme
