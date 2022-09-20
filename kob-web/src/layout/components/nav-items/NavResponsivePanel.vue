@@ -4,7 +4,7 @@ import NavAvatar from './NavAvatar.vue'
 
 let showNavPanel = $ref(false)
 
-const panelBodyColor = computed(() => isDark.value ? '#121314' : '#FFFFFF')
+const panelBodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
 
 function toggle() {
   showNavPanel = !showNavPanel
