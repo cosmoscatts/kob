@@ -13,6 +13,6 @@ onMounted(() => {
 
 <template>
   <div ref="refParentEl" hw-full flex-center>
-    <canvas ref="refCanvas" />
+    <canvas ref="refCanvas" tabindex="0" />
   </div>
 </template>
