@@ -33,7 +33,7 @@ const refWrapper = ref()
       }"
       :native-scrollbar="true"
     >
-      <n-layout-content>
+      <n-layout-content position="absolute">
         <TheContent
           :style="{
             padding: `${contentPadding}px`,
