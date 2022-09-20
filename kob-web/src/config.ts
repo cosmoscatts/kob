@@ -1,5 +1,6 @@
 import type { Component } from 'vue'
-import { CrownOutlined } from '@vicons/antd'
+import { CrownOutlined, RobotOutlined } from '@vicons/antd'
+import { DocumentTextOutline } from '@vicons/ionicons5'
 import type { Menu } from '~/types'
 
 /** 是否为 `debug` 模式 */
@@ -65,7 +66,7 @@ export const appMenus: Menu[] = [
  * 菜单图标映射
  */
 export const appMenuIconMap: Record<string, Component> = {
-  pk: CrownOutlined,
-  record: CrownOutlined,
+  pk: RobotOutlined,
+  record: DocumentTextOutline,
   rank: CrownOutlined,
 }
