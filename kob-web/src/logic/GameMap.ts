@@ -103,11 +103,22 @@ export class GameMap extends Game {
     return true
   }
 
+  addListeningEvents() {
+    const canvas = this.ctx.canvas
+
+    canvas.focus()
+    canvas.addEventListener('keydown', (e) => {
+      // if (e.key === '')
+    })
+  }
+
   start() {
     for (let i = 0; i < 1000; i++) {
       if (this.createGameWalls())
         break
     }
+
+    this.addListeningEvents()
   }
 
   updateSize() {
