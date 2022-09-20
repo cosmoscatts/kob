@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDrawer: typeof import('naive-ui')['NDrawer']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NEllipsis: typeof import('naive-ui')['NEllipsis']
     NGradientText: typeof import('naive-ui')['NGradientText']

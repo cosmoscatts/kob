@@ -59,7 +59,7 @@ const options = [
 
 <template>
   <n-dropdown :options="options" trigger="click">
-    <div flex items-center cursor-pointer>
+    <div flex-y-center cursor-pointer>
       <n-avatar
         round
         size="small"
