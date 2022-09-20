@@ -10,6 +10,8 @@ const {
 
 const themeVars = useThemeVars()
 
+const bodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
+
 // 控制内层动画
 const { loading, endLoading } = useLoading(true)
 useTimeoutFn(endLoading, beforeLeaveMs)
@@ -31,14 +33,25 @@ useTimeoutFn(endLoading, beforeLeaveMs)
           <div class="cube cube8" />
           <div class="cube cube9" />
         </div>
-        <div class="flex-y-center animate__animated animate__fadeInUpBig animate__faster">
-          <div i-ri-game-fill text="primary 40px" />
-          <div ml-20px>
+        <div class="animate__animated animate__fadeInUpBig animate__faster">
+          <div flex-center>
+            <div i-ri-game-fill text="primary 40px" />
+            <div ml-20px>
+              <n-gradient-text
+                :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"
+                :size="36" style="font-weight: bold;"
+              >
+                {{ appMeta.appName }}
+              </n-gradient-text>
+            </div>
+          </div>
+
+          <div flex-center mt-20px text-24px>
             <n-gradient-text
               :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"
-              :size="36" style="font-weight: bold;"
+              :size="24" style="font-weight: bold;"
             >
-              {{ appMeta.appName }}
+              {{ appMeta.description }}
             </n-gradient-text>
           </div>
         </div>
@@ -54,7 +67,7 @@ useTimeoutFn(endLoading, beforeLeaveMs)
     top: 0;
     bottom: 0;
     right: 0;
-    background-color: v-bind('themeVars.bodyColor');
+    background-color: v-bind('bodyColor');
     pointer-events: none;
     z-index: 10000;
   }
@@ -68,7 +81,7 @@ useTimeoutFn(endLoading, beforeLeaveMs)
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: v-bind('themeVars.bodyColor');
+    background-color: v-bind('bodyColor');
     z-index: 10001;
   }
 
