@@ -1,4 +1,5 @@
 import { Game } from './Game'
+import { GameSnake } from './GameSnake'
 import { GameWall } from './GameWall'
 
 const COLOR_EVEN = '#AAD751'
@@ -17,6 +18,8 @@ export class GameMap extends Game {
   gameWalls: GameWall[]
   /** 随机障碍物数量 */
   insideRandomWallNum: number
+  /** 蛇集合 */
+  snakes: GameSnake[]
 
   constructor(ctx: CanvasRenderingContext2D, parent: HTMLElement) {
     super()
@@ -30,6 +33,11 @@ export class GameMap extends Game {
 
     this.gameWalls = []
     this.insideRandomWallNum = 20
+
+    this.snakes = [
+      new GameSnake({ id: 0, color: '#4876EC', r: this.rows - 2, c: 1 }, this),
+      new GameSnake({ id: 1, color: '#F94848', r: 1, c: this.cols - 2 }, this),
+    ]
   }
 
   /**
@@ -76,7 +84,7 @@ export class GameMap extends Game {
           continue
         if ((r === (rows - 2) && c === 1) || (r === 1 && c === (cols - 2)))
           continue
-        g[r][c] = g[c][r] = true
+        g[r][c] = g[rows - 1 - r][cols - 1 - c] = true
         break
       }
     }
@@ -111,8 +119,32 @@ export class GameMap extends Game {
     this.ctx.canvas.height = this.L * rows
   }
 
+  /**
+   * 判断两条蛇是否都准备好下一回合
+   */
+  checkSnakeReady() {
+    for (const { direction, status } of this.snakes) {
+      if (status !== 'idle')
+        return false
+      if (direction === -1)
+        return false
+    }
+    return true
+  }
+
+  /**
+   * 让两条蛇进入下一回合
+   */
+  nextStep() {
+    for (const snake of this.snakes)
+      snake.updateNextStep()
+  }
+
   update() {
     this.updateSize()
+    if (this.checkSnakeReady())
+      this.nextStep()
+
     this.render()
   }
 
