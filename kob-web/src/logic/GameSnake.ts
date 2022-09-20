@@ -29,11 +29,12 @@ export class GameSnake extends Game {
   dr: number[]
   dc: number[]
 
-  eyeDx: number[][]
-  eyeDy: number[][]
-
   step: number
   eps: number
+
+  eyeDirection: number
+  eyeDx: number[][]
+  eyeDy: number[][]
 
   constructor({ id, color, r, c }: SnakeInfo, gameMap: GameMap) {
     super()
@@ -59,6 +60,16 @@ export class GameSnake extends Game {
     // 4 个方向列的偏移量
     this.dc = [0, 1, 0, -1]
 
+    // 当前回合数
+    this.step = 0
+    // 允许的误差
+    this.eps = 1e-2
+
+    // 定义蛇头方向
+    // 左下角的蛇初始朝上，右上角的蛇朝下
+    this.eyeDirection = this.id === 0
+      ? 0
+      : 2
     // 蛇眼睛不同方向的 `x` 的偏移量
     this.eyeDx = [
       [-1, 1],
@@ -73,11 +84,6 @@ export class GameSnake extends Game {
       [1, 1],
       [1, -1],
     ]
-
-    // 当前回合数
-    this.step = 0
-    // 允许的误差
-    this.eps = 1e-2
   }
 
   start() {
@@ -115,6 +121,8 @@ export class GameSnake extends Game {
     // 蛇头
     const head = snakeCells[0]
     this.nextCell = new GameSnakeCell(head.r + dr[d], head.c + dc[d])
+    // 更新蛇头方向
+    this.eyeDirection = d
     // 清空操作
     this.direction = -1
     this.status = 'move'
@@ -174,7 +182,7 @@ export class GameSnake extends Game {
   }
 
   render() {
-    const { gameMap, color, snakeCells, eps, status } = this
+    const { gameMap, color, snakeCells, eps, status, eyeDirection, eyeDx, eyeDy } = this
     const { ctx, L } = gameMap
 
     // 蛇死亡 > 白色身体
@@ -200,6 +208,17 @@ export class GameSnake extends Game {
       // 水平方向
       else
         ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.5 + 0.1) * L, Math.abs(a.x - b.x) * L, L * 0.8)
+    }
+
+    // 画蛇眼睛
+    ctx.fillStyle = 'black'
+    const head = snakeCells[0]
+    for (let i = 0; i < 2; i++) {
+      const eyeX = (head.x + eyeDx[eyeDirection][i] * 0.15) * L
+      const eyeY = (head.y + eyeDy[eyeDirection][i] * 0.15) * L
+      ctx.beginPath()
+      ctx.arc(eyeX, eyeY, L * 0.05, 0, Math.PI * 2)
+      ctx.fill()
     }
   }
 }
