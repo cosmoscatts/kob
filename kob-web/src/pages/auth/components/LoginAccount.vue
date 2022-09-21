@@ -113,7 +113,7 @@ defineExpose({
     size="large"
   >
     <n-form-item path="username">
-      <n-input ref="refInputUserName" v-model:value="formModel.username" clearable @keydown.enter.prevent>
+      <n-input ref="refInputUserName" v-model:value="formModel.username" placeholder="账号" clearable @keydown.enter.prevent>
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>
@@ -125,6 +125,7 @@ defineExpose({
         type="password"
         clearable
         show-password-on="click"
+        placeholder="密码"
         @keydown.enter.prevent
       >
         <template #clear-icon>
