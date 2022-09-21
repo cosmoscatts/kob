@@ -11,7 +11,6 @@ import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
 import FuncBar from './FuncBar.vue'
-import { debug } from '~/config'
 
 /**
      * 定义表单数据结构
@@ -27,16 +26,10 @@ const { message, notification } = useGlobalNaiveApi()
 const refForm = ref<FormInst | null>(null)
 
 // 表单基础数据
-const baseFormModel = debug
-  ? {
-      username: 'admin',
-      password: '123456',
-    }
-  : {
-      username: '',
-      password: '',
-    }
-
+const baseFormModel = {
+  username: '',
+  password: '',
+}
 // 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
@@ -113,7 +106,7 @@ defineExpose({
     size="large"
   >
     <n-form-item path="username">
-      <n-input ref="refInputUserName" v-model:value="formModel.username" clearable @keydown.enter.prevent>
+      <n-input ref="refInputUserName" v-model:value="formModel.username" placeholder="账号" clearable @keydown.enter.prevent>
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>
@@ -125,6 +118,7 @@ defineExpose({
         type="password"
         clearable
         show-password-on="click"
+        placeholder="密码"
         @keydown.enter.prevent
       >
         <template #clear-icon>
@@ -144,6 +138,7 @@ defineExpose({
         type="password"
         clearable
         show-password-on="click"
+        placeholder="确认密码"
         @keydown.enter.prevent
       >
         <template #clear-icon>

@@ -152,6 +152,7 @@ defineExpose({
         ref="refInputPhone"
         v-model:value="formModel.phone"
         clearable
+        placeholder="手机号"
         @keydown.enter.prevent
       >
         <template #clear-icon>
@@ -164,6 +165,7 @@ defineExpose({
         <n-input
           v-model:value="formModel.code"
           :disabled="codeInputDisabled"
+          placeholder="验证码"
           clearable
         >
           <template #clear-icon>
