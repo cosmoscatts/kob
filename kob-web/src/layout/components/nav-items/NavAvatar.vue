@@ -67,7 +67,7 @@ const options = [
         fallback-src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
       />
       <n-ellipsis style="max-width: 100px" ml-3>
-        机器人 bot
+        {{ user?.name || '' }}
       </n-ellipsis>
     </div>
   </n-dropdown>
