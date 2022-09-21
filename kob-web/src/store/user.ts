@@ -1,4 +1,4 @@
-import type { User } from '~/types'
+import type { LoginState, User } from '~/types'
 import defaultAvatar from '~/assets/avatar.jpg'
 import { getToken, removeToken, setToken } from '~/utils'
 
@@ -26,12 +26,12 @@ export const useUserStore = defineStore(
      * 判断是否登录 && `token` 是否过期
      * `token` 过期需要清空
      * @return
-     *  - `login` - 已经登录 & `token` 未过期
+     *  - `hasLogin` - 已经登录 & `token` 未过期
      *  - `notLogin` - 未登录
      *  - `expire` - `token `过期
      */
-    function checkLoginState() {
-      return getToken(TOKEN_KEY)
+    function checkLoginState(): LoginState {
+      return 'hasLogin'
     }
 
     function updateUser(_user: User) {
@@ -61,6 +61,7 @@ export const useUserStore = defineStore(
 
     return {
       user,
+      hasLogin,
       authModalVisible,
       updateUser,
       removeUser,

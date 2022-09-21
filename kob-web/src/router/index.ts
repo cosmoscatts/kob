@@ -2,6 +2,7 @@ import type { Router } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { BaseLayout } from '~/layout'
 import { appMeta } from '~/config'
+import type { LoginState } from '~/types'
 
 const router = createRouter({
   history: createWebHashHistory('/'),
@@ -90,9 +91,30 @@ const router = createRouter({
 })
 
 function createRouterGuard(router: Router) {
-  const { loadingBar } = useGlobalNaiveApi()
-  router.beforeEach(() => {
+  const { loadingBar, message } = useGlobalNaiveApi()
+  router.beforeEach(async (to, from, next) => {
     loadingBar.start()
+    const userStore = useUserStore()
+    const needLogin = to.meta.requiresAuth
+    if (!needLogin) {
+      next()
+      return
+    }
+    const checkLoginState = await userStore.checkLoginState()
+    const actions: Record<LoginState, Function> = {
+      hasLogin: () => {
+        next()
+      },
+      notLogin: () => {
+        message.error('您还未登录！')
+        next('/')
+      },
+      expire: () => {
+        message.error('您的登录已过期！')
+        next('/')
+      },
+    }
+    actions[checkLoginState]()
   })
   router.afterEach((to) => {
     // 设置 `document title`

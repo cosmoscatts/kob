@@ -4,6 +4,11 @@ export type UserModule = (app: App) => void
 export type { App as AppContext }
 
 /**
+ * 登录状态
+ */
+export type LoginState = 'hasLogin' | 'notLogin' | 'expire'
+
+/**
  * 菜单项数据结构
  */
 export interface Menu {
