@@ -2,14 +2,14 @@
 import type { Ref } from 'vue'
 import { LoginAccount, LoginPhone, Register } from './components'
 import type { Tab } from './components'
+import type { User } from '~/types'
 
-const {
-  showAuthModal = false,
-} = defineProps<{
-  showAuthModal?: boolean
-}>()
+const themeDark = isDark
+const router = useRouter()
 
-const emits = defineEmits(['update:showAuthModal'])
+const userStore = useUserStore()
+const { authModalVisible } = storeToRefs(userStore)
+const { updateUser, setAuthModalVisible } = userStore
 
 const bodyStyle = {
   width: '390px',
@@ -32,7 +32,7 @@ function changeTab(tab: Tab) {
 
 function close() {
   currentTab.value = 'account'
-  emits('update:showAuthModal', false)
+  setAuthModalVisible(false)
 }
 
 const refLoginAccount = ref()
@@ -51,7 +51,7 @@ function inputAutoFocus() {
   refMap[currentTab.value]?.value?.focusFirstInput()
 }
 
-watch(() => showAuthModal, (val) => {
+watch(authModalVisible, (val) => {
   if (val)
     // 等待 `form` 挂载完成
     useTimeoutFn(inputAutoFocus, 200)
@@ -61,13 +61,39 @@ watch(currentTab, () => {
   useTimeoutFn(inputAutoFocus, 200)
 })
 
+/**
+ * 登录或者注册完成的回调方法
+ */
+function submitCallback({
+  user,
+  type,
+}: {
+  user: User
+  type: 'login' | 'register'
+}) {
+  const { notification } = useGlobalNaiveApi()
+  const title = `${type === 'login' ? '登录' : '注册'}成功`
+  router.push('/')
+  updateUser(user)
+  notification.success({
+    title,
+    content: '欢迎使用，快来一场伟大的战斗吧~',
+    duration: 3000,
+  })
+  setAuthModalVisible(false)
+}
+
 provide('tab', currentTab)
 provide('changeTab', changeTab)
+provide('submitCallback', submitCallback)
 </script>
 
 <template>
+  <n-button type="primary" :secondary="themeDark" @click="setAuthModalVisible(true)">
+    登录 <n-divider vertical /> 注册
+  </n-button>
   <n-modal
-    :show="showAuthModal"
+    :show="authModalVisible"
     size="huge"
     preset="card"
     :style="bodyStyle"

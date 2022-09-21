@@ -12,16 +12,17 @@ import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
+const submitCallback = inject<Function>('submitCallback')
+
 /**
-   * 定义表单数据结构
-   */
+ * 定义表单数据结构
+ */
 interface ModelType {
   phone?: string
   code?: string
 }
 
-const router = useRouter()
-const { message, notification } = useGlobalNaiveApi()
+const { message } = useGlobalNaiveApi()
 
 const refForm = ref<FormInst | null>(null)
 
@@ -42,8 +43,8 @@ const formModel = reactive<ModelType>({
 })
 
 /**
-   * 校验手机号
-   */
+ * 校验手机号
+ */
 function validatePhone(value: string) {
   return REGEXP_PHONE.test(value)
 }
@@ -74,8 +75,8 @@ const rules: FormRules = {
 const { loading, startLoading, endLoading } = useLoading()
 
 /**
-   * 登录
-   */
+ * 登录
+ */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
@@ -89,11 +90,12 @@ function onSubmit(e: MouseEvent) {
 
     useTimeoutFn(() => {
       endLoading()
-      router.push('/')
-      notification.success({
-        title: '登录成功',
-        content: '欢迎使用~',
-        duration: 3000,
+      submitCallback?.({
+        user: {
+          id: 1,
+          username: 'dude',
+        },
+        type: 'login',
       })
     }, 1000)
   })
@@ -121,8 +123,8 @@ const {
 } = countSendingSmsCode()
 
 /**
-   * 处理发送验证码
-   */
+ * 处理发送验证码
+ */
 function handleSmsCode() {
   startSmsLoading()
   useTimeoutFn(() => {

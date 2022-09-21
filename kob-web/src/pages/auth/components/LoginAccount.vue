@@ -13,16 +13,17 @@ import {
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
+const submitCallback = inject<Function>('submitCallback')
+
 /**
-   * 定义表单数据结构
-   */
+ * 定义表单数据结构
+ */
 interface ModelType {
   username?: string
   password?: string
 }
 
-const router = useRouter()
-const { message, notification } = useGlobalNaiveApi()
+const { message } = useGlobalNaiveApi()
 
 const refForm = ref<FormInst | null>(null)
 
@@ -68,8 +69,8 @@ const rules: FormRules = {
 const { loading, startLoading, endLoading } = useLoading()
 
 /**
-   * 登录
-   */
+ * 登录
+ */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
@@ -82,11 +83,12 @@ function onSubmit(e: MouseEvent) {
     startLoading()
     useTimeoutFn(() => {
       endLoading()
-      router.push('/')
-      notification.success({
-        title: '登录成功',
-        content: '欢迎使用~',
-        duration: 3000,
+      submitCallback?.({
+        user: {
+          id: 1,
+          ...JSON.parse(JSON.stringify(formModel)),
+        },
+        type: 'login',
       })
     }, 1000)
   })
