@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 import { CrownOutlined, RobotOutlined } from '@vicons/antd'
-import { DocumentTextOutline } from '@vicons/ionicons5'
+import { DocumentTextOutline, HomeOutline } from '@vicons/ionicons5'
 import type { Menu } from '~/types'
 
 /** 是否为 `debug` 模式 */
@@ -46,7 +46,7 @@ export const appMenus: Menu[] = [
     id: 101,
     label: '首页',
     path: '/home',
-    icon: 'pk',
+    icon: 'home',
   },
   {
     id: 102,
@@ -72,6 +72,7 @@ export const appMenus: Menu[] = [
  * 菜单图标映射
  */
 export const appMenuIconMap: Record<string, Component> = {
+  home: HomeOutline,
   pk: RobotOutlined,
   record: DocumentTextOutline,
   rank: CrownOutlined,
