@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { createDropdownOptions } from './avatar'
 import defaultAvatar from '~/assets/default-avatar.jpg'
-import AuthModal from '~/pages/auth/index.vue'
+import Auth from '~/pages/auth/index.vue'
 
-const themeDark = isDark
 const router = useRouter()
 
 const { user } = storeToRefs(useUserStore())
@@ -16,8 +15,6 @@ const hasLogin = computed(() => !!user.value?.id)
 const avatar = computed(() => {
   return user.value?.avatar ?? defaultAvatar
 })
-
-const showAuthModal = $ref(false)
 </script>
 
 <template>
@@ -34,9 +31,7 @@ const showAuthModal = $ref(false)
       </n-ellipsis>
     </div>
   </n-dropdown>
-  <n-button v-else type="primary" :secondary="themeDark" @click="showAuthModal = true">
-    登录 <n-divider vertical /> 注册
-  </n-button>
-  <AuthModal v-model:show-auth-modal="showAuthModal" />
+
+  <Auth v-else />
 </template>
 

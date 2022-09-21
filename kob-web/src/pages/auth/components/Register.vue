@@ -13,6 +13,8 @@ import {
 } from '@vicons/ionicons5'
 import FuncBar from './FuncBar.vue'
 
+const submitCallback = inject<Function>('submitCallback')
+
 /**
  * 定义表单数据结构
  */
@@ -21,8 +23,6 @@ interface ModelType {
   password?: string
   reenteredPassword?: string
 }
-
-// const submitCallback = inject<Function>('submitCallback')
 
 const refForm = ref<FormInst | null>(null)
 
@@ -122,13 +122,13 @@ function onSubmit(e: MouseEvent) {
     startLoading()
     useTimeoutFn(() => {
       endLoading()
-      // submitCallback?.({
-      //   user: {
-      //     id: 1,
-      //     ...JSON.parse(JSON.stringify(formModel)),
-      //   },
-      //   type: 'register',
-      // })
+      submitCallback?.({
+        user: {
+          id: 1,
+          ...JSON.parse(JSON.stringify(formModel)),
+        },
+        type: 'register',
+      })
     }, 1000)
   })
 }

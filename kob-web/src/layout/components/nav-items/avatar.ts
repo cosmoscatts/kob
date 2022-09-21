@@ -21,6 +21,7 @@ const renderIcon = (icon: Component) => {
  * 创建 `dropdown` 选项数据
  */
 export function createDropdownOptions(router: Router) {
+  const { removeUser } = useUserStore()
   const { notification } = useGlobalNaiveApi()
 
   return [
@@ -45,9 +46,7 @@ export function createDropdownOptions(router: Router) {
             content: '记得回来~',
             duration: 1000,
           })
-          useTimeoutFn(() => {
-            router.push('/login')
-          }, 1000)
+          useTimeoutFn(removeUser, 500)
         },
       },
     },
