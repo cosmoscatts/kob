@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.dataobject.UserDO;
-import com.kob.backend.service.UserService;
+import com.kob.backend.service.repository.user.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
-    private UserService userService;
+    private UserRepository userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
