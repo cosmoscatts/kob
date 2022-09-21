@@ -1,64 +1,27 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
-import { NIcon } from 'naive-ui'
-import {
-  LogOutOutline as LogoutIcon,
-  PersonCircleOutline as UserIcon,
-} from '@vicons/ionicons5'
+import { createDropdownOptions } from './avatar'
 import defaultAvatar from '~/assets/default-avatar.jpg'
+import AuthModal from '~/pages/auth/index.vue'
 
+const themeDark = isDark
 const router = useRouter()
-const { notification } = useGlobalNaiveApi()
 
 const { user } = storeToRefs(useUserStore())
+
+const options = createDropdownOptions(router)
+
+// 判断用户是否登录
+const hasLogin = computed(() => !!user.value?.id)
 
 const avatar = computed(() => {
   return user.value?.avatar ?? defaultAvatar
 })
 
-// 渲染图标组件
-const renderIcon = (icon: Component) => {
-  return () => {
-    return h(NIcon, null, {
-      default: () => h(icon),
-    })
-  }
-}
-
-// `dropdown` 选项数据
-const options = [
-  {
-    label: '用户资料',
-    key: 'profile',
-    icon: renderIcon(UserIcon),
-    props: {
-      onClick: () => {
-        router.push('/profile')
-      },
-    },
-  },
-  {
-    label: '退出登录',
-    key: 'logout',
-    icon: renderIcon(LogoutIcon),
-    props: {
-      onClick: () => {
-        notification.success({
-          title: '登出成功',
-          content: '记得回来~',
-          duration: 1000,
-        })
-        useTimeoutFn(() => {
-          router.push('/login')
-        }, 1000)
-      },
-    },
-  },
-]
+const showAuthModal = $ref(false)
 </script>
 
 <template>
-  <n-dropdown :options="options" trigger="click">
+  <n-dropdown v-if="hasLogin" :options="options" trigger="click">
     <div flex-y-center cursor-pointer>
       <n-avatar
         round
@@ -71,5 +34,9 @@ const options = [
       </n-ellipsis>
     </div>
   </n-dropdown>
+  <n-button v-else type="primary" :secondary="themeDark" @click="showAuthModal = true">
+    登录 <n-divider vertical /> 注册
+  </n-button>
+  <AuthModal v-model:show-auth-modal="showAuthModal" />
 </template>
 

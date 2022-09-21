@@ -7,9 +7,13 @@ import com.kob.backend.dataobject.UserDO;
 
 @RestController
 public class UserController {
-
     @GetMapping("/login")
     public String login() {
+        return null;
+    }
+
+    @GetMapping("/register")
+    public String register() {
         return null;
     }
 
