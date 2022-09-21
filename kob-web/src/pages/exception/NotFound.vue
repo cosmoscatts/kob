@@ -5,9 +5,10 @@
 <template>
   <div
     hw-screen
-    flex-center
+    flex="col center"
     text="40px dark dark:white"
   >
-    {Hey, bro. there is nothing :).}
+    <div i-ri-emotion-unhappy-line text-80px />
+    { Hey, bro. there is nothing :). }
   </div>
 </template>
