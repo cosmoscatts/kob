@@ -8,8 +8,18 @@ import com.kob.backend.dataobject.UserDO;
 @RestController
 public class UserController {
 
+    @GetMapping("/login")
+    public String login() {
+        return null;
+    }
+
     @GetMapping("/user")
     public UserDO getUser() {
         return null;
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "hello world!";
     }
 }
