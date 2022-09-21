@@ -5,12 +5,9 @@ import Auth from '~/pages/auth/index.vue'
 
 const router = useRouter()
 
-const { user } = storeToRefs(useUserStore())
+const { user, hasLogin } = storeToRefs(useUserStore())
 
 const options = createDropdownOptions(router)
-
-// 判断用户是否登录
-const hasLogin = computed(() => !!user.value?.id)
 
 const avatar = computed(() => {
   return user.value?.avatar ?? defaultAvatar
