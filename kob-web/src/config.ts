@@ -44,18 +44,24 @@ export const appLayout = {
 export const appMenus: Menu[] = [
   {
     id: 101,
+    label: '首页',
+    path: '/home',
+    icon: 'pk',
+  },
+  {
+    id: 102,
     label: 'PK 对战',
     path: '/pk',
     icon: 'pk',
   },
   {
-    id: 102,
+    id: 103,
     label: '对局列表',
     path: '/record',
     icon: 'record',
   },
   {
-    id: 103,
+    id: 104,
     label: '排行榜',
     path: '/rank',
     icon: 'rank',

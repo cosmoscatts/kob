@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>
+  <div flex-x-center text-50px>
     Home
   </div>
 </template>
