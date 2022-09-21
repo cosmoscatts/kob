@@ -66,7 +66,7 @@ const defaultSelectedMenuOptionKey = computed(() => {
 <template>
   <n-menu
     :mode="mode"
-    :default-value="defaultSelectedMenuOptionKey"
+    :value="defaultSelectedMenuOptionKey"
     :options="menuOptions"
   />
 </template>
