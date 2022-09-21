@@ -6,9 +6,10 @@ import type {
   FormValidationError,
 } from 'naive-ui'
 import {
+  Glasses as GlassesIcon,
+  GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
-import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
@@ -16,8 +17,8 @@ import { debug } from '~/config'
      * 定义表单数据结构
      */
 interface ModelType {
-  phone?: string
-  code?: string
+  username?: string
+  password?: string
 }
 
 const router = useRouter()
@@ -28,12 +29,12 @@ const refForm = ref<FormInst | null>(null)
 // 表单基础数据
 const baseFormModel = debug
   ? {
-      phone: '13650223322',
-      code: '123456',
+      username: 'admin',
+      password: '123456',
     }
   : {
-      phone: '',
-      code: '',
+      username: '',
+      password: '',
     }
 
 // 表单数据
@@ -41,32 +42,25 @@ const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
 
-/**
-     * 校验手机号
-     */
-function validatePhone(value: string) {
-  return REGEXP_PHONE.test(value)
-}
-
 // 表单校验规则
 const rules: FormRules = {
-  phone: [
+  username: [
     {
       required: true,
-      message: '请输入手机号',
+      message: '请输入账号',
     },
     {
       validator(_rule: FormItemRule, value: string) {
-        return validatePhone(value)
+        return value.length >= 5 && value.length <= 20
       },
-      message: '请输入正确的手机号',
-      trigger: ['input'],
+      message: '账号的长度为 5 ~ 20',
+      trigger: ['input', 'blur'],
     },
   ],
-  code: [
+  password: [
     {
       required: true,
-      message: '请输入验证码',
+      message: '请输入密码',
     },
   ],
 }
@@ -81,12 +75,11 @@ function onSubmit(e: MouseEvent) {
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return
-    if (formModel.code !== '123456') {
-      message.error('验证码错误')
+    if (formModel.password !== '123456') {
+      message.error('账号或密码错误')
       return
     }
     startLoading()
-
     useTimeoutFn(() => {
       endLoading()
       router.push('/')
@@ -100,37 +93,9 @@ function onSubmit(e: MouseEvent) {
 }
 
 // 实现聚焦功能
-const refInputPhone = ref()
+const refInputUserName = ref()
 function focusFirstInput() {
-  refInputPhone.value?.focus()
-}
-
-// 禁用验证码及发送按钮
-const codeInputDisabled = computed(() => (!formModel.phone || !validatePhone(formModel.phone)))
-
-const {
-  loading: smsLoading,
-  startLoading: startSmsLoading,
-  endLoading: endSmsLoading,
-} = useLoading(false)
-
-const {
-  isCounting,
-  sendCodeBtnLabel,
-  startCounting,
-} = countSendingSmsCode()
-
-/**
-     * 处理发送验证码
-     */
-function handleSmsCode() {
-  startSmsLoading()
-  useTimeoutFn(() => {
-    message.success('验证码发送成功')
-    endSmsLoading()
-    startCounting()
-    getSmsCode()
-  }, 1000)
+  refInputUserName.value?.focus()
 }
 
 defineExpose({
@@ -143,42 +108,54 @@ defineExpose({
     ref="refForm"
     :model="formModel"
     :rules="rules"
+    :show-label="false"
     :show-require-mark="false"
     size="large"
   >
-    <n-form-item path="phone" label="手机号">
-      <n-input
-        ref="refInputPhone"
-        v-model:value="formModel.phone"
-        clearable
-        @keydown.enter.prevent
-      >
+    <n-form-item path="username">
+      <n-input ref="refInputUserName" v-model:value="formModel.username" clearable @keydown.enter.prevent>
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>
       </n-input>
     </n-form-item>
-    <n-form-item path="code" label="验证码">
-      <div class="flex-y-center w-full">
-        <n-input
-          v-model:value="formModel.code"
-          :disabled="codeInputDisabled"
-          clearable
-        >
-          <template #clear-icon>
-            <n-icon :component="TrashBinOutlineIcon" />
-          </template>
-        </n-input>
-        <div class="w-18px" />
-        <n-button
-          size="large" type="primary" text-color="white"
-          :disabled="codeInputDisabled || isCounting"
-          :loading="!codeInputDisabled && smsLoading"
-          @click="handleSmsCode"
-        >
-          {{ sendCodeBtnLabel }}
-        </n-button>
-      </div>
+    <n-form-item path="password">
+      <n-input
+        v-model:value="formModel.password"
+        type="password"
+        clearable
+        show-password-on="click"
+        @keydown.enter.prevent
+      >
+        <template #clear-icon>
+          <n-icon :component="TrashBinOutlineIcon" />
+        </template>
+        <template #password-visible-icon>
+          <n-icon :size="16" :component="GlassesOutlineIcon" />
+        </template>
+        <template #password-invisible-icon>
+          <n-icon :size="16" :component="GlassesIcon" />
+        </template>
+      </n-input>
+    </n-form-item>
+    <n-form-item path="password">
+      <n-input
+        v-model:value="formModel.password"
+        type="password"
+        clearable
+        show-password-on="click"
+        @keydown.enter.prevent
+      >
+        <template #clear-icon>
+          <n-icon :component="TrashBinOutlineIcon" />
+        </template>
+        <template #password-visible-icon>
+          <n-icon :size="16" :component="GlassesOutlineIcon" />
+        </template>
+        <template #password-invisible-icon>
+          <n-icon :size="16" :component="GlassesIcon" />
+        </template>
+      </n-input>
     </n-form-item>
     <n-button
       block type="primary" :loading="loading"
@@ -189,3 +166,4 @@ defineExpose({
   </n-form>
   <FuncBar />
 </template>
+

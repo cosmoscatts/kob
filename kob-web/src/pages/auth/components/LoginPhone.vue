@@ -143,10 +143,11 @@ defineExpose({
     ref="refForm"
     :model="formModel"
     :rules="rules"
+    :show-label="false"
     :show-require-mark="false"
     size="large"
   >
-    <n-form-item path="phone" label="手机号">
+    <n-form-item path="phone">
       <n-input
         ref="refInputPhone"
         v-model:value="formModel.phone"
@@ -158,7 +159,7 @@ defineExpose({
         </template>
       </n-input>
     </n-form-item>
-    <n-form-item path="code" label="验证码">
+    <n-form-item path="code">
       <div class="flex-y-center w-full">
         <n-input
           v-model:value="formModel.code"

@@ -11,8 +11,7 @@ const {
 const emits = defineEmits(['update:showAuthModal'])
 
 const bodyStyle = {
-  width: '400px',
-  padding: '0px',
+  width: '390px',
 }
 
 const currentTab = ref<Tab>('account')
@@ -42,10 +41,10 @@ provide('changeTab', changeTab)
 <template>
   <n-modal
     :show="showAuthModal"
+    size="huge"
     preset="card"
     :style="bodyStyle"
-    size="huge"
-    :bordered="false"
+    :bordered="true"
     @close="close"
   >
     <template #header>

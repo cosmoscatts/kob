@@ -25,7 +25,11 @@ function register() {
 
 <template>
   <div flex="~ col" w-full>
-    <div flex-y-center justify-between mt-15px>
+    <div
+      mt-15px
+      flex-y-center justify-between
+      :class="{ '!justify-center': tab === 'register' }"
+    >
       <span text-primary cursor-pointer @click="go2">{{ actionName }}</span>
       <span v-if="tab !== 'register'" text-primary cursor-pointer @click="register">还未注册？</span>
     </div>
