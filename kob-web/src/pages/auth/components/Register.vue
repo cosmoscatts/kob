@@ -18,6 +18,7 @@ import FuncBar from './FuncBar.vue'
 interface ModelType {
   username?: string
   password?: string
+  reenteredPassword?: string
 }
 
 const router = useRouter()
@@ -29,11 +30,44 @@ const refForm = ref<FormInst | null>(null)
 const baseFormModel = {
   username: '',
   password: '',
+  reenteredPassword: '',
 }
 // 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
+
+// 重复密码框元素
+const refRPasswordFormItem = ref<FormItemInst | null>(null)
+
+/**
+ * 处理密码框的输入，当输入密码时，触发重复密码框的校验
+ */
+function handlePasswordInput() {
+  if (formModel.reenteredPassword)
+    refRPasswordFormItem.value?.validate({ trigger: 'password-input' })
+}
+
+/**
+ * 校验重复密码是否以输入的密码为开头
+ */
+function validatePasswordStartWith(
+  _rule: FormItemRule,
+  value: string,
+): boolean {
+  return (
+    !!formModel.password
+    && formModel.password.startsWith(value)
+    && formModel.password.length >= value.length
+  )
+}
+
+/**
+ * 校验两次输入的密码是否一致
+ */
+function validatePasswordSame(_rule: FormItemRule, value: string): boolean {
+  return value === formModel.password
+}
 
 // 表单校验规则
 const rules: FormRules = {
@@ -132,13 +166,15 @@ defineExpose({
         </template>
       </n-input>
     </n-form-item>
-    <n-form-item path="password">
+    <n-form-item
+      ref="refRPasswordFormItem"
+      first
+      path="reenteredPassword"
+    >
       <n-input
-        v-model:value="formModel.password"
-        type="password"
-        clearable
-        show-password-on="click"
-        placeholder="确认密码"
+        v-model:value="formModel.reenteredPassword"
+        :disabled="!formModel.reenteredPassword" show-password-on="click"
+        type="password" placeholder="确认密码" clearable
         @keydown.enter.prevent
       >
         <template #clear-icon>
