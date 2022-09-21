@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {
   FormInst,
+  FormItemInst,
   FormItemRule,
   FormRules,
   FormValidationError,
@@ -13,16 +14,15 @@ import {
 import FuncBar from './FuncBar.vue'
 
 /**
-     * 定义表单数据结构
-     */
+ * 定义表单数据结构
+ */
 interface ModelType {
   username?: string
   password?: string
   reenteredPassword?: string
 }
 
-const router = useRouter()
-const { message, notification } = useGlobalNaiveApi()
+// const submitCallback = inject<Function>('submitCallback')
 
 const refForm = ref<FormInst | null>(null)
 
@@ -87,7 +87,24 @@ const rules: FormRules = {
   password: [
     {
       required: true,
-      message: '请输入密码',
+      message: '请输入用户密码',
+    },
+  ],
+  reenteredPassword: [
+    {
+      required: true,
+      message: '请再次输入密码',
+      trigger: ['input', 'blur'],
+    },
+    {
+      validator: validatePasswordStartWith,
+      message: '两次密码输入不一致',
+      trigger: 'input',
+    },
+    {
+      validator: validatePasswordSame,
+      message: '两次密码输入不一致',
+      trigger: ['blur', 'password-input'],
     },
   ],
 }
@@ -95,26 +112,23 @@ const rules: FormRules = {
 const { loading, startLoading, endLoading } = useLoading()
 
 /**
-     * 登录
-     */
+ * 登录
+ */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return
-    if (formModel.password !== '123456') {
-      message.error('账号或密码错误')
-      return
-    }
     startLoading()
     useTimeoutFn(() => {
       endLoading()
-      router.push('/')
-      notification.success({
-        title: '登录成功',
-        content: '欢迎使用~',
-        duration: 3000,
-      })
+      // submitCallback?.({
+      //   user: {
+      //     id: 1,
+      //     ...JSON.parse(JSON.stringify(formModel)),
+      //   },
+      //   type: 'register',
+      // })
     }, 1000)
   })
 }
@@ -140,7 +154,13 @@ defineExpose({
     size="large"
   >
     <n-form-item path="username">
-      <n-input ref="refInputUserName" v-model:value="formModel.username" placeholder="账号" clearable @keydown.enter.prevent>
+      <n-input
+        ref="refInputUserName"
+        v-model:value="formModel.username"
+        placeholder="账号"
+        clearable
+        @keydown.enter.prevent
+      >
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>
@@ -154,6 +174,7 @@ defineExpose({
         show-password-on="click"
         placeholder="密码"
         @keydown.enter.prevent
+        @input="handlePasswordInput"
       >
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
@@ -173,8 +194,11 @@ defineExpose({
     >
       <n-input
         v-model:value="formModel.reenteredPassword"
-        :disabled="!formModel.reenteredPassword" show-password-on="click"
-        type="password" placeholder="确认密码" clearable
+        :disabled="!formModel.password"
+        clearable
+        show-password-on="click"
+        type="password"
+        placeholder="确认密码"
         @keydown.enter.prevent
       >
         <template #clear-icon>
@@ -189,8 +213,10 @@ defineExpose({
       </n-input>
     </n-form-item>
     <n-button
-      block type="primary" :loading="loading"
-      mt-3 text-color="white" @click="onSubmit"
+      block type="primary"
+      :loading="loading"
+      mt-3 text-color="white"
+      @click="onSubmit"
     >
       <span font-bold text-lag>注册</span>
     </n-button>
