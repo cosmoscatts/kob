@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import { LoginAccount, LoginPhone, Register } from './components'
 import type { Tab } from './components'
 
@@ -34,6 +35,32 @@ function close() {
   emits('update:showAuthModal', false)
 }
 
+const refLoginAccount = ref()
+const refLoginPhone = ref()
+const refRegister = ref()
+
+/**
+ * 实现 `form` 显示时，`input` 自动 `focus`
+ */
+function inputAutoFocus() {
+  const refMap: Record<Tab, Ref> = {
+    account: refLoginAccount,
+    phone: refLoginPhone,
+    register: refRegister,
+  }
+  refMap[currentTab.value]?.value?.focusFirstInput()
+}
+
+watch(() => showAuthModal, (val) => {
+  if (val)
+    // 等待 `form` 挂载完成
+    useTimeoutFn(inputAutoFocus, 200)
+})
+watch(currentTab, () => {
+  // 等待 `form` 挂载完成
+  useTimeoutFn(inputAutoFocus, 200)
+})
+
 provide('tab', currentTab)
 provide('changeTab', changeTab)
 </script>
@@ -50,8 +77,8 @@ provide('changeTab', changeTab)
     <template #header>
       <span text="1.5rem" font-bold>{{ title }}</span>
     </template>
-    <LoginAccount v-if="currentTab === 'account'" />
-    <LoginPhone v-if="currentTab === 'phone'" />
-    <Register v-if="currentTab === 'register'" />
+    <LoginAccount v-if="currentTab === 'account'" ref="refLoginAccount" />
+    <LoginPhone v-if="currentTab === 'phone'" ref="refLoginPhone" />
+    <Register v-if="currentTab === 'register'" ref="refRegister" />
   </n-modal>
 </template>
