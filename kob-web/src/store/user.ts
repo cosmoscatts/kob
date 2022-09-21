@@ -6,11 +6,11 @@ export const useUserStore = defineStore(
   () => {
     const user = ref<User>()
 
-    user.value = {
-      id: 1,
-      name: 'duende',
-      avatar: defaultAvatar,
-    }
+    // user.value = {
+    //   id: 1,
+    //   name: 'duende',
+    //   avatar: defaultAvatar,
+    // }
 
     function updateUser(_user: User) {
       if (!_user.avatar)
