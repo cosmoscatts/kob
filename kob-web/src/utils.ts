@@ -41,3 +41,23 @@ export function generatePrimaryColor(_primaryColor: string) {
     primaryColorSuppl: addColorAlpha(_primaryColor, ALPHA),
   }
 }
+
+/**
+ * 获取 `token`
+ */
+export function getToken(key: string) {
+  return localStorage.getItem(key)
+}
+/**
+ * 设置 `token`
+ */
+export function setToken(key: string, token: string) {
+  localStorage.setItem(key, token)
+}
+/**
+ * 删除 `token`
+ */
+export function removeToken(key: string) {
+  localStorage.removeItem(key)
+}
+
