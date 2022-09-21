@@ -1,17 +1,42 @@
 <script setup lang="ts">
+import { LoginAccount, LoginPhone, Register } from './components'
+import type { Tab } from './components'
+
 const {
   showAuthModal = false,
 } = defineProps<{
   showAuthModal?: boolean
 }>()
 
+const emits = defineEmits(['update:showAuthModal'])
+
 const bodyStyle = {
-  width: '600px',
+  width: '400px',
+  padding: '0px',
 }
-const segmented = {
-  content: 'soft',
-  footer: 'soft',
+
+const currentTab = ref<Tab>('account')
+
+const title = computed(() => {
+  const { value: tab } = currentTab
+  return {
+    account: '账密登录',
+    phone: '验证码登录',
+    register: '用户注册',
+  }[tab]
+})
+
+function changeTab(tab: Tab) {
+  currentTab.value = tab
 }
+
+function close() {
+  currentTab.value = 'account'
+  emits('update:showAuthModal', false)
+}
+
+provide('tab', currentTab)
+provide('changeTab', changeTab)
 </script>
 
 <template>
@@ -19,17 +44,15 @@ const segmented = {
     :show="showAuthModal"
     preset="card"
     :style="bodyStyle"
-    title="卡片预设"
     size="huge"
     :bordered="false"
-    :segmented="segmented"
+    @close="close"
   >
-    <template #header-extra>
-      噢!
+    <template #header>
+      <span text="1.5rem" font-bold>{{ title }}</span>
     </template>
-    内容
-    <template #footer>
-      尾部
-    </template>
+    <LoginAccount v-if="currentTab === 'account'" />
+    <LoginPhone v-if="currentTab === 'phone'" />
+    <Register v-if="currentTab === 'register'" />
   </n-modal>
 </template>
