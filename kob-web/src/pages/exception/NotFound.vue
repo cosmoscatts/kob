@@ -8,6 +8,6 @@
     flex-center
     text="40px dark dark:white"
   >
-    {there is nothing.}
+    {Hey, bro. there is nothing :).}
   </div>
 </template>
