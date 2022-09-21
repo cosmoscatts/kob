@@ -3,17 +3,10 @@ server:
   port: 3000
 spring:
   datasource:
-    dynamic:
-      primary: master # 设置默认的数据源或者数据源组, 默认值即为 master
-      strict: false # 严格匹配数据源, 默认 false. true 未匹配到指定数据源时抛异常, false 使用默认数据源
-      datasource: # 使用方法: 在 Service 类 或者 方法中 添加 `@DS("mes")` 注解 => 切换数据库
-        master:
-          url: jdbc:mysql://localhost:3306/kob?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
-          username: root
-          password: 123456
-          driver-class-name: com.mysql.jdbc.Driver # 3.2.0开始支持 SPI 可省略此配置
-    autoconfigure:
-      exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+    url: jdbc:mysql://localhost:3306/kob?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 
 
