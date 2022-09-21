@@ -108,17 +108,18 @@ defineExpose({
     ref="refForm"
     :model="formModel"
     :rules="rules"
+    :show-label="false"
     :show-require-mark="false"
     size="large"
   >
-    <n-form-item path="username" label="账号">
+    <n-form-item path="username">
       <n-input ref="refInputUserName" v-model:value="formModel.username" clearable @keydown.enter.prevent>
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>
       </n-input>
     </n-form-item>
-    <n-form-item path="password" label="密码">
+    <n-form-item path="password">
       <n-input
         v-model:value="formModel.password"
         type="password"
