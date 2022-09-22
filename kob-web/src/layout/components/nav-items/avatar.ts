@@ -1,5 +1,6 @@
 import type { Component } from 'vue'
 import { NIcon } from 'naive-ui'
+import { RobotOutlined as BotIcon } from '@vicons/antd'
 import {
   LogOutOutline as LogoutIcon,
   PersonCircleOutline as UserIcon,
@@ -25,6 +26,16 @@ export function createDropdownOptions(router: Router) {
   const { notification } = useGlobalNaiveApi()
 
   return [
+    {
+      label: '我的Bot',
+      key: 'userBot',
+      icon: renderIcon(BotIcon),
+      props: {
+        onClick: () => {
+          router.push('/userBot')
+        },
+      },
+    },
     {
       label: '个人中心',
       key: 'profile',
