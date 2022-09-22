@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
+import com.kob.backend.controller.user.vo.UserRespVO;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.security.UserDetailsImpl;
 import com.kob.backend.utils.JwtUtil;
@@ -29,6 +30,15 @@ public class UserBizImpl implements UserBiz {
         String jwt = JwtUtil.createJWT(user.getId().toString());
 
         return new AccountRespVO().setToken(jwt);
+    }
 
+    @Override
+    public String register(AccountReqVO accountReqVO) {
+        return null;
+    }
+
+    @Override
+    public UserRespVO getUserInfo() {
+        return null;
     }
 }
