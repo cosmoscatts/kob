@@ -2,6 +2,9 @@ import { composite } from 'seemly'
 import { colord, extend } from 'colord'
 import mixPlugin from 'colord/plugins/mix'
 
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
+
 extend([mixPlugin])
 const ALPHA = 0.8
 
@@ -61,3 +64,37 @@ export function removeToken(key: string) {
   localStorage.removeItem(key)
 }
 
+const AXIOS_TIMEOUT = 5000
+
+/**
+ * 创建 `axios`
+ */
+export function createAxios() {
+  const _axios = axios.create({
+    baseURL: import.meta.env.VITE_BASE_API_URL as string,
+    timeout: AXIOS_TIMEOUT,
+  })
+
+  _axios.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
+      return config
+    },
+    (e: any) => {
+      Promise.reject(e)
+    },
+  )
+
+  _axios.interceptors.response.use(
+    async (response: AxiosResponse) => {
+      const {
+        data: { code, data, message },
+      } = response
+      return Promise.resolve({ code, data, message })
+    },
+    (error: any) => {
+      return Promise.reject(error)
+    },
+  )
+
+  return _axios
+}
