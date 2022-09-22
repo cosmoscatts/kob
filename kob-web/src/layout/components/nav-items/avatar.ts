@@ -57,6 +57,7 @@ export function createDropdownOptions(router: Router) {
             content: '记得回来~',
             duration: 1000,
           })
+          router.push('/home')
           useTimeoutFn(logout, 500)
         },
       },
