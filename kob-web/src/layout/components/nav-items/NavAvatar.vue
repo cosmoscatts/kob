@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createDropdownOptions } from './avatar'
-import defaultAvatar from '~/assets/default-avatar.jpg'
+import defaultAvatar from '~/assets/avatar.jpg'
 import Auth from '~/pages/auth/index.vue'
 
 const router = useRouter()
