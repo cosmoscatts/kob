@@ -5,10 +5,10 @@ import BotPanel from './components/BotPanel.vue'
 
 <template>
   <div
-    grid="~ cols-4" gap-x-5 lt-md="grid-rows-2 grid-cols-1"
+    grid="~ cols-4" gap-x-5 lt-md="grid-cols-1 gap-y-5"
     w-70vw mx-a ha
   >
-    <div col-span-1>
+    <div col-span-1 border="1 red" ha>
       <BotPanel />
     </div>
     <div col-span-3 lt-md="col-span-1">
