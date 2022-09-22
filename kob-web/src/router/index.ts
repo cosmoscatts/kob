@@ -92,6 +92,7 @@ const router = createRouter({
 
 function createRouterGuard(router: Router) {
   const { loadingBar, message } = useGlobalNaiveApi()
+
   router.beforeEach(async (to) => {
     loadingBar.start()
 
