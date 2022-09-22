@@ -10,18 +10,18 @@ public enum ErrorCodeEnum {
 
     private final int code;
 
-    private final String message;
+    private final String msg;
 
-    ErrorCodeEnum(int code, String message) {
+    ErrorCodeEnum(int code, String msg) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
     }
 
     public int getCode() {
         return code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 }

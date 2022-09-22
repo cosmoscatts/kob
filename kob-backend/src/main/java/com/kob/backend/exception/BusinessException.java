@@ -19,30 +19,30 @@ public class BusinessException extends RuntimeException {
     /**
      * 信息
      */
-    private final String message;
+    private final String msg;
 
     /**
      * 详细描述
      */
     private String description;
 
-    public BusinessException(int code, String message, String description) {
-        this(code, message);
+    public BusinessException(int code, String msg, String description) {
+        this(code, msg);
         this.description = description;
     }
 
-    public BusinessException(int code, String message) {
-        super(message);
+    public BusinessException(int code, String msg) {
+        super(msg);
         this.code = code;
-        this.message = message;
+        this.msg = msg;
         this.description = "";
     }
 
     public BusinessException(ErrorCodeEnum errorCodeEnum) {
-        this(errorCodeEnum.getCode(), errorCodeEnum.getMessage());
+        this(errorCodeEnum.getCode(), errorCodeEnum.getMsg());
     }
 
     public BusinessException(ErrorCodeEnum errorCodeEnum, String description) {
-        this(errorCodeEnum.getCode(), errorCodeEnum.getMessage(), description);
+        this(errorCodeEnum.getCode(), errorCodeEnum.getMsg(), description);
     }
 }

@@ -10,10 +10,10 @@ import lombok.experimental.Accessors;
 public class Result<T> {
     private Integer code;
     private T data;
-    private String message;
+    private String msg;
 
-    public static <T> Result<T> set(Integer code, T data, String message) {
-        return new Result<T>().setCode(code).setData(data).setMessage(message);
+    public static <T> Result<T> set(Integer code, T data, String msg) {
+        return new Result<T>().setCode(code).setData(data).setMsg(msg);
     }
 
     public static <T> Result<T> success() {
@@ -24,20 +24,20 @@ public class Result<T> {
         return set(0, data, null);
     }
 
-    public static <T> Result<T> success(String message) {
-        return set(0, null, message);
+    public static <T> Result<T> success(String msg) {
+        return set(0, null, msg);
     }
 
-    public static <T> Result<T> success(T data, String message) {
-        return set(0, data, message);
+    public static <T> Result<T> success(T data, String msg) {
+        return set(0, data, msg);
     }
 
     public static <T> Result<T> error() {
         return set(-1, null, null);
     }
 
-    public static <T> Result<T> error(String message) {
-        return set(-1, null, message);
+    public static <T> Result<T> error(String msg) {
+        return set(-1, null, msg);
     }
 
     public static <T> Result<T> error(Integer code) {
@@ -45,10 +45,10 @@ public class Result<T> {
     }
 
     public static <T> Result<T> error(ErrorCodeEnum errorCodeEnum) {
-        return set(errorCodeEnum.getCode(), null, errorCodeEnum.getMessage());
+        return set(errorCodeEnum.getCode(), null, errorCodeEnum.getMsg());
     }
 
-    public static <T> Result<T> error(Integer code, String message) {
-        return set(code, null, message);
+    public static <T> Result<T> error(Integer code, String msg) {
+        return set(code, null, msg);
     }
 }
