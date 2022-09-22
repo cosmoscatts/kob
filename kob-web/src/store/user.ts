@@ -2,9 +2,6 @@ import type { LoginState, User } from '~/types'
 import defaultAvatar from '~/assets/avatar.jpg'
 import { getToken, removeToken, setToken } from '~/utils'
 
-/** 存储 `token` 的键 */
-const TOKEN_KEY = 'jwt_token'
-
 export const useUserStore = defineStore(
   'userStore',
   () => {
@@ -13,14 +10,6 @@ export const useUserStore = defineStore(
     const hasLogin = ref(false)
     // 是否打开登录 / 注册 `Modal`
     const authModalVisible = ref(false)
-
-    function getUserToken() {
-      return getToken(TOKEN_KEY)
-    }
-
-    function setUserToken(token: string) {
-      setToken(TOKEN_KEY, token)
-    }
 
     /**
      * 判断是否登录 && `token` 是否过期
@@ -31,7 +20,7 @@ export const useUserStore = defineStore(
      *  - `expire` - `token `过期
      */
     async function checkLoginState(): Promise<LoginState> {
-      const token = getUserToken()
+      const token = getToken()
       if (!token) {
         hasLogin.value = false
         return 'notLogin'
@@ -65,13 +54,13 @@ export const useUserStore = defineStore(
     function login(token: string) {
       hasLogin.value = true
       updateUser()
-      setUserToken(token)
+      setToken(token)
     }
 
     function logout() {
       hasLogin.value = false
       removeUser()
-      removeToken(TOKEN_KEY)
+      removeToken()
     }
 
     return {
@@ -80,8 +69,6 @@ export const useUserStore = defineStore(
       authModalVisible,
       updateUser,
       removeUser,
-      getUserToken,
-      setUserToken,
       login,
       logout,
       checkLoginState,
