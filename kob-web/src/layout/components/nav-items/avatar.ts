@@ -26,7 +26,7 @@ export function createDropdownOptions(router: Router) {
 
   return [
     {
-      label: '用户资料',
+      label: '个人中心',
       key: 'profile',
       icon: renderIcon(UserIcon),
       props: {
