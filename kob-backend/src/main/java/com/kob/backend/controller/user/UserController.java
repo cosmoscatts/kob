@@ -44,6 +44,6 @@ public class UserController {
      */
     @GetMapping("/account/info")
     public Result<?> getInfo() {
-        return null;
+        return Result.success(userBiz.getUserInfo());
     }
 }
