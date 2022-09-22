@@ -15,7 +15,7 @@ import com.kob.backend.controller.user.vo.AccountRespVO;
 import com.kob.backend.validation.ExtraGroup;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/account")
 public class UserController {
     @Resource
     private UserBiz userBiz;
@@ -23,7 +23,7 @@ public class UserController {
     /**
      * 登录获取 token
      */
-    @PostMapping("/account/token")
+    @PostMapping("/token")
     public Result<AccountRespVO> getToken(@Valid @RequestBody AccountReqVO accountReqVO) {
         return Result.success(userBiz.getToken(accountReqVO));
     }
@@ -31,7 +31,7 @@ public class UserController {
     /**
      * 注册
      */
-    @PostMapping("/account/register")
+    @PostMapping("/register")
     public Result<?> register(@Validated({ExtraGroup.class}) @RequestBody AccountReqVO accountReqVO) {
         String errorMessage = userBiz.register(accountReqVO);
         if (Objects.isNull(errorMessage))
@@ -42,7 +42,7 @@ public class UserController {
     /**
      * 获取登录用户信息
      */
-    @GetMapping("/account/info")
+    @GetMapping("/info")
     public Result<?> getInfo() {
         return Result.success(userBiz.getUserInfo());
     }
