@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import GamePlayground from '~/components/GamePlayground.vue'
 import { appLayout } from '~/config'
 
 const { navHeight, footHeight, contentPadding } = appLayout
