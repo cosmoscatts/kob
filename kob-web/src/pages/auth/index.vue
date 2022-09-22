@@ -9,7 +9,7 @@ const router = useRouter()
 
 const userStore = useUserStore()
 const { authModalVisible } = storeToRefs(userStore)
-const { updateUser, setAuthModalVisible } = userStore
+const { login, setAuthModalVisible } = userStore
 
 const bodyStyle = {
   width: '390px',
@@ -74,7 +74,10 @@ function submitCallback({
   const { notification } = useGlobalNaiveApi()
   const title = `${type === 'login' ? '登录' : '注册'}成功`
   router.push('/')
-  updateUser(user)
+  login({
+    user,
+    token: '#DASDASJDKASKDJH',
+  })
   notification.success({
     title,
     content: '欢迎使用，快来一场伟大的战斗吧~',
