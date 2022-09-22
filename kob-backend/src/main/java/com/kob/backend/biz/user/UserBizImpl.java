@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,8 @@ import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
 import com.kob.backend.controller.user.vo.UserRespVO;
 import com.kob.backend.dataobject.UserDO;
+import com.kob.backend.exception.BusinessException;
+import com.kob.backend.exception.ErrorCodeEnum;
 import com.kob.backend.security.UserDetailsImpl;
 import com.kob.backend.service.UserService;
 import com.kob.backend.utils.JwtUtil;
@@ -31,11 +34,17 @@ public class UserBizImpl implements UserBiz {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AccountRespVO getToken(AccountReqVO accountReqVO) {
+    public AccountRespVO getToken(AccountReqVO accountReqVO) throws BusinessException {
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(accountReqVO.getUsername(), accountReqVO.getPassword());
-        // 登录失败，会自动处理
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+
+        Authentication authenticate;
+        // 登录失败，抛出自定义异常
+        try {
+            authenticate = authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException e) {
+            throw new BusinessException(ErrorCodeEnum.LOGIN_PASSWORD_INVALID_EXCEPTION);
+        }
         UserDetailsImpl loginUser = (UserDetailsImpl)authenticate.getPrincipal();
         UserDO user = loginUser.getUser();
         String jwt = JwtUtil.createJWT(user.getId().toString());
