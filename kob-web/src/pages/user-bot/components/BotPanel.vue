@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <n-card title="我的Bot" hoverable>
-    卡片内容
-  </n-card>
+  <div ha>
+    <n-card title="我的Bot" hoverable>
+      卡片内容
+    </n-card>
+  </div>
 </template>
