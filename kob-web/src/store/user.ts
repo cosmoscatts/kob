@@ -26,6 +26,9 @@ export const useUserStore = defineStore(
         return 'notLogin'
       }
 
+      if (hasLogin.value && user.value?.id)
+        return 'hasLogin'
+
       const { code, data } = await UserApi.getLoginUserInfo()
       const validation = code !== 0 || !data
       hasLogin.value = !validation
