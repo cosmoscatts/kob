@@ -1,29 +1,26 @@
 package com.kob.backend.controller.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kob.backend.dataobject.UserDO;
+import kotlin.Result;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
-    @GetMapping("/login")
-    public String login() {
+    @GetMapping("/account/token")
+    public Result<?> getToken() {
         return null;
     }
 
-    @GetMapping("/register")
-    public String register() {
+    @GetMapping("/account/register")
+    public Result<?> register() {
         return null;
     }
 
-    @GetMapping("/user")
-    public UserDO getUser() {
+    @GetMapping("/account/info")
+    public Result<?> getInfo() {
         return null;
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "hello world!";
     }
 }
