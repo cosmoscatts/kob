@@ -14,8 +14,8 @@ public class UserRespVO {
     private String username;
     private String name;
     private String avatar;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Integer rating;
     private String openId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;
 }
