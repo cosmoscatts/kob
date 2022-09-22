@@ -12,12 +12,16 @@ const {
   mode?: 'vertical' | 'horizontal'
 }>()
 
-// 渲染图标
+/**
+ * 渲染图标
+ */
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-// 渲染 `RouterLink` & 可省略的菜单名称
+/**
+ * 渲染 `RouterLink` & 可省略的菜单名称
+ */
 function renderLabel(label: string, path?: string) {
   return path
     ? () =>
@@ -33,7 +37,9 @@ function renderLabel(label: string, path?: string) {
     : () => h(NEllipsis, null, { default: () => label })
 }
 
-// 将菜单项转换成 `<NMenu>` 组件需要的格式
+/**
+ * 将菜单项转换成 `<NMenu>` 组件需要的格式
+ */
 function generateMenuOption(menuItem: Menu): MenuOption {
   const { id, label, icon, path, children } = menuItem
   return {
