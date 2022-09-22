@@ -94,12 +94,15 @@ function createRouterGuard(router: Router) {
   const { loadingBar, message } = useGlobalNaiveApi()
   router.beforeEach(async (to, from, next) => {
     loadingBar.start()
+
     const userStore = useUserStore()
     const needLogin = to.meta.requiresAuth
+
     if (!needLogin) {
       next()
       return
     }
+
     const checkLoginState = await userStore.checkLoginState()
     const actions: Record<LoginState, Function> = {
       hasLogin: () => {
@@ -107,12 +110,12 @@ function createRouterGuard(router: Router) {
       },
       notLogin: () => {
         message.error('您还未登录！')
-        next('/')
+        next('/home')
         userStore.setAuthModalVisible(true)
       },
       expire: () => {
         message.error('您的登录已过期！')
-        next('/')
+        next('/home')
         userStore.setAuthModalVisible(true)
       },
     }
@@ -122,7 +125,8 @@ function createRouterGuard(router: Router) {
     // 设置 `document title`
     const title = to.meta?.title as string ?? appMeta.appShortName
     useTitle(title)
-    // 结束 loadingBar
+
+    // `loadingBar` 加载结束
     loadingBar.finish()
   })
 }
