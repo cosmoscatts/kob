@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
 import com.kob.backend.controller.user.vo.UserRespVO;
+import com.kob.backend.convert.UserConverter;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.exception.BusinessException;
 import com.kob.backend.exception.ErrorCodeEnum;
@@ -78,7 +79,6 @@ public class UserBizImpl implements UserBiz {
 
         UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
         UserDO user = loginUser.getUser();
-        return new UserRespVO().setId(user.getId()).setUsername(user.getUsername()).setName(user.getName())
-            .setAvatar(user.getAvatar()).setCreateTime(user.getCreateTime());
+        return UserConverter.INSTANCE.do2vo(user);
     }
 }
