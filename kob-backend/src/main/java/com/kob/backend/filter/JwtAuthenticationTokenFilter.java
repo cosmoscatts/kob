@@ -16,8 +16,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.kob.backend.dataobject.UserDO;
-import com.kob.backend.mapper.UserMapper;
+import com.kob.backend.exception.BusinessException;
+import com.kob.backend.exception.ErrorCodeEnum;
 import com.kob.backend.security.UserDetailsImpl;
+import com.kob.backend.service.UserService;
 import com.kob.backend.utils.JwtUtil;
 
 import io.jsonwebtoken.Claims;
@@ -25,7 +27,7 @@ import io.jsonwebtoken.Claims;
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response,
@@ -39,18 +41,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         token = token.substring(7);
 
-        String userid;
+        String userId;
         try {
             Claims claims = JwtUtil.parseJWT(token);
-            userid = claims.getSubject();
+            userId = claims.getSubject();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new BusinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
         }
 
-        UserDO user = userMapper.selectById(Integer.parseInt(userid));
+        UserDO user = userService.getById(Integer.parseInt(userId));
 
         if (user == null) {
-            throw new RuntimeException("用户名未登录");
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_EXIST_EXCEPTION);
         }
 
         UserDetailsImpl loginUser = new UserDetailsImpl(user);
