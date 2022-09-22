@@ -12,7 +12,7 @@ import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
-const submitCallback = inject<Function>('submitCallback')
+const loginCallback = inject<Function>('loginCallback')
 
 /**
  * 定义表单数据结构
@@ -90,13 +90,7 @@ function onSubmit(e: MouseEvent) {
 
     useTimeoutFn(() => {
       endLoading()
-      submitCallback?.({
-        user: {
-          id: 1,
-          username: 'dude',
-        },
-        type: 'login',
-      })
+      loginCallback?.('44444dasdas4d')
     }, 1000)
   })
 }
