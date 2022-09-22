@@ -108,10 +108,12 @@ function createRouterGuard(router: Router) {
       notLogin: () => {
         message.error('您还未登录！')
         next('/')
+        userStore.setAuthModalVisible(true)
       },
       expire: () => {
         message.error('您的登录已过期！')
         next('/')
+        userStore.setAuthModalVisible(true)
       },
     }
     actions[checkLoginState]()
