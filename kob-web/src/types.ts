@@ -32,7 +32,7 @@ export interface DeleteParams extends HttpParams {}
 /** `Http` 返回数据结构 */
 export interface Result<T> {
   code: number
-  data: T | T[]
+  data: T
   msg?: string
 }
 

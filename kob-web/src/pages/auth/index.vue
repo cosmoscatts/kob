@@ -2,7 +2,6 @@
 import type { Ref } from 'vue'
 import { LoginAccount, LoginPhone, Register } from './components'
 import type { Tab } from './components'
-import type { User } from '~/types'
 
 const themeDark = isDark
 const router = useRouter()
@@ -62,33 +61,37 @@ watch(currentTab, () => {
 })
 
 /**
- * 登录或者注册完成的回调方法
+ * 登录完成的回调方法
  */
-function submitCallback({
-  user,
-  type,
-}: {
-  user: User
-  type: 'login' | 'register'
-}) {
+function loginCallback(token: string) {
   const { notification } = useGlobalNaiveApi()
-  const title = `${type === 'login' ? '登录' : '注册'}成功`
   router.push('/')
-  login({
-    user,
-    token: '#DASDASJDKASKDJH',
-  })
+  login(token)
   notification.success({
-    title,
+    title: '登录成功',
     content: '欢迎使用，快来一场伟大的战斗吧~',
     duration: 3000,
   })
   setAuthModalVisible(false)
 }
 
+/**
+ * 注册完成的回调方法
+ */
+function registerCallback() {
+  const { notification } = useGlobalNaiveApi()
+  notification.success({
+    title: '注册成功',
+    content: '快去登录把~',
+    duration: 3000,
+  })
+  currentTab.value = 'account'
+}
+
 provide('tab', currentTab)
 provide('changeTab', changeTab)
-provide('submitCallback', submitCallback)
+provide('loginCallback', loginCallback)
+provide('registerCallback', registerCallback)
 </script>
 
 <template>

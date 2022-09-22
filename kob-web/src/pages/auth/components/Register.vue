@@ -13,7 +13,7 @@ import {
 } from '@vicons/ionicons5'
 import FuncBar from './FuncBar.vue'
 
-const submitCallback = inject<Function>('submitCallback')
+const registerCallback = inject<Function>('registerCallback')
 
 /**
  * 定义表单数据结构
@@ -25,6 +25,8 @@ interface ModelType {
 }
 
 const refForm = ref<FormInst | null>(null)
+
+const { message } = useGlobalNaiveApi()
 
 // 表单基础数据
 const baseFormModel = {
@@ -78,9 +80,9 @@ const rules: FormRules = {
     },
     {
       validator(_rule: FormItemRule, value: string) {
-        return value.length >= 5 && value.length <= 20
+        return value.length >= 1 && value.length <= 20
       },
-      message: '账号的长度为 5 ~ 20',
+      message: '账号的长度为 1 ~ 20',
       trigger: ['input', 'blur'],
     },
   ],
@@ -112,23 +114,23 @@ const rules: FormRules = {
 const { loading, startLoading, endLoading } = useLoading()
 
 /**
- * 登录
+ * 注册
  */
-function onSubmit(e: MouseEvent) {
+async function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return
     startLoading()
+    const { code, msg } = await UserApi.register(JSON.parse(JSON.stringify(formModel)))
+    if (code !== 0) {
+      message.error(msg ?? '注册失败')
+      return
+    }
+
     useTimeoutFn(() => {
       endLoading()
-      submitCallback?.({
-        user: {
-          id: 1,
-          ...JSON.parse(JSON.stringify(formModel)),
-        },
-        type: 'register',
-      })
+      registerCallback?.()
     }, 1000)
   })
 }
