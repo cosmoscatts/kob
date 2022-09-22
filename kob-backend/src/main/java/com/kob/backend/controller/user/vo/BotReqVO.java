@@ -3,10 +3,12 @@ package com.kob.backend.controller.user.vo;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kob.backend.validation.UpdateGroup;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,6 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class BotReqVO {
+    @NotNull(message = "botId 不能为空", groups = {UpdateGroup.class})
     private Integer id;
     private Integer userId;
     @NotBlank(message = "标题不能为空")
