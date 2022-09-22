@@ -33,7 +33,7 @@ export interface DeleteParams extends HttpParams {}
 export interface Result<T> {
   code: number
   data: T | T[]
-  message?: string
+  msg?: string
 }
 
 /** 分页返回数据结构 */

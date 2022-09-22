@@ -87,9 +87,9 @@ export function createAxios() {
   _axios.interceptors.response.use(
     async (response: AxiosResponse) => {
       const {
-        data: { code, data, message },
+        data: { code, data, msg },
       } = response
-      return Promise.resolve({ code, data, message })
+      return Promise.resolve({ code, data, msg })
     },
     (error: any) => {
       return Promise.reject(error)
