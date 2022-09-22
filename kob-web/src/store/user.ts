@@ -30,14 +30,28 @@ export const useUserStore = defineStore(
      *  - `notLogin` - 未登录
      *  - `expire` - `token `过期
      */
-    function checkLoginState(): LoginState {
-      return 'hasLogin'
+    async function checkLoginState(): Promise<LoginState> {
+      const token = getUserToken()
+      if (!token) {
+        hasLogin.value = false
+        return 'notLogin'
+      }
+
+      const { code, data } = await UserApi.getLoginUserInfo()
+      const validation = code !== 0 || !data
+      hasLogin.value = !validation
+      return validation
+        ? 'expire'
+        : 'hasLogin'
     }
 
-    function updateUser(_user: User) {
-      if (!_user.avatar)
-        _user.avatar = defaultAvatar
-      user.value = _user
+    async function updateUser() {
+      const { code, data } = await UserApi.getLoginUserInfo()
+      if (code !== 0 || !data)
+        return
+      if (!data.avatar)
+        data.avatar = defaultAvatar
+      user.value = data
     }
 
     function removeUser() {
@@ -48,9 +62,9 @@ export const useUserStore = defineStore(
       authModalVisible.value = value
     }
 
-    function login({ user, token }: { user: User; token: string }) {
+    function login(token: string) {
       hasLogin.value = true
-      updateUser(user)
+      updateUser()
       setUserToken(token)
     }
 

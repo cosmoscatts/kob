@@ -13,7 +13,7 @@ import {
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
-const submitCallback = inject<Function>('submitCallback')
+const loginCallback = inject<Function>('loginCallback')
 
 /**
  * 定义表单数据结构
@@ -52,9 +52,9 @@ const rules: FormRules = {
     },
     {
       validator(_rule: FormItemRule, value: string) {
-        return value.length >= 5 && value.length <= 20
+        return value.length >= 1 && value.length <= 20
       },
-      message: '账号的长度为 5 ~ 20',
+      message: '账号的长度为 1 ~ 20',
       trigger: ['input', 'blur'],
     },
   ],
@@ -71,25 +71,22 @@ const { loading, startLoading, endLoading } = useLoading()
 /**
  * 登录
  */
-function onSubmit(e: MouseEvent) {
+async function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return
-    if (formModel.password !== '123456') {
-      message.error('账号或密码错误')
+    startLoading()
+    const { code, data, msg } = await UserApi.getToken(JSON.parse(JSON.stringify(formModel)))
+    if (code !== 0) {
+      useTimeoutFn(endLoading, 1000)
+      message.error(msg ?? '账号或密码错误')
       return
     }
-    startLoading()
+
     useTimeoutFn(() => {
       endLoading()
-      submitCallback?.({
-        user: {
-          id: 1,
-          ...JSON.parse(JSON.stringify(formModel)),
-        },
-        type: 'login',
-      })
+      loginCallback?.(data.token)
     }, 1000)
   })
 }
