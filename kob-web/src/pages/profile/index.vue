@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  Profile
+  <div>
+    Profile
+  </div>
 </template>
