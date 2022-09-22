@@ -74,3 +74,25 @@ export interface User {
   /** 创建时间 */
   createTime?: Date
 }
+
+/**
+ * 定义 `bot` 数据结构
+ */
+export interface Bot {
+  /** id */
+  id?: number
+  /** 用户 `id` */
+  userId?: number
+  /** 标题 */
+  title?: string
+  /** 描述 */
+  description?: string
+  /** 内容 */
+  content?: string
+  /** 积分排行 */
+  rating?: number
+  /** 创建时间 */
+  createTime?: Date
+  /** 修改时间 */
+  modifyTime?: Date
+}
