@@ -4,6 +4,7 @@ import mixPlugin from 'colord/plugins/mix'
 
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
+import { TOKEN_KEY } from '~/config'
 
 extend([mixPlugin])
 const ALPHA = 0.8
@@ -48,20 +49,20 @@ export function generatePrimaryColor(_primaryColor: string) {
 /**
  * 获取 `token`
  */
-export function getToken(key: string) {
-  return localStorage.getItem(key)
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY)
 }
 /**
  * 设置 `token`
  */
-export function setToken(key: string, token: string) {
-  localStorage.setItem(key, token)
+export function setToken(token: string) {
+  localStorage.setItem(TOKEN_KEY, token)
 }
 /**
  * 删除 `token`
  */
-export function removeToken(key: string) {
-  localStorage.removeItem(key)
+export function removeToken() {
+  localStorage.removeItem(TOKEN_KEY)
 }
 
 const AXIOS_TIMEOUT = 5000
@@ -77,6 +78,10 @@ export function createAxios() {
 
   _axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
+      // 统一在 `header` 中添加 `token`
+      const token = getToken()
+      if (token)
+        config!.headers!.Authorization = `Bearer ${token}`
       return config
     },
     (e: any) => {

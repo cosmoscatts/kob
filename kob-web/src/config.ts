@@ -6,6 +6,9 @@ import type { Menu } from '~/types'
 /** 是否为 `debug` 模式 */
 export const debug = true
 
+/** 存储 `token` 的键 */
+export const TOKEN_KEY = 'jwt_token'
+
 /**
  * 项目基本信息
  */
