@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     public Result<?> bindExceptionException(final BindException e) {
-        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMessage();
+        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMsg();
         if (e.getFieldError() != null) {
             errorMessage = e.getFieldError().getDefaultMessage();
         }
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         log.error("数据校验失败：{}，异常类型：{}", e.getMessage(), e.getClass());
 
         BindingResult bindingResult = e.getBindingResult();
-        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMessage();
+        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMsg();
 
         if (bindingResult.hasErrors()) {
             errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
@@ -73,6 +73,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public Result<?> handleRuntimeException(RuntimeException e) {
         log.error("RuntimeException", e);
-        return Result.error(ErrorCodeEnum.UNKNOWN_EXCEPTION.getCode(), ErrorCodeEnum.UNKNOWN_EXCEPTION.getMessage());
+        return Result.error(ErrorCodeEnum.UNKNOWN_EXCEPTION.getCode(), ErrorCodeEnum.UNKNOWN_EXCEPTION.getMsg());
     }
 }
