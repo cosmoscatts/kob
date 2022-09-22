@@ -49,6 +49,7 @@ export const useUserStore = defineStore(
     }
 
     function login({ user, token }: { user: User; token: string }) {
+      hasLogin.value = true
       updateUser(user)
       setUserToken(token)
     }
