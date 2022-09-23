@@ -54,7 +54,7 @@ export function createColumns({
               NButton,
               {
                 size: 'small',
-                secondary: true,
+                tertiary: true,
                 type: 'warning',
                 style: { marginRight: '10px' },
                 onClick: () => onUpdateBot?.(row),
@@ -65,7 +65,7 @@ export function createColumns({
               NButton,
               {
                 size: 'small',
-                secondary: true,
+                tertiary: true,
                 type: 'error',
                 onClick: () => onRemoveBot?.(row),
               },
