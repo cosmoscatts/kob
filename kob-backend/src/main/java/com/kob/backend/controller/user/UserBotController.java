@@ -1,6 +1,5 @@
 package com.kob.backend.controller.user;
 
-import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Resource;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.kob.backend.biz.user.UserBotBiz;
 import com.kob.backend.common.DeleteQuery;
+import com.kob.backend.common.PageMap;
+import com.kob.backend.common.PageQuery;
 import com.kob.backend.common.Result;
 import com.kob.backend.controller.user.vo.BotReqVO;
 import com.kob.backend.controller.user.vo.BotRespVO;
@@ -23,8 +24,8 @@ public class UserBotController {
     private UserBotBiz userBotBiz;
 
     @GetMapping("/list")
-    public Result<List<BotRespVO>> list() {
-        return Result.success(userBotBiz.getList());
+    public Result<PageMap<BotRespVO>> list(PageQuery pageQuery) {
+        return Result.success(userBotBiz.getList(pageQuery));
     }
 
     @PostMapping("/add")

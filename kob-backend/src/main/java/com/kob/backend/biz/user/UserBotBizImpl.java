@@ -11,8 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kob.backend.common.DeleteQuery;
+import com.kob.backend.common.PageMap;
+import com.kob.backend.common.PageQuery;
 import com.kob.backend.controller.user.vo.BotReqVO;
 import com.kob.backend.controller.user.vo.BotRespVO;
 import com.kob.backend.convert.BotConverter;
@@ -27,15 +31,22 @@ public class UserBotBizImpl implements UserBotBiz {
     private BotService botService;
 
     @Override
-    public List<BotRespVO> getList() {
+    public PageMap<BotRespVO> getList(PageQuery pageQuery) {
         UsernamePasswordAuthenticationToken authenticationToken =
             (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl)authenticationToken.getPrincipal();
         UserDO user = loginUser.getUser();
 
-        List<BotDO> list = botService.list(Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, user.getId()));
+        IPage<BotDO> page = new Page<>(pageQuery.getPage(), pageQuery.getPageSize());
+        page = botService.page(page, Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, user.getId()));
 
-        return list.stream().map(BotConverter.INSTANCE::do2vo).collect(Collectors.toList());
+        List<BotDO> list = page.getRecords();
+
+        if (list.isEmpty())
+            return PageMap.empty();
+
+        return PageMap.data((long)list.size(),
+            list.stream().map(BotConverter.INSTANCE::do2vo).collect(Collectors.toList()));
     }
 
     @Override
