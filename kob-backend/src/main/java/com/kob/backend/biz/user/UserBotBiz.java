@@ -1,14 +1,14 @@
 package com.kob.backend.biz.user;
 
-import java.util.List;
-
 import com.kob.backend.common.DeleteQuery;
+import com.kob.backend.common.PageMap;
+import com.kob.backend.common.PageQuery;
 import com.kob.backend.controller.user.vo.BotReqVO;
 import com.kob.backend.controller.user.vo.BotRespVO;
 
 public interface UserBotBiz {
     // 获取 bot 列表
-    List<BotRespVO> getList();
+    PageMap<BotRespVO> getList(PageQuery pageQuery);
 
     // 添加 bot
     void add(BotReqVO botReqVO);
