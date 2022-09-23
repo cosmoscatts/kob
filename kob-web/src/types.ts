@@ -36,11 +36,21 @@ export interface Result<T> {
   msg?: string
 }
 
+/** 分页查询 */
+export interface PageQuery {
+  page?: number
+  pageSize?: number
+}
+
 /** 分页返回数据结构 */
 export interface PageResult<T> {
-  [key: string]: any
-  records?: T[]
-  total?: number
+  code: number
+  data: {
+    [key: string]: any
+    records?: T[]
+    total?: number
+  }
+  msg?: string
 }
 
 /** 登录状态 */

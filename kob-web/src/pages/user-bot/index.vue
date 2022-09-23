@@ -8,7 +8,7 @@ import BotPanel from './components/BotPanel.vue'
     grid="~ cols-4" gap-x-5 lt-md="grid-cols-1 gap-y-5"
     w-70vw mx-a ha
   >
-    <div col-span-1 border="1 red" ha>
+    <div col-span-1 ha>
       <BotPanel />
     </div>
     <div col-span-3 lt-md="col-span-1">
