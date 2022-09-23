@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import { createColumns, handleSaveBot } from '../helper'
+import BotTableForm from './BotTableForm.vue'
 import type { Bot } from '~/types'
 
 const { message, dialog } = useGlobalNaiveApi()
@@ -131,5 +132,13 @@ const isMobile = breakpoints.smaller('sm')
         :pagination="pagination"
       />
     </n-card>
+    <BotTableForm
+      v-bind="{
+        type: botModalAction,
+        modalVisible: botModalVisible,
+        form: selectedBot,
+      }"
+      @save-bot-data="onSaveBotData"
+    />
   </div>
 </template>
