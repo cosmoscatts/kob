@@ -35,6 +35,36 @@ const router = createRouter({
       ],
     },
     {
+      path: '/userBot',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'UserBot',
+          component: () => import('~/pages/user-bot/index.vue'),
+          meta: {
+            title: '我的Bot',
+            requiresAuth: true,
+          },
+        },
+      ],
+    },
+    {
+      path: '/profile',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'Profile',
+          component: () => import('~/pages/profile/index.vue'),
+          meta: {
+            title: '个人中心',
+            requiresAuth: true,
+          },
+        },
+      ],
+    },
+    {
       path: '/pk',
       component: BaseLayout,
       children: [

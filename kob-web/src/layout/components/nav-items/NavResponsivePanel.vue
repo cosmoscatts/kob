@@ -4,6 +4,8 @@ import NavAvatar from './NavAvatar.vue'
 
 let showNavPanel = $ref(false)
 
+const { hasLogin } = storeToRefs(useUserStore())
+
 const panelBodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
 
 function toggle() {
@@ -14,11 +16,14 @@ function toggle() {
 <template>
   <div flex-y-center h-full mr-10>
     <button
+      v-if="hasLogin"
       icon-btn text-lg
       i-carbon-menu
       @click="toggle()"
     />
+    <NavAvatar v-else />
   </div>
+
   <n-drawer
     :style="{
       backgroundColor: panelBodyColor,

@@ -124,6 +124,7 @@ async function onSubmit(e: MouseEvent) {
     startLoading()
     const { code, msg } = await UserApi.register(JSON.parse(JSON.stringify(formModel)))
     if (code !== 0) {
+      useTimeoutFn(endLoading, 1000)
       message.error(msg ?? '注册失败')
       return
     }
