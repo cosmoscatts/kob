@@ -133,9 +133,9 @@ const isMobile = breakpoints.smaller('sm')
       />
     </n-card>
     <BotTableForm
+      v-model:modal-visible="botModalVisible"
       v-bind="{
         type: botModalAction,
-        modalVisible: botModalVisible,
         form: selectedBot,
       }"
       @save-bot-data="onSaveBotData"

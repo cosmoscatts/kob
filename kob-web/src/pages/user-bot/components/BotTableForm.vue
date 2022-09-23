@@ -48,8 +48,8 @@ const formModel = reactive<FormModel>({
 const { loading, startLoading, endLoading } = useLoading()
 
 /**
-   * 表单赋值
-   */
+ * 表单赋值
+ */
 function assign() {
   const target: Bot = modalVisible && type === 'edit'
     ? unref(form)
@@ -69,8 +69,8 @@ watch(() => modalVisible, () => {
 })
 
 /**
-   * 提交表单
-   */
+ * 提交表单
+ */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate((errors?: FormValidationError[]) => {
@@ -83,8 +83,8 @@ function onSubmit(e: MouseEvent) {
 }
 
 /**
-   * 关闭 `modal`
-   */
+ * 关闭 `modal`
+ */
 function onCloseModal() {
   emits('update:modal-visible', false)
 }
