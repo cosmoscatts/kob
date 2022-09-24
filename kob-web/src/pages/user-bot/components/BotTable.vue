@@ -131,6 +131,14 @@ const isMobile = breakpoints.smaller('sm')
         :data="tableData"
         :pagination="pagination"
       />
+      <div
+        v-else
+        hw-full
+        flex-center
+        text-lg
+      >
+        {  请在客户端访问 :). }
+      </div>
     </n-card>
     <BotTableForm
       v-model:modal-visible="botModalVisible"
