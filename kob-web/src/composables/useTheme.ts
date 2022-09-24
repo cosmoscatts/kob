@@ -14,6 +14,12 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
     const bodyColor = isDark.value
       ? '#121212'
       : '#ffffff'
+    const cardColor = isDark.value
+      ? '#171717'
+      : '#ffffff'
+    const modalColor = isDark.value
+      ? '#262626'
+      : '#ffffff'
     return {
       common: {
         ...primaryColorOverrides,
@@ -25,6 +31,18 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         color: bodyColor,
         headerColor: bodyColor,
         footerColor: bodyColor,
+      },
+      Card: {
+        color: cardColor,
+        colorModal: modalColor,
+      },
+      Dropdown: {
+        color: modalColor,
+      },
+      DataTable: {
+        common: {
+          cardColor: 'transparent',
+        },
       },
     }
   })
