@@ -46,7 +46,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
         } catch (Exception e) {
-            throw new BusinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
+            throw new BusinessException(ErrorCodeEnum.NOT_LOGIN_EXCEPTION);
         }
 
         UserDO user = userService.getById(Integer.parseInt(userId));
