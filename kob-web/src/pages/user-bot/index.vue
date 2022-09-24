@@ -5,7 +5,9 @@ import BotPanel from './components/BotPanel.vue'
 
 <template>
   <div
-    grid="~ cols-4" gap-x-5 lt-md="grid-cols-1 gap-y-5"
+    grid="~ cols-4"
+    gap-x-5
+    lt-md="grid-cols-1 gap-y-5"
     w-70vw mx-a ha
   >
     <div col-span-1 ha>

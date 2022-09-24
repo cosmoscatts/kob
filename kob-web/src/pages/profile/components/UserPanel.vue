@@ -9,6 +9,7 @@ const { user } = storeToRefs(useUserStore())
         <n-avatar
           :style="{
             width: '100%',
+            maxWidth: '250px',
             height: 'auto',
             cursor: 'pointer',
           }"
@@ -18,9 +19,9 @@ const { user } = storeToRefs(useUserStore())
           @click="$router.push('/profile')"
         />
         <n-divider />
-        <div font-bold text-lg>
-          {{ user?.name || '-' }}
-        </div>
+        <n-button>
+          更换头像
+        </n-button>
       </div>
     </n-card>
   </div>
