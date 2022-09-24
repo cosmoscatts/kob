@@ -116,7 +116,7 @@ const isMobile = breakpoints.smaller('sm')
 </script>
 
 <template>
-  <div h-full>
+  <div w-full>
     <n-card title="我的Bot" hoverable>
       <template #header-extra>
         <NButton type="primary" text-color="white" @click="onAddBot">
