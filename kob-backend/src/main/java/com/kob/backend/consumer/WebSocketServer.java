@@ -6,10 +6,13 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Component;
 
+import com.kob.backend.dataobject.UserDO;
+
 @Component
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
     private Session session;
+    private UserDO user;
 
     /**
      * 建立连接
