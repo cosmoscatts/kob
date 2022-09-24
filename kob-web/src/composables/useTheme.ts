@@ -40,9 +40,10 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         color: modalColor,
       },
       DataTable: {
-        common: {
-          cardColor: 'transparent',
-        },
+        thColor: 'transparent',
+        thColorHover: 'transparent',
+        tdColor: 'transparent',
+        tdColorHover: 'transparent',
       },
     }
   })
