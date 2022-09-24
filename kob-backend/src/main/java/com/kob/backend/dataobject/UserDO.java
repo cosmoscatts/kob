@@ -23,6 +23,10 @@ public class UserDO {
     private String name;
     /** 密码 */
     private String password;
+    /** 手机号 */
+    private String phone;
+    /** 邮箱 */
+    private String email;
     /** 头像 */
     private String avatar;
     /** 积分排名 */

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
+import com.kob.backend.controller.user.vo.UserInfoReqVO;
 import com.kob.backend.controller.user.vo.UserRespVO;
 import com.kob.backend.convert.UserConverter;
 import com.kob.backend.dataobject.UserDO;
@@ -80,5 +81,17 @@ public class UserBizImpl implements UserBiz {
         UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
         UserDO user = loginUser.getUser();
         return UserConverter.INSTANCE.do2vo(user);
+    }
+
+    @Override
+    public void updateUserInfo(UserInfoReqVO userInfoReqVO) {
+        UsernamePasswordAuthenticationToken authentication =
+            (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
+        UserDO user = loginUser.getUser();
+
+        userInfoReqVO.setId(user.getId());
+        userService.updateById(UserConverter.INSTANCE.vo2do(userInfoReqVO));
     }
 }

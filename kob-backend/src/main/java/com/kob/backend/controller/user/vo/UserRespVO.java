@@ -13,6 +13,8 @@ public class UserRespVO {
     private Integer id;
     private String username;
     private String name;
+    private String phone;
+    private String email;
     private String avatar;
     private Integer rating;
     private String openId;

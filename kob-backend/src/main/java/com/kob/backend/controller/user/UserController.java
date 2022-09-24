@@ -12,6 +12,7 @@ import com.kob.backend.biz.user.UserBiz;
 import com.kob.backend.common.Result;
 import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
+import com.kob.backend.controller.user.vo.UserInfoReqVO;
 import com.kob.backend.validation.ExtraGroup;
 
 @RestController
@@ -45,5 +46,11 @@ public class UserController {
     @GetMapping("/info")
     public Result<?> getInfo() {
         return Result.success(userBiz.getUserInfo());
+    }
+
+    @PutMapping("/info")
+    public Result<?> updateInfo(@RequestBody UserInfoReqVO userInfoReqVO) {
+        userBiz.updateUserInfo(userInfoReqVO);
+        return Result.success("修改成功");
     }
 }
