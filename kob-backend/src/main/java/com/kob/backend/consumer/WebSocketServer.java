@@ -23,18 +23,18 @@ import com.kob.backend.service.UserService;
 @Component
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
+    private static UserService userService;
     /** 用户和 websocket server 的映射 */
     private final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     /** 用户匹配池 */
     private final CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
     private Session session;
     private UserDO user;
-    private UserService userService;
 
     // Spring 单例与 Websocket 冲突
     @Autowired
     public void setUserService(UserService userService) {
-        this.userService = userService;
+        WebSocketServer.userService = userService;
     }
 
     /**
@@ -112,7 +112,7 @@ public class WebSocketServer {
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
             startMatching();
-        } else if ("end-matching".equals(event)) {
+        } else if ("stop-matching".equals(event)) {
             stopMatching();
         }
     }
