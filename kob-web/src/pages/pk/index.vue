@@ -6,10 +6,13 @@ const { navHeight, footHeight, contentPadding } = appLayout
 const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
 })
+
+const { status } = storeToRefs(usePkStore())
 </script>
 
 <template>
   <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex-center>
-    <GamePlayground />
+    <GameMatchGround v-if="status === 'match'" />
+    <GamePlayground v-else />
   </div>
 </template>

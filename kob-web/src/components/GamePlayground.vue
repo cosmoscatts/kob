@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div w-60vw h-70vh mx-a z-10>
+  <div w-60vw h-70vh mx-a>
     <GameMap />
   </div>
 </template>
