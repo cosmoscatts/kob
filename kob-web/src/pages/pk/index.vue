@@ -43,7 +43,6 @@ socket.onmessage = (msg) => {
 }
 
 socket.onclose = () => {
-
 }
 
 onUnmounted(() => {
