@@ -6,11 +6,11 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -29,8 +29,13 @@ public class WebSocketServer {
     private final CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
     private Session session;
     private UserDO user;
-    @Resource
     private UserService userService;
+
+    // Spring 单例与 Websocket 冲突
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 建立连接
@@ -76,15 +81,15 @@ public class WebSocketServer {
             game.createMap();
 
             JSONObject respA = new JSONObject();
-            respA.put("event", "start-matching");
-            respA.put("opponent_username", b.getUsername());
-            respA.put("opponent_photo", b.getAvatar());
+            respA.put("event", "match-success");
+            respA.put("opponentName", b.getName());
+            respA.put("opponentAvatar", b.getAvatar());
             respA.put("gameMap", game.getG());
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
             JSONObject respB = new JSONObject();
-            respB.put("event", "start-matching");
-            respB.put("opponentUsername", a.getUsername());
+            respB.put("event", "match-success");
+            respB.put("opponentName", a.getName());
             respB.put("opponentAvatar", a.getAvatar());
             respB.put("gameMap", game.getG());
             users.get(b.getId()).sendMessage(respB.toJSONString());
