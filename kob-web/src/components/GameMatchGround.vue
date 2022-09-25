@@ -44,7 +44,7 @@ function onClick() {
         <div col-span-2 h-20vh>
           <div flex-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
-              开始匹配
+              {{ matchBtnText }}
             </n-button>
           </div>
         </div>
