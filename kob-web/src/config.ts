@@ -16,9 +16,9 @@ export const appMeta = {
   appShortName: 'KOB',
   appName: 'King Of Bots',
   description: '惊世骇俗的贪吃蛇双人对抗游戏',
-  author: 'duende',
-  github: 'https://github.com/dud9/kob',
-  copyRight: 'KING OF BOTS © DUENDE',
+  author: 'Cosmoscatts',
+  github: 'https://github.com/cosmoscatts/kob',
+  copyRight: 'KING OF BOTS © COSMOSCATTS',
 }
 
 /**
