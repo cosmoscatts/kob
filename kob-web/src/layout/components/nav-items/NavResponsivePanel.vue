@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavMenu from './NavMenu.vue'
 import NavAvatar from './NavAvatar.vue'
+import { appMeta } from '~/config'
 
 let showNavPanel = $ref(false)
 
@@ -40,7 +41,7 @@ function toggle() {
       <div flex-auto />
       <a
         icon-btn text-lg i-carbon-logo-github mx-3
-        href="https://github.com/dud9/kob"
+        :href="appMeta.github"
         target="_blank" title="GitHub"
       />
       <DarkToggle mr-3 />
