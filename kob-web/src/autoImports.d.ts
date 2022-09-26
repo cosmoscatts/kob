@@ -11,6 +11,7 @@ declare global {
   const BotApi: typeof import('./server/api/bot')['BotApi']
   const EffectScope: typeof import('vue')['EffectScope']
   const UserApi: typeof import('./server/api/user')['UserApi']
+  const VAceEditor: typeof import('./composables/useTools')['VAceEditor']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -309,6 +310,7 @@ declare module '@vue/runtime-core' {
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly UserApi: UnwrapRef<typeof import('./server/api/user')['UserApi']>
+    readonly VAceEditor: UnwrapRef<typeof import('./composables/useTools')['VAceEditor']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>

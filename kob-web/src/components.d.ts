@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AceEditor: typeof import('./components/AceEditor.vue')['default']
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']
     GameMap: typeof import('./components/GameMap.vue')['default']
     GameMatchGround: typeof import('./components/GameMatchGround.vue')['default']
@@ -14,9 +15,7 @@ declare module '@vue/runtime-core' {
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NButton: typeof import('naive-ui')['NButton']
-    NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
-    NDataTable: typeof import('naive-ui')['NDataTable']
     NDivider: typeof import('naive-ui')['NDivider']
     NDrawer: typeof import('naive-ui')['NDrawer']
     NDropdown: typeof import('naive-ui')['NDropdown']
@@ -33,9 +32,7 @@ declare module '@vue/runtime-core' {
     NLoadingBarProvider: typeof import('naive-ui')['NLoadingBarProvider']
     NMenu: typeof import('naive-ui')['NMenu']
     NModal: typeof import('naive-ui')['NModal']
-    NTextarea: typeof import('naive-ui')['NTextarea']
     NTooltip: typeof import('naive-ui')['NTooltip']
-    NUpload: typeof import('naive-ui')['NUpload']
     PreLoaded: typeof import('./components/PreLoaded.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

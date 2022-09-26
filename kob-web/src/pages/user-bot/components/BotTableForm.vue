@@ -131,11 +131,17 @@ const rules = createRules()
         </n-input>
       </n-form-item>
       <n-form-item label="代码" path="content">
-        <n-input v-model:value="formModel.content" type="textarea" placeholder="请输入代码" clearable>
+        <!-- <n-input v-model:value="formModel.content" type="textarea" placeholder="请输入代码" clearable>
           <template #clear-icon>
             <n-icon :component="TrashBinOutlineIcon" />
           </template>
-        </n-input>
+        </n-input> -->
+        <AceEditor
+          v-model:value="formModel.content"
+          lang="c_cpp"
+          theme="textmate"
+          h-300px
+        />
       </n-form-item>
     </n-form>
     <template #footer>
