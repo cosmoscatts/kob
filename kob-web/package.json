@@ -11,6 +11,7 @@
   "dependencies": {
     "@vueuse/core": "^9.2.0",
     "@vueuse/head": "^0.7.12",
+    "ace-builds": "^1.11.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
     "colord": "^2.9.3",
@@ -19,7 +20,8 @@
     "pinia-plugin-persist-uni": "^1.1.5",
     "seemly": "^0.3.6",
     "vue": "^3.2.39",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "vue3-ace-editor": "^2.2.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.27.0",

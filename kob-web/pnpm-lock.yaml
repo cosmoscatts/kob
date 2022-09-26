@@ -11,6 +11,7 @@ specifiers:
   '@vitejs/plugin-vue': ^3.1.0
   '@vueuse/core': ^9.2.0
   '@vueuse/head': ^0.7.12
+  ace-builds: ^1.11.1
   animate.css: ^4.1.1
   axios: ^0.27.2
   colord: ^2.9.3
@@ -29,10 +30,12 @@ specifiers:
   vue: ^3.2.39
   vue-router: ^4.1.5
   vue-tsc: ^0.40.13
+  vue3-ace-editor: ^2.2.2
 
 dependencies:
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.2.0_vue@3.2.39
   '@vueuse/head': registry.npmmirror.com/@vueuse/head/0.7.12_vue@3.2.39
+  ace-builds: registry.npmmirror.com/ace-builds/1.11.1
   animate.css: registry.npmmirror.com/animate.css/4.1.1
   axios: registry.npmmirror.com/axios/0.27.2
   colord: registry.npmmirror.com/colord/2.9.3
@@ -42,6 +45,7 @@ dependencies:
   seemly: registry.npmmirror.com/seemly/0.3.6
   vue: registry.npmmirror.com/vue/3.2.39
   vue-router: registry.npmmirror.com/vue-router/4.1.5_vue@3.2.39
+  vue3-ace-editor: registry.npmmirror.com/vue3-ace-editor/2.2.2
 
 devDependencies:
   '@antfu/eslint-config': registry.npmmirror.com/@antfu/eslint-config/0.27.0_7ilbxdl5iguzcjriqqcg2m5cku
@@ -1134,6 +1138,12 @@ packages:
     resolution: {integrity: sha512-z7TDtS5YihDW1w5Xk/P5iZ5bHuEajAGsRFs8ipgVSKZSqHy/7Tc4mC6FUfwFciHOj1efMHWf+tFY+byKUdVKug==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@zhead/schema/-/schema-0.7.3.tgz}
     name: '@zhead/schema'
     version: 0.7.3
+    dev: false
+
+  registry.npmmirror.com/ace-builds/1.11.1:
+    resolution: {integrity: sha512-br7cF58lrHkkJdGRgxL/ImKBBBAhHk8oImsY/afzdlO4qDgO+MG0dhP4qsPNW2ElhJ+zos7qUt75b7sPd+FrSQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ace-builds/-/ace-builds-1.11.1.tgz}
+    name: ace-builds
+    version: 1.11.1
     dev: false
 
   registry.npmmirror.com/acorn-jsx/5.3.2_acorn@8.8.0:
@@ -3848,6 +3858,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  registry.npmmirror.com/resize-observer-polyfill/1.5.1:
+    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz}
+    name: resize-observer-polyfill
+    version: 1.5.1
+    dev: false
+
   registry.npmmirror.com/resolve-from/4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/resolve-from/-/resolve-from-4.0.0.tgz}
     name: resolve-from
@@ -4598,6 +4614,16 @@ packages:
       '@vue/runtime-dom': registry.npmmirror.com/@vue/runtime-dom/3.2.39
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer/3.2.39_vue@3.2.39
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.39
+    dev: false
+
+  registry.npmmirror.com/vue3-ace-editor/2.2.2:
+    resolution: {integrity: sha512-fZ6OWosbU+odLrtrcGC/536QjCigujYJB0Hf6/tBp+ef/ohTadwQAqyBlVzOmvrmzZyubphpV9zkaZcx5Fuivw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue3-ace-editor/-/vue3-ace-editor-2.2.2.tgz}
+    name: vue3-ace-editor
+    version: 2.2.2
+    dependencies:
+      ace-builds: registry.npmmirror.com/ace-builds/1.11.1
+      resize-observer-polyfill: registry.npmmirror.com/resize-observer-polyfill/1.5.1
+      vue: registry.npmmirror.com/vue/3.2.39
     dev: false
 
   registry.npmmirror.com/vueuc/0.4.48_vue@3.2.39:
