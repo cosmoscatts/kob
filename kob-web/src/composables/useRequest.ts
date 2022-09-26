@@ -32,7 +32,7 @@ function handleUrlParams(params?: AnyObject | AnyObject[]) {
 }
 
 /**
- * 处理请求处理
+ * 处理请求错误
  */
 function handleRequestError(fn: Fn) {
   return fn?.().then(
