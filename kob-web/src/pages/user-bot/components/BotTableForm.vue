@@ -3,6 +3,8 @@ import type { FormInst, FormValidationError } from 'naive-ui'
 import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
+import { VAceEditor } from 'vue3-ace-editor'
+import ace from 'ace-builds'
 import { createRules } from '../helper'
 import type { Bot } from '~/types'
 
@@ -21,6 +23,11 @@ const {
 
 const emits = defineEmits(['update:modal-visible', 'saveBotData'])
 
+/** 代码编辑器 */
+ace.config.set(
+  'basePath',
+  `https://cdn.jsdelivr.net/npm/ace-builds@${ace.version}/src-noconflict/`)
+
 // 标题
 const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot')
 
@@ -33,7 +40,7 @@ const segmented = {
 // `form` 表单元素
 const refForm = ref<FormInst | null>(null)
 
-type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' >
+type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' > & { content: string }
 const baseFormModel: FormModel = {
   id: undefined,
   userId: undefined,
@@ -54,10 +61,17 @@ function assign() {
   const target: Bot = modalVisible && type === 'edit'
     ? unref(form)
     : baseFormModel
-    type K = keyof FormModel
+
+    type K = keyof Omit<FormModel, 'content'>
     for (const [key, value] of Object.entries(target)) {
       if (!Object.prototype.hasOwnProperty.call(formModel, key))
         continue
+
+      if (key === 'content') {
+        formModel[key] = value ?? ''
+        continue
+      }
+
       formModel[key as K] = value
     }
 }
@@ -136,7 +150,7 @@ const rules = createRules()
             <n-icon :component="TrashBinOutlineIcon" />
           </template>
         </n-input> -->
-        <AceEditor
+        <VAceEditor
           v-model:value="formModel.content"
           lang="c_cpp"
           theme="textmate"
