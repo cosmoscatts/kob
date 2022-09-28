@@ -133,9 +133,9 @@ public class Game extends Thread {
             throw new RuntimeException(e);
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 lock.lock();
                 try {
                     if (nextStepA != null && nextStepB != null) {
@@ -175,8 +175,8 @@ public class Game extends Thread {
             resp.put("event", "result");
             resp.put("aDirection", nextStepA);
             resp.put("bDirection", nextStepB);
+            sendMessage(resp.toJSONString());
             nextStepA = nextStepB = null;
-            sendMessage(resp.toString());
         } finally {
             lock.unlock();
         }
@@ -189,7 +189,7 @@ public class Game extends Thread {
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
         resp.put("loser", loser);
-        sendMessage(resp.toString());
+        sendMessage(resp.toJSONString());
     }
 
     @Override

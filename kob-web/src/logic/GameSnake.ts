@@ -116,7 +116,7 @@ export class GameSnake extends Game {
    * 更新蛇的下一步状态
    */
   updateNextStep() {
-    const { direction: d, snakeCells, dr, dc, gameMap } = this
+    const { direction: d, snakeCells, dr, dc } = this
 
     // 蛇头
     const head = snakeCells[0]
@@ -134,8 +134,8 @@ export class GameSnake extends Game {
       this.snakeCells[i] = JSON.parse(JSON.stringify(this.snakeCells[i - 1]))
 
     // 下一步操作非法（撞墙或者撞蛇），蛇死亡
-    if (!gameMap.checkValid(this.nextCell))
-      this.status = 'die'
+    // if (!gameMap.checkValid(this.nextCell))
+    //   this.status = 'die'
   }
 
   move() {
