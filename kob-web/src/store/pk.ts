@@ -1,6 +1,13 @@
 import type { User } from '~/types'
+import opponentDefaultAvatar from '~/assets/opponent.png'
 
 type Opponent = Pick<User, 'name' | 'avatar'>
+
+// 初始对手信息
+const defaultOpponent = {
+  name: '你的对手',
+  avatar: opponentDefaultAvatar,
+}
 
 export const usePkStore = defineStore(
   'pkStore',
@@ -19,7 +26,7 @@ export const usePkStore = defineStore(
       socket.value = _socket
     }
 
-    function updateOpponent(_opponent: Opponent) {
+    function updateOpponent(_opponent = defaultOpponent) {
       opponent.value = _opponent
     }
 

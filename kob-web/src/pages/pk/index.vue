@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import opponentDefaultAvatar from '~/assets/opponent.png'
 import { appLayout } from '~/config'
 import { getToken } from '~/utils'
 
@@ -14,10 +13,8 @@ const pkStore = usePkStore()
 const { status } = storeToRefs(pkStore)
 const { updateSocket, updateOpponent, updateGameMap, updateStatus } = pkStore
 
-updateOpponent({
-  name: '我的对手',
-  avatar: opponentDefaultAvatar,
-})
+// 更新对手信息
+updateOpponent()
 
 const socketUrl = `ws://127.0.0.1:3000/websocket/${token}/`
 
@@ -28,16 +25,18 @@ socket.onopen = () => {
 }
 
 socket.onmessage = (msg) => {
+  const { message } = useGlobalNaiveApi()
   const data = JSON.parse(msg.data)
   // 匹配成功
   if (data.event === 'match-success') {
     updateOpponent({
-      name: data.name,
-      avatar: data.avatar,
+      name: data.opponentName,
+      avatar: data.opponentAvatar,
     })
     updateGameMap(data.gameMap)
+    message.success('匹配成功')
     useTimeoutFn(() => {
-      updateStatus('play')
+      // updateStatus('play')
     }, 2000)
   }
 }
