@@ -11,8 +11,8 @@ const diffHeight = computed(() => {
 })
 
 const pkStore = usePkStore()
-const { status } = storeToRefs(pkStore)
-const { updateSocket, updateOpponent, updateGameMap, updateStatus } = pkStore
+const { status, gameMapObject } = storeToRefs(pkStore)
+const { updateSocket, updateOpponent, updateGame, updateStatus } = pkStore
 
 // 更新对手信息
 updateOpponent()
@@ -34,11 +34,17 @@ socket.onmessage = (msg) => {
       name: data?.opponentName || '-',
       avatar: data?.opponentAvatar ?? defaultAvatar,
     })
-    updateGameMap(data.gameMap)
+    updateGame(data.game)
     message.success('匹配成功')
     useTimeoutFn(() => {
       updateStatus('play')
     }, 2000)
+  }
+  else if (data.event === 'move') {
+    const { snakes } = gameMapObject.value
+  }
+  else if (data.event === 'result') {
+
   }
 }
 

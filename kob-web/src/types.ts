@@ -106,3 +106,14 @@ export interface Bot {
   /** 修改时间 */
   modifyTime?: Date
 }
+
+/** 后端返回对局游戏信息的数据结构 */
+export interface Game {
+  aId: number
+  aSx: number
+  aSy: number
+  bId: number
+  bSx: number
+  bSy: number
+  map: number[][]
+}

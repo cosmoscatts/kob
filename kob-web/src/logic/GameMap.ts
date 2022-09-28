@@ -17,8 +17,6 @@ export class GameMap extends Game {
   cols: number
   /** 障碍物 */
   gameWalls: GameWall[]
-  /** 随机障碍物数量 */
-  insideRandomWallNum: number
   /** 蛇集合 */
   snakes: GameSnake[]
 
@@ -33,7 +31,6 @@ export class GameMap extends Game {
     this.cols = 14
 
     this.gameWalls = []
-    this.insideRandomWallNum = 20
 
     this.snakes = [
       new GameSnake({ id: 0, color: '#4876EC', r: this.rows - 2, c: 1 }, this),
@@ -61,38 +58,10 @@ export class GameMap extends Game {
   }
 
   createGameWalls() {
-    const { rows, cols, insideRandomWallNum } = this
+    const { rows, cols } = this
+    const { gameMap } = storeToRefs(usePkStore())
 
-    const g: boolean[][] = []
-    for (let r = 0; r < rows; r++) {
-      g[r] = []
-      for (let c = 0; c < cols; c++)
-        g[r][c] = false
-    }
-
-    // 给四周加上障碍物
-    for (let r = 0; r < rows; r++)
-      g[r][0] = g[r][cols - 1] = true
-    for (let c = 0; c < cols; c++)
-      g[0][c] = g[rows - 1][c] = true
-
-    // 创建随机障碍物
-    for (let i = 0; i < insideRandomWallNum / 2; i++) {
-      for (let j = 0; j < 1000; j++) {
-        const r = parseInt(String(Math.random() * rows))
-        const c = parseInt(String(Math.random() * cols))
-        if (g[r][c] || g[rows - 1 - r][cols - 1 - c])
-          continue
-        if ((r === (rows - 2) && c === 1) || (r === 1 && c === (cols - 2)))
-          continue
-        g[r][c] = g[rows - 1 - r][cols - 1 - c] = true
-        break
-      }
-    }
-
-    const copyG = JSON.parse(JSON.stringify(g))
-    if (!this.checkConnectivity(copyG, rows - 2, 1, 1, cols - 2))
-      return false
+    const g = gameMap.value as number[][]
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -100,39 +69,44 @@ export class GameMap extends Game {
           this.gameWalls.push(new GameWall(r, c, this))
       }
     }
-
-    return true
   }
 
   addListeningEvents() {
+    const { socket } = usePkStore()
+
     const canvas = this.ctx.canvas
     canvas.focus()
-    const [snake0, snake1] = this.snakes
+
     canvas.addEventListener('keydown', (e) => {
+      let d = -1
       if (e.key === 'w')
-        snake0.setDirection(0)
+        d = 0
       else if (e.key === 'd')
-        snake0.setDirection(1)
+        d = 1
       else if (e.key === 's')
-        snake0.setDirection(2)
+        d = 2
       else if (e.key === 'a')
-        snake0.setDirection(3)
+        d = 3
       else if (e.key === 'ArrowUp')
-        snake1.setDirection(0)
+        d = 0
       else if (e.key === 'ArrowRight')
-        snake1.setDirection(1)
+        d = 1
       else if (e.key === 'ArrowDown')
-        snake1.setDirection(2)
+        d = 2
       else if (e.key === 'ArrowLeft')
-        snake1.setDirection(3)
+        d = 3
+
+      if (d > 0) {
+        socket.send(JSON.stringify({
+          event: 'move',
+          direction: d,
+        }))
+      }
     })
   }
 
   start() {
-    for (let i = 0; i < 1000; i++) {
-      if (this.createGameWalls())
-        break
-    }
+    this.createGameWalls()
 
     this.addListeningEvents()
   }
