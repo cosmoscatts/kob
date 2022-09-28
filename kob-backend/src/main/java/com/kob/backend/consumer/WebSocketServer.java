@@ -23,11 +23,11 @@ import com.kob.backend.service.UserService;
 @Component
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
-    private static UserService userService;
     /** 用户和 websocket server 的映射 */
-    private final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
+    private final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     /** 用户匹配池 */
-    private final CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
+    private final static CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
+    private static UserService userService;
     private Session session;
     private UserDO user;
 
@@ -85,6 +85,7 @@ public class WebSocketServer {
             respA.put("opponentName", b.getName());
             respA.put("opponentAvatar", b.getAvatar());
             respA.put("gameMap", game.getG());
+            System.out.println(respA.toJSONString());
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
             JSONObject respB = new JSONObject();
@@ -92,6 +93,7 @@ public class WebSocketServer {
             respB.put("opponentName", a.getName());
             respB.put("opponentAvatar", a.getAvatar());
             respB.put("gameMap", game.getG());
+            System.out.println(respB.toJSONString());
             users.get(b.getId()).sendMessage(respB.toJSONString());
         }
     }
