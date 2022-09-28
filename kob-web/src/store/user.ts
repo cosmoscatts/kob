@@ -1,5 +1,5 @@
 import type { LoginState, User } from '~/types'
-import defaultAvatar from '~/assets/avatar.jpg'
+import defaultAvatar from '~/assets/default-avatar.png'
 import { getToken, removeToken, setToken } from '~/utils'
 
 export const useUserStore = defineStore(

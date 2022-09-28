@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { createDropdownOptions } from './avatar'
-import defaultAvatar from '~/assets/avatar.jpg'
 import Auth from '~/pages/auth/index.vue'
 
 const router = useRouter()
@@ -10,7 +9,7 @@ const { user, hasLogin } = storeToRefs(useUserStore())
 const options = createDropdownOptions(router)
 
 const avatar = computed(() => {
-  return user.value?.avatar ?? defaultAvatar
+  return user.value?.avatar
 })
 </script>
 
