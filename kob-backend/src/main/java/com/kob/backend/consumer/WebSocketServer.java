@@ -24,12 +24,14 @@ import com.kob.backend.service.UserService;
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
     /** 用户和 websocket server 的映射 */
-    private final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
+    public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     /** 用户匹配池 */
     private final static CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
     private static UserService userService;
     private Session session;
     private UserDO user;
+
+    private Game game;
 
     // Spring 单例与 Websocket 冲突
     @Autowired
@@ -77,21 +79,35 @@ public class WebSocketServer {
             matchPool.remove(a);
             matchPool.remove(b);
 
-            Game game = new Game(13, 14, 20);
+            Game game = new Game(13, 14, 20, a.getId(), b.getId());
             game.createMap();
+
+            users.get(a.getId()).game = game;
+            users.get(b.getId()).game = game;
+
+            game.start();
+
+            JSONObject respGame = new JSONObject();
+            respGame.put("aId", game.getPlayerA().getId());
+            respGame.put("aSx", game.getPlayerA().getSx());
+            respGame.put("aSy", game.getPlayerA().getSy());
+            respGame.put("bId", game.getPlayerB().getId());
+            respGame.put("bSx", game.getPlayerB().getSx());
+            respGame.put("bSy", game.getPlayerB().getSy());
+            respGame.put("map", game.getG());
 
             JSONObject respA = new JSONObject();
             respA.put("event", "match-success");
             respA.put("opponentName", b.getName());
             respA.put("opponentAvatar", b.getAvatar());
-            respA.put("gameMap", game.getG());
+            respA.put("game", respGame);
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
             JSONObject respB = new JSONObject();
             respB.put("event", "match-success");
             respB.put("opponentName", a.getName());
             respB.put("opponentAvatar", a.getAvatar());
-            respB.put("gameMap", game.getG());
+            respB.put("game", respGame);
             users.get(b.getId()).sendMessage(respB.toJSONString());
         }
     }
@@ -101,6 +117,17 @@ public class WebSocketServer {
      */
     private void stopMatching() {
         matchPool.remove(user);
+    }
+
+    /**
+     * 移动
+     */
+    private void move(int direction) {
+        if (game.getPlayerA().getId().equals(user.getId())) {
+            game.setNextStepA(direction);
+        } else if (game.getPlayerB().getId().equals(user.getId())) {
+            game.setNextStepB(direction);
+        }
     }
 
     /**
@@ -114,6 +141,8 @@ public class WebSocketServer {
             startMatching();
         } else if ("stop-matching".equals(event)) {
             stopMatching();
+        } else if ("move".equals(event)) {
+            move(data.getInteger("direction"));
         }
     }
 

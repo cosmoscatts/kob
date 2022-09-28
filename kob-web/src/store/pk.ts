@@ -1,7 +1,16 @@
-import type { User } from '~/types'
+import type { Game, User } from '~/types'
+import type { GameMap } from '~/logic'
 import opponentDefaultAvatar from '~/assets/opponent.png'
 
 type Opponent = Pick<User, 'name' | 'avatar'>
+
+interface Player {
+  id: number
+  /** 起始行 */
+  sx: number
+  /** 起始列 */
+  sy: number
+}
 
 // 初始对手信息
 const defaultOpponent = {
@@ -17,6 +26,8 @@ export const usePkStore = defineStore(
     const socket = ref()
     const opponent = ref<Opponent>()
     const gameMap = ref<number[][]>()
+    const players = ref<Player[]>([])
+    const gameMapObject = ref<GameMap>()
 
     function updateStatus(_status: 'match' | 'play') {
       status.value = _status
@@ -30,8 +41,16 @@ export const usePkStore = defineStore(
       opponent.value = _opponent
     }
 
-    function updateGameMap(_gameMap: number[][]) {
-      gameMap.value = _gameMap
+    function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
+      gameMap.value = map
+      players.value = [
+        { id: aId, sx: aSx, sy: aSy },
+        { id: bId, sx: bSx, sy: bSy },
+      ]
+    }
+
+    function updateGameMapObject(_gameMapObject: GameMap) {
+      gameMapObject.value = _gameMapObject
     }
 
     return {
@@ -39,10 +58,12 @@ export const usePkStore = defineStore(
       socket,
       opponent,
       gameMap,
+      gameMapObject,
       updateStatus,
       updateSocket,
       updateOpponent,
-      updateGameMap,
+      updateGame,
+      updateGameMapObject,
     }
   },
   {
