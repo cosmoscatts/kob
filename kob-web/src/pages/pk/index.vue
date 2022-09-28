@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { appLayout } from '~/config'
 import { getToken } from '~/utils'
+import defaultAvatar from '~/assets/default-avatar.png'
 
 const token = getToken()
 const { navHeight, footHeight, contentPadding } = appLayout
@@ -30,13 +31,13 @@ socket.onmessage = (msg) => {
   // 匹配成功
   if (data.event === 'match-success') {
     updateOpponent({
-      name: data.opponentName,
-      avatar: data.opponentAvatar,
+      name: data?.opponentName || '-',
+      avatar: data?.opponentAvatar ?? defaultAvatar,
     })
     updateGameMap(data.gameMap)
     message.success('匹配成功')
     useTimeoutFn(() => {
-      // updateStatus('play')
+      updateStatus('play')
     }, 2000)
   }
 }

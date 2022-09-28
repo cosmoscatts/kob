@@ -85,7 +85,6 @@ public class WebSocketServer {
             respA.put("opponentName", b.getName());
             respA.put("opponentAvatar", b.getAvatar());
             respA.put("gameMap", game.getG());
-            System.out.println(respA.toJSONString());
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
             JSONObject respB = new JSONObject();
@@ -93,7 +92,6 @@ public class WebSocketServer {
             respB.put("opponentName", a.getName());
             respB.put("opponentAvatar", a.getAvatar());
             respB.put("gameMap", game.getG());
-            System.out.println(respB.toJSONString());
             users.get(b.getId()).sendMessage(respB.toJSONString());
         }
     }
