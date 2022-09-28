@@ -66,9 +66,4 @@ export const usePkStore = defineStore(
       updateGameMapObject,
     }
   },
-  {
-    persist: {
-      enabled: true,
-    },
-  },
 )

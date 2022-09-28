@@ -41,10 +41,20 @@ socket.onmessage = (msg) => {
     }, 2000)
   }
   else if (data.event === 'move') {
-    const { snakes } = gameMapObject.value
+    const { snakes } = gameMapObject.value!
+    const [snake0, snake1] = snakes
+    snake0.setDirection(data.aDirection)
+    snake1.setDirection(data.bDirection)
   }
   else if (data.event === 'result') {
+    const { snakes } = gameMapObject.value!
+    const [snake0, snake1] = snakes
 
+    if (['all', 'A'].includes(data.loser))
+      snake0.status = 'die'
+
+    if (['all', 'B'].includes(data.loser))
+      snake1.status = 'die'
   }
 }
 
