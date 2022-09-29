@@ -64,7 +64,7 @@ public class Game extends Thread {
         }
     }
 
-    private boolean check_connectivity(int sx, int sy, int tx, int ty) {
+    private boolean checkConnectivity(int sx, int sy, int tx, int ty) {
         if (sx == tx && sy == ty)
             return true;
         g[sx][sy] = 1;
@@ -72,7 +72,7 @@ public class Game extends Thread {
         for (int i = 0; i < 4; i++) {
             int x = sx + dx[i], y = sy + dy[i];
             if (x >= 0 && x < this.rows && y >= 0 && y < this.cols && g[x][y] == 0) {
-                if (check_connectivity(x, y, tx, ty)) {
+                if (checkConnectivity(x, y, tx, ty)) {
                     g[sx][sy] = 0;
                     return true;
                 }
@@ -113,7 +113,7 @@ public class Game extends Thread {
             }
         }
 
-        return check_connectivity(this.rows - 2, 1, 1, this.cols - 2);
+        return checkConnectivity(this.rows - 2, 1, 1, this.cols - 2);
     }
 
     public void createMap() {
