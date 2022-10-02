@@ -175,7 +175,7 @@ public class Game extends Thread {
         lock.lock();
         try {
             JSONObject resp = new JSONObject();
-            resp.put("event", "result");
+            resp.put("event", "move");
             resp.put("aDirection", nextStepA);
             resp.put("bDirection", nextStepB);
             sendMessage(resp.toJSONString());
