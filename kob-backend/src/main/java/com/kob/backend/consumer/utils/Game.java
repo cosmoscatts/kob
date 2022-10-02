@@ -83,7 +83,10 @@ public class Game extends Thread {
         return false;
     }
 
-    private boolean draw() { // 画地图
+    /**
+     * 画地图
+     */
+    private boolean draw() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 g[i][j] = 0;
