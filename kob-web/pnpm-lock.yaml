@@ -17,7 +17,7 @@ specifiers:
   colord: ^2.9.3
   dayjs: ^1.11.5
   eslint: ^8.24.0
-  naive-ui: ^2.33.3
+  naive-ui: ^2.33.4
   pinia: ^2.0.22
   pinia-plugin-persist-uni: ^1.1.5
   seemly: ^0.3.6
@@ -57,7 +57,7 @@ devDependencies:
   '@vicons/ionicons5': registry.npmmirror.com/@vicons/ionicons5/0.12.0
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.1.4+vue@3.2.40
   eslint: registry.npmmirror.com/eslint/8.24.0
-  naive-ui: registry.npmmirror.com/naive-ui/2.33.3_vue@3.2.40
+  naive-ui: registry.npmmirror.com/naive-ui/2.33.4_vue@3.2.40
   typescript: registry.npmmirror.com/typescript/4.8.4
   unocss: registry.npmmirror.com/unocss/0.45.26_vite@3.1.4
   unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.11.2_dx2zxeb62273mftjrwe5shcdse
@@ -195,12 +195,14 @@ packages:
     name: '@babel/helper-string-parser'
     version: 7.18.10
     engines: {node: '>=6.9.0'}
+    dev: true
 
   registry.npmmirror.com/@babel/helper-validator-identifier/7.19.1:
     resolution: {integrity: sha512-awrNfaMtnHUr653GgGEs++LlAvW6w+DcPrOliSMXWCKo597CwL5Acf/wWdNkf/tfEQE3mjkeD1YOVZOUV/od1w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.19.1.tgz}
     name: '@babel/helper-validator-identifier'
     version: 7.19.1
     engines: {node: '>=6.9.0'}
+    dev: true
 
   registry.npmmirror.com/@babel/highlight/7.18.6:
     resolution: {integrity: sha512-u7stbOuYjaPezCuLj29hNW1v64M2Md2qupEKP1fHc7WdOA3DgLh37suiSrZYY7haUB7iBeQZ9P1uiRF359do3g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/highlight/-/highlight-7.18.6.tgz}
@@ -213,24 +215,12 @@ packages:
       js-tokens: registry.npmmirror.com/js-tokens/4.0.0
     dev: true
 
-  registry.npmmirror.com/@babel/parser/7.19.1:
-    resolution: {integrity: sha512-h7RCSorm1DdTVGJf3P2Mhj3kdnkmF/EiysUkzS2TdgAYqyjFdMQJbVuXOBej2SBJaXan/lIVtT6KkGbyyq753A==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/parser/-/parser-7.19.1.tgz}
+  registry.npmmirror.com/@babel/parser/7.19.3:
+    resolution: {integrity: sha512-pJ9xOlNWHiy9+FuFP09DEAFbAn4JskgRsVcc169w2xRBC3FRGuQEwjeIMMND9L2zc0iEhO/tGv4Zq+km+hxNpQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/parser/-/parser-7.19.3.tgz}
     name: '@babel/parser'
-    version: 7.19.1
+    version: 7.19.3
     engines: {node: '>=6.0.0'}
     hasBin: true
-    dependencies:
-      '@babel/types': registry.npmmirror.com/@babel/types/7.19.0
-
-  registry.npmmirror.com/@babel/types/7.19.0:
-    resolution: {integrity: sha512-YuGopBq3ke25BVSiS6fgF49Ul9gH1x70Bcr6bqRLjWCkcX8Hre1/5+z+IiWOIerRMSSEfGZVB9z9kyq7wVs9YA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/types/-/types-7.19.0.tgz}
-    name: '@babel/types'
-    version: 7.19.0
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-string-parser': registry.npmmirror.com/@babel/helper-string-parser/7.18.10
-      '@babel/helper-validator-identifier': registry.npmmirror.com/@babel/helper-validator-identifier/7.19.1
-      to-fast-properties: registry.npmmirror.com/to-fast-properties/2.0.0
 
   registry.npmmirror.com/@babel/types/7.19.3:
     resolution: {integrity: sha512-hGCaQzIY22DJlDh9CH7NOxgKkFjBk0Cw9xDO1Xmh2151ti7wiGfQ3LauXzL4HP1fmFlTX6XjpRETTpUcv7wQLw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/types/-/types-7.19.3.tgz}
@@ -932,7 +922,7 @@ packages:
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core/3.2.40
       '@vue/compiler-dom': registry.npmmirror.com/@vue/compiler-dom/3.2.40
       '@vue/compiler-sfc': registry.npmmirror.com/@vue/compiler-sfc/3.2.40
-      '@vue/reactivity': registry.npmmirror.com/@vue/reactivity/3.2.39
+      '@vue/reactivity': registry.npmmirror.com/@vue/reactivity/3.2.40
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.40
     dev: true
 
@@ -962,7 +952,7 @@ packages:
     name: '@vue/compiler-core'
     version: 3.2.40
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.1
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.3
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.40
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
       source-map: registry.npmmirror.com/source-map/0.6.1
@@ -980,7 +970,7 @@ packages:
     name: '@vue/compiler-sfc'
     version: 3.2.40
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.1
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.3
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core/3.2.40
       '@vue/compiler-dom': registry.npmmirror.com/@vue/compiler-dom/3.2.40
       '@vue/compiler-ssr': registry.npmmirror.com/@vue/compiler-ssr/3.2.40
@@ -1010,7 +1000,7 @@ packages:
     name: '@vue/reactivity-transform'
     version: 3.2.40
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.1
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.3
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core/3.2.40
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.40
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
@@ -1024,21 +1014,12 @@ packages:
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.38
     dev: true
 
-  registry.npmmirror.com/@vue/reactivity/3.2.39:
-    resolution: {integrity: sha512-vlaYX2a3qMhIZfrw3Mtfd+BuU+TZmvDrPMa+6lpfzS9k/LnGxkSuf0fhkP0rMGfiOHPtyKoU9OJJJFGm92beVQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.2.39.tgz}
-    name: '@vue/reactivity'
-    version: 3.2.39
-    dependencies:
-      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.39
-    dev: true
-
   registry.npmmirror.com/@vue/reactivity/3.2.40:
     resolution: {integrity: sha512-N9qgGLlZmtUBMHF9xDT4EkD9RdXde1Xbveb+niWMXuHVWQP5BzgRmE3SFyUBBcyayG4y1lhoz+lphGRRxxK4RA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.2.40.tgz}
     name: '@vue/reactivity'
     version: 3.2.40
     dependencies:
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.40
-    dev: false
 
   registry.npmmirror.com/@vue/runtime-core/3.2.40:
     resolution: {integrity: sha512-U1+rWf0H8xK8aBUZhnrN97yoZfHbjgw/bGUzfgKPJl69/mXDuSg8CbdBYBn6VVQdR947vWneQBFzdhasyzMUKg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/runtime-core/-/runtime-core-3.2.40.tgz}
@@ -1076,12 +1057,6 @@ packages:
     resolution: {integrity: sha512-dTyhTIRmGXBjxJE+skC8tTWCGLCVc4wQgRRLt8+O9p5ewBAjoBwtCAkLPrtToSr1xltoe3st21Pv953aOZ7alg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/shared/-/shared-3.2.38.tgz}
     name: '@vue/shared'
     version: 3.2.38
-    dev: true
-
-  registry.npmmirror.com/@vue/shared/3.2.39:
-    resolution: {integrity: sha512-D3dl2ZB9qE6mTuWPk9RlhDeP1dgNRUKC3NJxji74A4yL8M2MwlhLKUC/49WHjrNzSPug58fWx/yFbaTzGAQSBw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/shared/-/shared-3.2.39.tgz}
-    name: '@vue/shared'
-    version: 3.2.39
     dev: true
 
   registry.npmmirror.com/@vue/shared/3.2.40:
@@ -1289,8 +1264,8 @@ packages:
     version: 0.2.3
     engines: {node: '>=14.19.0'}
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.1
-      '@babel/types': registry.npmmirror.com/@babel/types/7.19.0
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.3
+      '@babel/types': registry.npmmirror.com/@babel/types/7.19.3
     dev: true
 
   registry.npmmirror.com/async-validator/4.2.5:
@@ -3411,11 +3386,11 @@ packages:
     version: 2.1.2
     dev: true
 
-  registry.npmmirror.com/naive-ui/2.33.3_vue@3.2.40:
-    resolution: {integrity: sha512-yz2aKdghMVadtvCSBXyjU2bAuGmwLEUcbzmXdUhSdtcbI6mT+mT8vRy43FnbJangPQ87v080q453vtnydNcnhA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/naive-ui/-/naive-ui-2.33.3.tgz}
-    id: registry.npmmirror.com/naive-ui/2.33.3
+  registry.npmmirror.com/naive-ui/2.33.4_vue@3.2.40:
+    resolution: {integrity: sha512-4tK2lWx3v8sbEeTLG/tL5Ur9VvZyUxSnC0VcTO6NO1rM/D15JXg8jVwQCRFYnEp7mp3gfD5B3i8kN4JisTeiFA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/naive-ui/-/naive-ui-2.33.4.tgz}
+    id: registry.npmmirror.com/naive-ui/2.33.4
     name: naive-ui
-    version: 2.33.3
+    version: 2.33.4
     peerDependencies:
       vue: ^3.0.0
     dependencies:
@@ -4159,6 +4134,7 @@ packages:
     name: to-fast-properties
     version: 2.0.0
     engines: {node: '>=4'}
+    dev: true
 
   registry.npmmirror.com/to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-regex-range/-/to-regex-range-5.0.1.tgz}
