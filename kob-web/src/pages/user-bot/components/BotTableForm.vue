@@ -105,6 +105,12 @@ function onCloseModal() {
 
 // 生成表单校验规则
 const rules = createRules()
+
+const editorTheme = computed(() => {
+  return isDark.value
+    ? 'monokai'
+    : 'chrome'
+})
 </script>
 
 <template>
@@ -152,9 +158,12 @@ const rules = createRules()
         </n-input> -->
         <VAceEditor
           v-model:value="formModel.content"
-          lang="c_cpp"
-          theme="textmate"
-          h-300px
+          lang="java"
+          :theme="editorTheme"
+          :style="{
+            height: '300px',
+            width: '100%',
+          }"
         />
       </n-form-item>
     </n-form>
