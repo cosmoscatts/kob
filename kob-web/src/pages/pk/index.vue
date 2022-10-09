@@ -2,6 +2,7 @@
 import { appLayout } from '~/config'
 import { getToken } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
+import ResultBoard from '~/components/ResultBoard.vue'
 
 const token = getToken()
 const { navHeight, footHeight, contentPadding } = appLayout
@@ -11,8 +12,8 @@ const diffHeight = computed(() => {
 })
 
 const pkStore = usePkStore()
-const { status, gameMapObject } = storeToRefs(pkStore)
-const { updateSocket, updateOpponent, updateGame, updateStatus } = pkStore
+const { status, loser, gameMapObject } = storeToRefs(pkStore)
+const { updateSocket, updateOpponent, updateGame, updateStatus, updateLoser } = pkStore
 
 // 更新对手信息
 updateOpponent()
@@ -55,6 +56,8 @@ socket.onmessage = (msg) => {
 
     if (['all', 'B'].includes(data.loser))
       snake1.status = 'die'
+
+    updateLoser(data.loser)
   }
 }
 
@@ -69,6 +72,7 @@ onUnmounted(() => {
 <template>
   <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex-center>
     <GameMatchGround v-if="status === 'match'" />
-    <GamePlayground v-else />
+    <GamePlayground v-if="status === 'play'" />
+    <ResultBoard v-if="loser !== 'none'" />
   </div>
 </template>
