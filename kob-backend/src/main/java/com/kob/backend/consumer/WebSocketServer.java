@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.utils.Game;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.dataobject.UserDO;
+import com.kob.backend.service.RecordService;
 import com.kob.backend.service.UserService;
 
 @Component
@@ -27,6 +28,7 @@ public class WebSocketServer {
     public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     /** 用户匹配池 */
     private final static CopyOnWriteArraySet<UserDO> matchPool = new CopyOnWriteArraySet<>();
+    public static RecordService recordService;
     private static UserService userService;
     private Session session;
     private UserDO user;
@@ -38,6 +40,11 @@ public class WebSocketServer {
     @Autowired
     public void setUserService(UserService userService) {
         WebSocketServer.userService = userService;
+    }
+
+    @Autowired
+    public void setRecordService(RecordService recordService) {
+        WebSocketServer.recordService = recordService;
     }
 
     /**

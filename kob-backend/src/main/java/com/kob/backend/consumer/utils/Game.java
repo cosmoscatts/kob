@@ -1,11 +1,14 @@
 package com.kob.backend.consumer.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.WebSocketServer;
+import com.kob.backend.dataobject.RecordDO;
 
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
@@ -157,10 +160,47 @@ public class Game extends Thread {
     }
 
     /**
+     * 检测目标位置是否合法，未撞到两条蛇的身体或者墙
+     */
+    private boolean checkValid(List<Cell> cellsA, List<Cell> cellsB) {
+        int n = cellsA.size();
+        // A 的蛇头
+        Cell cell = cellsA.get(n - 1);
+        if (g[cell.x][cell.y] == 1)
+            return false;
+
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsA.get(i).x == cell.x && cellsA.get(i).y == cell.y)
+                return false;
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsB.get(i).x == cell.x && cellsB.get(i).y == cell.y)
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
      * 判断两名玩家下一步操作是否合法
      */
     private void judge() {
+        List<Cell> cellsA = playerA.getCells(), cellsB = playerB.getCells();
 
+        boolean validA = checkValid(cellsA, cellsB);
+        boolean validB = checkValid(cellsB, cellsA);
+        if (!validA || !validB) {
+            status = "finished";
+
+            if (!validA && !validB) {
+                loser = "all";
+            } else if (!validA) {
+                loser = "A";
+            } else {
+                loser = "B";
+            }
+        }
     }
 
     private void sendMessage(String message) {
@@ -186,12 +226,35 @@ public class Game extends Thread {
     }
 
     /**
+     * 将地图转为字符串保存
+     */
+    private String getMapString() {
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                ans.append(g[i][j]);
+            }
+        }
+        return ans.toString();
+    }
+
+    private void saveToDatabase() {
+        RecordDO record = new RecordDO();
+        record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
+            .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
+            .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
+
+        WebSocketServer.recordService.save(record);
+    }
+
+    /**
      * 向两名玩家发送对局结果
      */
     private void sendResult() {
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
         resp.put("loser", loser);
+        saveToDatabase();
         sendMessage(resp.toJSONString());
     }
 
