@@ -28,6 +28,8 @@ export const usePkStore = defineStore(
     const gameMap = ref<number[][]>()
     const players = ref<Player[]>([])
     const gameMapObject = ref<GameMap>()
+    // `all` - 平局 | `A` - `A` 输 | `B` - `B` 输
+    const loser = ref<'all' | 'A' | 'B' | 'none'>('none')
 
     function updateStatus(_status: 'match' | 'play') {
       status.value = _status
@@ -53,17 +55,24 @@ export const usePkStore = defineStore(
       gameMapObject.value = _gameMapObject
     }
 
+    function updateLoser(_loser: 'all' | 'A' | 'B' | 'none') {
+      loser.value = _loser
+    }
+
     return {
       status,
       socket,
       opponent,
       gameMap,
+      players,
       gameMapObject,
+      loser,
       updateStatus,
       updateSocket,
       updateOpponent,
       updateGame,
       updateGameMapObject,
+      updateLoser,
     }
   },
 )
