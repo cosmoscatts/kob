@@ -34,7 +34,7 @@ public class WebSocketServer {
     private Game game;
 
     // Spring 单例与 Websocket 冲突
-    // 💡 这里使用 setter 进行注入
+    // 这里使用 setter 进行注入
     @Autowired
     public void setUserService(UserService userService) {
         WebSocketServer.userService = userService;
