@@ -29,7 +29,7 @@ public class UserDO {
     private String email;
     /** 头像 */
     private String avatar;
-    /** 积分排名 */
+    /** 积分战斗力 */
     private Integer rating;
     /** openId */
     private String openId;

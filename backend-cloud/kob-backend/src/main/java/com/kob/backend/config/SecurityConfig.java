@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/user/account/token", "/user/account/register").permitAll()
-            .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
+            .antMatchers("/pk/start/game").hasIpAddress("127.0.0.1").antMatchers(HttpMethod.OPTIONS).permitAll()
+            .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
