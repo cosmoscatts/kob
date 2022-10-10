@@ -27,7 +27,6 @@ public class BotReqVO {
     @NotBlank(message = "代码不能为空")
     @Length(max = 10000, message = "代码长度不能超过 10000")
     private String content;
-    private Integer rating;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
