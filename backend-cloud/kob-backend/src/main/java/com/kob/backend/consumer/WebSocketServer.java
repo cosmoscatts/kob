@@ -27,8 +27,8 @@ import com.kob.backend.service.UserService;
 public class WebSocketServer {
     /** 用户和 websocket server 的映射 */
     public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
-    private final static String ADD_PLAYER_URL = "http://127.0.0.1/player/add";
-    private final static String REMOVE_PLAYER_URL = "http://127.0.0.1/player/remove";
+    private final static String ADD_PLAYER_URL = "http://127.0.0.1:3001/player/add/";
+    private final static String REMOVE_PLAYER_URL = "http://127.0.0.1:3001/player/remove/";
     public static RecordService recordService;
     public static UserService userService;
     public static RestTemplate restTemplate;

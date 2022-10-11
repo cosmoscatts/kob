@@ -18,14 +18,14 @@ public class MatchingController {
     @Resource
     private MatchingService matchingService;
 
-    @PostMapping("/add")
+    @PostMapping("/add/")
     public String addPlayer(@RequestParam MultiValueMap<String, String> data) {
         Integer userId = Integer.parseInt(Objects.requireNonNull(data.getFirst("userId")));
         Integer rating = Integer.parseInt(Objects.requireNonNull(data.getFirst("rating")));
         return matchingService.addPlayer(userId, rating);
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/remove/")
     public String removePlayer(@RequestParam MultiValueMap<String, String> data) {
         Integer userId = Integer.parseInt(Objects.requireNonNull(data.getFirst("userId")));
         return matchingService.removePlayer(userId);
