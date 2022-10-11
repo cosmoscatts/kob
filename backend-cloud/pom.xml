@@ -12,7 +12,6 @@
     <modules>
         <module>matching-system</module>
         <module>kob-backend</module>
-        <module>common</module>
     </modules>
 
     <properties>
