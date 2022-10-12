@@ -12,6 +12,7 @@
     <modules>
         <module>matching-system</module>
         <module>kob-backend</module>
+        <module>botrunning-system</module>
     </modules>
 
     <properties>
@@ -29,6 +30,7 @@
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <websocket.version>2.7.4</websocket.version>
         <fastjson.version>2.0.14</fastjson.version>
+        <joor-java-8.version>0.9.14</joor-java-8.version>
     </properties>
 
     <dependencies>
@@ -129,6 +131,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <!-- joor-java-8 -->
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>joor-java-8</artifactId>
+                <version>${joor-java-8.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
