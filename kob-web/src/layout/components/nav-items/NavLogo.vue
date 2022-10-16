@@ -14,7 +14,7 @@ const hideTitle = breakpoints.between('sm', 'lg')
     flex-center h-full cursor-pointer @click="$router.push('/')"
   >
     <div i-ri-game-fill text="primary 24px" />
-    <span v-if="!hideTitle" font="bold sans" pl-16px text-16px>
+    <span v-if="!hideTitle" font="bold" pl-16px text-24px>
       {{ appName }}
     </span>
   </div>
