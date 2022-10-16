@@ -1,25 +1,35 @@
 package com.kob.backend.consumer.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 public class Player {
-    /** id */
+    /**
+     * id
+     */
     private Integer id;
-    /** 玩家所在的起始行 */
+    private Integer botId; // -1 为亲自出马
+    private String botCode;
+    /**
+     * 玩家所在的起始行
+     */
     private Integer sx;
-    /** 玩家所在的起始列 */
+    /**
+     * 玩家所在的起始列
+     */
     private Integer sy;
-    /** 记录玩家的所有指令 */
+    /**
+     * 记录玩家的所有指令
+     */
     private List<Integer> steps;
 
     /**

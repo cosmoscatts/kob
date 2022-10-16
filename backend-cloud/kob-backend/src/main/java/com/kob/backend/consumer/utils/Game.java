@@ -1,40 +1,64 @@
 package com.kob.backend.consumer.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.kob.backend.consumer.WebSocketServer;
+import com.kob.backend.dataobject.BotDO;
+import com.kob.backend.dataobject.RecordDO;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.alibaba.fastjson.JSONObject;
-import com.kob.backend.consumer.WebSocketServer;
-import com.kob.backend.dataobject.RecordDO;
-
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+    private final static String ADD_BOT_URL = "http:/127.0.0.1:3002/bot/add/";
     private final Integer rows;
     private final Integer cols;
     private final Integer insideRandomWallNum;
     private final int[][] g;
     private final Player playerA;
     private final Player playerB;
+    private final ReentrantLock lock = new ReentrantLock();
     // 玩家 A 的下一步操作
     private Integer nextStepA;
     // 玩家 B 的下一步操作
     private Integer nextStepB;
-    private ReentrantLock lock = new ReentrantLock();
     // ['playing', 'finished']
     private String status = "playing";
     // ['all', 'A', 'B']
     private String loser;
 
-    public Game(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, Integer idB) {
+    public Game(
+            Integer rows,
+            Integer cols,
+            Integer insideRandomWallNum,
+            Integer idA,
+            BotDO botA,
+            Integer idB,
+            BotDO botB
+    ) {
         this.rows = rows;
         this.cols = cols;
         this.insideRandomWallNum = insideRandomWallNum;
         this.g = new int[rows][cols];
-        this.playerA = new Player(idA, rows - 2, 1, new ArrayList<>());
-        this.playerB = new Player(idB, 1, cols - 2, new ArrayList<>());
+
+        Integer botIdA = -1, botIdB = -1;
+        String botCodeA = "", botCodeB = "";
+        if (botA != null) {
+            botIdA = botA.getId();
+            botCodeA = botA.getContent();
+        }
+        if (botB != null) {
+            botIdB = botB.getId();
+            botCodeB = botB.getContent();
+        }
+
+        this.playerA = new Player(idA, botIdA, botCodeA, rows - 2, 1, new ArrayList<>());
+        this.playerB = new Player(idB, botIdB, botCodeB, 1, cols - 2, new ArrayList<>());
     }
 
     public int[][] getG() {
@@ -130,6 +154,36 @@ public class Game extends Thread {
     }
 
     /**
+     * 将当前局面信息编码成字符串
+     * 地图 # meSx # meSy # 我的操作 # youSx # youSy # 对手操作
+     */
+    private String getInput(Player player) {
+        Player me, you;
+        if (playerA.getId().equals(player.getId())) {
+            me = playerA;
+            you = playerB;
+        } else {
+            me = playerA;
+            you = playerB;
+        }
+        return getMapString() + "#" + me.getSx() + "#"
+                + me.getSy() + "#(" + me.getStepsString() + ")#"
+                + you.getSx() + "#" + you.getSy() + "#("
+                + you.getStepsString() + ")";
+    }
+
+    private void sendBotCode(Player player) {
+        // 亲自出马
+        if (player.getBotId().equals(-1))
+            return;
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("userId", player.getId().toString());
+        data.add("botCode", player.getBotCode());
+        data.add("input", getInput(player));
+        WebSocketServer.restTemplate.postForObject(ADD_BOT_URL, data, String.class);
+    }
+
+    /**
      * 获取两名玩家的下一步操作
      */
     private boolean getNextStep() {
@@ -138,6 +192,9 @@ public class Game extends Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        sendBotCode(playerA);
+        sendBotCode(playerB);
 
         for (int i = 0; i < 50; i++) {
             try {
@@ -243,8 +300,8 @@ public class Game extends Thread {
     private void saveToDatabase() {
         RecordDO record = new RecordDO();
         record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
-            .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
-            .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
+                .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
+                .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
 
         WebSocketServer.recordService.save(record);
     }

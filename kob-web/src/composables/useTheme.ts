@@ -48,6 +48,12 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       Notification: {
         color: modalColor,
       },
+      InternalSelection: {
+        color: modalColor,
+      },
+      InternalSelectMenu: {
+        color: modalColor,
+      },
     }
   })
   return themeOverrides

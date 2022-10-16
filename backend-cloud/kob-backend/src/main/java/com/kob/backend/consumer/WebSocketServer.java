@@ -1,44 +1,49 @@
 package com.kob.backend.consumer;
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.kob.backend.consumer.utils.Game;
+import com.kob.backend.consumer.utils.JwtAuthentication;
+import com.kob.backend.dataobject.BotDO;
+import com.kob.backend.dataobject.UserDO;
+import com.kob.backend.service.BotService;
+import com.kob.backend.service.RecordService;
+import com.kob.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.kob.backend.consumer.utils.Game;
-import com.kob.backend.consumer.utils.JwtAuthentication;
-import com.kob.backend.dataobject.UserDO;
-import com.kob.backend.service.RecordService;
-import com.kob.backend.service.UserService;
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
-    /** 用户和 websocket server 的映射 */
+    /**
+     * 用户和 websocket server 的映射
+     */
     public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private final static String ADD_PLAYER_URL = "http://127.0.0.1:3001/player/add/";
     private final static String REMOVE_PLAYER_URL = "http://127.0.0.1:3001/player/remove/";
     public static RecordService recordService;
     public static UserService userService;
+    public static BotService botService;
     public static RestTemplate restTemplate;
     private Session session;
     private UserDO user;
     private Game game;
 
-    public static void startGame(Integer aId, Integer bId) {
+    public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
         UserDO a = userService.getById(aId), b = userService.getById(bId);
-        Game game = new Game(13, 14, 20, a.getId(), b.getId());
+        BotDO botA = botService.getById(aBotId), botB = botService.getById(bBotId);
+
+        Game game = new Game(13, 14, 20, a.getId(), botA, b.getId(), botB);
         game.createMap();
 
         if (users.get(a.getId()) != null)
@@ -87,6 +92,11 @@ public class WebSocketServer {
     }
 
     @Autowired
+    public void setBotService(BotService botService) {
+        WebSocketServer.botService = botService;
+    }
+
+    @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         WebSocketServer.restTemplate = restTemplate;
     }
@@ -121,10 +131,11 @@ public class WebSocketServer {
     /**
      * 开始匹配
      */
-    private void startMatching() {
+    private void startMatching(Integer botId) {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("userId", this.user.getId().toString());
         data.add("rating", this.user.getRating().toString());
+        data.add("botId", botId.toString());
         restTemplate.postForObject(ADD_PLAYER_URL, data, String.class);
     }
 
@@ -142,9 +153,13 @@ public class WebSocketServer {
      */
     private void move(int direction) {
         if (game.getPlayerA().getId().equals(user.getId())) {
-            game.setNextStepA(direction);
+            // 亲自出马
+            if (game.getPlayerA().getBotId().equals(-1))
+                game.setNextStepA(direction);
         } else if (game.getPlayerB().getId().equals(user.getId())) {
-            game.setNextStepB(direction);
+            // 亲自出马
+            if (game.getPlayerB().getBotId().equals(-1))
+                game.setNextStepB(direction);
         }
     }
 
@@ -156,7 +171,7 @@ public class WebSocketServer {
         JSONObject data = JSON.parseObject(message);
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
-            startMatching();
+            startMatching(data.getInteger("botId"));
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {

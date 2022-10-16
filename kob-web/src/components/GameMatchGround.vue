@@ -2,12 +2,16 @@
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
+const selectedBot = ref(-1)
+const botOptions = ref<{ value: number; label: string }[]>([])
+
 let matchBtnText = $ref('开始匹配')
 function onClick() {
   if (matchBtnText === '开始匹配') {
     matchBtnText = '取消匹配'
     socket.value?.send(JSON.stringify({
       event: 'start-matching',
+      botId: selectedBot.value,
     }))
   }
   else {
@@ -17,13 +21,27 @@ function onClick() {
     }))
   }
 }
+
+const defaultBotOptions = [{ value: -1, label: '亲自出马' }]
+async function fetchBotList() {
+  const { data: { records } } = await BotApi.getBotList({})
+  botOptions.value = [
+    ...defaultBotOptions,
+    ...records?.map(i => ({ value: i.id, label: i.title })) || [],
+  ] as { value: number; label: string }[]
+  selectedBot.value = -1
+}
+fetchBotList()
 </script>
 
 <template>
   <div w-60vw h-70vh mx-a lt-md="ha" flex-y-center>
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
-        <div col-span-1 h-50vh lt-md="col-span-2 ha py-20px">
+        <div col-span-2 h-10vh flex-center>
+          <n-select v-model:value="selectedBot" :options="botOptions" :style="{ width: '20vw', textAlign: 'center' }" />
+        </div>
+        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
           <div flex="~ col center" h-full>
             <n-avatar
               :style="{
@@ -48,7 +66,7 @@ function onClick() {
             </n-button>
           </div>
         </div>
-        <div col-span-1 h-50vh lt-md="col-span-2 ha py-20px">
+        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
           <div flex="~ col center" h-full>
             <n-avatar
               :style="{
