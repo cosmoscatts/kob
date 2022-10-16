@@ -12,6 +12,8 @@ import lombok.experimental.Accessors;
 public class Player {
     private Integer userId;
     private Integer rating;
+    /** 出战的 bot */
+    private Integer botId;
     /** 等待时间 */
     private Integer waitingTime;
 }

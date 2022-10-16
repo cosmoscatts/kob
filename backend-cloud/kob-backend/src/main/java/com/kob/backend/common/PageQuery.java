@@ -15,7 +15,7 @@ public class PageQuery {
     /** 每页数量 */
     private Integer pageSize;
 
-    public Integer getCurrent() {
+    public Integer getPage() {
         return Objects.isNull(page) ? 1 : page;
     }
 
