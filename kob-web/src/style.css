@@ -45,3 +45,49 @@ html.dark {
   opacity: 0;
   transform: translateX(30px);
 }
+
+/* English */
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: normal;
+  font-weight: normal;
+  src: url("~/assets/fonts/cmu-sans-serif/regular.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: normal;
+  font-weight: bold;
+  src: url("~/assets/fonts/cmu-sans-serif/bold.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: italic;
+  font-weight: normal;
+  src: url("~/assets/fonts/cmu-sans-serif/italic.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: italic;
+  font-weight: bold;
+  src: url("~/assets/fonts/cmu-sans-serif/bolditalic.ttf") format("opentype");
+}
+
+/* Chinese */
+
+@font-face {
+  font-family: "HKST";
+  font-style: normal;
+  font-weight: normal;
+  src: url("~/assets/fonts/hkst/w7.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "HKST";
+  font-style: normal;
+  font-weight: bold;
+  src: url("~/assets/fonts/hkst/w9.ttf") format("opentype");
+}

@@ -40,6 +40,9 @@ export default defineConfig({
       xl: '1536px',
       xxl: '1920px',
     },
+    fontFamily: {
+      self: 'CMU Sans Serif, HKST',
+    },
     colors: {
       primary: 'var(--primary-color)',
       primary_hover: 'var(--primary-color-hover)',
