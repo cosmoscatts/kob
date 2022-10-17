@@ -8,10 +8,12 @@ import type { Record } from '~/types'
 export function createColumns({
   createRowNumber,
   canDelete,
+  checkVideo,
   onRemoveRecord,
 }: {
   createRowNumber?: (rowIndex: number) => number
   canDelete?: (aId: number, bid: number) => boolean
+  checkVideo?: (record: Record) => void | Promise<void>
   onRemoveRecord?: (record: Record) => void | Promise<void>
 }): DataTableColumns<Record> {
   return [
@@ -73,6 +75,7 @@ export function createColumns({
               size: 'small',
               type: 'primary',
               textColor: 'white',
+              onClick: () => checkVideo?.(row),
             },
             { default: () => '查看录像' },
           ),
