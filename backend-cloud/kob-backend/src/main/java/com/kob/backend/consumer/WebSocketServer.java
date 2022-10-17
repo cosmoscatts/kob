@@ -1,5 +1,19 @@
 package com.kob.backend.consumer;
 
+import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.utils.Game;
@@ -9,18 +23,6 @@ import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.BotService;
 import com.kob.backend.service.RecordService;
 import com.kob.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint("/websocket/{token}")
@@ -35,9 +37,9 @@ public class WebSocketServer {
     public static UserService userService;
     public static BotService botService;
     public static RestTemplate restTemplate;
+    public Game game;
     private Session session;
     private UserDO user;
-    private Game game;
 
     public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
         UserDO a = userService.getById(aId), b = userService.getById(bId);
