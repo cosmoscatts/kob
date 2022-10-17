@@ -1,14 +1,8 @@
 <script setup lang="ts">
 const pkStore = usePkStore()
-const { updateStatus, updateOpponent, updateLoser } = pkStore
+const { reset } = pkStore
 const { players, loser } = storeToRefs(pkStore)
 const { user } = storeToRefs(useUserStore())
-
-function restart() {
-  updateStatus('match')
-  updateOpponent()
-  updateLoser('none')
-}
 </script>
 
 <template>
@@ -26,7 +20,7 @@ function restart() {
       Win
     </div>
     <div mt-2vh>
-      <n-button type="primary" text-color="white" @click="restart">
+      <n-button type="primary" text-color="white" @click="reset">
         <span font-bold>再来亿把</span>
       </n-button>
     </div>
