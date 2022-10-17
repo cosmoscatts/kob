@@ -10,6 +10,7 @@ declare global {
   const $toRef: typeof import('vue/macros')['$toRef']
   const BotApi: typeof import('./server/api/bot')['BotApi']
   const EffectScope: typeof import('vue')['EffectScope']
+  const RecordApi: typeof import('./server/api/record')['RecordApi']
   const UserApi: typeof import('./server/api/user')['UserApi']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
@@ -308,6 +309,7 @@ declare module '@vue/runtime-core' {
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly RecordApi: UnwrapRef<typeof import('./server/api/record')['RecordApi']>
     readonly UserApi: UnwrapRef<typeof import('./server/api/user')['UserApi']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>

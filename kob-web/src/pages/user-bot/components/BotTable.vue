@@ -61,7 +61,7 @@ async function onSaveBotData(bot: Bot) {
 }
 
 /**
- * 删除用户
+ * 删除用户 `bot`
  */
 function onRemoveBot({ id }: Bot) {
   dialog.warning({
@@ -76,7 +76,6 @@ function onRemoveBot({ id }: Bot) {
         return
       }
       message.success('删除成功')
-      botModalVisible = false
       fetchTableData()
     },
   })
@@ -129,6 +128,7 @@ const isMobile = breakpoints.smaller('sm')
         :loading="loading"
         :columns="columns"
         :data="tableData"
+        :remote="true"
         :pagination="pagination"
         :paginate-single-page="false"
       />

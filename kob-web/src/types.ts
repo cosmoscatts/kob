@@ -117,3 +117,23 @@ export interface Game {
   bSy: number
   map: number[][]
 }
+
+export interface Record {
+  id: number
+  aId: number
+  aSx: number
+  aSy: number
+  bId: number
+  bSx: number
+  bSy: number
+  aSteps: string
+  bSteps: string
+  map: string
+  loser: string
+  createTime: Date
+
+  aName?: string
+  aAvatar?: string
+  bName?: string
+  bAvatar?: string
+}
