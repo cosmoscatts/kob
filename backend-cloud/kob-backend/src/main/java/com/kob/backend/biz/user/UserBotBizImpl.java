@@ -45,7 +45,7 @@ public class UserBotBizImpl implements UserBotBiz {
         if (list.isEmpty())
             return PageMap.empty();
 
-        return PageMap.data((long)list.size(),
+        return PageMap.data(page.getTotal(),
             list.stream().map(BotConverter.INSTANCE::do2vo).collect(Collectors.toList()));
     }
 

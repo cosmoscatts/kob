@@ -10,9 +10,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.dataobject.BotDO;
 import com.kob.backend.dataobject.RecordDO;
+import com.kob.backend.dataobject.UserDO;
 
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
@@ -288,7 +290,26 @@ public class Game extends Thread {
         return ans.toString();
     }
 
+    private void updateUserRating(Player player, Integer rating) {
+        WebSocketServer.userService
+            .update(Wrappers.<UserDO>lambdaUpdate().eq(UserDO::getId, player.getId()).set(UserDO::getRating, rating));
+    }
+
     private void saveToDatabase() {
+        Integer ratingA = WebSocketServer.userService.getById(playerA.getId()).getRating();
+        Integer ratingB = WebSocketServer.userService.getById(playerB.getId()).getRating();
+
+        if ("A".equals(loser)) {
+            ratingA -= 2;
+            ratingB += 5;
+        } else if ("B".equals(loser)) {
+            ratingA += 5;
+            ratingB -= 2;
+        }
+
+        updateUserRating(playerA, ratingA);
+        updateUserRating(playerB, ratingB);
+
         RecordDO record = new RecordDO();
         record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
             .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
