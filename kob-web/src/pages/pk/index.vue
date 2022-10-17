@@ -39,7 +39,7 @@ socket.onmessage = (msg) => {
     message.success('匹配成功')
     useTimeoutFn(() => {
       updateStatus('play')
-    }, 2000)
+    }, 200)
   }
   else if (data.event === 'move') {
     const { snakes } = gameMapObject.value!

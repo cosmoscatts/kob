@@ -59,6 +59,15 @@ export const usePkStore = defineStore(
       loser.value = _loser
     }
 
+    function reset() {
+      updateStatus('match')
+      updateOpponent()
+      updateLoser('none')
+      gameMap.value = undefined
+      players.value = []
+      gameMapObject.value = undefined
+    }
+
     return {
       status,
       socket,
@@ -73,6 +82,7 @@ export const usePkStore = defineStore(
       updateGame,
       updateGameMapObject,
       updateLoser,
+      reset,
     }
   },
 )
