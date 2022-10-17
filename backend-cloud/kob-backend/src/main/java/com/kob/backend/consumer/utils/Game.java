@@ -1,21 +1,22 @@
 package com.kob.backend.consumer.utils;
 
-import com.alibaba.fastjson.JSONObject;
-import com.kob.backend.consumer.WebSocketServer;
-import com.kob.backend.dataobject.BotDO;
-import com.kob.backend.dataobject.RecordDO;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import com.alibaba.fastjson.JSONObject;
+import com.kob.backend.consumer.WebSocketServer;
+import com.kob.backend.dataobject.BotDO;
+import com.kob.backend.dataobject.RecordDO;
+
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
-    private final static String ADD_BOT_URL = "http:/127.0.0.1:3002/bot/add/";
+    private final static String ADD_BOT_URL = "http://127.0.0.1:3002/bot/add/";
     private final Integer rows;
     private final Integer cols;
     private final Integer insideRandomWallNum;
@@ -32,15 +33,8 @@ public class Game extends Thread {
     // ['all', 'A', 'B']
     private String loser;
 
-    public Game(
-            Integer rows,
-            Integer cols,
-            Integer insideRandomWallNum,
-            Integer idA,
-            BotDO botA,
-            Integer idB,
-            BotDO botB
-    ) {
+    public Game(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, BotDO botA, Integer idB,
+        BotDO botB) {
         this.rows = rows;
         this.cols = cols;
         this.insideRandomWallNum = insideRandomWallNum;
@@ -154,8 +148,7 @@ public class Game extends Thread {
     }
 
     /**
-     * 将当前局面信息编码成字符串
-     * 地图 # meSx # meSy # 我的操作 # youSx # youSy # 对手操作
+     * 将当前局面信息编码成字符串 地图 # meSx # meSy # 我的操作 # youSx # youSy # 对手操作
      */
     private String getInput(Player player) {
         Player me, you;
@@ -166,10 +159,8 @@ public class Game extends Thread {
             me = playerA;
             you = playerB;
         }
-        return getMapString() + "#" + me.getSx() + "#"
-                + me.getSy() + "#(" + me.getStepsString() + ")#"
-                + you.getSx() + "#" + you.getSy() + "#("
-                + you.getStepsString() + ")";
+        return getMapString() + "#" + me.getSx() + "#" + me.getSy() + "#(" + me.getStepsString() + ")#" + you.getSx()
+            + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
     }
 
     private void sendBotCode(Player player) {
@@ -300,8 +291,8 @@ public class Game extends Thread {
     private void saveToDatabase() {
         RecordDO record = new RecordDO();
         record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
-                .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
-                .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
+            .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
+            .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
 
         WebSocketServer.recordService.save(record);
     }
