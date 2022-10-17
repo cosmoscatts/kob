@@ -3,11 +3,24 @@ package com.kob.botrunningsystem.service.impl.utils;
 import java.util.UUID;
 
 import org.joor.Reflect;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.kob.botrunningsystem.utils.BotInterface;
 
+@Component
 public class Consumer extends Thread {
+    private final static String RECEIVE_BOT_MOVE_URL = "http://127.0.0.1:3000/pk/receive/bot/move/";
+    private static RestTemplate restTemplate;
     private Bot bot;
+
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        Consumer.restTemplate = restTemplate;
+    }
 
     public void startTimeout(long timeout, Bot bot) {
         this.bot = bot;
@@ -37,5 +50,10 @@ public class Consumer extends Thread {
             Reflect.compile("com.kob.botrunningsystem.utils.Bot" + uid, addUid(bot.getBotCode(), uid)).create().get();
         Integer direction = botInterface.nextMove(bot.getInput());
         System.out.println("Move -> " + bot.getUserId() + " _> " + direction);
+
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("userId", bot.getUserId().toString());
+        data.add("direction", direction.toString());
+        restTemplate.postForObject(RECEIVE_BOT_MOVE_URL, data, String.class);
     }
 }
