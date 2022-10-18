@@ -23,6 +23,12 @@ function goBack() {
   clearVideo()
   changeCurrentTab(0, {})
 }
+
+const refGameMap = ref()
+
+function replay() {
+  refGameMap.value?.replayVideo?.()
+}
 </script>
 
 <template>
@@ -40,7 +46,7 @@ function goBack() {
         录像回放
       </div>
       <div absolute right-0 flex gap-x-5 lt-md="right-35px gap-x-2">
-        <n-button type="primary" text-color="white">
+        <n-button type="primary" text-color="white" @click="replay">
           重新回放
         </n-button>
         <n-button type="error" text-color="white" @click="goBack">
@@ -49,7 +55,7 @@ function goBack() {
       </div>
     </div>
     <div flex-x-center>
-      <GameMap h-60vh w-40vw lt-md="!w-60vw" />
+      <GameMap ref="refGameMap" h-60vh w-40vw lt-md="!w-60vw" />
       <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden>
         <n-card hoverable flex="col center" w-full :content-style="{ padding: '10px 20px', width: '100%' }">
           <div text="24px center" font="bold italic">
