@@ -30,7 +30,9 @@ public class UserBotController {
 
     @PostMapping("/add")
     public Result<?> addBot(@Valid @RequestBody BotReqVO botReqVO) {
-        userBotBiz.add(botReqVO);
+        String errorMessage = userBotBiz.add(botReqVO);
+        if (!Objects.isNull(errorMessage))
+            return Result.error(errorMessage);
         return Result.success("添加成功");
     }
 

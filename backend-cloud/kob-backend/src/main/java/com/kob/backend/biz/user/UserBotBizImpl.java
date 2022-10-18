@@ -50,11 +50,17 @@ public class UserBotBizImpl implements UserBotBiz {
     }
 
     @Override
-    public void add(BotReqVO botReqVO) {
+    public String add(BotReqVO botReqVO) {
         UsernamePasswordAuthenticationToken authenticationToken =
             (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl)authenticationToken.getPrincipal();
         UserDO user = loginUser.getUser();
+
+        // 一个用户最多添加 10 个 bot
+        List<BotDO> list = botService.list(Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, user.getId()));
+        if (list.size() >= 10) {
+            return "最多只能添加 10 个 bot！";
+        }
 
         if (Objects.isNull(botReqVO.getDescription())) {
             botReqVO.setDescription("这个用户很懒，什么也没留下~");
@@ -63,6 +69,7 @@ public class UserBotBizImpl implements UserBotBiz {
         Date now = new Date();
         botReqVO.setId(null).setUserId(user.getId()).setCreateTime(now).setModifyTime(now);
         botService.save(BotConverter.INSTANCE.vo2do(botReqVO));
+        return null;
     }
 
     @Override

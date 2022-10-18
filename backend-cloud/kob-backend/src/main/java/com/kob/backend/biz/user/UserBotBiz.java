@@ -11,7 +11,7 @@ public interface UserBotBiz {
     PageMap<BotRespVO> getList(PageQuery pageQuery);
 
     // 添加 bot
-    void add(BotReqVO botReqVO);
+    String add(BotReqVO botReqVO);
 
     // 修改 bot
     String update(BotReqVO botReqVO);
