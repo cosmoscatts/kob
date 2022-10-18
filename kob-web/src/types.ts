@@ -81,6 +81,8 @@ export interface User {
   phone?: string
   /** 邮箱 */
   email?: string
+  /** 天梯分 */
+  rating?: number
   /** 创建时间 */
   createTime?: Date
 }
@@ -99,8 +101,6 @@ export interface Bot {
   description?: string
   /** 内容 */
   content?: string
-  /** 积分排行 */
-  rating?: number
   /** 创建时间 */
   createTime?: Date
   /** 修改时间 */
@@ -136,4 +136,18 @@ export interface Record {
   aAvatar?: string
   bName?: string
   bAvatar?: string
+}
+
+/** 定义排行榜数据类型 */
+export interface Rank {
+  /** 用户 id */
+  id?: number
+  /** 用户名称 */
+  name?: string
+  /** 头像 */
+  avatar?: string
+  /** 天梯分 */
+  rating?: number
+  /** 创建时间 */
+  createTime?: Date
 }
