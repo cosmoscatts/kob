@@ -16,7 +16,7 @@ import com.kob.backend.controller.user.vo.UserInfoReqVO;
 import com.kob.backend.validation.ExtraGroup;
 
 @RestController
-@RequestMapping("/user/account")
+@RequestMapping("/api/user/account")
 public class UserController {
     @Resource
     private UserBiz userBiz;

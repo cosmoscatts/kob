@@ -1,9 +1,12 @@
 package com.kob.botrunningsystem.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
+public class Bot implements java.util.function.Supplier<Integer> {
     private boolean check_tail_increasing(int step) { // 检验当前回合，蛇的长度是否增加
         if (step <= 10)
             return true;
@@ -30,7 +33,6 @@ public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
         return res;
     }
 
-    @Override
     public Integer nextMove(String input) {
         String[] strs = input.split("#");
         int[][] g = new int[13][14];
@@ -63,6 +65,17 @@ public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
         }
 
         return 0;
+    }
+
+    @Override
+    public Integer get() {
+        File file = new File("input.txt");
+        try {
+            Scanner sc = new Scanner(file);
+            return nextMove(sc.next());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static class Cell {
