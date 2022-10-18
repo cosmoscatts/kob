@@ -11,8 +11,10 @@ const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
 })
 
+const { user } = storeToRefs(useUserStore())
+
 const pkStore = usePkStore()
-const { status, loser, gameMapObject } = storeToRefs(pkStore)
+const { status, loser, gameMapObject, players } = storeToRefs(pkStore)
 const { updateSocket, updateOpponent, updateGame, updateStatus, updateLoser } = pkStore
 
 // 更新对手信息
@@ -70,9 +72,20 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex-center>
+  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
     <GameMatchGround v-if="status === 'match'" />
     <GamePlayground v-if="status === 'play'" />
     <ResultBoard v-if="loser !== 'none'" />
+
+    <div v-if="status === 'play'" mt-15px h-5vh>
+      <div v-if="user!.id === players[0]?.id" text-24px font-bold flex-center>
+        <div i-akar-icons-face-wink mr-2 />
+        您在左下角
+      </div>
+      <div v-if="user!.id === players[1]?.id" text-24px font-bold flex-center>
+        <div i-akar-icons-face-wink mr-2 />
+        您在右上角
+      </div>
+    </div>
   </div>
 </template>

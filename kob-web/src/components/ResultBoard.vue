@@ -6,7 +6,7 @@ const { user } = storeToRefs(useUserStore())
 </script>
 
 <template>
-  <div h-30vh w-30vw min-h-150px min-w-150px absolute top-30vh left-35vw flex="col center" bg="[rgba(50,50,50,0.5)]">
+  <div h-30vh w-30vw min-h-150px min-w-150px absolute bottom-30vh left-35vw flex="col center" bg="[rgba(50,50,50,0.5)]">
     <div v-if="loser === 'all'" class="result-board-text">
       Draw
     </div>
