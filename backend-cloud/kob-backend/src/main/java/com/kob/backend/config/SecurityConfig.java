@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/user/account/token", "/user/account/register").permitAll()
+            .authorizeRequests().antMatchers("/api/user/account/token", "/api/user/account/register").permitAll()
             .antMatchers("/pk/start/game", "/pk/receive/bot/move/").hasIpAddress("127.0.0.1")
             .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
 

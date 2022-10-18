@@ -13,7 +13,7 @@ import com.kob.backend.common.Result;
 import com.kob.backend.controller.rank.vo.RankRespVO;
 
 @RestController
-@RequestMapping("/rank")
+@RequestMapping("/api/rank")
 public class RankController {
     @Resource
     private RankBiz rankBiz;

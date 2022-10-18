@@ -12,14 +12,6 @@ const router = createRouter({
       redirect: '/home',
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: () => import('~/pages/login/index.vue'),
-      meta: {
-        requiresAuth: false,
-      },
-    },
-    {
       path: '/home',
       component: BaseLayout,
       children: [

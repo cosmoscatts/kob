@@ -18,7 +18,7 @@ import com.kob.backend.controller.user.vo.BotRespVO;
 import com.kob.backend.validation.UpdateGroup;
 
 @RestController
-@RequestMapping("/user/bot")
+@RequestMapping("/api/user/bot")
 public class UserBotController {
     @Resource
     private UserBotBiz userBotBiz;

@@ -5,6 +5,6 @@ export class RankApi {
    * 查询排行榜列表
    */
   static getRankList(query: PageQuery) {
-    return useRequest.get('/rank/list', { urlParams: query as AnyObject }) as unknown as Promise<PageResult<Record>>
+    return useRequest.get('/api/rank/list', { urlParams: query as AnyObject }) as unknown as Promise<PageResult<Record>>
   }
 }

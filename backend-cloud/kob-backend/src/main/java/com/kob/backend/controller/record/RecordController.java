@@ -18,7 +18,7 @@ import com.kob.backend.common.Result;
 import com.kob.backend.controller.record.vo.RecordRespVO;
 
 @RestController
-@RequestMapping("/record")
+@RequestMapping("/api//record")
 public class RecordController {
     @Resource
     private RecordBiz recordBiz;
