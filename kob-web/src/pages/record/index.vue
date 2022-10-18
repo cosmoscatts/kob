@@ -8,6 +8,13 @@ let currentTab = $ref(0)
 let pagination = $ref<PageQuery>()
 let playerInfoList = $ref<PlayerInfo[]>([])
 
+const route = useRoute()
+watch(() => route.path, () => {
+  currentTab = 0
+  pagination = {}
+  playerInfoList = []
+})
+
 function changeCurrentTab(
   tab: 0 | 1,
   _pagination: PageQuery,
