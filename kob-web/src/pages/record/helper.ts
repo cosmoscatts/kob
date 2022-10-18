@@ -141,3 +141,8 @@ function renderPlayer(avatar?: string, name?: string) {
     ],
   )
 }
+
+export interface PlayerInfo {
+  name: string
+  avatar: string
+}
