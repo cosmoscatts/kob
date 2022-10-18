@@ -6,10 +6,19 @@ const refCanvas = ref<HTMLCanvasElement>()
 
 const { updateGameMapObject } = usePkStore()
 
-onMounted(() => {
+function createGameMap() {
   const { value: canvas } = refCanvas
-
   updateGameMapObject(new GameMap(canvas!.getContext('2d')!, refParentEl.value!))
+}
+
+onMounted(createGameMap)
+
+function replayVideo() {
+  createGameMap()
+}
+
+defineExpose({
+  replayVideo,
 })
 </script>
 
