@@ -61,7 +61,7 @@ const isMobile = breakpoints.smaller('sm')
         :data="tableData"
         :remote="true"
         :pagination="pagination"
-        :paginate-single-page="true"
+        :paginate-single-page="false"
       />
       <div
         v-else
