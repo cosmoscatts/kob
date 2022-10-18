@@ -81,14 +81,18 @@ const convert2DArray = (map: string) => {
 /**
  * 查看录像
  */
-function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser }: Record) {
+function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, aAvatar, aName, bAvatar, bName }: Record) {
   updateIsRecord(true)
   updateSteps(aSteps, bSteps)
   updateGame({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) })
   updateLoser(loser as 'A' | 'B' | 'all' | 'none')
 
   const { page, pageSize } = pagination
-  changeCurrentTab(1, { page, pageSize })
+  const playerInfoList = [
+    { name: aName, avatar: aAvatar },
+    { name: bName, avatar: bAvatar },
+  ]
+  changeCurrentTab(1, { page, pageSize }, playerInfoList)
 }
 
 const columns = createColumns({

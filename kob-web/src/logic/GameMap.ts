@@ -1,6 +1,5 @@
 import { Game } from './Game'
 import { GameSnake } from './GameSnake'
-// import type { GameSnakeCell } from './GameSnakeCell'
 import { GameWall } from './GameWall'
 
 const COLOR_EVEN = '#AAD751'
@@ -59,9 +58,10 @@ export class GameMap extends Game {
 
   createGameWalls() {
     const { rows, cols } = this
-    const { gameMap } = storeToRefs(usePkStore())
+    const { gameMap } = usePkStore()
+    const { isRecord, gameMap: gameMap2 } = useRecordStore()
 
-    const g = gameMap.value as number[][]
+    const g: number[][] = isRecord ? gameMap2! : gameMap!
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -73,6 +73,30 @@ export class GameMap extends Game {
 
   addListeningEvents() {
     const { socket } = usePkStore()
+    const { isRecord, aSteps, bSteps, loser } = useRecordStore()
+
+    if (isRecord) {
+      let k = 0
+      const [snake0, snake1] = this.snakes
+      const intervalId = setInterval(() => {
+        if (k >= aSteps.length - 1) {
+          if (['all', 'A'].includes(loser))
+            snake0.status = 'die'
+
+          if (['all', 'B'].includes(loser))
+            snake1.status = 'die'
+
+          clearInterval(intervalId)
+        }
+        else {
+          snake0.setDirection(parseInt(aSteps[k]))
+          snake1.setDirection(parseInt(bSteps[k]))
+        }
+        k++
+      }, 300)
+
+      return
+    }
 
     const canvas = this.ctx.canvas
     canvas.focus()

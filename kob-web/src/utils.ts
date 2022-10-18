@@ -94,7 +94,7 @@ export function createAxios() {
       const {
         data: { code, data, msg },
       } = response
-      return Promise.resolve({ code, data, msg })
+      return Promise.resolve({ code, data, msg }) as any
     },
     (error: any) => {
       return Promise.reject(error)
