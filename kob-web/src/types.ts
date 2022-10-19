@@ -151,3 +151,13 @@ export interface Rank {
   /** 创建时间 */
   createTime?: Date
 }
+
+/** 定义用户安全数据类型 */
+export interface UserSecurity {
+  hasPassword?: boolean
+  hasPhone?: boolean
+  hasBilibili?: boolean
+  hasGithub?: boolean
+  hasQQ?: boolean
+  hasWechat?: boolean
+}

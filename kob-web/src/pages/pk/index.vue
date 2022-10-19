@@ -20,7 +20,10 @@ const { updateSocket, updateOpponent, updateGame, updateStatus, updateLoser } = 
 // 更新对手信息
 updateOpponent()
 
-const socketUrl = `wss://app3626.acapp.acwing.com.cn/websocket/${token}/`
+const urlPrefix = import.meta.env.MODE === 'development'
+  ? 'ws://127.0.0.1:3000'
+  : 'wss://app3626.acapp.acwing.com.cn'
+const socketUrl = `${urlPrefix}/websocket/${token}/`
 
 const socket = new WebSocket(socketUrl)
 

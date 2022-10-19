@@ -58,7 +58,7 @@ async function onSubmit() {
           margin: '0 auto',
         }"
         lt-md="!w-full"
-        @submit="onSubmit"
+        @submit.prevent="onSubmit"
       >
         <n-form-item label="用户名" path="name">
           <n-input v-model:value="formModel.name" placeholder="请输入用户名" clearable>
