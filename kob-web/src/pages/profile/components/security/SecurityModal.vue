@@ -17,8 +17,14 @@ const bodyStyle = {
   width: '390px',
 }
 
+const { setAuthModalVisible, logout } = useUserStore()
+const router = useRouter()
+
 const securityActionCallback = () => {
   emit('update:modalVisible', false)
+  logout()
+  router.push('/home')
+  setAuthModalVisible(true)
 }
 
 provide('securityActionCallback', securityActionCallback)
