@@ -45,6 +45,9 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         tdColor: 'transparent',
         tdColorHover: 'transparent',
       },
+      Dialog: {
+        color: modalColor,
+      },
       Notification: {
         color: modalColor,
       },
