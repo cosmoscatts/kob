@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     NModal: typeof import('naive-ui')['NModal']
     NSelect: typeof import('naive-ui')['NSelect']
     NTooltip: typeof import('naive-ui')['NTooltip']
+    NUpload: typeof import('naive-ui')['NUpload']
     PreLoaded: typeof import('./components/PreLoaded.vue')['default']
     ResultBoard: typeof import('./components/ResultBoard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
