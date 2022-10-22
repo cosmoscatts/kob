@@ -216,9 +216,39 @@ export class GameSnake extends Game {
     for (let i = 0; i < 2; i++) {
       const eyeX = (head.x + eyeDx[eyeDirection][i] * 0.15) * L
       const eyeY = (head.y + eyeDy[eyeDirection][i] * 0.15) * L
+
+      // 先画外围椭圆
+      ctx.fillStyle = 'white'
+      const width = [1, 3].includes(eyeDirection) ? 0.4 * L : 0.3 * L
+      const height = [1, 3].includes(eyeDirection) ? 0.3 * L : 0.4 * L
+      this.drawEllipse(ctx, eyeX - width / 2, eyeY - height / 2, width, height)
+
       ctx.beginPath()
+      ctx.fillStyle = 'black'
       ctx.arc(eyeX, eyeY, L * 0.05, 0, Math.PI * 2)
       ctx.fill()
     }
+  }
+
+  /**
+   * 画椭圆
+   */
+  drawEllipse(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
+    const kappa = 0.5522848
+    const ox = (w / 2) * kappa // control point offset horizontal
+    const oy = (h / 2) * kappa // control point offset vertical
+    const xe = x + w // x-end
+    const ye = y + h // y-end
+    const xm = x + w / 2 // x-middle
+    const ym = y + h / 2 // y-middle
+
+    ctx.beginPath()
+    ctx.moveTo(x, ym)
+    ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y)
+    ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym)
+    ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye)
+    ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym)
+    ctx.closePath()
+    ctx.fill()
   }
 }
