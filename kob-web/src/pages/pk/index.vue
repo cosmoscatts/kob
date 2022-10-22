@@ -72,6 +72,11 @@ socket.onclose = () => {
 onUnmounted(() => {
   socket.close()
 })
+
+const showConfetti = computed(() => {
+  return (loser.value === 'A' && players.value[1].id === user.value?.id)
+  || (loser.value === 'B' && players.value[0].id === user.value?.id)
+})
 </script>
 
 <template>
@@ -79,6 +84,7 @@ onUnmounted(() => {
     <GameMatchGround v-if="status === 'match'" />
     <GamePlayground v-if="status === 'play'" />
     <ResultBoard v-if="loser !== 'none'" />
+    <Confetti :passed="showConfetti" />
 
     <div v-if="status === 'play'" mt-15px h-5vh>
       <div v-if="user!.id === players[0]?.id" text-24px font-bold flex-center>
