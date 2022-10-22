@@ -1,0 +1,93 @@
+html,
+body,
+#app {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html.dark {
+  background-color: #121212;
+}
+
+/** 滑动块样式 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+/** 页面切换动画 - fade-slide */
+.fade-slide-leave-active,
+.fade-slide-enter-active {
+  transition: all 0.3s;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* English */
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: normal;
+  font-weight: normal;
+  src: url("~/assets/fonts/cmu-sans-serif/regular.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: normal;
+  font-weight: bold;
+  src: url("~/assets/fonts/cmu-sans-serif/bold.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: italic;
+  font-weight: normal;
+  src: url("~/assets/fonts/cmu-sans-serif/italic.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "CMU Sans Serif";
+  font-style: italic;
+  font-weight: bold;
+  src: url("~/assets/fonts/cmu-sans-serif/bolditalic.ttf") format("opentype");
+}
+
+/* Chinese */
+
+@font-face {
+  font-family: "HKST";
+  font-style: normal;
+  font-weight: normal;
+  src: url("~/assets/fonts/hkst/w7.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "HKST";
+  font-style: normal;
+  font-weight: bold;
+  src: url("~/assets/fonts/hkst/w9.ttf") format("opentype");
+}
