@@ -12,8 +12,6 @@ import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
 import { debug } from '~/config'
 
-const loginCallback = inject<Function>('loginCallback')
-
 /**
  * 定义表单数据结构
  */
@@ -72,7 +70,7 @@ const rules: FormRules = {
   ],
 }
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading } = useLoading()
 
 /**
  * 登录
@@ -86,12 +84,14 @@ function onSubmit(e: MouseEvent) {
       message.error('验证码错误')
       return
     }
-    startLoading()
+    message.warning('此功能暂不支持嘻嘻 (┬┬﹏┬┬)')
 
-    useTimeoutFn(() => {
-      endLoading()
-      loginCallback?.('44444dasdas4d')
-    }, 1000)
+    // startLoading()
+
+    // useTimeoutFn(() => {
+    //   endLoading()
+    //   loginCallback?.('44444dasdas4d')
+    // }, 1000)
   })
 }
 
