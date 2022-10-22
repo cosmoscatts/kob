@@ -21,6 +21,11 @@ function go2() {
 function register() {
   changeTab?.('register')
 }
+
+function onClick() {
+  const { message } = useGlobalNaiveApi()
+  message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
+}
 </script>
 
 <template>
@@ -36,7 +41,7 @@ function register() {
     <div v-if="tab === 'account'" w-full flex-center gap-x-10 mt-15px>
       <n-tooltip placement="bottom">
         <template #trigger>
-          <n-button color="#44006F" circle>
+          <n-button color="#44006F" circle @click="onClick">
             <template #icon>
               <div i-ri-github-fill text-white />
             </template>
@@ -46,7 +51,7 @@ function register() {
       </n-tooltip>
       <n-tooltip placement="bottom">
         <template #trigger>
-          <n-button color="#12B7F5" circle>
+          <n-button color="#12B7F5" circle @click="onClick">
             <template #icon>
               <div i-ri-qq-fill text-white />
             </template>
@@ -56,7 +61,7 @@ function register() {
       </n-tooltip>
       <n-tooltip placement="bottom">
         <template #trigger>
-          <n-button color="#04D167" circle>
+          <n-button color="#04D167" circle @click="onClick">
             <template #icon>
               <div i-ri-wechat-fill text-white />
             </template>
@@ -66,7 +71,7 @@ function register() {
       </n-tooltip>
       <n-tooltip placement="bottom">
         <template #trigger>
-          <n-button color="#F25D8E" circle>
+          <n-button color="#F25D8E" circle @click="onClick">
             <template #icon>
               <div i-ri-bilibili-fill text-white />
             </template>
