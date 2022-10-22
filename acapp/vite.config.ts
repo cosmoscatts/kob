@@ -26,9 +26,7 @@ export default defineConfig({
     AutoImport({
       imports: [
         'vue',
-        'vue-router',
         'vue/macros',
-        '@vueuse/head',
         '@vueuse/core',
         'pinia',
       ],
