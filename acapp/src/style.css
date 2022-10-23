@@ -9,7 +9,8 @@ body,
 }
 
 html.dark {
-  background-color: #121212;
+  color: white;
+  background-color: #000;
 }
 
 /** 滑动块样式 */

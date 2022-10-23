@@ -186,7 +186,6 @@ declare global {
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
   const useGlobalNaiveApi: typeof import('./composables/useTools')['useGlobalNaiveApi']
-  const useHead: typeof import('@vueuse/head')['useHead']
   const useHeadMeta: typeof import('./composables/useTools')['useHeadMeta']
   const useIdle: typeof import('@vueuse/core')['useIdle']
   const useImage: typeof import('@vueuse/core')['useImage']
@@ -232,8 +231,6 @@ declare global {
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useRequest: typeof import('./composables/useRequest')['useRequest']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
-  const useRoute: typeof import('vue-router')['useRoute']
-  const useRouter: typeof import('vue-router')['useRouter']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
   const useScreenSafeArea: typeof import('@vueuse/core')['useScreenSafeArea']
   const useScriptTag: typeof import('@vueuse/core')['useScriptTag']
@@ -489,7 +486,6 @@ declare module '@vue/runtime-core' {
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
     readonly useGlobalNaiveApi: UnwrapRef<typeof import('./composables/useTools')['useGlobalNaiveApi']>
-    readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useHeadMeta: UnwrapRef<typeof import('./composables/useTools')['useHeadMeta']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
@@ -535,8 +531,6 @@ declare module '@vue/runtime-core' {
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useRequest: UnwrapRef<typeof import('./composables/useRequest')['useRequest']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
-    readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
-    readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
     readonly useScreenSafeArea: UnwrapRef<typeof import('@vueuse/core')['useScreenSafeArea']>
     readonly useScriptTag: UnwrapRef<typeof import('@vueuse/core')['useScriptTag']>
