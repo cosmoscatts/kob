@@ -54,9 +54,9 @@ function replay() {
         </n-button>
       </div>
     </div>
-    <div flex-x-center>
+    <div flex-x-center gap-x-5vw xl:gap-x-3 pt-3vh>
       <GameMap ref="refGameMap" h-60vh w-40vw lt-md="!w-60vw" />
-      <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden>
+      <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden flex-y-center mb15vh>
         <n-card hoverable flex="col center" w-full :content-style="{ padding: '10px 20px', width: '100%' }">
           <div text="24px center" font="bold italic">
             对局信息
