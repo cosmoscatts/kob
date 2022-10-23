@@ -50,7 +50,7 @@ const { changePage } = usePageStore()
         <div
           :class="item[3]"
           absolute text-15vh top-8vh left-9vw op0 z-100
-          group-hover="!op100 top-16vh left-2vw duration-300 md:top-20vh md:left-3vw lg:top-23vh lg:left-5vw lg:w25vh xl:top-25vh"
+          group-hover="!op100 top-16vh left-2vw duration-300 md:top-20vh md:left-3vw lg:top-23vh lg:left-5vw lg:w25vh xl:top-25vh xl:left-6vw"
         />
       </div>
     </div>
