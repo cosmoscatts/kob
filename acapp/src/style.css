@@ -44,7 +44,7 @@ body,
   transform: translateX(30px);
 }
 
-/* English */
+/* 字体 */
 
 @font-face {
   font-family: 'mainfont';
