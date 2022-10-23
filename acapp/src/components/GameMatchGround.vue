@@ -35,14 +35,17 @@ fetchBotList()
 </script>
 
 <template>
-  <div w-60vw h-70vh mx-a lt-md="ha" flex-y-center>
+  <div w-60vw h-70vh mx-a lt-md="ha" lt-sm:w-96vw>
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
-        <div col-span-2 h-10vh flex-center>
-          <n-select v-model:value="selectedBot" :options="botOptions" :style="{ width: '20vw', textAlign: 'center' }" />
+        <div col-span-2 h10vh flex justify-center items-center>
+          <n-select
+            v-model:value="selectedBot" :options="botOptions"
+            :style="{ width: '20vw', textAlign: 'center', border: '1px #4b5563 solid' }"
+          />
         </div>
-        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
-          <div flex="~ col center" h-full>
+        <div col-span-1 h40vh lt-md="col-span-2 ha py-20px">
+          <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
                 width: '100%',
@@ -60,14 +63,14 @@ fetchBotList()
           </div>
         </div>
         <div col-span-2 h-20vh>
-          <div flex-center h-full>
+          <div flex justify-center items-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
             </n-button>
           </div>
         </div>
         <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
-          <div flex="~ col center" h-full>
+          <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
                 width: '100%',

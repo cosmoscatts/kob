@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import { appLayout } from '~/config'
-
-const { navHeight, footHeight, contentPadding } = appLayout
-
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
-})
-
 const emojiArray = [
   '\\(o_o)/',
   '(o^^)o',
@@ -22,21 +14,46 @@ const emojiArray = [
 
 const getEmoji = (): string =>
   emojiArray[Math.floor(Math.random() * emojiArray.length)]
+
+const menu = [
+  ['对战', 'PK', '1', '/ui/pk.svg'],
+  ['排行', 'Rank', '2', '/ui/rank.svg'],
+  ['历史', 'Record', '3', '/ui/record.svg'],
+  ['手下', 'Bot', '4', '/ui/bot.svg'],
+]
+
+const { changePage } = usePageStore()
 </script>
 
 <template>
-  <div w-70vw mx-a :style="{ height: `calc(100vh - ${diffHeight}px)` }" flex-center>
-    <div text-center font-bold>
-      <p text="5xl">
-        {{ getEmoji() }}
-      </p>
-      <h1 text="2xl" m="t-5 b-2">
-        Hey, this is an astonishing game.
-      </h1>
-      <p text-xl m="t-3 b-2" w-40vw mx-a>
-        This is a two-player game that you can play yourself or use the AI.
-        If you haven't played it yet, give it a try!
-      </p>
+  <div w70vw hfull mxa pt-30px lt-sm:w96vw>
+    <p text="5xl center" font-bold>
+      {{ getEmoji() }}
+    </p>
+    <div w60vw mxa h40vh md:h45vh lg:h50vh xl:h55vh grid="~ cols-4 gap1">
+      <div
+        v-for="(item, index) in menu"
+        :key="`menu-item-${index}`" class="group"
+        relative col-span-1 w12vw hfull min-h200px
+        text="[#CFD2DA]" align-top duration-200
+        pr-1vw border="2 solid [#535664]" rounded-5px
+        of-hidden cursor-pointer
+        hover="bg-[#377BB5] text-white duration-300"
+        @click="changePage(parseInt(item[2]))"
+      >
+        <div mt-10px text="3vw right" font-bold>
+          <span text-4vw>{{ item[0][0] }}</span>{{ item[0][1] }}
+        </div>
+        <div text="[2.5vw] right">
+          {{ item[1] }}
+        </div>
+        <img
+          absolute w20vh top-8vh left-9vw op0 z-100
+          group-hover="!op100 top-16vh left-2vw duration-300 md:top-18vh md:left-3vw lg:top-22vh lg:left-5vw lg:w25vh xl:top-25vh"
+          :src="item[3]"
+        >
+      </div>
     </div>
   </div>
 </template>
+

@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { appLayout } from '~/config'
 import { getToken } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
 import ResultBoard from '~/components/ResultBoard.vue'
 
 const token = getToken()
-const { navHeight, footHeight, contentPadding } = appLayout
-
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
-})
 
 const { user } = storeToRefs(useUserStore())
 
@@ -80,7 +74,7 @@ const showConfetti = computed(() => {
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
+  <div w-full h-full flex="~ col" pt-50px>
     <GameMatchGround v-if="status === 'match'" />
     <GamePlayground v-if="status === 'play'" />
     <ResultBoard v-if="loser !== 'none'" />

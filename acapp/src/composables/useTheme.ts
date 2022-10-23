@@ -1,31 +1,23 @@
 import type { GlobalThemeOverrides } from 'naive-ui'
-import { commonDark, commonLight } from 'naive-ui'
+import { commonDark } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import { generatePrimaryColor } from '~/utils'
-import { appLayout } from '~/config'
-
-export const isDark = useDark()
-export const toggleDark = useToggle(isDark)
+import { primaryColor } from '~/config'
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
+  const primaryColorOverrides = generatePrimaryColor(primaryColor)
 
   const themeOverrides = computed<GlobalThemeOverrides>(() => {
-    const bodyColor = isDark.value
-      ? '#121212'
-      : '#ffffff'
-    const cardColor = isDark.value
-      ? '#171717'
-      : '#ffffff'
-    const modalColor = isDark.value
-      ? '#262626'
-      : '#ffffff'
+    const bodyColor = '#232731'
+    const cardColor = '#232731'
+    const modalColor = '#232731'
+
     return {
       common: {
         ...primaryColorOverrides,
       },
       LoadingBar: {
-        colorLoading: appLayout.primaryColor,
+        colorLoading: primaryColor,
       },
       Layout: {
         color: bodyColor,
@@ -55,6 +47,9 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         color: modalColor,
       },
       InternalSelectMenu: {
+        color: modalColor,
+      },
+      Tooltip: {
         color: modalColor,
       },
     }
@@ -89,11 +84,9 @@ const colorPropertyMap: { [key: string]: string } = {
  * 将 `naive ui` 的通用颜色，并写入 `body`
  */
 export function writeThemeColorsToBody() {
-  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
+  const primaryColorOverrides = generatePrimaryColor(primaryColor)
 
-  const colors: any = isDark.value
-    ? commonDark
-    : commonLight
+  const colors: any = commonDark
 
   const mergedColors = {
     ...colors,
@@ -105,4 +98,3 @@ export function writeThemeColorsToBody() {
   })
 }
 
-watch(isDark, writeThemeColorsToBody)
