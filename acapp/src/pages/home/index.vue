@@ -16,10 +16,10 @@ const getEmoji = (): string =>
   emojiArray[Math.floor(Math.random() * emojiArray.length)]
 
 const menu = [
-  ['对战', 'PK', '1', '/ui/pk.svg'],
-  ['排行', 'Rank', '2', '/ui/rank.svg'],
-  ['历史', 'Record', '3', '/ui/record.svg'],
-  ['手下', 'Bot', '4', '/ui/bot.svg'],
+  ['对战', 'PK', '1', 'i-ri-sword-line'],
+  ['排行', 'Rank', '2', 'i-fluent-reward-12-regular'],
+  ['历史', 'Record', '3', 'i-mdi-newspaper-variant-outline'],
+  ['手下', 'Bot', '4', 'i-carbon-bot'],
 ]
 
 const { changePage } = usePageStore()
@@ -47,11 +47,11 @@ const { changePage } = usePageStore()
         <div text="[2.5vw] right">
           {{ item[1] }}
         </div>
-        <img
-          absolute w20vh top-8vh left-9vw op0 z-100
-          group-hover="!op100 top-16vh left-2vw duration-300 md:top-18vh md:left-3vw lg:top-22vh lg:left-5vw lg:w25vh xl:top-25vh"
-          :src="item[3]"
-        >
+        <div
+          :class="item[3]"
+          absolute text-15vh top-8vh left-9vw op0 z-100
+          group-hover="!op100 top-16vh left-2vw duration-300 md:top-20vh md:left-3vw lg:top-23vh lg:left-5vw lg:w25vh xl:top-25vh"
+        />
       </div>
     </div>
   </div>
