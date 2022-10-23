@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.27.0
   '@iconify/json': ^2.1.122
+  '@types/canvas-confetti': ^1.4.3
   '@types/node': 18.8.0
   '@unocss/preset-icons': ^0.45.29
   '@unocss/preset-wind': ^0.45.29
@@ -13,6 +14,7 @@ specifiers:
   ace-builds: ^1.12.3
   animate.css: ^4.1.1
   axios: ^1.1.3
+  canvas-confetti: ^1.5.1
   colord: ^2.9.3
   dayjs: ^1.11.6
   eslint: ^8.26.0
@@ -35,6 +37,7 @@ dependencies:
   ace-builds: registry.npmmirror.com/ace-builds/1.12.3
   animate.css: registry.npmmirror.com/animate.css/4.1.1
   axios: registry.npmmirror.com/axios/1.1.3
+  canvas-confetti: registry.npmmirror.com/canvas-confetti/1.5.1
   colord: registry.npmmirror.com/colord/2.9.3
   dayjs: registry.npmmirror.com/dayjs/1.11.6
   pinia: registry.npmmirror.com/pinia/2.0.23_l7r24p6nevbtlimqmqcwa3ouhu
@@ -46,6 +49,7 @@ dependencies:
 devDependencies:
   '@antfu/eslint-config': registry.npmmirror.com/@antfu/eslint-config/0.27.0_wyqvi574yv7oiwfeinomdzmc3m
   '@iconify/json': registry.npmmirror.com/@iconify/json/2.1.122
+  '@types/canvas-confetti': registry.npmmirror.com/@types/canvas-confetti/1.4.3
   '@types/node': registry.npmmirror.com/@types/node/18.8.0
   '@unocss/preset-icons': registry.npmmirror.com/@unocss/preset-icons/0.45.30
   '@unocss/preset-wind': registry.npmmirror.com/@unocss/preset-wind/0.45.30
@@ -464,6 +468,12 @@ packages:
       '@types/estree': registry.npmmirror.com/@types/estree/1.0.0
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
       picomatch: registry.npmmirror.com/picomatch/2.3.1
+    dev: true
+
+  registry.npmmirror.com/@types/canvas-confetti/1.4.3:
+    resolution: {integrity: sha512-UwFPTsW1ZwVyo/ETp4hPSikSD7yl2V42E3VWBF5P/0+DHO4iajyceWv7hfNdZ2AX5tkZnuViiBWOqyCPohU2FQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/canvas-confetti/-/canvas-confetti-1.4.3.tgz}
+    name: '@types/canvas-confetti'
+    version: 1.4.3
     dev: true
 
   registry.npmmirror.com/@types/estree/1.0.0:
@@ -1348,6 +1358,12 @@ packages:
     version: 3.1.0
     engines: {node: '>=6'}
     dev: true
+
+  registry.npmmirror.com/canvas-confetti/1.5.1:
+    resolution: {integrity: sha512-Ncz+oZJP6OvY7ti4E1slxVlyAV/3g7H7oQtcCDXgwGgARxPnwYY9PW5Oe+I8uvspYNtuHviAdgA0LfcKFWJfpg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/canvas-confetti/-/canvas-confetti-1.5.1.tgz}
+    name: canvas-confetti
+    version: 1.5.1
+    dev: false
 
   registry.npmmirror.com/chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/chalk/-/chalk-2.4.2.tgz}

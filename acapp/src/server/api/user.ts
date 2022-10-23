@@ -9,13 +9,6 @@ export class UserApi {
   }
 
   /**
-   * 用户注册
-   */
-  static register(params?: { username: string; password: string; reenteredPassword: string }) {
-    return useRequest.post('/api/user/account/register', { body: params }) as unknown as Promise<Result<null>>
-  }
-
-  /**
    * 获取登录用户的信息
    */
   static getLoginUserInfo() {
