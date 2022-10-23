@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PlayerInfo } from '../helper'
-import { appLayout } from '~/config'
 
 const {
   playerInfoList = [],
@@ -9,12 +8,6 @@ const {
 }>()
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
-
-const { navHeight, footHeight, contentPadding } = appLayout
-
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50
-})
 
 const { clearVideo } = useRecordStore()
 const { loser } = storeToRefs(useRecordStore())
@@ -32,10 +25,10 @@ function replay() {
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
+  <div hfull flex="~ col" justify-center items-center>
     <div
-      flex-center relative
-      text="30px center"
+      flex justify-center items-center
+      relative text="30px center"
       :style="{
         height: '10vh',
         width: 'calc(50vw + 300px)',
@@ -54,15 +47,19 @@ function replay() {
         </n-button>
       </div>
     </div>
-    <div flex-x-center>
+    <div flex justify-center md:gap-x-5 lg:gap-x-2>
       <GameMap ref="refGameMap" h-60vh w-40vw lt-md="!w-60vw" />
       <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden>
-        <n-card hoverable flex="col center" w-full :content-style="{ padding: '10px 20px', width: '100%' }">
+        <n-card
+          hoverable wfull
+          flex="~ col" justify-center items-center
+          :content-style="{ padding: '10px 20px', width: '100%' }"
+        >
           <div text="24px center" font="bold italic">
             对局信息
           </div>
-          <div flex justify-between items-center w-full mt-10px>
-            <div flex="col center" gap-y-4>
+          <div flex justify-between items-center wfull mt10px>
+            <div flex="~ col" justify-between items-center gap-y-4>
               <div text="[#4876EC] 18px" font-bold>
                 蓝方
               </div>
@@ -76,7 +73,7 @@ function replay() {
             <div text="50px yellow" font="bold italic">
               VS
             </div>
-            <div flex="col center" gap-y-4>
+            <div flex="~ col" justify-between items-center gap-y-4>
               <div text="[#F94848] 18px" font-bold>
                 红方
               </div>
@@ -92,7 +89,12 @@ function replay() {
             <div v-if="loser === 'all'">
               平局
             </div>
-            <div v-else-if="['A', 'B'].includes(loser)" :style="{ color: loser === 'A' ? '#F94848' : '#4876EC' }" flex-center>
+            <div
+              v-else-if="['A', 'B'].includes(loser)"
+              w200px mxa
+              flex justify-between items-center
+              :style="{ color: loser === 'A' ? '#F94848' : '#4876EC' }"
+            >
               <div i-akar-icons-trophy mr-4 />
               {{ loser === 'A' ? '红方' : '蓝方' }} <span text-yellow ml-4>胜利</span>
             </div>

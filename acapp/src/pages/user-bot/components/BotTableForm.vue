@@ -105,12 +105,6 @@ function onCloseModal() {
 
 // 生成表单校验规则
 const rules = createRules()
-
-const editorTheme = computed(() => {
-  return isDark.value
-    ? 'monokai'
-    : 'chrome'
-})
 </script>
 
 <template>
@@ -151,15 +145,10 @@ const editorTheme = computed(() => {
         </n-input>
       </n-form-item>
       <n-form-item label="代码" path="content">
-        <!-- <n-input v-model:value="formModel.content" type="textarea" placeholder="请输入代码" clearable>
-          <template #clear-icon>
-            <n-icon :component="TrashBinOutlineIcon" />
-          </template>
-        </n-input> -->
         <VAceEditor
           v-model:value="formModel.content"
           lang="java"
-          :theme="editorTheme"
+          theme="monokai"
           :style="{
             height: '300px',
             width: '100%',
@@ -168,7 +157,7 @@ const editorTheme = computed(() => {
       </n-form-item>
     </n-form>
     <template #footer>
-      <div flex-center gap-x-5>
+      <div flex justify-center items-center gap-x-5>
         <n-button type="primary" :loading="loading" text-color="white" @click="onSubmit">
           <span font-bold>保存</span>
         </n-button>

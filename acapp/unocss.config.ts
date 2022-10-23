@@ -8,15 +8,6 @@ import {
 } from 'unocss'
 
 export default defineConfig({
-  shortcuts: {
-    'hw-full': 'h-full w-full',
-    'hw-screen': 'h-screen w-screen',
-    'icon-btn': 'op30 bg-dark dark:bg-white hover:op100 hover:bg-primary_hover cursor-pointer',
-    'flex-center': 'flex justify-center items-center',
-    'flex-x-center': 'flex justify-center',
-    'flex-y-center': 'flex items-center',
-    'flex-col-center': 'flex-col flex-center',
-  },
   presets: [
     presetAttributify(),
     presetUno(),
@@ -41,7 +32,10 @@ export default defineConfig({
       xxl: '1920px',
     },
     fontFamily: {
-      self: 'CMU Sans Serif, HKST',
+      self: 'mainfont',
+    },
+    boxShadow: {
+      nav_item: '0px 0px 4px #eee inset',
     },
     colors: {
       primary: 'var(--primary-color)',

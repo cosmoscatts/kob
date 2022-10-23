@@ -6,11 +6,8 @@ body,
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-html.dark {
   color: white;
-  background-color: #000;
+  background-color: #47485C;
 }
 
 /** 滑动块样式 */
@@ -50,45 +47,8 @@ html.dark {
 /* English */
 
 @font-face {
-  font-family: "CMU Sans Serif";
-  font-style: normal;
+  font-family: 'mainfont';
+  src: url('~/assets/fonts/mainfont.otf');
   font-weight: normal;
-  src: url("~/assets/fonts/cmu-sans-serif/regular.ttf") format("opentype");
-}
-
-@font-face {
-  font-family: "CMU Sans Serif";
   font-style: normal;
-  font-weight: bold;
-  src: url("~/assets/fonts/cmu-sans-serif/bold.ttf") format("opentype");
-}
-
-@font-face {
-  font-family: "CMU Sans Serif";
-  font-style: italic;
-  font-weight: normal;
-  src: url("~/assets/fonts/cmu-sans-serif/italic.ttf") format("opentype");
-}
-
-@font-face {
-  font-family: "CMU Sans Serif";
-  font-style: italic;
-  font-weight: bold;
-  src: url("~/assets/fonts/cmu-sans-serif/bolditalic.ttf") format("opentype");
-}
-
-/* Chinese */
-
-@font-face {
-  font-family: "HKST";
-  font-style: normal;
-  font-weight: normal;
-  src: url("~/assets/fonts/hkst/w7.ttf") format("opentype");
-}
-
-@font-face {
-  font-family: "HKST";
-  font-style: normal;
-  font-weight: bold;
-  src: url("~/assets/fonts/hkst/w9.ttf") format("opentype");
 }

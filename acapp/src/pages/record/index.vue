@@ -8,13 +8,6 @@ let currentTab = $ref(0)
 let pagination = $ref<PageQuery>()
 let playerInfoList = $ref<PlayerInfo[]>([])
 
-const route = useRoute()
-watch(() => route.path, () => {
-  currentTab = 0
-  pagination = {}
-  playerInfoList = []
-})
-
 function changeCurrentTab(
   tab: 0 | 1,
   _pagination: PageQuery,
@@ -37,7 +30,7 @@ provide('changeCurrentTab', changeCurrentTab)
 </script>
 
 <template>
-  <div w-full>
+  <div w-70vw mxa max-h70vh pt-20px lt-sm:w-96vw>
     <RecordTable v-if="currentTab === 0" v-bind="{ ...pagination }" />
     <RecordVideo v-else v-bind="{ playerInfoList }" />
   </div>

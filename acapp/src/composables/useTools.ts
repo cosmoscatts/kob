@@ -3,28 +3,10 @@ import type { ConfigProviderProps } from 'naive-ui'
 import {
   createDiscreteApi,
   darkTheme,
-  lightTheme,
 } from 'naive-ui'
-import { appMeta } from '~/config'
 
 export {
   dayjs,
-}
-
-/**
- * 创建页面 `head` 数据
- */
-export function useHeadMeta() {
-  const { appShortName } = appMeta
-  useHead({
-    title: appShortName,
-    link: [
-      {
-        rel: 'icon',
-        href: '/favicon.ico',
-      },
-    ],
-  })
 }
 
 /**
@@ -65,9 +47,7 @@ export function useGlobalNaiveApi() {
   const configProviderProps = computed<ConfigProviderProps>(() => {
     const { value: themeOverrides } = useThemeOverrides()
     return {
-      theme: isDark.value
-        ? darkTheme
-        : lightTheme,
+      theme: darkTheme,
       themeOverrides,
     }
   })

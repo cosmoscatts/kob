@@ -51,7 +51,7 @@ const isMobile = breakpoints.smaller('sm')
 </script>
 
 <template>
-  <div w-full>
+  <div w70vw max-h70vh mxa pt-20px lt-sm:w-96vw>
     <n-card title="排行榜" hoverable>
       <n-data-table
         v-if="!isMobile"

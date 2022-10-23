@@ -5,7 +5,7 @@ const { user } = storeToRefs(useUserStore())
 <template>
   <div ha>
     <n-card hoverable>
-      <div flex="~ col" w-full flex-center>
+      <div wfull flex="~ col" justify-center items-center>
         <n-avatar
           :style="{
             width: '100%',
@@ -15,11 +15,10 @@ const { user } = storeToRefs(useUserStore())
           lt-md="max-w-150px"
           size="large"
           :src="user?.avatar"
-          @click="$router.push('/profile')"
         />
         <n-divider />
         <div font-bold text-lg>
-          {{ user?.name || '-' }}
+          {{ user?.name || '' }}
         </div>
       </div>
     </n-card>
