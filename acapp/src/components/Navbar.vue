@@ -21,7 +21,7 @@ const { changePage } = pageStore
         bg="[#6d7083]" rounded-2px max-w-202px ml-2
         text="22px center ellipsis" font-bold
       >
-        哥们一起战斗吧
+        哥们一起玩蛇吧
       </div>
     </div>
 
