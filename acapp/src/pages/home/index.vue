@@ -26,7 +26,7 @@ const { changePage } = usePageStore()
 </script>
 
 <template>
-  <div w70vw hfull mxa pt-30px lt-sm:w96vw>
+  <div w70vw hfull mxa lt-sm:w96vw>
     <p text="5xl center" font-bold>
       <span lt-sm:hidden>怎么，你也玩蛇吗？</span>{{ getEmoji() }}
     </p>
