@@ -22,6 +22,14 @@ useTimeoutFn(endLoading, LOADING_INTERVAL)
 
 // 将 `naive-ui` 自带颜色写入 `body`
 writeThemeColorsToBody()
+
+// 关闭浏览器清空缓存
+let beginTime = $ref(0)
+window.onbeforeunload = () => beginTime = Date.now()
+window.onunload = () => {
+  if (Date.now() - beginTime <= 5)
+    localStorage.clear()
+}
 </script>
 
 <template>
