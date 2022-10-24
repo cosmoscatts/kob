@@ -26,15 +26,17 @@ updateUser()
     :locale="zhCN"
     :date-locale="dateZhCN"
   >
-    <Navbar />
-    <div of-hidden :style="{ height: 'calc(100vh - 100px)' }">
-      <Transition name="fade-slide" mode="out-in" appear>
-        <Home v-if="currentPage === 0" />
-        <PK v-else-if="currentPage === 1" />
-        <RankList v-else-if="currentPage === 2" />
-        <RecordList v-else-if="currentPage === 3" />
-        <UserBot v-else-if="currentPage === 4" />
-      </Transition>
+    <div font-self wfull hfull>
+      <Navbar />
+      <div of-hidden :style="{ height: 'calc(100vh - 100px)' }">
+        <Transition name="fade-slide" mode="out-in" appear>
+          <Home v-if="currentPage === 0" />
+          <PK v-else-if="currentPage === 1" />
+          <RankList v-else-if="currentPage === 2" />
+          <RecordList v-else-if="currentPage === 3" />
+          <UserBot v-else-if="currentPage === 4" />
+        </Transition>
+      </div>
     </div>
   </n-config-provider>
 </template>
