@@ -8,6 +8,8 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
+  base: './',
+
   resolve: {
     alias: {
       '~/': `${resolve(__dirname, 'src')}/`,
