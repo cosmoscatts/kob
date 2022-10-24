@@ -24,7 +24,12 @@ useTimeoutFn(endLoading, LOADING_INTERVAL)
 writeThemeColorsToBody()
 
 // 关闭浏览器清空缓存
-window.onunload = () => localStorage.clear()
+let beginTime = $ref(0)
+window.onbeforeunload = () => beginTime = Date.now()
+window.onunload = () => {
+  if (Date.now() - beginTime <= 5)
+    localStorage.clear()
+}
 </script>
 
 <template>
