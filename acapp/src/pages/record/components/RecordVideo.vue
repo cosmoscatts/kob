@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import type { PlayerInfo } from '../helper'
 
 const {
@@ -7,6 +8,7 @@ const {
   playerInfoList: PlayerInfo[]
 }>()
 
+const containerWidth = inject<Ref<number>>('containerWidth')!
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
 const { clearVideo } = useRecordStore()
@@ -25,20 +27,19 @@ function replay() {
 </script>
 
 <template>
-  <div hfull flex="~ col" justify-center items-center>
+  <div wfull hfull flex="~ col" justify-center items-center>
     <div
+      wfull h100px font-bold
       flex justify-center items-center
       relative text="30px center"
-      :style="{
-        height: '10vh',
-        width: 'calc(50vw + 300px)',
-        fontWeight: 'bold',
-      }"
     >
       <div mr-10>
         录像回放
       </div>
-      <div absolute right-0 flex gap-x-5 lt-md="right-35px gap-x-2">
+      <div
+        absolute flex gap-x-3
+        :style="{ right: containerWidth < 1024 ? '35px' : '0px' }"
+      >
         <n-button type="primary" text-color="white" @click="replay">
           重新回放
         </n-button>
@@ -47,9 +48,12 @@ function replay() {
         </n-button>
       </div>
     </div>
-    <div flex justify-center md:gap-x-5 lg:gap-x-2>
-      <GameMap ref="refGameMap" h-60vh w-40vw lt-md="!w-60vw" />
-      <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden>
+    <div wfull :style="{ height: 'calc(100% - 100px)' }" flex justify-center>
+      <GameMap
+        ref="refGameMap" hfull
+        :style="{ width: '60%', minWidth: '300px', minHeight: '300px' }"
+      />
+      <div v-if="playerInfoList?.length" w-300px ha :class="{ hidden: containerWidth < 768 }">
         <n-card
           hoverable wfull
           flex="~ col" justify-center items-center

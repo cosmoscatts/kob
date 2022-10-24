@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
+import type { Ref } from 'vue'
 import { createColumns } from '../helper'
 import type { Record } from '~/types'
 
@@ -11,6 +11,7 @@ const {
   pageSize?: number
 }>()
 
+const containerWidth = inject<Ref<number>>('containerWidth')!
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
 const { message, dialog } = useGlobalNaiveApi()
@@ -123,17 +124,13 @@ async function fetchTableData() {
   }
 }
 fetchTableData()
-
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isMobile = breakpoints.smaller('sm')
 </script>
 
 <template>
   <div w-full>
     <n-card title="对局记录" hoverable>
       <n-data-table
-        v-if="!isMobile"
+        v-if="containerWidth >= 1024"
         size="small"
         :loading="loading"
         :columns="columns"
@@ -144,11 +141,10 @@ const isMobile = breakpoints.smaller('sm')
       />
       <div
         v-else
-        hw-full
-        flex-center
-        text-lg
+        hfull wfull text-lg
+        flex justify-center items-center
       >
-        {  请在客户端访问 :). }
+        {  当前屏幕尺寸过小 :). }
       </div>
     </n-card>
   </div>

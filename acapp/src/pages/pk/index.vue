@@ -81,11 +81,11 @@ const showConfetti = computed(() => {
     <Confetti :passed="showConfetti" />
 
     <div v-if="status === 'play'" mt-15px h-5vh>
-      <div v-if="user!.id === players[0]?.id" text-24px font-bold flex-center>
+      <div v-if="user!.id === players[0]?.id" text-24px font-bold flex justify-center items-center>
         <div i-akar-icons-face-wink mr-2 />
         您在左下角
       </div>
-      <div v-if="user!.id === players[1]?.id" text-24px font-bold flex-center>
+      <div v-if="user!.id === players[1]?.id" text-24px font-bold flex justify-center items-center>
         <div i-akar-icons-face-wink mr-2 />
         您在右上角
       </div>

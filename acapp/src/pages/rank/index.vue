@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
+import type { Ref } from 'vue'
 import { createColumns } from './helper'
 import type { Rank } from '~/types'
+
+const containerWidth = inject<Ref<number>>('containerWidth')!
 
 const { loading, startLoading, endLoading } = useLoading()
 
@@ -44,17 +46,20 @@ async function fetchTableData() {
   }
 }
 fetchTableData()
-
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isMobile = breakpoints.smaller('sm')
 </script>
 
 <template>
-  <div w70vw max-h70vh mxa pt-20px lt-sm:w-96vw>
+  <div
+    pt-20px
+    :style="{
+      width: containerWidth < 768 ? '96%' : '80%',
+      marginLeft: containerWidth < 768 ? '2%' : '10%',
+      maxHeight: '70%',
+    }"
+  >
     <n-card title="排行榜" hoverable>
       <n-data-table
-        v-if="!isMobile"
+        v-if="containerWidth >= 768"
         size="small"
         :loading="loading"
         :columns="columns"
@@ -66,10 +71,10 @@ const isMobile = breakpoints.smaller('sm')
       <div
         v-else
         hw-full
-        flex-center
+        flex justify-center items-center
         text-lg
       >
-        {  请在客户端访问 :). }
+        {  当前屏幕尺寸过小 :). }
       </div>
     </n-card>
   </div>

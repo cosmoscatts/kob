@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
+import type { Ref } from 'vue'
 import { createColumns, handleSaveBot } from '../helper'
 import BotTableForm from './BotTableForm.vue'
 import type { Bot } from '~/types'
+
+const containerWidth = inject<Ref<number>>('containerWidth')!
 
 const { message, dialog } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
@@ -108,10 +110,6 @@ async function fetchTableData() {
   }
 }
 fetchTableData()
-
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isMobile = breakpoints.smaller('sm')
 </script>
 
 <template>
@@ -123,7 +121,7 @@ const isMobile = breakpoints.smaller('sm')
         </NButton>
       </template>
       <n-data-table
-        v-if="!isMobile"
+        v-if="containerWidth >= 768"
         size="small"
         :loading="loading"
         :columns="columns"
@@ -134,11 +132,11 @@ const isMobile = breakpoints.smaller('sm')
       />
       <div
         v-else
-        hw-full
-        flex-center
+        wfull hfull
+        flex justify-center items-center
         text-lg
       >
-        {  请在客户端访问 :). }
+        {  当前屏幕尺寸过小 :). }
       </div>
     </n-card>
     <BotTableForm

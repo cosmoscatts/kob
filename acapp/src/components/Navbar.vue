@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import logo from '~/assets/logo.png'
 import avatar from '~/assets/avatar.jpg'
 
+const containerWidth = inject<Ref<number>>('containerWidth')!
 const { user } = storeToRefs(useUserStore())
 
 const pageStore = usePageStore()
@@ -10,27 +12,34 @@ const { changePage } = pageStore
 </script>
 
 <template>
-  <div w-80vw h-100px pt-20px flex justify-between items-center mxa lt-md="w96vw">
+  <div
+    h-100px flex justify-between items-center
+    :style="{
+      height: containerWidth < 768 ? '80px' : '100px',
+      paddingTop: containerWidth < 768 ? '0px' : '20px',
+      width: containerWidth < 768 ? '96%' : '80%',
+      marginLeft: containerWidth < 768 ? '2%' : '10%',
+    }"
+  >
     <div flex items-center h-full>
       <div w50px h50px bg="[#6d7083]" rounded-2px cursor-pointer hover:shadow-nav_item>
         <img :src="logo" h-full w-full rounded-full>
       </div>
       <div
-        h50px w194px lt-sm:hidden
+        h50px w194px
         flex justify-center items-center
         bg="[#6d7083]" rounded-2px max-w-202px ml-2
         text="22px center ellipsis" font-bold
+        :style="{ display: containerWidth < 768 ? 'none' : '' }"
       >
         哥们一起玩蛇吧
       </div>
     </div>
 
-    <div flex items-center gap-x-2>
+    <div flex items-center gap-x-3>
       <div
         v-if="currentPage > 0"
-        w60px h40px flex justify-center items-center text-xl
-        border="2px solid [#595B6F]" rounded-5px cursor-pointer outline-none
-        hover="bg-[#6D7083] border-[#6D7083]"
+        class="btn"
         @click="changePage(0)"
       >
         返回
@@ -58,3 +67,24 @@ const { changePage } = pageStore
   </div>
 </template>
 
+<style scoped>
+.btn {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #595B6F;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.btn:hover {
+  background-color: #6D7083;
+  border-color: #6D7083;
+}
+</style>
