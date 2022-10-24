@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
+
 const { user } = storeToRefs(useUserStore())
+const containerWidth = inject<Ref<number>>('containerWidth')!
 </script>
 
 <template>
@@ -11,8 +14,8 @@ const { user } = storeToRefs(useUserStore())
             width: '100%',
             height: 'auto',
             cursor: 'pointer',
+            maxWidth: containerWidth < 1024 ? '150px' : undefined,
           }"
-          lt-md="max-w-150px"
           size="large"
           :src="user?.avatar"
         />

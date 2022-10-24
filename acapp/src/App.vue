@@ -17,6 +17,11 @@ setToken('eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OGI2NTUyZjQ4YzM0ZTQ2YTIzMGVmNzk3YzY1N
 
 const { updateUser } = useUserStore()
 updateUser()
+
+const refContainer = ref<HTMLElement>()
+const { width: containerWidth } = useElementSize(refContainer)
+
+provide('containerWidth', containerWidth)
 </script>
 
 <template>
@@ -26,9 +31,9 @@ updateUser()
     :locale="zhCN"
     :date-locale="dateZhCN"
   >
-    <div font-self wfull hfull>
+    <div ref="refContainer" wfull hfull m0 p0 of-hidden text-white bg="[#47485C]" font-self>
       <Navbar />
-      <div of-hidden :style="{ height: 'calc(100vh - 100px)' }">
+      <div of-hidden :style="{ height: 'calc(100% - 100px)' }">
         <Transition name="fade-slide" mode="out-in" appear>
           <Home v-if="currentPage === 0" />
           <PK v-else-if="currentPage === 1" />
@@ -41,6 +46,3 @@ updateUser()
   </n-config-provider>
 </template>
 
-<style scoped>
-
-</style>

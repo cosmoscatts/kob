@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 
+const containerWidth = inject<Ref<number>>('containerWidth')!
 </script>
 
 <template>
-  <div w-60vw h-65vh mx-a lt-sm:w-96vw>
+  <div
+    :style="{
+      width: containerWidth < 768 ? '96%' : '60%',
+      height: '65%',
+      marginLeft: containerWidth < 768 ? '2%' : '20%',
+    }"
+  >
     <GameMap />
   </div>
 </template>

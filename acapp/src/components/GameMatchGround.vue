@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
+
+const containerWidth = inject<Ref<number>>('containerWidth')!
+
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
@@ -35,25 +39,36 @@ fetchBotList()
 </script>
 
 <template>
-  <div w-60vw h-70vh mx-a lt-md="ha" lt-sm:w-96vw>
+  <div
+    :style="{
+      width: containerWidth < 768 ? '96%' : '80%',
+      height: '90%',
+      minHeight: '400px',
+      marginLeft: containerWidth < 768 ? '2%' : '10%',
+    }"
+  >
     <n-card>
-      <div grid="~ cols-2" md:grid-flow-row-dense>
-        <div col-span-2 h10vh flex justify-center items-center>
+      <div grid="~ cols-2" :style="{ gridAutoFlow: 'row dense' }">
+        <div col-span-2 h100px flex justify-center items-center>
           <n-select
             v-model:value="selectedBot" :options="botOptions"
-            :style="{ width: '20vw', textAlign: 'center', border: '1px #4b5563 solid' }"
+            :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid' }"
           />
         </div>
-        <div col-span-1 h40vh lt-md="col-span-2 ha py-20px">
+        <div
+          h200px col-span-1
+          :class="{
+            h320px: containerWidth >= 1024,
+          }"
+        >
           <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
                 width: '100%',
-                maxWidth: '180px',
+                maxWidth: containerWidth < 640 ? '80px' : containerWidth < 1024 ? '120px' : '180px',
                 height: 'auto',
                 cursor: 'pointer',
               }"
-              lt-md="!max-w-120px"
               round
               :src="user?.avatar"
             />
@@ -62,23 +77,27 @@ fetchBotList()
             </div>
           </div>
         </div>
-        <div col-span-2 h-20vh>
+        <div col-span-2 h100px>
           <div flex justify-center items-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
             </n-button>
           </div>
         </div>
-        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
+        <div
+          h200pxcol-span-1
+          :class="{
+            h320px: containerWidth >= 1024,
+          }"
+        >
           <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
                 width: '100%',
-                maxWidth: '180px',
+                maxWidth: containerWidth < 640 ? '80px' : containerWidth < 1024 ? '120px' : '180px',
                 height: 'auto',
                 cursor: 'pointer',
               }"
-              lt-md="!max-w-120px"
               round
               :src="opponent?.avatar"
             />

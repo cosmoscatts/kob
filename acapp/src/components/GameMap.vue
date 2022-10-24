@@ -23,7 +23,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="refParentEl" hw-full flex-center>
+  <div ref="refParentEl" wfull hfull flex justify-center items-center>
     <canvas ref="refCanvas" tabindex="0" />
   </div>
 </template>

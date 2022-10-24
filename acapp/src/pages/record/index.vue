@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import RecordTable from './components/RecordTable.vue'
 import RecordVideo from './components/RecordVideo.vue'
 import type { PlayerInfo } from './helper'
 import type { PageQuery } from '~/types'
+
+const containerWidth = inject<Ref<number>>('containerWidth')!
 
 let currentTab = $ref(0)
 let pagination = $ref<PageQuery>()
@@ -30,7 +33,14 @@ provide('changeCurrentTab', changeCurrentTab)
 </script>
 
 <template>
-  <div w-70vw mxa max-h70vh pt-20px lt-sm:w-96vw>
+  <div
+    pt-20px
+    :style="{
+      width: containerWidth < 768 ? '96%' : '80%',
+      marginLeft: containerWidth < 768 ? '2%' : '10%',
+      height: '70%',
+    }"
+  >
     <RecordTable v-if="currentTab === 0" v-bind="{ ...pagination }" />
     <RecordVideo v-else v-bind="{ playerInfoList }" />
   </div>
