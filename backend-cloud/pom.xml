@@ -31,6 +31,8 @@
         <websocket.version>2.7.4</websocket.version>
         <fastjson.version>2.0.14</fastjson.version>
         <joor-java-8.version>0.9.14</joor-java-8.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <redis.version>2.7.3</redis.version>
     </properties>
 
     <dependencies>
@@ -138,7 +140,18 @@
                 <artifactId>joor-java-8</artifactId>
                 <version>${joor-java-8.version}</version>
             </dependency>
+            <!-- httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
