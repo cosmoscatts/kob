@@ -80,4 +80,3 @@ onMounted(() => {
     </div>
   </n-config-provider>
 </template>
-

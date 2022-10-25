@@ -1,18 +1,5 @@
 package com.kob.backend.biz.user;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.controller.user.vo.AccountReqVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
@@ -25,6 +12,17 @@ import com.kob.backend.exception.ErrorCodeEnum;
 import com.kob.backend.security.UserDetailsImpl;
 import com.kob.backend.service.UserService;
 import com.kob.backend.utils.JwtUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserBizImpl implements UserBiz {
@@ -38,7 +36,7 @@ public class UserBizImpl implements UserBiz {
     @Override
     public AccountRespVO getToken(AccountReqVO accountReqVO) throws BusinessException {
         UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(accountReqVO.getUsername(), accountReqVO.getPassword());
+                new UsernamePasswordAuthenticationToken(accountReqVO.getUsername(), accountReqVO.getPassword());
 
         Authentication authenticate;
         // 登录失败，抛出自定义异常
@@ -47,7 +45,7 @@ public class UserBizImpl implements UserBiz {
         } catch (BadCredentialsException e) {
             throw new BusinessException(ErrorCodeEnum.LOGIN_PASSWORD_INVALID_EXCEPTION);
         }
-        UserDetailsImpl loginUser = (UserDetailsImpl)authenticate.getPrincipal();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticate.getPrincipal();
         UserDO user = loginUser.getUser();
         String jwt = JwtUtil.createJWT(user.getId().toString());
 
@@ -57,7 +55,7 @@ public class UserBizImpl implements UserBiz {
     @Override
     public String register(AccountReqVO accountReqVO) {
         String username = accountReqVO.getUsername(), password = accountReqVO.getPassword(),
-            reenteredPassword = accountReqVO.getReenteredPassword();
+                reenteredPassword = accountReqVO.getReenteredPassword();
         if (!password.equals(reenteredPassword)) {
             return "两次输入的密码不一致";
         }
@@ -66,8 +64,8 @@ public class UserBizImpl implements UserBiz {
             return "用户已存在";
         }
         String encodedPassword = passwordEncoder.encode(password);
-        UserDO user = new UserDO().setUsername(username).setName("haahahha").setPassword(encodedPassword)
-            .setRating(1500).setCreateTime(new Date());
+        UserDO user = new UserDO().setUsername(username).setName("匿名用户").setPassword(encodedPassword)
+                .setRating(1500).setCreateTime(new Date());
         userService.save(user);
 
         return null;
@@ -76,9 +74,9 @@ public class UserBizImpl implements UserBiz {
     @Override
     public UserRespVO getUserInfo() {
         UsernamePasswordAuthenticationToken authentication =
-            (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
         UserDO user = loginUser.getUser();
         return UserConverter.INSTANCE.do2vo(user);
     }
@@ -86,9 +84,9 @@ public class UserBizImpl implements UserBiz {
     @Override
     public void updateUserInfo(UserInfoReqVO userInfoReqVO) {
         UsernamePasswordAuthenticationToken authentication =
-            (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
         UserDO user = loginUser.getUser();
 
         userInfoReqVO.setId(user.getId());
