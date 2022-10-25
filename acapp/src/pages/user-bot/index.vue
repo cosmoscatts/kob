@@ -8,18 +8,18 @@ const containerWidth = inject<Ref<number>>('containerWidth')!
 
 <template>
   <div
-    grid="~ cols-4" gap-x-5
+    grid="~ cols-4" gap5
     :style="{
       width: '96%',
       marginLeft: '2%',
-      height: '370px',
+      height: containerWidth < 768 ? 'auto' : '370px',
     }"
-    :class="containerWidth < 1024 ? '!grid-cols-1 !gap-y-5' : ''"
+    :class="containerWidth < 768 ? '!grid-cols-1' : ''"
   >
     <div col-span-1 ha>
       <BotPanel />
     </div>
-    <div col-span-3 :class="containerWidth < 1024 ? '!col-span-1' : ''">
+    <div col-span-3 :class="containerWidth < 768 ? '!col-span-1 h370px' : ''">
       <BotTable />
     </div>
   </div>
