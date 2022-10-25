@@ -1,4 +1,4 @@
-import type { AnyObject, Result, User } from '~/types'
+import type { AcCode, AnyObject, Result, User } from '~/types'
 
 export class UserApi {
   /**
@@ -20,5 +20,12 @@ export class UserApi {
    */
   static updateLoginUserInfo(user: User) {
     return useRequest.put('/api/user/account/info', { body: user as AnyObject }) as unknown as Promise<Result<null>>
+  }
+
+  /**
+   * 申请 `AcWing` `code`
+   */
+  static applyAcCode() {
+    return useRequest.get('/api/user/account/acwing/acapp/apply_code/', {}) as unknown as Promise<Result<AcCode>>
   }
 }

@@ -48,9 +48,6 @@ export interface PageResult<T> {
   msg?: string
 }
 
-/** 登录状态 */
-export type LoginState = 'hasLogin' | 'notLogin' | 'expire'
-
 /** 菜单项数据结构 */
 export interface Menu {
   id: number
@@ -147,12 +144,10 @@ export interface Rank {
   createTime?: Date
 }
 
-/** 定义用户安全数据类型 */
-export interface UserSecurity {
-  hasPassword?: boolean
-  hasPhone?: boolean
-  hasBilibili?: boolean
-  hasGithub?: boolean
-  hasQQ?: boolean
-  hasWechat?: boolean
+/** AcWing Code 数据结构 */
+export interface AcCode {
+  appid?: string
+  redirectUri?: string
+  scope?: string
+  state?: string
 }

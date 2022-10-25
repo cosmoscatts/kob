@@ -95,6 +95,16 @@ public class AcAppBizImpl implements AcAppBiz {
         String username = getResp.getString("username");
         String photo = getResp.getString("photo");
 
+        if (username == null || photo == null)
+            return Result.error();
+        for (int i = 0; i < 100; i++) {
+            if (userService.list(Wrappers.<UserDO>lambdaQuery()
+                    .eq(UserDO::getUsername, username)).isEmpty())
+                break;
+            username += (char) (random.nextInt(10) + '0');
+            if (i == 99) return Result.error();
+        }
+
         UserDO newUser = new UserDO()
                 .setId(null)
                 .setUsername(username)

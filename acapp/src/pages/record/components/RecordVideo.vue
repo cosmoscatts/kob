@@ -27,7 +27,7 @@ function replay() {
 </script>
 
 <template>
-  <div wfull hfull flex="~ col" border="1 red">
+  <div wfull hfull flex="~ col">
     <div
       wfull h50px font-bold
       flex justify-center items-center

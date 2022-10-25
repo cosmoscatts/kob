@@ -5,18 +5,12 @@ import PK from '~/pages/pk/index.vue'
 import RankList from '~/pages/rank/index.vue'
 import RecordList from '~/pages/record/index.vue'
 import UserBot from '~/pages/user-bot/index.vue'
-import { setToken } from '~/utils'
 
 const themeOverrides = useThemeOverrides()
 // 将 `naive-ui` 自带颜色写入 `body`
 writeThemeColorsToBody()
 
 const { currentPage } = storeToRefs(usePageStore())
-
-setToken('eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OGI2NTUyZjQ4YzM0ZTQ2YTIzMGVmNzk3YzY1NTczMCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsImlhdCI6MTY2NjUxNTM5OCwiZXhwIjoxNjY3NzI0OTk4fQ.ZO1SLIwTWtmOYPLLo0MdU9uC-l-SFTWDC9aczVzMraA')
-
-const { updateUser } = useUserStore()
-updateUser()
 
 const refContainer = ref<HTMLElement>()
 const { width: containerWidth, height: containerHeight } = useElementSize(refContainer)
@@ -45,6 +39,33 @@ watch(containerHeight, (val, old) => {
 onMounted(() => {
   useTimeoutFn(setPosition, 50)
 })
+
+const userStore = useUserStore()
+
+async function login() {
+  const { message } = useGlobalNaiveApi()
+  const { code, data } = await UserApi.applyAcCode()
+  if (code !== 0) {
+    message.error('获取授权登录失败')
+    userStore.acWingOS.api.window.close()
+    return
+  }
+  const { appid, redirectUri, scope, state } = data
+  userStore.acWingOS.api.oauth2.authorize(
+    appid,
+    redirectUri,
+    scope,
+    state,
+    (resp: any) => {
+      if (resp.code === 0) {
+        userStore.setToken(resp.data.token)
+        userStore.updateUser()
+      }
+      else { userStore.acWingOS.api.window.close() }
+    },
+  )
+}
+login()
 </script>
 
 <template>
