@@ -79,7 +79,7 @@ export function createAxios() {
   _axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
       // 统一在 `header` 中添加 `token`
-      const token = getToken()
+      const token = useUserStore().token
       if (token)
         config!.headers!.Authorization = `Bearer ${token}`
       return config

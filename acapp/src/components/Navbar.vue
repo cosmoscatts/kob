@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import logo from '~/assets/logo.png'
-import avatar from '~/assets/avatar.jpg'
 
 const { user } = storeToRefs(useUserStore())
 
@@ -53,7 +52,7 @@ const { changePage } = pageStore
       <div w40px h40px ml-4>
         <n-tooltip placement="bottom" trigger="hover">
           <template #trigger>
-            <img :src="avatar" h-full w-full rounded-full cursor-pointer>
+            <img :src="user?.avatar" h-full w-full rounded-full cursor-pointer>
           </template>
           <span font-self> {{ user?.name ?? '匿名玩家' }} </span>
         </n-tooltip>

@@ -1,43 +1,13 @@
-import type { LoginState, User } from '~/types'
+import type { User } from '~/types'
 import defaultAvatar from '~/assets/default-avatar.png'
-import { getToken, removeToken, setToken } from '~/utils'
 
 export const useUserStore = defineStore(
   'userStore',
   () => {
     const user = ref<User>()
-    // 是否登录
-    const hasLogin = ref(false)
-    // 是否打开登录 / 注册 `Modal`
-    const authModalVisible = ref(false)
-
-    /**
-     * 判断是否登录 && `token` 是否过期
-     * `token` 过期需要清空
-     * @return
-     *  - `hasLogin` - 已经登录 & `token` 未过期
-     *  - `notLogin` - 未登录
-     *  - `expire` - `token `过期
-     */
-    async function checkLoginState(): Promise<LoginState> {
-      const token = getToken()
-      if (!token) {
-        hasLogin.value = false
-        return 'notLogin'
-      }
-
-      if (hasLogin.value && user.value?.id)
-        return 'hasLogin'
-
-      const { code, data } = await UserApi.getLoginUserInfo()
-      const validation = code !== 0 || !data
-      hasLogin.value = !validation
-      if (validation)
-        logout()
-      return validation
-        ? 'expire'
-        : 'hasLogin'
-    }
+    const token = ref<string | null>(null)
+    // AcWingOS, 打包后更改为外部传入的 `AcWingOS` 对象
+    const acWingOS = 'AcWingOS' as any
 
     async function updateUser() {
       const { code, data } = await UserApi.getLoginUserInfo()
@@ -52,37 +22,17 @@ export const useUserStore = defineStore(
       user.value = undefined
     }
 
-    function setAuthModalVisible(value: boolean) {
-      authModalVisible.value = value
-    }
-
-    function login(token: string) {
-      hasLogin.value = true
-      updateUser()
-      setToken(token)
-    }
-
-    function logout() {
-      hasLogin.value = false
-      removeUser()
-      removeToken()
+    function setToken(_token: string) {
+      token.value = _token
     }
 
     return {
       user,
-      hasLogin,
-      authModalVisible,
+      token,
+      acWingOS,
       updateUser,
       removeUser,
-      login,
-      logout,
-      checkLoginState,
-      setAuthModalVisible,
+      setToken,
     }
-  },
-  {
-    persist: {
-      enabled: true,
-    },
   },
 )

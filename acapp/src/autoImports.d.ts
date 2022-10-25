@@ -13,7 +13,6 @@ declare global {
   const RankApi: typeof import('./server/api/rank')['RankApi']
   const RecordApi: typeof import('./server/api/record')['RecordApi']
   const UserApi: typeof import('./server/api/user')['UserApi']
-  const UserSecurityApi: typeof import('./server/api/userSecurity')['UserSecurityApi']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -311,7 +310,6 @@ declare module '@vue/runtime-core' {
     readonly RankApi: UnwrapRef<typeof import('./server/api/rank')['RankApi']>
     readonly RecordApi: UnwrapRef<typeof import('./server/api/record')['RecordApi']>
     readonly UserApi: UnwrapRef<typeof import('./server/api/user')['UserApi']>
-    readonly UserSecurityApi: UnwrapRef<typeof import('./server/api/userSecurity')['UserSecurityApi']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
