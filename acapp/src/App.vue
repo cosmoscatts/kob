@@ -49,11 +49,11 @@ setPosition()
     :date-locale="dateZhCN"
     flex justify-center
     wfull hfull font-self m0 p0 of-hidden
-    rounded-2px text-white
+    rounded-2px text-white bg="[#47485C]"
     :style="{ transformStyle: 'preserve-3d' }"
   >
     <div
-      w830px h500px bg="[#47485C]"
+      w830px h500px
       :style="{
         marginTop: `${ui.margin}px`,
         transform: `scale(${ui.scale}) translateZ(1px)`,
