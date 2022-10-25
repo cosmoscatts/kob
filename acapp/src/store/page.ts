@@ -14,9 +14,4 @@ export const usePageStore = defineStore(
       changePage,
     }
   },
-  {
-    persist: {
-      enabled: true,
-    },
-  },
 )
