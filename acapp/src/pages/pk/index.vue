@@ -74,7 +74,7 @@ const showConfetti = computed(() => {
 </script>
 
 <template>
-  <div w-full h-full flex="~ col" pt-20px>
+  <div w-full h-full flex="~ col" border="1 red">
     <GameMatchGround v-if="status === 'match'" />
     <GamePlayground v-if="status === 'play'" />
     <ResultBoard v-if="loser !== 'none'" />

@@ -111,7 +111,7 @@ const rules = createRules()
   <n-modal
     :show="modalVisible"
     :title="title" size="huge"
-    style="width: 650px;"
+    :style="{ width: '650px' }"
     preset="card" :bordered="false"
     :segmented="segmented"
     :mask-closable="false"

@@ -27,19 +27,16 @@ function replay() {
 </script>
 
 <template>
-  <div wfull hfull flex="~ col" justify-center items-center>
+  <div wfull hfull flex="~ col" border="1 red">
     <div
-      wfull h100px font-bold
+      wfull h50px font-bold
       flex justify-center items-center
-      relative text="30px center"
+      relative text="24px center"
     >
       <div mr-10>
         录像回放
       </div>
-      <div
-        absolute flex gap-x-3
-        :style="{ right: containerWidth < 1024 ? '35px' : '0px' }"
-      >
+      <div absolute flex gap-x-3 right-0>
         <n-button type="primary" text-color="white" @click="replay">
           重新回放
         </n-button>
@@ -48,7 +45,7 @@ function replay() {
         </n-button>
       </div>
     </div>
-    <div wfull :style="{ height: 'calc(100% - 100px)' }" flex justify-center>
+    <div wfull h370px flex justify-center>
       <GameMap
         ref="refGameMap" hfull
         :style="{ width: '60%', minWidth: '300px', minHeight: '300px' }"

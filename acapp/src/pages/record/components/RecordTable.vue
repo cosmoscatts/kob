@@ -127,10 +127,10 @@ fetchTableData()
 </script>
 
 <template>
-  <div w-full>
-    <n-card title="对局记录" hoverable>
+  <div w-full hfull>
+    <n-card title="对局记录" hoverable hfull>
       <n-data-table
-        v-if="containerWidth >= 1024"
+        v-if="containerWidth > 500"
         size="small"
         :loading="loading"
         :columns="columns"

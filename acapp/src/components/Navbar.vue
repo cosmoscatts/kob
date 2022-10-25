@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
 import logo from '~/assets/logo.png'
 import avatar from '~/assets/avatar.jpg'
 
-const containerWidth = inject<Ref<number>>('containerWidth')!
 const { user } = storeToRefs(useUserStore())
 
 const pageStore = usePageStore()
@@ -13,12 +11,10 @@ const { changePage } = pageStore
 
 <template>
   <div
-    h-100px flex justify-between items-center
+    h100px flex justify-between items-center
     :style="{
-      height: containerWidth < 768 ? '80px' : '100px',
-      paddingTop: containerWidth < 768 ? '0px' : '20px',
-      width: containerWidth < 768 ? '96%' : '80%',
-      marginLeft: containerWidth < 768 ? '2%' : '10%',
+      width: '96%',
+      marginLeft: '2%',
     }"
   >
     <div flex items-center h-full>
@@ -30,7 +26,6 @@ const { changePage } = pageStore
         flex justify-center items-center
         bg="[#6d7083]" rounded-2px max-w-202px ml-2
         text="22px center ellipsis" font-bold
-        :style="{ display: containerWidth < 768 ? 'none' : '' }"
       >
         哥们一起玩蛇吧
       </div>
@@ -45,12 +40,12 @@ const { changePage } = pageStore
         返回
       </div>
       <div
-        w60px h40px flex justify-center items-center text-2xl
+        w60px h40px flex justify-center items-center
         border="1 solid primary" bg-primary rounded-5px
         cursor-pointer outline-none hover:shadow-nav_item
       >
         <a
-          i-ri:github-fill text-2xl bg-white
+          i-ri:github-fill text-22px bg-white
           href="https://github.com/cosmoscatts/kob"
           target="_blank" title="GitHub"
         />
@@ -60,7 +55,7 @@ const { changePage } = pageStore
           <template #trigger>
             <img :src="avatar" h-full w-full rounded-full cursor-pointer>
           </template>
-          <span> {{ user?.name ?? '匿名玩家' }} </span>
+          <span font-self> {{ user?.name ?? '匿名玩家' }} </span>
         </n-tooltip>
       </div>
     </div>
@@ -74,8 +69,7 @@ const { changePage } = pageStore
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+  font-size: 20px;
   border-radius: 5px;
   cursor: pointer;
   border: 2px solid #595B6F;
