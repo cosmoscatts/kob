@@ -37,6 +37,11 @@ const setPosition = () => {
 }
 
 window.onresize = setPosition
+watch(containerHeight, (val, old) => {
+  if (val !== old)
+    setPosition()
+})
+
 onMounted(() => {
   useTimeoutFn(setPosition, 50)
 })
