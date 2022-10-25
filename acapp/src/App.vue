@@ -49,6 +49,7 @@ onMounted(() => {
 
 <template>
   <n-config-provider
+    id="container"
     ref="refContainer"
     :theme="darkTheme"
     :theme-overrides="themeOverrides"

@@ -111,13 +111,14 @@ const rules = createRules()
   <n-modal
     :show="modalVisible"
     :title="title" size="huge"
-    :style="{ width: '650px' }"
+    :style="{ width: '500px', minHeight: '500px', overflow: 'hidden auto' }"
     preset="card" :bordered="false"
     :segmented="segmented"
     :mask-closable="false"
     transform-origin="center"
     :on-esc="onCloseModal"
     :on-close="onCloseModal"
+    to="#container"
   >
     <n-form
       ref="refForm"
@@ -127,7 +128,7 @@ const rules = createRules()
       label-width="auto"
       :show-require-mark="false"
       :style="{
-        maxWidth: '600px',
+        maxWidth: '450px',
       }"
     >
       <n-form-item label="标题" path="title">
