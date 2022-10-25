@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-
 const { user } = storeToRefs(useUserStore())
-const containerWidth = inject<Ref<number>>('containerWidth')!
 </script>
 
 <template>
@@ -11,16 +8,15 @@ const containerWidth = inject<Ref<number>>('containerWidth')!
       <div wfull flex="~ col" justify-center items-center>
         <n-avatar
           :style="{
-            width: '100%',
+            width: '150px',
             height: 'auto',
             cursor: 'pointer',
-            maxWidth: containerWidth < 1024 ? '150px' : undefined,
           }"
           size="large"
           :src="user?.avatar"
         />
         <n-divider />
-        <div font-bold text-lg>
+        <div font-bold text-24px>
           {{ user?.name || '' }}
         </div>
       </div>

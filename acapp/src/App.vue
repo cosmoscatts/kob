@@ -19,21 +19,48 @@ const { updateUser } = useUserStore()
 updateUser()
 
 const refContainer = ref<HTMLElement>()
-const { width: containerWidth } = useElementSize(refContainer)
+const { width: containerWidth, height: containerHeight } = useElementSize(refContainer)
 
 provide('containerWidth', containerWidth)
+provide('containerHeight', containerHeight)
+
+const ui = reactive({
+  scale: 1,
+  margin: 0,
+})
+
+const setPosition = () => {
+  const curHeight = window.innerHeight - 10
+  const height = 500
+  ui.scale = curHeight / height
+  ui.margin = ((ui.scale - 1) * height) / 2 + 5
+}
+
+window.onresize = setPosition
+setPosition()
 </script>
 
 <template>
   <n-config-provider
+    ref="refContainer"
     :theme="darkTheme"
     :theme-overrides="themeOverrides"
     :locale="zhCN"
     :date-locale="dateZhCN"
+    flex justify-center
+    wfull hfull font-self m0 p0 of-hidden
+    rounded-2px text-white
+    :style="{ transformStyle: 'preserve-3d' }"
   >
-    <div ref="refContainer" wfull hfull m0 p0 of-hidden text-white bg="[#47485C]" font-self>
+    <div
+      w830px h500px bg="[#47485C]"
+      :style="{
+        marginTop: `${ui.margin}px`,
+        transform: `scale(${ui.scale}) translateZ(1px)`,
+      }"
+    >
       <Navbar />
-      <div of-hidden :style="{ height: 'calc(100% - 100px)' }">
+      <div of-hidden>
         <Transition name="fade-slide" mode="out-in" appear>
           <Home v-if="currentPage === 0" />
           <PK v-else-if="currentPage === 1" />

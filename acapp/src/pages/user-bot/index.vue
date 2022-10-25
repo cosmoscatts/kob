@@ -8,12 +8,11 @@ const containerWidth = inject<Ref<number>>('containerWidth')!
 
 <template>
   <div
-    grid="~ cols-4"
-    gap-x-5
-    ha pt-20px
+    grid="~ cols-4" gap-x-5
     :style="{
-      width: containerWidth < 768 ? '96%' : '80%',
-      marginLeft: containerWidth < 768 ? '2%' : '10%',
+      width: '96%',
+      marginLeft: '2%',
+      height: '370px',
     }"
     :class="containerWidth < 1024 ? '!grid-cols-1 !gap-y-5' : ''"
   >

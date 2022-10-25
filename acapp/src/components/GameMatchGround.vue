@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-
-const containerWidth = inject<Ref<number>>('containerWidth')!
-
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
@@ -41,31 +37,24 @@ fetchBotList()
 <template>
   <div
     :style="{
-      width: containerWidth < 768 ? '96%' : '80%',
-      height: '90%',
-      minHeight: '400px',
-      marginLeft: containerWidth < 768 ? '2%' : '10%',
+      width: '80%',
+      height: '370px',
+      marginLeft: '10%',
     }"
   >
     <n-card>
       <div grid="~ cols-2" :style="{ gridAutoFlow: 'row dense' }">
-        <div col-span-2 h100px flex justify-center items-center>
+        <div col-span-2 h60px flex justify-center items-center>
           <n-select
             v-model:value="selectedBot" :options="botOptions"
             :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid' }"
           />
         </div>
-        <div
-          h200px col-span-1
-          :class="{
-            h320px: containerWidth >= 1024,
-          }"
-        >
+        <div h200px col-span-1>
           <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
-                width: '100%',
-                maxWidth: containerWidth < 640 ? '80px' : containerWidth < 1024 ? '120px' : '180px',
+                width: '100px',
                 height: 'auto',
                 cursor: 'pointer',
               }"
@@ -77,24 +66,18 @@ fetchBotList()
             </div>
           </div>
         </div>
-        <div col-span-2 h100px>
+        <div col-span-2 h60px mt10px>
           <div flex justify-center items-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
             </n-button>
           </div>
         </div>
-        <div
-          h200pxcol-span-1
-          :class="{
-            h320px: containerWidth >= 1024,
-          }"
-        >
+        <div h200px col-span-1>
           <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
-                width: '100%',
-                maxWidth: containerWidth < 640 ? '80px' : containerWidth < 1024 ? '120px' : '180px',
+                width: '100px',
                 height: 'auto',
                 cursor: 'pointer',
               }"

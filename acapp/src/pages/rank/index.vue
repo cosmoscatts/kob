@@ -50,16 +50,15 @@ fetchTableData()
 
 <template>
   <div
-    pt-20px
     :style="{
-      width: containerWidth < 768 ? '96%' : '80%',
-      marginLeft: containerWidth < 768 ? '2%' : '10%',
-      maxHeight: '70%',
+      width: '80%',
+      marginLeft: '10%',
+      height: '370px',
     }"
   >
-    <n-card title="排行榜" hoverable>
+    <n-card title="排行榜" hoverable hfull>
       <n-data-table
-        v-if="containerWidth >= 768"
+        v-if="containerWidth > 500"
         size="small"
         :loading="loading"
         :columns="columns"

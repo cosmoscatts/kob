@@ -113,15 +113,15 @@ fetchTableData()
 </script>
 
 <template>
-  <div w-full>
-    <n-card title="我的Bot" hoverable>
+  <div w-full hfull>
+    <n-card title="我的Bot" hoverable hfull>
       <template #header-extra>
         <NButton type="primary" text-color="white" @click="onAddBot">
           添加Bot
         </NButton>
       </template>
       <n-data-table
-        v-if="containerWidth >= 768"
+        v-if="containerWidth > 500"
         size="small"
         :loading="loading"
         :columns="columns"
