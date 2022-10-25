@@ -30,14 +30,16 @@ const ui = reactive({
 })
 
 const setPosition = () => {
-  const curHeight = window.innerHeight - 10
+  const curHeight = containerHeight.value - 10
   const height = 500
   ui.scale = curHeight / height
   ui.margin = ((ui.scale - 1) * height) / 2 + 5
 }
 
 window.onresize = setPosition
-setPosition()
+onMounted(() => {
+  useTimeoutFn(setPosition, 50)
+})
 </script>
 
 <template>
@@ -49,7 +51,7 @@ setPosition()
     :date-locale="dateZhCN"
     flex justify-center
     wfull hfull font-self m0 p0 of-hidden
-    rounded-2px text-white bg="[#47485C]"
+    text-white bg="[#47485C]"
     :style="{ transformStyle: 'preserve-3d' }"
   >
     <div
