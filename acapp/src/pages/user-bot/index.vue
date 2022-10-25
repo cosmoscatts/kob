@@ -19,7 +19,7 @@ const containerWidth = inject<Ref<number>>('containerWidth')!
     <div col-span-1 ha>
       <BotPanel />
     </div>
-    <div col-span-3 :class="containerWidth < 768 ? '!col-span-1 h370px' : ''">
+    <div col-span-3 :class="containerWidth < 768 ? '!col-span-1 ha' : ''">
       <BotTable />
     </div>
   </div>

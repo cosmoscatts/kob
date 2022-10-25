@@ -36,7 +36,7 @@ const { changePage } = usePageStore()
     <p text="24px center" font-bold my-10px>
       <span>怎么，你也玩蛇吗？</span>{{ getEmoji() }}
     </p>
-    <div grid="~ cols-4 gap-x-5" :style="{ width: '66%', marginLeft: '17%' }">
+    <div grid="~ cols-4 gap-x-5" :style="{ width: '68%', marginLeft: '14%' }">
       <div
         v-for="(item, index) in menu" :key="`menu-item-${index}`" class="menu"
         @click="changePage(parseInt(item[2]))"
