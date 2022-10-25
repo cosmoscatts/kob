@@ -37,7 +37,7 @@ watch(containerHeight, (val, old) => {
 })
 
 onMounted(() => {
-  useTimeoutFn(setPosition, 50)
+  useTimeoutFn(setPosition, 500)
 })
 
 const userStore = useUserStore()
@@ -101,3 +101,4 @@ login()
     </div>
   </n-config-provider>
 </template>
+

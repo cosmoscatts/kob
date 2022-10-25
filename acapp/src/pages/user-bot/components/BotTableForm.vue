@@ -110,12 +110,12 @@ const rules = createRules()
 <template>
   <n-modal
     :show="modalVisible"
-    :title="title" size="huge"
+    :title="title"
+    size="small"
     :style="{
       width: '500px',
-      height: '100%',
-      minHeight: '500px',
-      overflow: 'auto',
+      height: '500px',
+      overflow: 'hidden',
     }"
     preset="card" :bordered="false"
     :segmented="segmented"
@@ -125,43 +125,46 @@ const rules = createRules()
     :on-close="onCloseModal"
     to="#container"
   >
-    <n-form
-      ref="refForm"
-      :model="formModel"
-      :rules="rules"
-      label-placement="left"
-      label-width="auto"
-      :show-require-mark="false"
-      :style="{
-        maxWidth: '450px',
-      }"
-    >
-      <n-form-item label="标题" path="title">
-        <n-input v-model:value="formModel.title" placeholder="请输入标题" clearable>
-          <template #clear-icon>
-            <n-icon :component="TrashBinOutlineIcon" />
-          </template>
-        </n-input>
-      </n-form-item>
-      <n-form-item label="描述" path="description">
-        <n-input v-model:value="formModel.description" type="textarea" placeholder="请输入描述" clearable>
-          <template #clear-icon>
-            <n-icon :component="TrashBinOutlineIcon" />
-          </template>
-        </n-input>
-      </n-form-item>
-      <n-form-item label="代码" path="content">
-        <VAceEditor
-          v-model:value="formModel.content"
-          lang="java"
-          theme="monokai"
-          :style="{
-            height: '300px',
-            width: '100%',
-          }"
-        />
-      </n-form-item>
-    </n-form>
+    <n-scrollbar style="max-height: 350px">
+      <n-form
+        ref="refForm"
+        :model="formModel"
+        :rules="rules"
+        label-placement="left"
+        label-width="auto"
+        :show-require-mark="false"
+        :style="{
+          maxWidth: '450px',
+        }"
+      >
+        <n-form-item label="标题" path="title">
+          <n-input v-model:value="formModel.title" placeholder="请输入标题" clearable>
+            <template #clear-icon>
+              <n-icon :component="TrashBinOutlineIcon" />
+            </template>
+          </n-input>
+        </n-form-item>
+        <n-form-item label="描述" path="description">
+          <n-input v-model:value="formModel.description" type="textarea" placeholder="请输入描述" clearable>
+            <template #clear-icon>
+              <n-icon :component="TrashBinOutlineIcon" />
+            </template>
+          </n-input>
+        </n-form-item>
+        <n-form-item label="代码" path="content">
+          <VAceEditor
+            v-model:value="formModel.content"
+            lang="java"
+            theme="monokai"
+            :style="{
+              height: '300px',
+              width: '100%',
+            }"
+          />
+        </n-form-item>
+      </n-form>
+    </n-scrollbar>
+
     <template #footer>
       <div flex justify-center items-center gap-x-5>
         <n-button type="primary" :loading="loading" text-color="white" @click="onSubmit">

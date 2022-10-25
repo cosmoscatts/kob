@@ -129,7 +129,7 @@ fetchTableData()
         :remote="true"
         :pagination="pagination"
         :paginate-single-page="false"
-        :max-height="250"
+        :max-height="200"
       />
       <div
         v-else
