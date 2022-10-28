@@ -1,20 +1,19 @@
 package com.kob.backend.consumer.utils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.dataobject.BotDO;
 import com.kob.backend.dataobject.RecordDO;
 import com.kob.backend.dataobject.UserDO;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
@@ -36,7 +35,7 @@ public class Game extends Thread {
     private String loser;
 
     public Game(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, BotDO botA, Integer idB,
-        BotDO botB) {
+                BotDO botB) {
         this.rows = rows;
         this.cols = cols;
         this.insideRandomWallNum = insideRandomWallNum;
@@ -158,11 +157,11 @@ public class Game extends Thread {
             me = playerA;
             you = playerB;
         } else {
-            me = playerA;
-            you = playerB;
+            me = playerB;
+            you = playerA;
         }
         return getMapString() + "#" + me.getSx() + "#" + me.getSy() + "#(" + me.getStepsString() + ")#" + you.getSx()
-            + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
+                + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
     }
 
     private void sendBotCode(Player player) {
@@ -292,7 +291,7 @@ public class Game extends Thread {
 
     private void updateUserRating(Player player, Integer rating) {
         WebSocketServer.userService
-            .update(Wrappers.<UserDO>lambdaUpdate().eq(UserDO::getId, player.getId()).set(UserDO::getRating, rating));
+                .update(Wrappers.<UserDO>lambdaUpdate().eq(UserDO::getId, player.getId()).set(UserDO::getRating, rating));
     }
 
     private void saveToDatabase() {
@@ -312,8 +311,8 @@ public class Game extends Thread {
 
         RecordDO record = new RecordDO();
         record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
-            .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
-            .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
+                .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
+                .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date());
 
         WebSocketServer.recordService.save(record);
     }
