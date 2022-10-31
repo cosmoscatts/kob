@@ -114,8 +114,8 @@ const rules = createRules()
     size="small"
     :style="{
       width: '500px',
-      height: '500px',
-      overflow: 'auto',
+      height: '100%',
+      overflow: 'hidden',
     }"
     preset="card" :bordered="false"
     :segmented="segmented"
@@ -125,7 +125,7 @@ const rules = createRules()
     :on-close="onCloseModal"
     to="#container"
   >
-    <n-scrollbar style="max-height: 350px">
+    <n-scrollbar style="max-height: 100%">
       <n-form
         ref="refForm"
         :model="formModel"
@@ -152,14 +152,15 @@ const rules = createRules()
           </n-input>
         </n-form-item>
         <n-form-item label="代码" path="content">
-          <n-scrollbar style="max-height: 400px">
+          <n-scrollbar style="max-height: 300px">
             <VAceEditor
               v-model:value="formModel.content"
               lang="java"
               theme="monokai"
               :style="{
                 minHeight: '300px',
-                width: '100%',
+                minWidth: '100%',
+                overflow: 'hidden',
               }"
             />
           </n-scrollbar>

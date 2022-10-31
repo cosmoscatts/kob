@@ -2,7 +2,7 @@
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
-const selectedBot = ref(-1)
+const selectedBot = ref()
 const botOptions = ref<{ value: number; label: string }[]>([])
 
 let matchBtnText = $ref('开始匹配')
@@ -29,7 +29,8 @@ async function fetchBotList() {
     ...defaultBotOptions,
     ...records?.map(i => ({ value: i.id, label: i.title })) || [],
   ] as { value: number; label: string }[]
-  selectedBot.value = -1
+  if (!selectedBot.value)
+    selectedBot.value = -1
 }
 fetchBotList()
 </script>
