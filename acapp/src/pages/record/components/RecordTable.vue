@@ -137,7 +137,7 @@ fetchTableData()
         :data="tableData"
         :remote="true"
         :pagination="pagination"
-        :paginate-single-page="false"
+        :paginate-single-page="true"
         :max-height="200"
       />
       <div
