@@ -2,7 +2,7 @@
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
-const selectedBot = ref(-1)
+const selectedBot = ref()
 const botOptions = ref<{ value: number; label: string }[]>([])
 
 let matchBtnText = $ref('开始匹配')
@@ -29,9 +29,10 @@ async function fetchBotList() {
     ...defaultBotOptions,
     ...records?.map(i => ({ value: i.id, label: i.title })) || [],
   ] as { value: number; label: string }[]
-  selectedBot.value = -1
+  if (!selectedBot.value)
+    selectedBot.value = -1
 }
-fetchBotList()
+onMounted(fetchBotList)
 </script>
 
 <template>
@@ -46,8 +47,9 @@ fetchBotList()
       <div grid="~ cols-2" :style="{ gridAutoFlow: 'row dense' }">
         <div col-span-2 h60px flex justify-center items-center>
           <n-select
-            v-model:value="selectedBot" :options="botOptions"
-            :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid', zIndex: '20' }"
+            v-model:value="selectedBot" :options="botOptions" placeholder="你想怎么玩？"
+            :virtual-scroll="false"
+            :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid' }"
           />
         </div>
         <div h200px col-span-1>
