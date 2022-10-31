@@ -27,5 +27,6 @@ declare module '@vue/runtime-core' {
     NSelect: typeof import('naive-ui')['NSelect']
     NTooltip: typeof import('naive-ui')['NTooltip']
     ResultBoard: typeof import('./components/ResultBoard.vue')['default']
+    ShowPking: typeof import('./components/ShowPking.vue')['default']
   }
 }
