@@ -60,7 +60,7 @@ useTimeoutFn(endLoading, beforeLeaveMs)
   </Transition>
 </template>
 
-  <style scoped>
+<style scoped>
   .loading-mask {
     position: fixed;
     left: 0;

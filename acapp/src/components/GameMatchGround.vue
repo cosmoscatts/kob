@@ -52,7 +52,7 @@ onMounted(fetchBotList)
           />
         </div>
         <div h200px col-span-1>
-          <div flex="~ col" justify-center items-center h-full>
+          <div flex="~ col" justify-center items-center hfull>
             <n-avatar
               :style="{
                 width: '100px',

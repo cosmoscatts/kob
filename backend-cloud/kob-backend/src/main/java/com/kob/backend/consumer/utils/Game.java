@@ -330,6 +330,11 @@ public class Game extends Thread {
 
     @Override
     public void run() {
+        try {
+            Thread.sleep(5000); // 休眠 3 秒，展示匹配成功动画
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 1000; i++) {
             // 判断是否获取两名玩家的下一步操作
             if (getNextStep()) {
