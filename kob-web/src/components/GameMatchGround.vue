@@ -29,8 +29,7 @@ async function fetchBotList() {
     ...defaultBotOptions,
     ...records?.map(i => ({ value: i.id, label: i.title })) || [],
   ] as { value: number; label: string }[]
-  if (!selectedBot.value)
-    selectedBot.value = -1
+  selectedBot.value = -1
 }
 fetchBotList()
 </script>
