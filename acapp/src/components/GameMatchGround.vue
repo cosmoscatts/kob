@@ -47,7 +47,7 @@ fetchBotList()
         <div col-span-2 h60px flex justify-center items-center>
           <n-select
             v-model:value="selectedBot" :options="botOptions"
-            :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid' }"
+            :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid', zIndex: '20' }"
           />
         </div>
         <div h200px col-span-1>
