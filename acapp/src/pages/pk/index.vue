@@ -18,53 +18,55 @@ const urlPrefix = import.meta.env.MODE === 'development'
   ? 'ws://127.0.0.1:3000'
   : 'wss://app3626.acapp.acwing.com.cn'
 const socketUrl = `${urlPrefix}/websocket/${token}/`
-
 const socket = new WebSocket(socketUrl)
 
-socket.onopen = () => {
-  updateSocket(socket)
-}
-
 let showPking = $ref(false)
-socket.onmessage = (msg) => {
-  const { message } = useGlobalNaiveApi()
-  const data = JSON.parse(msg.data)
-  // 匹配成功
-  if (data.event === 'match-success') {
-    updateOpponent({
-      name: data?.opponentName || '-',
-      avatar: data?.opponentAvatar ?? defaultAvatar,
-    })
-    updateGame(data.game)
-    message.success('匹配成功')
-    updateStatus('play')
-    showPking = true
-    useTimeoutFn(() => {
-      showPking = false
-    }, 4500)
+
+onMounted(() => {
+  socket.onopen = () => {
+    updateSocket(socket)
   }
-  else if (data.event === 'move') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
-    snake0.setDirection(data.aDirection)
-    snake1.setDirection(data.bDirection)
+
+  socket.onmessage = (msg) => {
+    const { message } = useGlobalNaiveApi()
+    const data = JSON.parse(msg.data)
+    // 匹配成功
+    if (data.event === 'match-success') {
+      updateOpponent({
+        name: data?.opponentName || '-',
+        avatar: data?.opponentAvatar ?? defaultAvatar,
+      })
+      updateGame(data.game)
+      message.success('匹配成功')
+      updateStatus('play')
+      showPking = true
+      useTimeoutFn(() => {
+        showPking = false
+      }, 4500)
+    }
+    else if (data.event === 'move') {
+      const { snakes } = gameMapObject.value!
+      const [snake0, snake1] = snakes
+      snake0.setDirection(data.aDirection)
+      snake1.setDirection(data.bDirection)
+    }
+    else if (data.event === 'result') {
+      const { snakes } = gameMapObject.value!
+      const [snake0, snake1] = snakes
+
+      if (['all', 'A'].includes(data.loser))
+        snake0.status = 'die'
+
+      if (['all', 'B'].includes(data.loser))
+        snake1.status = 'die'
+
+      updateLoser(data.loser)
+    }
   }
-  else if (data.event === 'result') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
 
-    if (['all', 'A'].includes(data.loser))
-      snake0.status = 'die'
-
-    if (['all', 'B'].includes(data.loser))
-      snake1.status = 'die'
-
-    updateLoser(data.loser)
+  socket.onclose = () => {
   }
-}
-
-socket.onclose = () => {
-}
+})
 
 onUnmounted(() => {
   socket.close()
