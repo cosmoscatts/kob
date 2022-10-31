@@ -25,6 +25,7 @@ socket.onopen = () => {
   updateSocket(socket)
 }
 
+let showPking = $ref(false)
 socket.onmessage = (msg) => {
   const { message } = useGlobalNaiveApi()
   const data = JSON.parse(msg.data)
@@ -36,9 +37,11 @@ socket.onmessage = (msg) => {
     })
     updateGame(data.game)
     message.success('匹配成功')
+    updateStatus('play')
+    showPking = true
     useTimeoutFn(() => {
-      updateStatus('play')
-    }, 200)
+      showPking = false
+    }, 4500)
   }
   else if (data.event === 'move') {
     const { snakes } = gameMapObject.value!
@@ -76,7 +79,8 @@ const showConfetti = computed(() => {
 <template>
   <div w-full h-full flex="~ col">
     <GameMatchGround v-if="status === 'match'" />
-    <GamePlayground v-if="status === 'play'" />
+    <GamePlayground v-if="status === 'play' && !showPking" />
+    <ShowPking v-if="status === 'play' && showPking" />
     <ResultBoard v-if="loser !== 'none'" />
     <Confetti :passed="showConfetti" />
 
