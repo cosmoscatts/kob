@@ -102,3 +102,8 @@ login()
   </n-config-provider>
 </template>
 
+<style>
+.v-binder-follower-container {
+  z-index: 2500 !important;
+}
+</style>
