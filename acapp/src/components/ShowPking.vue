@@ -24,8 +24,8 @@ useTimeoutFn(resume, 500)
 
 const titleLeft = computed(() => {
   return title.value === 'VS'
-    ? 'calc(50% - 40px)'
-    : 'calc(50% - 40px)'
+    ? 'calc(50% - 35px)'
+    : 'calc(50% - 18px)'
 })
 </script>
 
@@ -34,7 +34,7 @@ const titleLeft = computed(() => {
   <Transition leave-active-class="animate__animated animate__bounceOut">
     <div v-if="loading" class="loading-wrapper">
       <div class="side left animate__animated animate__fadeInLeftBig animate__faster">
-        <div w250px h250px rounded-2px cursor-pointer hover:shadow-nav_item>
+        <div w250px h250px rounded-2px cursor-pointer>
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
         </div>
       </div>
@@ -43,7 +43,7 @@ const titleLeft = computed(() => {
         {{ title }}
       </div>
       <div class="side right animate__animated animate__fadeInRightBig animate__faster">
-        <div w250px h250px rounded-2px cursor-pointer border="1 red">
+        <div w250px h250px rounded-2px cursor-pointer>
           <img :src="players?.[1]?.id === user!.id ? user?.avatar : opponent?.avatar" hfull wfull rounded-full>
         </div>
       </div>
@@ -85,12 +85,12 @@ const titleLeft = computed(() => {
   }
 
   .side.left {
-    background-color: rgba(2, 132, 199, 0.5);
+    background-color: rgba(2, 132, 199, 0.6);
     padding-left: 300px;
   }
 
   .side.right {
-    background-color: rgba(220, 38, 38, 0.5);
+    background-color: rgba(220, 38, 38, 0.6);
     padding-right: 300px;
   }
 
