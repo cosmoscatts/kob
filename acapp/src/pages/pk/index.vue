@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { getToken } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
 import ResultBoard from '~/components/ResultBoard.vue'
 
-const token = getToken()
-
-const { user } = storeToRefs(useUserStore())
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 const pkStore = usePkStore()
 const { status, loser, gameMapObject, players } = storeToRefs(pkStore)
@@ -17,7 +15,7 @@ updateOpponent()
 const urlPrefix = import.meta.env.MODE === 'development'
   ? 'ws://127.0.0.1:3000'
   : 'wss://app3626.acapp.acwing.com.cn'
-const socketUrl = `${urlPrefix}/websocket/${token}/`
+const socketUrl = `${urlPrefix}/websocket/${userStore.token}/`
 const socket = new WebSocket(socketUrl)
 
 let showPking = $ref(false)
@@ -86,12 +84,12 @@ const showConfetti = computed(() => {
     <ResultBoard v-if="loser !== 'none'" />
     <Confetti :passed="showConfetti" />
 
-    <div v-if="status === 'play'" mt-15px h-5vh>
-      <div v-if="user!.id === players[0]?.id" text-24px font-bold flex justify-center items-center>
+    <div v-if="status === 'play'">
+      <div v-if="user!.id === players[0]?.id" text-20px font-bold flex justify-center items-center>
         <div i-akar-icons-face-wink mr-2 />
         您在左下角
       </div>
-      <div v-if="user!.id === players[1]?.id" text-24px font-bold flex justify-center items-center>
+      <div v-if="user!.id === players[1]?.id" text-20px font-bold flex justify-center items-center>
         <div i-akar-icons-face-wink mr-2 />
         您在右上角
       </div>
