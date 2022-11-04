@@ -48,7 +48,9 @@ export function useGlobalNaiveApi() {
     const { value: themeOverrides } = useThemeOverrides()
     return {
       theme: darkTheme,
-      themeOverrides,
+      themeOverrides: {
+        ...themeOverrides,
+      },
     }
   })
 
@@ -59,7 +61,12 @@ export function useGlobalNaiveApi() {
     loadingBar,
   } = createDiscreteApi(
     ['message', 'dialog', 'notification', 'loadingBar'],
-    { configProviderProps },
+    {
+      configProviderProps,
+      dialogProviderProps: { to: '#container' },
+      messageProviderProps: { to: '#container' },
+      notificationProviderProps: { to: '#container' },
+    },
   )
 
   return {
