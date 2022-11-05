@@ -25,11 +25,11 @@ writeThemeColorsToBody()
 
 // 关闭浏览器清空缓存
 let beginTime = $ref(0)
-window.onbeforeunload = () => beginTime = Date.now()
-window.onunload = () => {
+window.addEventListener('beforeunload', () => beginTime = Date.now())
+window.addEventListener('unload', () => {
   if (Date.now() - beginTime <= 5)
     localStorage.clear()
-}
+})
 </script>
 
 <template>

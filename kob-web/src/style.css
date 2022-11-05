@@ -91,3 +91,10 @@ html.dark {
   font-weight: bold;
   src: url("~/assets/fonts/hkst/w9.ttf") format("opentype");
 }
+
+@font-face {
+  font-family: 'mainfont';
+  src: url('~/assets/fonts/mainfont.otf');
+  font-weight: normal;
+  font-style: normal;
+}
