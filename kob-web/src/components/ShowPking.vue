@@ -26,8 +26,8 @@ useTimeoutFn(resume, 500)
 
 const titleLeft = computed(() => {
   return title.value === 'VS'
-    ? 'calc(50% - 8rem)'
-    : 'calc(50% - 4rem)'
+    ? 'calc(50% - 10rem)'
+    : 'calc(50% - 5rem)'
 })
 </script>
 
@@ -35,16 +35,15 @@ const titleLeft = computed(() => {
   <div class="loading-mask" />
   <Transition leave-active-class="animate__animated animate__bounceOut">
     <div v-if="loading" class="loading-wrapper">
-      <div class="side left animate__animated animate__fadeInLeftBig animate__faster">
+      <div class="side left animate__animated animate__fadeInLeftBig">
         <div w250px h250px rounded-2px cursor-pointer hover:shadow-nav_item>
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
         </div>
       </div>
-
       <div class="vs animate__animated animate__fadeInDownBig animate__faster">
         {{ title }}
       </div>
-      <div class="side right animate__animated animate__fadeInRightBig animate__faster">
+      <div class="side right animate__animated animate__fadeInRightBig">
         <div w250px h250px rounded-2px cursor-pointer border="1 red">
           <img :src="players?.[1]?.id === user!.id ? user?.avatar : opponent?.avatar" hfull wfull rounded-full>
         </div>
@@ -87,32 +86,37 @@ const titleLeft = computed(() => {
   }
 
   .side.left {
-    background-color: rgba(2, 132, 199, 0.2);
+    background-color: #0284c7;
     padding-left: 300px;
   }
 
   .side.right {
-    background-color: rgba(220, 38, 38, 0.2);
+    background-color: #881337;
     padding-right: 300px;
   }
 
   .side.left div {
     box-shadow: 0px 0px 20px blue inset;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .side.right div {
-    box-shadow: 0px 0px 20px red inset;
+    box-shadow: 0px 0px 20px #DF5A49 inset;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .vs {
     position: absolute;
     left:v-bind(titleLeft);
-    top: calc(50% - 10rem);
-    font-size: 10rem;
+    top: calc(50% - 12rem);
+    font-size: 14rem;
     font-style: italic;
     font-weight: bold;
     text-align: center;
-    color: yellow;
+    color: #FFDD40;
+    z-index: 1000;
   }
 </style>
 
