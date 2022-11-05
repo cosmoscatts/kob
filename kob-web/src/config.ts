@@ -4,7 +4,7 @@ import { DocumentTextOutline, HomeOutline } from '@vicons/ionicons5'
 import type { Menu } from '~/types'
 
 /** 是否为 `debug` 模式 */
-export const debug = true
+export const debug = import.meta.env.MODE === 'development'
 
 /** 存储 `token` 的键 */
 export const TOKEN_KEY = 'jwt_token'
@@ -14,8 +14,8 @@ export const TOKEN_KEY = 'jwt_token'
  */
 export const appMeta = {
   appShortName: 'KOB',
-  appName: 'King Of Bots',
-  description: '惊世骇俗的贪吃蛇双人对抗游戏',
+  appName: '玩蛇仙人',
+  description: '玩蛇两年半的练习生',
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',

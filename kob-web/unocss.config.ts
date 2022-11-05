@@ -41,7 +41,7 @@ export default defineConfig({
       xxl: '1920px',
     },
     fontFamily: {
-      self: 'CMU Sans Serif, HKST',
+      self: 'mainfont',
     },
     colors: {
       primary: 'var(--primary-color)',
