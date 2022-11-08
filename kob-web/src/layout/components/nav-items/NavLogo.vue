@@ -13,11 +13,11 @@ onMounted(() => {
   useTimeoutFn(() => {
     lottie.loadAnimation({
       container: document.querySelector('#lottie-logo')!,
-      path: 'https://assets10.lottiefiles.com/packages/lf20_ZsoSL7RsIe.json',
+      path: 'https://assets10.lottiefiles.com/packages/lf20_i9arxzcg.json',
       loop: true,
       renderer: 'svg',
     })
-  }, 50)
+  }, 10)
 })
 </script>
 

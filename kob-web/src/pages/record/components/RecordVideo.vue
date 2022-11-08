@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import lottie from 'lottie-web'
 import type { PlayerInfo } from '../helper'
 import { appLayout } from '~/config'
 
@@ -29,6 +30,15 @@ const refGameMap = ref()
 function replay() {
   refGameMap.value?.replayVideo?.()
 }
+
+onMounted(() => {
+  lottie.loadAnimation({
+    container: document.querySelector('#lottie-trophy')!,
+    path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
+    loop: true,
+    renderer: 'svg',
+  })
+})
 </script>
 
 <template>
@@ -93,7 +103,7 @@ function replay() {
               平局
             </div>
             <div v-else-if="['A', 'B'].includes(loser)" :style="{ color: loser === 'A' ? '#F94848' : '#4876EC' }" flex-center>
-              <div i-akar-icons-trophy mr-4 />
+              <div id="lottie-trophy" mr2 w50px h50px />
               {{ loser === 'A' ? '红方' : '蓝方' }} <span text-yellow ml-4>胜利</span>
             </div>
             <div v-else>
