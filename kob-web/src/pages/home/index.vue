@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import lottie from 'lottie-web'
 import { appLayout } from '~/config'
 
 const { navHeight, footHeight, contentPadding } = appLayout
@@ -22,16 +23,23 @@ const emojiArray = [
 
 const getEmoji = (): string =>
   emojiArray[Math.floor(Math.random() * emojiArray.length)]
+
+onMounted(() => {
+  lottie.loadAnimation({
+    container: document.querySelector('#lottie-cat')!,
+    path: 'https://assets1.lottiefiles.com/packages/lf20_cSNnXm5euH.json',
+    loop: true,
+    renderer: 'svg',
+  })
+})
 </script>
 
 <template>
-  <div w-70vw mx-a :style="{ height: `calc(100vh - ${diffHeight}px)` }" flex-center>
+  <div w-70vw mx-a :style="{ height: `calc(100vh - ${diffHeight}px)` }" flex="col center">
+    <div id="lottie-cat" w400px h200px />
     <div text-center font-bold>
-      <p text="5xl">
-        {{ getEmoji() }}
-      </p>
-      <h1 text="2xl" m="t-5 b-2">
-        Hey, this is an astonishing game.
+      <h1 text="2xl" m="t-2 b-2">
+        Hi@Everyone, {{ getEmoji() }}. this is an astonishing game.
       </h1>
       <p text-xl m="t-3 b-2" w-40vw mx-a>
         This is a two-player game that you can play yourself or use the AI.
