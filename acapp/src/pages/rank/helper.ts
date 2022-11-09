@@ -53,7 +53,7 @@ export function createColumns({
 function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
   const reward = []
   if (rankNum && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(rankNum)) {
-    const colors = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA']
+    const colors = ['#F7BA1E', '#8E8E8E', '#774B04', '#5BC0DE']
     const color = rankNum <= 3 ? colors[rankNum - 1] : colors[3]
     const component = rankNum <= 3 ? Trophy : Medal
     reward.push(
@@ -64,7 +64,7 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
           color,
           size: 16,
           style: {
-            marginLeft: '15px',
+            marginLeft: '10px',
           },
         },
       ),
@@ -93,7 +93,7 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
         {
           maxWidth: '200px',
           style: {
-            marginLeft: '15px',
+            marginLeft: '10px',
           },
         },
         () => name,
