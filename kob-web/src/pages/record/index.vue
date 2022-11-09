@@ -30,7 +30,6 @@ function changeCurrentTab(
     playerInfoList = _playerInfoList
   }
   else {
-    pagination = {}
     playerInfoList = []
   }
 
