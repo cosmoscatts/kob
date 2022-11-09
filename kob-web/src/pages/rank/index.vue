@@ -30,6 +30,7 @@ const columns = createColumns({
 
 let tableData = $ref<Rank[]>([])
 const searchModel = reactive<{ name?: string }>({ name: '' })
+
 /**
  * 查询表格数据
  */

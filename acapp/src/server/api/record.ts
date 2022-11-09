@@ -4,7 +4,7 @@ export class RecordApi {
   /**
    * 查询对局列表
    */
-  static getRecordList(query: PageQuery) {
+  static getRecordList(query: PageQuery & { name?: string }) {
     return useRequest.get('/api/record/list', { urlParams: query as AnyObject }) as unknown as Promise<PageResult<Record>>
   }
 
