@@ -36,9 +36,9 @@ const searchModel = reactive<{ name?: string }>({ name: '' })
 async function fetchTableData() {
   startLoading()
   const { page, pageSize } = pagination
-  const { name } = searchModel
+  const { name: _name } = searchModel
   try {
-    const { data: { records, total } } = await RankApi.getRankList({ page, pageSize, name })
+    const { data: { records, total } } = await RankApi.getRankList({ page, pageSize, name: _name?.trim() })
     tableData = records!
     pagination.itemCount = total!
   }
