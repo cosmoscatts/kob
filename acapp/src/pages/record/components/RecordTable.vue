@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import {
+  Refresh as RefreshIcon,
+  Search as SearchIcon,
+  TrashBinOutline as TrashBinOutlineIcon,
+} from '@vicons/ionicons5'
 import { createColumns } from '../helper'
 import type { Record } from '~/types'
 
 const {
   page = 1,
   pageSize = 10,
+  name = '',
 } = defineProps<{
   page?: number
   pageSize?: number
+  name?: string
 }>()
 
 const containerWidth = inject<Ref<number>>('containerWidth')!
@@ -79,6 +86,30 @@ const convert2DArray = (map: string) => {
   return g
 }
 
+let tableData = $ref<Record[]>([])
+const searchModel = reactive<{ name?: string }>({ name })
+
+/**
+ * 查询表格数据
+ */
+async function fetchTableData() {
+  startLoading()
+  const { page, pageSize } = pagination
+  const { name: _name } = searchModel
+  try {
+    const { data: { records, total } } = await RecordApi.getRecordList({ page, pageSize, name: _name?.trim() })
+    tableData = records!
+    pagination.itemCount = total!
+  }
+  catch (err) {
+    // 处理异常
+  }
+  finally {
+    useTimeoutFn(endLoading, 1000)
+  }
+}
+fetchTableData()
+
 /**
  * 查看录像
  */
@@ -93,7 +124,7 @@ function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, 
     { name: aName, avatar: aAvatar },
     { name: bName, avatar: bAvatar },
   ]
-  changeCurrentTab(1, { page, pageSize }, playerInfoList)
+  changeCurrentTab(1, { page, pageSize }, playerInfoList, searchModel.name)
 }
 
 const columns = createColumns({
@@ -102,33 +133,34 @@ const columns = createColumns({
   checkVideo,
   onRemoveRecord,
 })
-
-let tableData = $ref<Record[]>([])
-
-/**
- * 查询表格数据
- */
-async function fetchTableData() {
-  startLoading()
-  const { page, pageSize } = pagination
-  try {
-    const { data: { records, total } } = await RecordApi.getRecordList({ page, pageSize })
-    tableData = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    // 处理异常
-  }
-  finally {
-    useTimeoutFn(endLoading, 1000)
-  }
-}
-fetchTableData()
 </script>
 
 <template>
   <div w-full hfull>
     <n-card title="对局记录" hoverable hfull>
+      <template v-if="containerWidth > 500" #header-extra>
+        <div flex gap-x-2>
+          <n-form-item label="玩家名称" label-placement="left" :show-label="containerWidth > 800" :show-feedback="false" size="small">
+            <n-input v-model:value="searchModel.name" placeholder="玩家名称" clearable :style="{ width: '150px' }">
+              <template #clear-icon>
+                <n-icon :component="TrashBinOutlineIcon" />
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-button type="primary" text-color="white" size="small" @click="fetchTableData">
+            <template #icon>
+              <n-icon :component="SearchIcon" color="white" />
+            </template>
+            <span font-bold>查询</span>
+          </n-button>
+          <n-button secondary size="small" @click="searchModel.name = '' && fetchTableData()">
+            <template #icon>
+              <n-icon :component="RefreshIcon" />
+            </template>
+            <span font-bold>重置</span>
+          </n-button>
+        </div>
+      </template>
       <n-data-table
         v-if="containerWidth > 500"
         size="small"
