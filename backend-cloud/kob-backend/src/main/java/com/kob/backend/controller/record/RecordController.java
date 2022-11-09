@@ -16,6 +16,7 @@ import com.kob.backend.common.PageMap;
 import com.kob.backend.common.PageQuery;
 import com.kob.backend.common.Result;
 import com.kob.backend.controller.record.vo.RecordRespVO;
+import com.kob.backend.controller.record.vo.RecordSearchVO;
 
 @RestController
 @RequestMapping("/api//record")
@@ -24,8 +25,8 @@ public class RecordController {
     private RecordBiz recordBiz;
 
     @GetMapping("/list")
-    public Result<PageMap<RecordRespVO>> getList(PageQuery pageQuery) {
-        return Result.success(recordBiz.getList(pageQuery));
+    public Result<PageMap<RecordRespVO>> getList(PageQuery pageQuery, RecordSearchVO searchVO) {
+        return Result.success(recordBiz.getList(pageQuery, searchVO));
     }
 
     @DeleteMapping("/delete")

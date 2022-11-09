@@ -21,4 +21,7 @@ public class RankRespVO {
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;
+
+    /** 排名 */
+    private Integer rankNum;
 }
