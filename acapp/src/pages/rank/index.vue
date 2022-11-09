@@ -89,6 +89,7 @@ fetchTableData()
       </template>
       <n-data-table
         v-if="containerWidth > 500"
+        :style="{ marginTop: '-5px' }"
         size="small"
         :loading="loading"
         :columns="columns"
