@@ -150,6 +150,8 @@ export interface Rank {
   rating?: number
   /** 创建时间 */
   createTime?: Date
+  /** 排名 */
+  rankNum?: number
 }
 
 /** 定义用户安全数据类型 */
