@@ -1,5 +1,6 @@
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NEllipsis } from 'naive-ui'
+import { NAvatar, NEllipsis, NIcon } from 'naive-ui'
+import { Medal, Trophy } from '@vicons/ionicons5'
 import type { Rank } from '~/types'
 
 /**
@@ -23,8 +24,8 @@ export function createColumns({
       title: '玩家',
       key: 'id',
       align: 'center',
-      render({ avatar, name }) {
-        return renderPlayer(avatar, name)
+      render({ avatar, name, rankNum }) {
+        return renderPlayer(avatar, name, rankNum)
       },
     },
     {
@@ -49,7 +50,26 @@ export function createColumns({
 /**
  * 渲染玩家单元格内容
  */
-function renderPlayer(avatar?: string, name?: string) {
+function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
+  const reward = []
+  if (rankNum && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(rankNum)) {
+    const colors = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA']
+    const color = rankNum <= 3 ? colors[rankNum - 1] : colors[3]
+    const component = rankNum <= 3 ? Trophy : Medal
+    reward.push(
+      h(
+        NIcon,
+        {
+          component,
+          color,
+          size: 16,
+          style: {
+            marginLeft: '15px',
+          },
+        },
+      ),
+    )
+  }
   return h(
     'div',
     {
@@ -78,6 +98,7 @@ function renderPlayer(avatar?: string, name?: string) {
         },
         () => name,
       ),
+      ...reward,
     ],
   )
 }

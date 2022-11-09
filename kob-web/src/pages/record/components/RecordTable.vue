@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
+import {
+  Refresh as RefreshIcon,
+  Search as SearchIcon,
+  TrashBinOutline as TrashBinOutlineIcon,
+} from '@vicons/ionicons5'
 import { createColumns } from '../helper'
 import type { Record } from '~/types'
 
 const {
   page = 1,
   pageSize = 10,
+  name = '',
 } = defineProps<{
   page?: number
   pageSize?: number
+  name?: string
 }>()
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
@@ -78,6 +85,29 @@ const convert2DArray = (map: string) => {
   return g
 }
 
+let tableData = $ref<Record[]>([])
+const searchModel = reactive<{ name?: string }>({ name })
+/**
+ * 查询表格数据
+ */
+async function fetchTableData() {
+  startLoading()
+  const { page, pageSize } = pagination
+  const { name } = searchModel
+  try {
+    const { data: { records, total } } = await RecordApi.getRecordList({ page, pageSize, name })
+    tableData = records!
+    pagination.itemCount = total!
+  }
+  catch (err) {
+    // 处理异常
+  }
+  finally {
+    useTimeoutFn(endLoading, 1000)
+  }
+}
+fetchTableData()
+
 /**
  * 查看录像
  */
@@ -92,7 +122,7 @@ function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, 
     { name: aName, avatar: aAvatar },
     { name: bName, avatar: bAvatar },
   ]
-  changeCurrentTab(1, { page, pageSize }, playerInfoList)
+  changeCurrentTab(1, { page, pageSize }, playerInfoList, searchModel.name)
 }
 
 const columns = createColumns({
@@ -102,36 +132,38 @@ const columns = createColumns({
   onRemoveRecord,
 })
 
-let tableData = $ref<Record[]>([])
-
-/**
- * 查询表格数据
- */
-async function fetchTableData() {
-  startLoading()
-  const { page, pageSize } = pagination
-  try {
-    const { data: { records, total } } = await RecordApi.getRecordList({ page, pageSize })
-    tableData = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    // 处理异常
-  }
-  finally {
-    useTimeoutFn(endLoading, 1000)
-  }
-}
-fetchTableData()
-
 // 是否为移动端（包含 `PC` 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = breakpoints.smaller('sm')
+const labelHidden = breakpoints.smaller('md')
 </script>
 
 <template>
   <div w-full>
     <n-card title="对局记录" hoverable>
+      <template v-if="!isMobile" #header-extra>
+        <div flex gap-x-2>
+          <n-form-item label="玩家名称" label-placement="left" :show-label="!labelHidden" :show-feedback="false">
+            <n-input v-model:value="searchModel.name" placeholder="玩家名称" clearable :style="{ width: '150px' }">
+              <template #clear-icon>
+                <n-icon :component="TrashBinOutlineIcon" />
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-button type="primary" text-color="white" @click="fetchTableData">
+            <template #icon>
+              <n-icon :component="SearchIcon" color="white" />
+            </template>
+            <span font-bold>查询</span>
+          </n-button>
+          <n-button secondary @click="searchModel.name = '' && fetchTableData()">
+            <template #icon>
+              <n-icon :component="RefreshIcon" />
+            </template>
+            <span font-bold>重置</span>
+          </n-button>
+        </div>
+      </template>
       <n-data-table
         v-if="!isMobile"
         size="small"
