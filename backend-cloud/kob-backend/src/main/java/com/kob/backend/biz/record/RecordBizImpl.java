@@ -1,9 +1,6 @@
 package com.kob.backend.biz.record;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -12,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,6 +17,7 @@ import com.kob.backend.common.DeleteQuery;
 import com.kob.backend.common.PageMap;
 import com.kob.backend.common.PageQuery;
 import com.kob.backend.controller.record.vo.RecordRespVO;
+import com.kob.backend.controller.record.vo.RecordSearchVO;
 import com.kob.backend.convert.RecordConverter;
 import com.kob.backend.dataobject.RecordDO;
 import com.kob.backend.dataobject.UserDO;
@@ -34,9 +33,21 @@ public class RecordBizImpl implements RecordBiz {
     private UserService userService;
 
     @Override
-    public PageMap<RecordRespVO> getList(PageQuery pageQuery) {
+    public PageMap<RecordRespVO> getList(PageQuery pageQuery, RecordSearchVO searchVO) {
         IPage<RecordDO> page = new Page<>(pageQuery.getPage(), pageQuery.getPageSize());
-        page = recordService.page(page, Wrappers.<RecordDO>lambdaQuery().orderByDesc(RecordDO::getCreateTime));
+        LambdaQueryWrapper<RecordDO> wrapper = Wrappers.<RecordDO>lambdaQuery().orderByDesc(RecordDO::getCreateTime);
+        List<Integer> idList = new ArrayList<>();
+        if (searchVO.getName() != null && !"".equals(searchVO.getName())) {
+            idList = userService.list(Wrappers.<UserDO>lambdaQuery().like(UserDO::getName, searchVO.getName())).stream()
+                .map(UserDO::getId).collect(Collectors.toList());
+            if (idList.isEmpty()) {
+                return PageMap.empty();
+            }
+        }
+        if (!idList.isEmpty()) {
+            wrapper.in(RecordDO::getAId, idList).or().in(RecordDO::getBId, idList);
+        }
+        page = recordService.page(page, wrapper);
 
         List<RecordDO> list = page.getRecords();
 
