@@ -5,10 +5,15 @@ const refParentEl = ref<HTMLElement>()
 const refCanvas = ref<HTMLCanvasElement>()
 
 const { updateGameMapObject } = usePkStore()
+const { updateRecordFinished } = useRecordStore()
+let gameMap: GameMap | null = null
 
 function createGameMap() {
   const { value: canvas } = refCanvas
-  updateGameMapObject(new GameMap(canvas!.getContext('2d')!, refParentEl.value!))
+  gameMap?.destory()
+  gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!)
+  updateGameMapObject(gameMap)
+  updateRecordFinished(false)
 }
 
 onMounted(createGameMap)
@@ -17,8 +22,24 @@ function replayVideo() {
   createGameMap()
 }
 
+/**
+ * 暂停
+ */
+function pauseVideo() {
+  gameMap?.recordFn?.pause()
+}
+
+/**
+ * 取消暂停
+ */
+function resumeVideo() {
+  gameMap?.recordFn?.resume()
+}
+
 defineExpose({
   replayVideo,
+  pauseVideo,
+  resumeVideo,
 })
 </script>
 

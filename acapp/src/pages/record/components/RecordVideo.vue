@@ -11,18 +11,28 @@ const {
 const containerWidth = inject<Ref<number>>('containerWidth')!
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
+const refGameMap = ref()
+
 const { clearVideo } = useRecordStore()
-const { loser } = storeToRefs(useRecordStore())
+const { loser, recordFinished } = storeToRefs(useRecordStore())
 
 function goBack() {
   clearVideo()
+  refGameMap.value?.pauseVideo?.()
   changeCurrentTab(0, {})
 }
 
-const refGameMap = ref()
-
 function replay() {
   refGameMap.value?.replayVideo?.()
+}
+
+let recordPaused = $ref(false)
+function pause() {
+  recordPaused = !recordPaused
+  if (recordPaused)
+    refGameMap.value?.pauseVideo?.()
+  else
+    refGameMap.value?.resumeVideo?.()
 }
 </script>
 
@@ -37,8 +47,11 @@ function replay() {
         录像回放
       </div>
       <div absolute flex gap-x-3 right-0>
-        <n-button type="primary" text-color="white" @click="replay">
+        <n-button type="primary" text-color="white" :disabled="!recordFinished" @click="replay">
           重新回放
+        </n-button>
+        <n-button type="warning" text-color="white" :disabled="recordFinished" @click="pause">
+          {{ ['暂停回放', '取消暂停'][Number(recordPaused)] }}
         </n-button>
         <n-button type="error" text-color="white" @click="goBack">
           返回

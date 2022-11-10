@@ -22,6 +22,8 @@ export const useRecordStore = defineStore(
     const players = ref<Player[]>([])
     // `all` - 平局 | `A` - `A` 输 | `B` - `B` 输
     const loser = ref<'all' | 'A' | 'B' | 'none'>('none')
+    // 录像是否播放完毕
+    const recordFinished = ref(true)
 
     function updateIsRecord(_isRecord: boolean) {
       isRecord.value = _isRecord
@@ -52,6 +54,10 @@ export const useRecordStore = defineStore(
       players.value = []
     }
 
+    function updateRecordFinished(_recordFinished: boolean) {
+      recordFinished.value = _recordFinished
+    }
+
     return {
       isRecord,
       aSteps,
@@ -59,11 +65,13 @@ export const useRecordStore = defineStore(
       gameMap,
       players,
       loser,
+      recordFinished,
       updateIsRecord,
       updateSteps,
       updateGame,
       updateLoser,
       clearVideo,
+      updateRecordFinished,
     }
   },
 )
