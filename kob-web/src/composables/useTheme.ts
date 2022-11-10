@@ -15,8 +15,8 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       ? '#121212'
       : '#ffffff'
     const cardColor = isDark.value
-      ? '#171717'
-      : '#ffffff'
+      ? '#131313'
+      : '#fefefe'
     const modalColor = isDark.value
       ? '#262626'
       : '#ffffff'
