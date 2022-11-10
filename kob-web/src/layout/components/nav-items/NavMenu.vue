@@ -65,7 +65,7 @@ const defaultSelectedMenuOptionKey = computed(() => {
       ? [i, ...i.children]
       : [i]
   })
-  return allMenuOptions.find(i => i.path === route.path)?.key || undefined
+  return allMenuOptions.find(i => i.path === route.path)?.key || null
 })
 </script>
 
