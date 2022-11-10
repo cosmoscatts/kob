@@ -17,18 +17,28 @@ const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50
 })
 
+const refGameMap = ref()
+
+const { loser, recordFinished } = storeToRefs(useRecordStore())
 const { clearVideo } = useRecordStore()
-const { loser } = storeToRefs(useRecordStore())
 
 function goBack() {
   clearVideo()
+  refGameMap.value?.pauseVideo?.()
   changeCurrentTab(0, {})
 }
 
-const refGameMap = ref()
-
 function replay() {
   refGameMap.value?.replayVideo?.()
+}
+
+let recordPaused = $ref(false)
+function pause() {
+  recordPaused = !recordPaused
+  if (recordPaused)
+    refGameMap.value?.pauseVideo?.()
+  else
+    refGameMap.value?.resumeVideo?.()
 }
 
 onMounted(() => {
@@ -38,6 +48,15 @@ onMounted(() => {
     loop: true,
     renderer: 'svg',
   })
+})
+
+// 判断是否离开页面
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden')
+    refGameMap.value?.pauseVideo?.()
+  else
+  if (!recordPaused)
+    replay()
 })
 </script>
 
@@ -56,8 +75,11 @@ onMounted(() => {
         录像回放
       </div>
       <div absolute right-0 flex gap-x-5 lt-md="right-35px gap-x-2">
-        <n-button type="primary" text-color="white" @click="replay">
+        <n-button type="primary" text-color="white" :disabled="!recordFinished" @click="replay">
           重新回放
+        </n-button>
+        <n-button type="warning" text-color="white" :disabled="recordFinished" @click="pause">
+          {{ ['暂停回放', '取消暂停'][Number(recordPaused)] }}
         </n-button>
         <n-button type="error" text-color="white" @click="goBack">
           返回

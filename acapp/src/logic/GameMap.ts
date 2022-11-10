@@ -1,3 +1,4 @@
+import type { Pausable } from '@vueuse/core'
 import { Game } from './Game'
 import { GameSnake } from './GameSnake'
 import { GameWall } from './GameWall'
@@ -18,6 +19,8 @@ export class GameMap extends Game {
   gameWalls: GameWall[]
   /** 蛇集合 */
   snakes: GameSnake[]
+  /** 录像执行方法 */
+  recordFn: Pausable | null
 
   constructor(ctx: CanvasRenderingContext2D, parent: HTMLElement) {
     super()
@@ -35,6 +38,8 @@ export class GameMap extends Game {
       new GameSnake({ id: 0, color: '#4876EC', r: this.rows - 2, c: 1 }, this),
       new GameSnake({ id: 1, color: '#F94848', r: 1, c: this.cols - 2 }, this),
     ]
+
+    this.recordFn = null
   }
 
   /**
@@ -73,12 +78,14 @@ export class GameMap extends Game {
 
   addListeningEvents() {
     const { socket } = usePkStore()
-    const { isRecord, aSteps, bSteps, loser } = useRecordStore()
+    const { isRecord, aSteps, bSteps, loser, updateRecordFinished } = useRecordStore()
 
     if (isRecord) {
       let k = 0
       const [snake0, snake1] = this.snakes
-      const intervalId = setInterval(() => {
+
+      let _recordFn: Pausable | null = null
+      _recordFn = this.recordFn = useIntervalFn(() => {
         if (k >= aSteps.length - 1) {
           if (['all', 'A'].includes(loser))
             snake0.status = 'die'
@@ -86,7 +93,8 @@ export class GameMap extends Game {
           if (['all', 'B'].includes(loser))
             snake1.status = 'die'
 
-          clearInterval(intervalId)
+          _recordFn?.pause() // 这里注意 this 的指向问题
+          updateRecordFinished(true)
         }
         else {
           snake0.setDirection(parseInt(aSteps[k]))
