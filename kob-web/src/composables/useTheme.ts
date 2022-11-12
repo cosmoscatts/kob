@@ -48,6 +48,9 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       Dialog: {
         color: modalColor,
       },
+      Message: {
+        color: modalColor,
+      },
       Notification: {
         color: modalColor,
       },

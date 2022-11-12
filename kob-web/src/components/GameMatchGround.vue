@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { GameControllerOutline } from '@vicons/ionicons5'
+
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
@@ -6,8 +8,10 @@ const selectedBot = ref()
 const botOptions = ref<{ value: number; label: string }[]>([])
 
 let matchBtnText = $ref('开始匹配')
+const { loading, startLoading, endLoading } = useLoading()
 function onClick() {
   if (matchBtnText === '开始匹配') {
+    startLoading()
     matchBtnText = '取消匹配'
     socket.value?.send(JSON.stringify({
       event: 'start-matching',
@@ -15,6 +19,7 @@ function onClick() {
     }))
   }
   else {
+    endLoading()
     matchBtnText = '开始匹配'
     socket.value?.send(JSON.stringify({
       event: 'stop-matching',
@@ -86,5 +91,15 @@ fetchBotList()
         </div>
       </div>
     </n-card>
+    <div v-if="loading" fixed w-400px :style="{ top: '6vh', left: 'calc(50% - 200px)' }">
+      <n-alert title="这么好玩的项目竟然没人玩？" type="warning" closable>
+        <template #icon>
+          <n-icon>
+            <GameControllerOutline />
+          </n-icon>
+        </template>
+        正在拼命寻找对手(╯°□°）╯︵ ┻━┻
+      </n-alert>
+    </div>
   </div>
 </template>

@@ -37,12 +37,12 @@ socket.onmessage = (msg) => {
   const data = JSON.parse(msg.data)
   // 匹配成功
   if (data.event === 'match-success') {
+    message.success('您的对手已找到')
     updateOpponent({
       name: data?.opponentName || '-',
       avatar: data?.opponentAvatar ?? defaultAvatar,
     })
     updateGame(data.game)
-    message.success('匹配成功')
     updateStatus('play')
     showPking = true
     useTimeoutFn(() => {
