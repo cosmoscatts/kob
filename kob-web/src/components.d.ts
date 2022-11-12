@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     GameMap: typeof import('./components/GameMap.vue')['default']
     GameMatchGround: typeof import('./components/GameMatchGround.vue')['default']
     GamePlayground: typeof import('./components/GamePlayground.vue')['default']
+    NAlert: typeof import('naive-ui')['NAlert']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NButton: typeof import('naive-ui')['NButton']
