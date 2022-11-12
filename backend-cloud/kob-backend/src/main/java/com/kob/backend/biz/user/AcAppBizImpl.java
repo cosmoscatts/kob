@@ -92,7 +92,8 @@ public class AcAppBizImpl implements AcAppBiz {
         if (getString == null)
             return Result.error();
         getResp = JSONObject.parseObject(getString);
-        String username = getResp.getString("username");
+        String username = getResp.getString("username"),
+                name = getResp.getString("username");
         String photo = getResp.getString("photo");
 
         if (username == null || photo == null)
@@ -108,7 +109,7 @@ public class AcAppBizImpl implements AcAppBiz {
         UserDO newUser = new UserDO()
                 .setId(null)
                 .setUsername(username)
-                .setName("匿名用户")
+                .setName(name)
                 .setPassword(null)
                 .setAvatar(photo)
                 .setRating(1500)
