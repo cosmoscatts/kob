@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import lottie from 'lottie-web'
+
 const { user } = storeToRefs(useUserStore())
 const { opponent, players } = storeToRefs(usePkStore())
 
@@ -29,12 +31,24 @@ const titleLeft = computed(() => {
     ? 'calc(50% - 10rem)'
     : 'calc(50% - 5rem)'
 })
+
+onMounted(() => {
+  useTimeoutFn(() => {
+    lottie.loadAnimation({
+      container: document.querySelector('#lottie-loading')!,
+      path: 'https://assets1.lottiefiles.com/packages/lf20_F5Nz1IPcfz.json',
+      loop: true,
+      renderer: 'svg',
+    })
+  }, 1000)
+})
 </script>
 
 <template>
   <div class="loading-mask" />
   <Transition leave-active-class="animate__animated animate__bounceOut">
     <div v-if="loading" class="loading-wrapper">
+      <div id="lottie-loading" w400px h250px absolute z-10000 :style="{ top: '40vh', left: 'calc(50% - 200px)' }" />
       <div class="side left animate__animated animate__fadeInLeftBig">
         <div w250px h250px rounded-2px cursor-pointer hover:shadow-nav_item>
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
