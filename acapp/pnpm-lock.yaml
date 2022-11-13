@@ -18,6 +18,7 @@ specifiers:
   colord: ^2.9.3
   dayjs: ^1.11.6
   eslint: ^8.26.0
+  lottie-web: ^5.9.6
   naive-ui: ^2.33.5
   pinia: ^2.0.23
   pinia-plugin-persist-uni: ^1.1.5
@@ -40,6 +41,7 @@ dependencies:
   canvas-confetti: registry.npmmirror.com/canvas-confetti/1.6.0
   colord: registry.npmmirror.com/colord/2.9.3
   dayjs: registry.npmmirror.com/dayjs/1.11.6
+  lottie-web: registry.npmmirror.com/lottie-web/5.9.6
   pinia: registry.npmmirror.com/pinia/2.0.23_l7r24p6nevbtlimqmqcwa3ouhu
   pinia-plugin-persist-uni: registry.npmmirror.com/pinia-plugin-persist-uni/1.1.5_pinia@2.0.23+vue@3.2.41
   seemly: registry.npmmirror.com/seemly/0.3.6
@@ -3272,6 +3274,12 @@ packages:
     name: lodash
     version: 4.17.21
     dev: true
+
+  registry.npmmirror.com/lottie-web/5.9.6:
+    resolution: {integrity: sha512-JFs7KsHwflugH5qIXBpB4905yC1Sub2MZWtl/elvO/QC6qj1ApqbUZJyjzJseJUtVpgiDaXQLjBlIJGS7UUUXA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lottie-web/-/lottie-web-5.9.6.tgz}
+    name: lottie-web
+    version: 5.9.6
+    dev: false
 
   registry.npmmirror.com/lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lru-cache/-/lru-cache-6.0.0.tgz}

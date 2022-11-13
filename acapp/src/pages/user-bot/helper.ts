@@ -85,7 +85,7 @@ export function handleSaveBot({
   type = 'add',
   data = {},
 }: {
-  type: 'add' | 'edit'
+  type?: 'add' | 'edit'
   data?: Bot
 }) {
   const { message } = useGlobalNaiveApi()
