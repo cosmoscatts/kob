@@ -2,6 +2,7 @@ package com.kob.matchingsystem.service.impl.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,14 @@ public class MatchingPool extends Thread {
 
     /**
      * 判断两名玩家是否匹配
+     * <p>
+     * 11/15 优化：自己不能匹配自己
+     * <p/>
      */
     private boolean checkMatched(Player a, Player b) {
         int ratingDelta = Math.abs(a.getRating() - b.getRating());
         int waitingTime = Math.min(a.getWaitingTime(), b.getWaitingTime());
-        return ratingDelta <= waitingTime * 10;
+        return !Objects.equals(a.getUserId(), b.getUserId()) && ratingDelta <= waitingTime * 10;
     }
 
     /**

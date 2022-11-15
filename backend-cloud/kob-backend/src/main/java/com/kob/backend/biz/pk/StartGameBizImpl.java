@@ -8,6 +8,6 @@ import com.kob.backend.consumer.WebSocketServer;
 public class StartGameBizImpl implements StartGameBiz {
     @Override
     public void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
-        WebSocketServer.startGame(aId, aBotId, bId, bBotId);
+        WebSocketServer.startGame(aId, aBotId, bId, bBotId, "match");
     }
 }
