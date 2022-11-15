@@ -1,9 +1,8 @@
 package com.kob.backend.biz.pk;
 
-import org.springframework.stereotype.Service;
-
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.consumer.utils.Game;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ReceiveBotMoveBizImpl implements ReceiveBotMoveBiz {
@@ -12,14 +11,32 @@ public class ReceiveBotMoveBizImpl implements ReceiveBotMoveBiz {
         if (WebSocketServer.users.get(userId) != null) {
             Game game = WebSocketServer.users.get(userId).game;
             if (game != null) {
-                if (game.getPlayerA().getId().equals(userId)) {
-                    game.setNextStepA(direction);
-                } else if (game.getPlayerB().getId().equals(userId)) {
-                    game.setNextStepB(direction);
+                if ("machine".equals(game.getMode())) {
+                    if (game.getPlayerA().getBotId() == -1) {
+                        if (game.getPlayerB().getId().equals(userId)) {
+                            game.setNextStepB(direction);
+                        }
+                    } else {
+                        Integer nextStepsA = game.getNextStepA();
+                        if (nextStepsA != null) {
+                            if (game.getPlayerB().getId().equals(userId)) {
+                                game.setNextStepB(direction);
+                            }
+                        } else {
+                            if (game.getPlayerA().getId().equals(userId)) {
+                                game.setNextStepA(direction);
+                            }
+                        }
+                    }
+                } else {
+                    if (game.getPlayerA().getId().equals(userId)) {
+                        game.setNextStepA(direction);
+                    } else if (game.getPlayerB().getId().equals(userId)) {
+                        game.setNextStepB(direction);
+                    }
                 }
             }
         }
-
         return "receive bot move success";
     }
 }

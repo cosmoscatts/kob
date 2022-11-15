@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { GameControllerOutline } from '@vicons/ionicons5'
 
+const changePageIndex = inject('changePageIndex') as Function
+
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
@@ -40,7 +42,15 @@ fetchBotList()
 </script>
 
 <template>
-  <div w60vw h70vh mxa lt-md="ha" flex="col" border="1 red">
+  <div w60vw mxa ha flex="col">
+    <div flex-y-center justify-between mb15px>
+      <div text="primary 30px" font-800>
+        匹配对抗
+      </div>
+      <n-button size="large" type="primary" text-color="white" @click="changePageIndex?.(0)">
+        返回
+      </n-button>
+    </div>
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
         <div col-span-2 h-10vh flex-center>
