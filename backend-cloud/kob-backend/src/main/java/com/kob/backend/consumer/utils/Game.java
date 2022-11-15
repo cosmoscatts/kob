@@ -23,6 +23,8 @@ public class Game extends Thread {
     private final Player playerA;
     private final Player playerB;
     private final ReentrantLock lock = new ReentrantLock();
+    // 当前对局的模式：匹配、人机
+    private final String mode; // machine / match
     // 玩家 A 的下一步操作
     private Integer nextStepA;
     // 玩家 B 的下一步操作
@@ -31,8 +33,6 @@ public class Game extends Thread {
     private String status = "playing";
     // ['all', 'A', 'B']
     private String loser;
-    // 当前对局的模式：匹配、人机
-    private String mode; // machine / match
 
     public Game(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, BotDO botA, Integer idB,
         BotDO botB, String mode) {
