@@ -173,16 +173,14 @@ public class WebSocketServer {
         JSONObject data = JSON.parseObject(message);
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
-            String mode = data.getString("mode"); // 模式：人机 (machine) 还是匹配 (match)
-            if ("machine".equals(mode)) {
-                // 与人机匹配还是与自己的 bot 匹配
-                // 与人机匹配传人机的 id，固定为 1，否则传用户自己的 id
-                Integer machineId = data.getInteger("machineId");
-                Integer machineBotId = data.getInteger("machineBotId");
-                startGame(this.user.getId(), data.getInteger("botId"), machineId, machineBotId, mode);
-            } else {
-                startMatching(data.getInteger("botId"));
-            }
+            startMatching(data.getInteger("botId"));
+        } else if ("start-machine-training".equals(event)) {
+            // 与人机匹配还是与自己的 bot 匹配
+            // 与人机匹配传人机的 id，固定为 1，否则传用户自己的 id
+            Integer botId = data.getInteger("botId");
+            Integer machineId = data.getInteger("machineId");
+            Integer machineBotId = data.getInteger("machineBotId");
+            startGame(this.user.getId(), botId, machineId, machineBotId, "machine");
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {
