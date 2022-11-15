@@ -40,7 +40,7 @@ fetchBotList()
 </script>
 
 <template>
-  <div w-60vw h-70vh mx-a lt-md="ha" flex-y-center>
+  <div w60vw h70vh mxa lt-md="ha" flex="col" border="1 red">
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
         <div col-span-2 h-10vh flex-center>
