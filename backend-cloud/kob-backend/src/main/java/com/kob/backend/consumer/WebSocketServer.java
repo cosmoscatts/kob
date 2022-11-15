@@ -41,11 +41,11 @@ public class WebSocketServer {
     private Session session;
     private UserDO user;
 
-    public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
+    public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId, String mode) {
         UserDO a = userService.getById(aId), b = userService.getById(bId);
         BotDO botA = botService.getById(aBotId), botB = botService.getById(bBotId);
 
-        Game game = new Game(13, 14, 20, a.getId(), botA, b.getId(), botB);
+        Game game = new Game(13, 14, 20, a.getId(), botA, b.getId(), botB, mode);
         game.createMap();
 
         if (users.get(a.getId()) != null)
@@ -173,7 +173,16 @@ public class WebSocketServer {
         JSONObject data = JSON.parseObject(message);
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
-            startMatching(data.getInteger("botId"));
+            String mode = data.getString("mode"); // 模式：人机 (machine) 还是匹配 (match)
+            if ("machine".equals(mode)) {
+                // 与人机匹配还是与自己的 bot 匹配
+                // 与人机匹配传人机的 id，固定为 1，否则传用户自己的 id
+                Integer machineId = data.getInteger("machineId");
+                Integer machineBotId = data.getInteger("machineBotId");
+                startGame(this.user.getId(), data.getInteger("botId"), machineId, machineBotId, mode);
+            } else {
+                startMatching(data.getInteger("botId"));
+            }
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {

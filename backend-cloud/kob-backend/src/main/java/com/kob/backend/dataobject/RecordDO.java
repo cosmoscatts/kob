@@ -28,4 +28,7 @@ public class RecordDO {
     private String loser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;
+
+    // 11/15 新增模式字段：匹配、人机
+    private String mode; // machine or match
 }

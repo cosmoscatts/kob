@@ -41,4 +41,6 @@ public class RecordRespVO {
     private String bName;
     @JsonProperty("bAvatar")
     private String bAvatar;
+
+    private String mode;
 }
