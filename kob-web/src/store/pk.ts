@@ -23,7 +23,7 @@ export const usePkStore = defineStore(
   () => {
     // `match` - 匹配界面， `play` - 对战界面
     const status = ref<'match' | 'play'>('match')
-    const socket = ref()
+    const socket = ref<WebSocket>()
     const opponent = ref<Opponent>()
     const gameMap = ref<number[][]>()
     const players = ref<Player[]>([])
