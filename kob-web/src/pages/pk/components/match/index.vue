@@ -2,7 +2,6 @@
 import { appLayout } from '~/config'
 import { getToken } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
-import ResultBoard from '~/components/ResultBoard.vue'
 
 const token = getToken()
 const { navHeight, footHeight, contentPadding } = appLayout
@@ -69,7 +68,14 @@ socket.onmessage = (msg) => {
 
 socket.onclose = () => {}
 
-onUnmounted(() => socket.close())
+function clear() {
+  socket.close()
+  updateLoser('none')
+  updateOpponent()
+  updateStatus('match')
+}
+
+onUnmounted(clear)
 
 const showConfetti = computed(() => {
   return (loser.value === 'A' && players.value[1].id === user.value?.id)

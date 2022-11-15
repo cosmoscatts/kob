@@ -1,12 +1,5 @@
 package com.kob.backend.biz.rank;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -18,6 +11,11 @@ import com.kob.backend.controller.record.vo.RecordSearchVO;
 import com.kob.backend.convert.UserConverter;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.UserService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RankBizImpl implements RankBiz {
@@ -27,7 +25,7 @@ public class RankBizImpl implements RankBiz {
     @Override
     public PageMap<RankRespVO> getList(PageQuery pageQuery, RecordSearchVO searchVO) {
         IPage<UserDO> page = new Page<>(pageQuery.getPage(), pageQuery.getPageSize());
-        LambdaQueryWrapper<UserDO> wrapper = Wrappers.<UserDO>lambdaQuery().orderByDesc(UserDO::getRating);
+        LambdaQueryWrapper<UserDO> wrapper = Wrappers.<UserDO>lambdaQuery().ne(UserDO::getId, 1).orderByDesc(UserDO::getRating);
         if (searchVO.getName() != null && !"".equals(searchVO.getName())) {
             wrapper.like(UserDO::getName, searchVO.getName());
         }
