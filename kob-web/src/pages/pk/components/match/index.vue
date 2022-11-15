@@ -27,9 +27,7 @@ const socketUrl = `${urlPrefix}/websocket/${token}/`
 
 const socket = new WebSocket(socketUrl)
 
-socket.onopen = () => {
-  updateSocket(socket)
-}
+socket.onopen = () => updateSocket(socket)
 
 let showPking = $ref(false)
 socket.onmessage = (msg) => {
@@ -69,12 +67,9 @@ socket.onmessage = (msg) => {
   }
 }
 
-socket.onclose = () => {
-}
+socket.onclose = () => {}
 
-onUnmounted(() => {
-  socket.close()
-})
+onUnmounted(() => socket.close())
 
 const showConfetti = computed(() => {
   return (loser.value === 'A' && players.value[1].id === user.value?.id)
