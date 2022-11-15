@@ -1,5 +1,5 @@
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton, NEllipsis } from 'naive-ui'
+import { NAvatar, NButton, NEllipsis, NTag } from 'naive-ui'
 import type { Record } from '~/types'
 
 /**
@@ -39,6 +39,18 @@ export function createColumns({
       align: 'center',
       render({ bAvatar, bName }) {
         return renderPlayer(bAvatar, bName)
+      },
+    },
+    {
+      title: '对局模式',
+      key: 'mode',
+      align: 'center',
+      render({ mode }) {
+        return h(
+          NTag,
+          { type: mode === 'machine' ? 'warning' : 'error' },
+          () => mode === 'machine' ? '人机试炼' : '匹配对战',
+        )
       },
     },
     {

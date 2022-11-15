@@ -120,7 +120,7 @@ export class GameMap extends Game {
         d = 3
 
       if (d >= 0) {
-        socket.send(JSON.stringify({
+        socket?.send(JSON.stringify({
           event: 'move',
           direction: d,
         }))
