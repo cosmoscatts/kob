@@ -68,6 +68,7 @@ provide('changePageIndex', changePageIndex)
 
 .icon {
   position: absolute;
+  color: white;
   top: 50px;
   left: 50px;
   opacity: 0;
