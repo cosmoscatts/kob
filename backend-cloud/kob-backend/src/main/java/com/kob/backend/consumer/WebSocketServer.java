@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.consumer.utils.Game;
 import com.kob.backend.consumer.utils.JwtAuthentication;
+import com.kob.backend.consumer.utils.Player;
 import com.kob.backend.dataobject.BotDO;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.BotService;
@@ -46,14 +47,13 @@ public class WebSocketServer {
     private Session session;
     private UserDO user;
 
-    public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId, String mode) {
+    public static void createGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId, String mode) {
         int realBId = bId;
         if ("machine".equals(mode))
             realBId = 1;
         else if ("selfTrain".equals(mode))
             realBId = aId;
-        System.out.println("aId" + aId + "bId" + bId + ",mode:" + mode);
-        System.out.println("realBId: " + realBId);
+
         UserDO a = userService.getById(aId), b = userService.getById(realBId);
         BotDO botA = botService.getById(aBotId), botB = botService.getById(bBotId);
 
@@ -65,7 +65,8 @@ public class WebSocketServer {
         if (users.get(b.getId()) != null)
             users.get(b.getId()).game = game;
 
-        game.start();
+        // 改为前端控制
+        // game.start();
 
         JSONObject respGame = new JSONObject();
         respGame.put("aId", game.getPlayerA().getId());
@@ -92,6 +93,16 @@ public class WebSocketServer {
             respB.put("game", respGame);
             if (users.get(b.getId()) != null)
                 users.get(b.getId()).sendMessage(respB.toJSONString());
+        }
+    }
+
+    // 匹配动画展示后，真正开始游戏
+    public void startGame() {
+        if (this.game != null) {
+            Player playerA = this.game.getPlayerA();
+            if (playerA.getId().equals(this.user.getId())) {
+                game.start();
+            }
         }
     }
 
@@ -205,11 +216,13 @@ public class WebSocketServer {
             int random = (int)(new Random().nextDouble() * (999 - 100 + 1)) + 100; // 获取 3 位随机数
             machineId = Integer.parseInt((random + str).trim());
             users.put(machineId, this);
-            startGame(this.user.getId(), botId, machineId, machineBotId, mode);
+            createGame(this.user.getId(), botId, machineId, machineBotId, mode);
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {
             move(data.getInteger("direction"));
+        } else if ("start-game".equals(event)) {
+            startGame();
         }
     }
 
