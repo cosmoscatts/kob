@@ -128,6 +128,8 @@ export interface Record {
   aAvatar?: string
   bName?: string
   bAvatar?: string
+
+  mode?: string
 }
 
 /** 定义排行榜数据类型 */

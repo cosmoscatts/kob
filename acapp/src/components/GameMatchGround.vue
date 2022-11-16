@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { GameControllerOutline } from '@vicons/ionicons5'
 
+const changePageIndex = inject('changePageIndex') as Function
+
 const { user } = storeToRefs(useUserStore())
 const { opponent, socket } = storeToRefs(usePkStore())
 
@@ -48,6 +50,14 @@ onMounted(fetchBotList)
       marginLeft: '10%',
     }"
   >
+    <div flex items-center justify-between mb5px h50px>
+      <div text-24px font-800>
+        匹配对战
+      </div>
+      <n-button size="large" type="primary" text-color="white" @click="changePageIndex?.(0)">
+        Back
+      </n-button>
+    </div>
     <n-card>
       <div grid="~ cols-2" :style="{ gridAutoFlow: 'row dense' }">
         <div col-span-2 h60px flex justify-center items-center>
@@ -97,7 +107,7 @@ onMounted(fetchBotList)
         </div>
       </div>
     </n-card>
-    <div v-if="loading" fixed w-400px :style="{ top: '20vh', left: 'calc(50% - 200px)' }">
+    <div v-if="loading" fixed w-400px :style="{ top: '10vh', left: 'calc(50% - 200px)' }">
       <n-alert title="这么好玩的项目竟然没人玩？" type="warning" closable>
         <template #icon>
           <n-icon>

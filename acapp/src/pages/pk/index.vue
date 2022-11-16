@@ -1,98 +1,80 @@
 <script setup lang="ts">
-import defaultAvatar from '~/assets/default-avatar.png'
-import ResultBoard from '~/components/ResultBoard.vue'
+import { Machine, Match } from './components'
 
-const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
-
-const pkStore = usePkStore()
-const { status, loser, gameMapObject, players } = storeToRefs(pkStore)
-const { updateSocket, updateOpponent, updateGame, updateStatus, updateLoser } = pkStore
-
-// 更新对手信息
-updateOpponent()
-
-const urlPrefix = import.meta.env.MODE === 'development'
-  ? 'ws://127.0.0.1:3000'
-  : 'wss://app3626.acapp.acwing.com.cn'
-const socketUrl = `${urlPrefix}/websocket/${userStore.token}/`
-const socket = new WebSocket(socketUrl)
-
-let showPking = $ref(false)
-
-onMounted(() => {
-  socket.onopen = () => {
-    updateSocket(socket)
-  }
-
-  socket.onmessage = (msg) => {
-    const { message } = useGlobalNaiveApi()
-    const data = JSON.parse(msg.data)
-    // 匹配成功
-    if (data.event === 'match-success') {
-      updateOpponent({
-        name: data?.opponentName || '-',
-        avatar: data?.opponentAvatar ?? defaultAvatar,
-      })
-      updateGame(data.game)
-      message.success('匹配成功')
-      updateStatus('play')
-      showPking = true
-      useTimeoutFn(() => {
-        showPking = false
-      }, 4500)
-    }
-    else if (data.event === 'move') {
-      const { snakes } = gameMapObject.value!
-      const [snake0, snake1] = snakes
-      snake0.setDirection(data.aDirection)
-      snake1.setDirection(data.bDirection)
-    }
-    else if (data.event === 'result') {
-      const { snakes } = gameMapObject.value!
-      const [snake0, snake1] = snakes
-
-      if (['all', 'A'].includes(data.loser))
-        snake0.status = 'die'
-
-      if (['all', 'B'].includes(data.loser))
-        snake1.status = 'die'
-
-      updateLoser(data.loser)
-    }
-  }
-
-  socket.onclose = () => {
-  }
-})
-
-onUnmounted(() => {
-  socket.close()
-})
-
-const showConfetti = computed(() => {
-  return (loser.value === 'A' && players.value[1].id === user.value?.id)
-  || (loser.value === 'B' && players.value[0].id === user.value?.id)
-})
+let currentPageIndex = $ref(0)
+function changePageIndex(index: number) {
+  currentPageIndex = index
+}
+provide('changePageIndex', changePageIndex)
 </script>
 
 <template>
-  <div w-full h-full flex="~ col">
-    <GameMatchGround v-if="status === 'match'" />
-    <GamePlayground v-if="status === 'play' && !showPking" />
-    <ShowPking v-if="status === 'play' && showPking" />
-    <ResultBoard v-if="loser !== 'none'" />
-    <Confetti :passed="showConfetti" />
-
-    <div v-if="status === 'play'">
-      <div v-if="user!.id === players[0]?.id" text-20px font-bold flex justify-center items-center>
-        <div i-akar-icons-face-wink mr-2 />
-        您在左下角
+  <div hfull wfull>
+    <Transition name="fade-slide" mode="out-in" appear>
+      <div
+        v-if="currentPageIndex === 0"
+        flex items-center justify-between rounded-10px
+        :style="{
+          border: '1px solid #535664',
+          width: '80%',
+          height: '370px',
+          marginLeft: '10%',
+          padding: '0 15%',
+        }"
+      >
+        <div class="menu" :style="{ marginRight: '10%' }" @click="changePageIndex(1)">
+          <span text-60px>匹</span>配
+          <div i-ri-sword-line class="icon" />
+        </div>
+        <div class="menu" @click="changePageIndex(2)">
+          <span text-60px>人</span>机
+          <div i-carbon-bot class="icon" />
+        </div>
       </div>
-      <div v-if="user!.id === players[1]?.id" text-20px font-bold flex justify-center items-center>
-        <div i-akar-icons-face-wink mr-2 />
-        您在右上角
-      </div>
-    </div>
+      <Match v-else-if="currentPageIndex === 1" />
+      <Machine v-else />
+    </Transition>
   </div>
 </template>
+
+<style scoped>
+.menu {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: span 1 / span 1;
+  height: 60%;
+  width: 30%;
+  font-size: 48px;
+  font-weight: 800;
+  vertical-align: top;
+  transition-duration: 200ms;
+  border: 2px solid #535664;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.menu:hover {
+  background-color: #507C59;
+  color: white;
+  transition-duration: 300ms;
+}
+
+.icon {
+  position: absolute;
+  top: -50px;
+  left: 10px;
+  opacity: 0;
+  font-size: 150px;
+  z-index: 2;
+}
+
+.menu:hover .icon {
+  opacity: 0.5;
+  top: 25px;
+  left: 50px;
+  transition: 0.3s;
+}
+</style>
