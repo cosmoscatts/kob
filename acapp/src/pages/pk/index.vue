@@ -19,7 +19,7 @@ provide('changePageIndex', changePageIndex)
           width: '80%',
           height: '370px',
           marginLeft: '10%',
-          padding: '0 15%',
+          padding: '0 5%',
         }"
       >
         <div class="menu" :style="{ marginRight: '10%' }" @click="changePageIndex(1)">
@@ -45,7 +45,7 @@ provide('changePageIndex', changePageIndex)
   align-items: center;
   grid-column: span 1 / span 1;
   height: 60%;
-  width: 30%;
+  width: 40%;
   font-size: 48px;
   font-weight: 800;
   vertical-align: top;

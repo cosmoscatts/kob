@@ -35,11 +35,14 @@ onMounted(() => {
         avatar: data?.opponentAvatar ?? defaultAvatar,
       })
       updateGame(data.game)
-      message.success('匹配成功')
       updateStatus('play')
       showPking = true
+      message.success('匹配成功')
       useTimeoutFn(() => {
         showPking = false
+        socket.send(JSON.stringify({
+          event: 'start-game',
+        }))
       }, 4500)
     }
     else if (data.event === 'move') {
@@ -62,13 +65,17 @@ onMounted(() => {
     }
   }
 
-  socket.onclose = () => {
-  }
+  socket.onclose = () => {}
 })
 
-onUnmounted(() => {
+function clear() {
   socket.close()
-})
+  updateLoser('none')
+  updateOpponent()
+  updateStatus('match')
+}
+
+onUnmounted(clear)
 
 const showConfetti = computed(() => {
   return (loser.value === 'A' && players.value[1].id === user.value?.id)
