@@ -1,5 +1,23 @@
 package com.kob.backend.consumer;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -10,19 +28,6 @@ import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.BotService;
 import com.kob.backend.service.RecordService;
 import com.kob.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint("/websocket/{token}")
@@ -42,10 +47,17 @@ public class WebSocketServer {
     private UserDO user;
 
     public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId, String mode) {
-        UserDO a = userService.getById(aId), b = userService.getById(bId);
+        int realBId = bId;
+        if ("machine".equals(mode))
+            realBId = 1;
+        else if ("selfTrain".equals(mode))
+            realBId = aId;
+        System.out.println("aId" + aId + "bId" + bId + ",mode:" + mode);
+        System.out.println("realBId: " + realBId);
+        UserDO a = userService.getById(aId), b = userService.getById(realBId);
         BotDO botA = botService.getById(aBotId), botB = botService.getById(bBotId);
 
-        Game game = new Game(13, 14, 20, a.getId(), botA, b.getId(), botB, mode);
+        Game game = new Game(13, 14, 20, aId, botA, bId, botB, mode);
         game.createMap();
 
         if (users.get(a.getId()) != null)
@@ -73,12 +85,14 @@ public class WebSocketServer {
         if (users.get(a.getId()) != null)
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
-        respB.put("event", "match-success");
-        respB.put("opponentName", a.getName());
-        respB.put("opponentAvatar", a.getAvatar());
-        respB.put("game", respGame);
-        if (users.get(b.getId()) != null)
-            users.get(b.getId()).sendMessage(respB.toJSONString());
+        if ("match".equals(mode)) {
+            respB.put("event", "match-success");
+            respB.put("opponentName", a.getName());
+            respB.put("opponentAvatar", a.getAvatar());
+            respB.put("game", respGame);
+            if (users.get(b.getId()) != null)
+                users.get(b.getId()).sendMessage(respB.toJSONString());
+        }
     }
 
     // Spring 单例与 Websocket 冲突
@@ -177,16 +191,21 @@ public class WebSocketServer {
         } else if ("start-machine-training".equals(event)) {
             // 与人机匹配还是与自己的 bot 匹配
             // 与人机匹配传人机的 id，固定为 1，否则传用户自己的 id
+            // mode 有三种：machine | selfTrain (自己打自己) | match
             Integer botId = data.getInteger("botId");
             Integer machineId = data.getInteger("machineId");
             Integer machineBotId = data.getInteger("machineBotId");
+            String mode = "selfTrain";
             if (machineId == 1) { // 匹配的是人机，不是玩家的 bot
-                List<BotDO> list = botService.list(Wrappers.<BotDO>lambdaQuery()
-                        .eq(BotDO::getUserId, machineId));
+                List<BotDO> list = botService.list(Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, machineId));
                 machineBotId = list.get(machineBotId).getId();
-                users.put(machineId, this);
+                mode = "machine";
             }
-            startGame(this.user.getId(), botId, machineId, machineBotId, "machine");
+            String str = new SimpleDateFormat("HHmmss").format(new Date());
+            int random = (int)(new Random().nextDouble() * (999 - 100 + 1)) + 100; // 获取 3 位随机数
+            machineId = Integer.parseInt((random + str).trim());
+            users.put(machineId, this);
+            startGame(this.user.getId(), botId, machineId, machineBotId, mode);
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {

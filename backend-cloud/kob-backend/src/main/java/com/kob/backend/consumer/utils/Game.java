@@ -1,22 +1,23 @@
 package com.kob.backend.consumer.utils;
 
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.dataobject.BotDO;
 import com.kob.backend.dataobject.RecordDO;
 import com.kob.backend.dataobject.UserDO;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends Thread {
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
     private final static String ADD_BOT_URL = "http://127.0.0.1:3002/bot/add/";
     // 当前对局的模式：匹配、人机
-    private final String mode; // machine / match
+    private final String mode; // machine / selfTrain / match
     private final Integer rows;
     private final Integer cols;
     private final Integer insideRandomWallNum;
@@ -34,7 +35,7 @@ public class Game extends Thread {
     private String loser;
 
     public Game(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, BotDO botA, Integer idB,
-                BotDO botB, String mode) {
+        BotDO botB, String mode) {
         this.rows = rows;
         this.cols = cols;
         this.insideRandomWallNum = insideRandomWallNum;
@@ -174,7 +175,7 @@ public class Game extends Thread {
             you = playerA;
         }
         return getMapString() + "#" + me.getSx() + "#" + me.getSy() + "#(" + me.getStepsString() + ")#" + you.getSx()
-                + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
+            + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
     }
 
     private void sendBotCode(Player player) {
@@ -304,14 +305,17 @@ public class Game extends Thread {
 
     private void updateUserRating(Player player, Integer rating) {
         WebSocketServer.userService
-                .update(Wrappers.<UserDO>lambdaUpdate().eq(UserDO::getId, player.getId()).set(UserDO::getRating, rating));
+            .update(Wrappers.<UserDO>lambdaUpdate().eq(UserDO::getId, player.getId()).set(UserDO::getRating, rating));
     }
 
     private void saveToDatabase() {
-        Integer ratingA = WebSocketServer.userService.getById(playerA.getId()).getRating();
-        Integer ratingB = WebSocketServer.userService.getById(playerB.getId()).getRating();
+        // 只有匹配模式，playerB 才是真实 id
+        Integer playerBId = "machine".equals(mode) ? 1 : "match".equals(mode) ? playerB.getId() : playerA.getId();
 
-        if (!Objects.equals(playerA.getId(), playerB.getId())) {
+        Integer ratingA = WebSocketServer.userService.getById(playerA.getId()).getRating();
+        Integer ratingB = WebSocketServer.userService.getById(playerBId).getRating();
+
+        if ("match".equals(mode) && !Objects.equals(playerA.getId(), playerB.getId())) {
             if ("A".equals(loser)) {
                 ratingA -= 2;
                 ratingB += 5;
@@ -319,16 +323,16 @@ public class Game extends Thread {
                 ratingA += 5;
                 ratingB -= 2;
             }
+
+            updateUserRating(playerA, ratingA);
+            updateUserRating(playerB, ratingB);
         }
 
-        updateUserRating(playerA, ratingA);
-        updateUserRating(playerB, ratingB);
-
         RecordDO record = new RecordDO();
-        record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy())
-                .setBId(playerB.getId()).setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
-                .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date())
-                .setMode(this.mode);
+        record.setId(null).setAId(playerA.getId()).setASx(playerA.getSx()).setASy(playerA.getSy()).setBId(playerBId)
+            .setBSx(playerB.getSx()).setBSy(playerB.getSy()).setASteps(playerA.getStepsString())
+            .setBSteps(playerB.getStepsString()).setMap(getMapString()).setLoser(loser).setCreateTime(new Date())
+            .setMode(this.mode);
 
         WebSocketServer.recordService.save(record);
     }
