@@ -48,8 +48,8 @@ export function createColumns({
       render({ mode }) {
         return h(
           NTag,
-          { type: mode === 'machine' ? 'warning' : 'error' },
-          () => mode === 'machine' ? '人机试炼' : '匹配对战',
+          { type: mode === 'match' ? 'error' : 'warning' },
+          () => mode === 'match' ? '匹配对战' : '人机试炼',
         )
       },
     },
