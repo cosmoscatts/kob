@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import ChooseLevel from './components/ChooseLevel.vue'
-import { getToken } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
+import ResultBoard from '~/components/ResultBoard.vue'
 
-const token = getToken()
-
-const { user } = storeToRefs(useUserStore())
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 const pkStore = usePkStore()
 const { status, loser, gameMapObject, players } = storeToRefs(pkStore)
@@ -17,54 +15,58 @@ updateOpponent()
 const urlPrefix = import.meta.env.MODE === 'development'
   ? 'ws://127.0.0.1:3000'
   : 'wss://app3626.acapp.acwing.com.cn'
-const socketUrl = `${urlPrefix}/websocket/${token}/`
-
+const socketUrl = `${urlPrefix}/websocket/${userStore.token}/`
 const socket = new WebSocket(socketUrl)
 
-socket.onopen = () => updateSocket(socket)
-
 let showPking = $ref(false)
-socket.onmessage = (msg) => {
-  const { message } = useGlobalNaiveApi()
-  const data = JSON.parse(msg.data)
-  // 匹配成功
-  if (data.event === 'match-success') {
-    updateOpponent({
-      name: data?.opponentName || '-',
-      avatar: data?.opponentAvatar ?? defaultAvatar,
-    })
-    updateGame(data.game)
-    updateStatus('play')
-    showPking = true
-    message.success('人机试炼开始')
-    useTimeoutFn(() => {
-      showPking = false
-      socket.send(JSON.stringify({
-        event: 'start-game',
-      }))
-    }, 4500)
+
+onMounted(() => {
+  socket.onopen = () => {
+    updateSocket(socket)
   }
-  else if (data.event === 'move') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
-    snake0.setDirection(data.aDirection)
-    snake1.setDirection(data.bDirection)
+
+  socket.onmessage = (msg) => {
+    const { message } = useGlobalNaiveApi()
+    const data = JSON.parse(msg.data)
+    // 匹配成功
+    if (data.event === 'match-success') {
+      updateOpponent({
+        name: data?.opponentName || '-',
+        avatar: data?.opponentAvatar ?? defaultAvatar,
+      })
+      updateGame(data.game)
+      updateStatus('play')
+      showPking = true
+      message.success('开始战斗')
+      useTimeoutFn(() => {
+        showPking = false
+        socket.send(JSON.stringify({
+          event: 'start-game',
+        }))
+      }, 4500)
+    }
+    else if (data.event === 'move') {
+      const { snakes } = gameMapObject.value!
+      const [snake0, snake1] = snakes
+      snake0.setDirection(data.aDirection)
+      snake1.setDirection(data.bDirection)
+    }
+    else if (data.event === 'result') {
+      const { snakes } = gameMapObject.value!
+      const [snake0, snake1] = snakes
+
+      if (['all', 'A'].includes(data.loser))
+        snake0.status = 'die'
+
+      if (['all', 'B'].includes(data.loser))
+        snake1.status = 'die'
+
+      updateLoser(data.loser)
+    }
   }
-  else if (data.event === 'result') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
 
-    if (['all', 'A'].includes(data.loser))
-      snake0.status = 'die'
-
-    if (['all', 'B'].includes(data.loser))
-      snake1.status = 'die'
-
-    updateLoser(data.loser)
-  }
-}
-
-socket.onclose = () => {}
+  socket.onclose = () => {}
+})
 
 function clear() {
   socket.close()
