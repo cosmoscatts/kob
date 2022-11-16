@@ -60,13 +60,13 @@ onMounted(fetchBotList)
     </div>
     <n-card>
       <div grid="~ cols-2" :style="{ gridAutoFlow: 'row dense' }">
-        <div col-span-2 h60px flex justify-center items-center>
+        <div col-span-2 h50px flex justify-center items-center>
           <n-select
             v-model:value="selectedBot" :options="botOptions" placeholder="你想怎么玩？"
             :style="{ width: '200px', textAlign: 'center', border: '1px #4b5563 solid' }"
           />
         </div>
-        <div h200px col-span-1>
+        <div h180px col-span-1>
           <div flex="~ col" justify-center items-center hfull>
             <n-avatar
               :style="{
@@ -77,19 +77,19 @@ onMounted(fetchBotList)
               round
               :src="user?.avatar"
             />
-            <div mt-20px text-24px font-600>
+            <div mt15px text-24px font-600>
               {{ user?.name }}
             </div>
           </div>
         </div>
-        <div col-span-2 h60px mt10px>
+        <div col-span-2 h50px mt10px>
           <div flex justify-center items-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
             </n-button>
           </div>
         </div>
-        <div h200px col-span-1>
+        <div h180px col-span-1>
           <div flex="~ col" justify-center items-center h-full>
             <n-avatar
               :style="{
@@ -100,7 +100,7 @@ onMounted(fetchBotList)
               round
               :src="opponent?.avatar"
             />
-            <div mt-20px text-24px font-600>
+            <div mt15px text-24px font-600>
               {{ opponent?.name }}
             </div>
           </div>
