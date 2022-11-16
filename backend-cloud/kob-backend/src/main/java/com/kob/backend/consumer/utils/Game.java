@@ -269,8 +269,10 @@ public class Game extends Thread {
     private void sendMessage(String message) {
         if (WebSocketServer.users.get(playerA.getId()) != null)
             WebSocketServer.users.get(playerA.getId()).sendMessage(message);
-        if (WebSocketServer.users.get(playerB.getId()) != null)
-            WebSocketServer.users.get(playerB.getId()).sendMessage(message);
+        if ("match".equals(mode)) {
+            if (WebSocketServer.users.get(playerB.getId()) != null)
+                WebSocketServer.users.get(playerB.getId()).sendMessage(message);
+        }
     }
 
     /**
@@ -350,11 +352,6 @@ public class Game extends Thread {
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(5000); // 休眠 5 秒，展示匹配成功动画
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         for (int i = 0; i < 1000; i++) {
             // 判断是否获取两名玩家的下一步操作
             if (getNextStep()) {
