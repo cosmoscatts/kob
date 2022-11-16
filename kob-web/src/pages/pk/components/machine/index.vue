@@ -45,7 +45,7 @@ socket.onmessage = (msg) => {
     showPking = true
     useTimeoutFn(() => {
       showPking = false
-    }, 4500)
+    }, 4000)
   }
   else if (data.event === 'move') {
     const { snakes } = gameMapObject.value!
