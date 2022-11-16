@@ -34,7 +34,6 @@ socket.onmessage = (msg) => {
   const data = JSON.parse(msg.data)
   // 匹配成功
   if (data.event === 'match-success') {
-    message.success('您的对手已找到')
     updateOpponent({
       name: data?.opponentName || '-',
       avatar: data?.opponentAvatar ?? defaultAvatar,
@@ -42,8 +41,12 @@ socket.onmessage = (msg) => {
     updateGame(data.game)
     updateStatus('play')
     showPking = true
+    message.success('您的对手已找到')
     useTimeoutFn(() => {
       showPking = false
+      socket.send(JSON.stringify({
+        event: 'start-game',
+      }))
     }, 4500)
   }
   else if (data.event === 'move') {
