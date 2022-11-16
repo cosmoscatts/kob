@@ -77,12 +77,12 @@ onMounted(fetchBotList)
               round
               :src="user?.avatar"
             />
-            <div mt15px text-24px font-600>
+            <div mt5px text-24px font-600>
               {{ user?.name }}
             </div>
           </div>
         </div>
-        <div col-span-2 h50px mt10px>
+        <div col-span-2 h50px>
           <div flex justify-center items-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
@@ -100,7 +100,7 @@ onMounted(fetchBotList)
               round
               :src="opponent?.avatar"
             />
-            <div mt15px text-24px font-600>
+            <div mt5px text-24px font-600>
               {{ opponent?.name }}
             </div>
           </div>
