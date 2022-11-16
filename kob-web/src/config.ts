@@ -14,7 +14,7 @@ export const TOKEN_KEY = 'jwt_token'
  */
 export const appMeta = {
   appShortName: 'KOB',
-  appName: '玩蛇仙人',
+  appName: '阿伟你又在玩蛇',
   description: '玩蛇两年半的练习生',
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',

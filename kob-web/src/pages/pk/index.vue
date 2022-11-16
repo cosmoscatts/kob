@@ -19,20 +19,35 @@ provide('changePageIndex', changePageIndex)
     <Transition name="fade-slide" mode="out-in" appear>
       <div
         v-if="currentPageIndex === 0"
-        flex-y-center justify-between w60vw mxa rounded-10px
+        flex="col" w60vw mxa rounded-10px
         :style="{
           minHeight: `calc(100vh - ${diffHeight}px)`,
           border: `1px solid ${borderColor}`,
           padding: '0 8vw',
         }"
       >
-        <div class="menu" @click="changePageIndex(1)">
-          <span text-10vw>匹</span>配
-          <div i-ri-sword-line class="icon" />
-        </div>
-        <div class="menu" @click="changePageIndex(2)">
-          <span text-10vw>人</span>机
-          <div i-carbon-bot class="icon" />
+        <n-card mt7vh>
+          <div
+            flex justify-center items-center h60px
+            text="2rem center" lt-md="text-[1.6rem]" font-bold
+          >
+            <div i-emojione-v1-snake />
+            ：是兄弟就来玩！
+          </div>
+        </n-card>
+
+        <div
+          flex-y-center justify-between
+          min-h52vh xxl:h68vh
+        >
+          <div class="menu" @click="changePageIndex(1)">
+            <span text-10vw>匹</span>配
+            <div i-ri-sword-line class="icon" />
+          </div>
+          <div class="menu" @click="changePageIndex(2)">
+            <span text-10vw>人</span>机
+            <div i-carbon-bot class="icon" />
+          </div>
         </div>
       </div>
       <Match v-else-if="currentPageIndex === 1" />
@@ -54,7 +69,7 @@ provide('changePageIndex', changePageIndex)
   font-weight: 800;
   vertical-align: top;
   transition-duration: 200ms;
-  border: 2px solid v-bind(borderColor);
+  border: 1px solid v-bind(borderColor);
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;

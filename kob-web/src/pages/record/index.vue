@@ -41,7 +41,9 @@ provide('changeCurrentTab', changeCurrentTab)
 
 <template>
   <div w-full>
-    <RecordTable v-if="currentTab === 0" v-bind="{ ...pagination, name }" />
-    <RecordVideo v-else v-bind="{ playerInfoList }" />
+    <Transition name="fade-slide" mode="out-in" appear>
+      <RecordTable v-if="currentTab === 0" v-bind="{ ...pagination, name }" />
+      <RecordVideo v-else v-bind="{ playerInfoList }" />
+    </Transition>
   </div>
 </template>
