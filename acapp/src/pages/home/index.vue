@@ -33,9 +33,10 @@ const { changePage } = usePageStore()
       marginLeft: '2%',
     }"
   >
-    <p text="24px center" font-bold my-10px>
-      <span>怎么，你也玩蛇吗？</span>{{ getEmoji() }}
-    </p>
+    <div text="24px center" font-bold my-10px flex justify-center>
+      <div i-emojione-v1-snake />
+      ：是兄弟就来玩！{{ getEmoji() }}
+    </div>
     <div grid="~ cols-4 gap-x-5" :style="{ width: '68%', marginLeft: '14%' }">
       <div
         v-for="(item, index) in menu" :key="`menu-item-${index}`" class="menu"

@@ -31,7 +31,7 @@ provide('changePageIndex', changePageIndex)
           <div i-ri-sword-line class="icon" />
         </div>
         <div class="menu" @click="changePageIndex(2)">
-          <span text-8vw>人</span>机
+          <span text-10vw>人</span>机
           <div i-carbon-bot class="icon" />
         </div>
       </div>
