@@ -26,8 +26,8 @@ useTimeoutFn(resume, 500)
 
 const titleLeft = computed(() => {
   return title.value === 'VS'
-    ? 'calc(50% - 35px)'
-    : 'calc(50% - 18px)'
+    ? 'calc(50% - 82px)'
+    : 'calc(50% - 44px)'
 })
 
 onMounted(() => {
@@ -48,7 +48,7 @@ onMounted(() => {
     <div v-if="loading" class="loading-wrapper">
       <div id="lottie-loading" w250px h150px absolute z-10000 :style="{ top: '40vh', left: 'calc(50% - 125px)' }" />
       <div class="side left animate__animated animate__fadeInLeftBig animate__faster">
-        <div w250px h250px rounded-2px cursor-pointer>
+        <div w200px h200px rounded-2px cursor-pointer>
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
         </div>
       </div>
@@ -56,7 +56,7 @@ onMounted(() => {
         {{ title }}
       </div>
       <div class="side right animate__animated animate__fadeInRightBig animate__faster">
-        <div w250px h250px rounded-2px cursor-pointer>
+        <div w200px h200px rounded-2px cursor-pointer>
           <img :src="players?.[1]?.id === user!.id ? user?.avatar : opponent?.avatar" hfull wfull rounded-full>
         </div>
       </div>
@@ -118,8 +118,8 @@ onMounted(() => {
   .vs {
     position: absolute;
     left:v-bind(titleLeft);
-    top: calc(50% - 50px);
-    font-size: 50px;
+    top: calc(50% - 90px);
+    font-size: 120px;
     font-style: italic;
     font-weight: bold;
     text-align: center;

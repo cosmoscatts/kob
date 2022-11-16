@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import defaultAvatar from '~/assets/default-avatar.png'
-import ResultBoard from '~/components/ResultBoard.vue'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)

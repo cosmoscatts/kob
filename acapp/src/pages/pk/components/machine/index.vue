@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ChooseLevel from './components/ChooseLevel.vue'
 import defaultAvatar from '~/assets/default-avatar.png'
-import ResultBoard from '~/components/ResultBoard.vue'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
