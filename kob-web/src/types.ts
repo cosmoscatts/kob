@@ -180,3 +180,15 @@ export interface ChangeLogItem {
   title?: string
   content?: string
 }
+
+/** 意见数据结构 */
+export interface Discuss {
+  id?: number
+  userId?: number
+  remark?: string
+  parentId?: number
+  createTime?: Date
+
+  user?: User
+  likes?: number
+}

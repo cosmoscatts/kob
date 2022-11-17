@@ -9,6 +9,7 @@ declare global {
   const $shallowRef: typeof import('vue/macros')['$shallowRef']
   const $toRef: typeof import('vue/macros')['$toRef']
   const BotApi: typeof import('./server/api/bot')['BotApi']
+  const DiscussApi: typeof import('./server/api/remark')['DiscussApi']
   const EffectScope: typeof import('vue')['EffectScope']
   const RankApi: typeof import('./server/api/rank')['RankApi']
   const RecordApi: typeof import('./server/api/record')['RecordApi']
@@ -316,6 +317,7 @@ declare module 'vue' {
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
+    readonly DiscussApi: UnwrapRef<typeof import('./server/api/remark')['DiscussApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly RankApi: UnwrapRef<typeof import('./server/api/rank')['RankApi']>
     readonly RecordApi: UnwrapRef<typeof import('./server/api/record')['RecordApi']>

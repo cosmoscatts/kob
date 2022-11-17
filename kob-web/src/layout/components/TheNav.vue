@@ -10,7 +10,7 @@ const isMobile = breakpoints.smaller('sm')
 
 <template>
   <div flex-y-center>
-    <NavLogo ml-10 />
+    <NavLogo ml6 />
     <NavMenu v-if="!isMobile" mx-5 />
     <div flex-auto />
     <div v-if="!isMobile" flex-y-center mr-10>

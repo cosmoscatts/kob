@@ -117,6 +117,21 @@ const router = createRouter({
       ],
     },
     {
+      path: '/discuss',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'Discuss',
+          component: () => import('~/pages/discuss/index.vue'),
+          meta: {
+            title: '讨论区',
+            requiresAuth: true,
+          },
+        },
+      ],
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('~/pages/exception/NotFound.vue'),
