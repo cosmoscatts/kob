@@ -4,7 +4,7 @@ import { GameSnake } from './GameSnake'
 import { GameWall } from './GameWall'
 
 const COLOR_EVEN = '#C3944E'
-const COLOR_ODD = '#C3944E'
+const COLOR_ODD = '#A57332'
 
 export class GameMap extends Game {
   ctx: CanvasRenderingContext2D
@@ -35,8 +35,8 @@ export class GameMap extends Game {
     this.gameWalls = []
 
     this.snakes = [
-      new GameSnake({ id: 0, color: '#4876EC', r: this.rows - 2, c: 1 }, this),
-      new GameSnake({ id: 1, color: '#F94848', r: 1, c: this.cols - 2 }, this),
+      new GameSnake({ id: 0, color: '#206CCF', r: this.rows - 2, c: 1 }, this),
+      new GameSnake({ id: 1, color: '#CB272D', r: 1, c: this.cols - 2 }, this),
     ]
     this.recordFn = null
   }

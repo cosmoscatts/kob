@@ -19,7 +19,7 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2022/11/16',
+  lastUpdate: '2022/11/17',
 }
 
 /**
@@ -28,14 +28,20 @@ export const appMeta = {
 export const appChangeLog: ChangeLog[] = [
   {
     date: '22/11/17',
-    title: '🆕 新增功能',
-    description: '',
+    title: '😋 一锅烩',
+    description: '新增功能 & 页面样式优化',
     changes: [
       {
         id: '22/11/17/1',
         type: 'add',
         title: '讨论区功能，可以留下对项目的意见',
         content: '只能简单的添加意见，还没有实现多人回复，嵌套回复等功能',
+      },
+      {
+        id: '22/11/17/2',
+        type: 'update',
+        title: '优化地图样式',
+        content: '墙，障碍物，蛇死亡等配色优化',
       },
     ],
   },
