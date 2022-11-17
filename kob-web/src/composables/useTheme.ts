@@ -60,6 +60,9 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       InternalSelectMenu: {
         color: modalColor,
       },
+      List: {
+        color: cardColor,
+      },
     }
   })
   return themeOverrides
