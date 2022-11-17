@@ -187,7 +187,7 @@ export class GameSnake extends Game {
 
     // 蛇死亡 > 白色身体
     ctx.fillStyle = status === 'die'
-      ? 'white'
+      ? ['#BEDAFF', '#FDCDC5'][Number(this.id === 1)]
       : color
 
     for (const { x, y } of snakeCells) {
