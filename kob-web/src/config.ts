@@ -78,18 +78,18 @@ export const appChangeLog: ChangeLog[] = [
     ],
   },
   {
-    date: '22/11/9',
+    date: '22/11/09',
     title: '🆕 新增功能',
     description: '',
     changes: [
       {
-        id: '22/11/9/1',
+        id: '22/11/09/1',
         type: 'add',
         title: '排行榜、历史对局根据玩家名称搜索',
         content: '',
       },
       {
-        id: '22/11/9/2',
+        id: '22/11/09/2',
         type: 'add',
         title: '排行榜前10名增加奖杯图标',
         content: '',
@@ -97,12 +97,12 @@ export const appChangeLog: ChangeLog[] = [
     ],
   },
   {
-    date: '22/11/8',
+    date: '22/11/08',
     title: '💎 功能优化',
     description: '',
     changes: [
       {
-        id: '22/11/8/1',
+        id: '22/11/08/1',
         type: 'update',
         title: '页面布局优化，更换 logo，动画优化',
         content: '',
@@ -110,12 +110,12 @@ export const appChangeLog: ChangeLog[] = [
     ],
   },
   {
-    date: '22/11/4',
+    date: '22/11/04',
     title: '🐛 问题修复',
     description: '',
     changes: [
       {
-        id: '22/11/4/1',
+        id: '22/11/04/1',
         type: 'fix',
         title: 'acapp 端 Message 提示被应用遮挡的问题',
         content: '',
