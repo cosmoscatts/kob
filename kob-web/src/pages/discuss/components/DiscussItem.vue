@@ -5,9 +5,11 @@ import defaultAvatar from '~/assets/default-avatar.png'
 
 const {
   item,
+  loading = false,
   isAuthLike = false,
 } = defineProps<{
   item?: Discuss
+  loading?: boolean
   isAuthLike?: boolean
 }>()
 
@@ -34,11 +36,24 @@ const dislike = useThrottleFn(async (remarkId?: number) => {
   message.success('已取消支持该意见')
   emits('likeCallback', { id: remarkId, type: 'dislike' })
 }, 500)
+
+const { width } = useWindowSize()
 </script>
 
 <template>
   <div>
-    <n-thing content-indented>
+    <n-space v-if="loading">
+      <n-skeleton height="40px" circle />
+      <n-space vertical>
+        <n-skeleton height="30px" width="150px" />
+        <n-skeleton height="60px" :width="width > 768 ? '58vw' : '52vw'" :sharp="false" />
+        <n-space justify="space-between">
+          <n-skeleton height="30px" width="200px" />
+          <n-skeleton height="30px" width="50px" round />
+        </n-space>
+      </n-space>
+    </n-space>
+    <n-thing v-else content-indented>
       <template #avatar>
         <n-avatar :src="item?.user?.avatar ?? defaultAvatar" />
       </template>

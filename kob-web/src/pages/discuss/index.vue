@@ -8,8 +8,13 @@ const pagination = usePagination({
   onUpdatePageSizeCallback: fetchDiscussList,
 })
 
+const { loading, startLoading, endLoading } = useLoading()
+
 let list = $ref<Discuss[]>([])
+const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }]
 async function fetchDiscussList() {
+  startLoading()
+  list = [...defaultLoadingData]
   const { page, pageSize } = pagination
   try {
     const { data: { records, total } } = await DiscussApi.getDiscussList({ page, pageSize })
@@ -17,7 +22,10 @@ async function fetchDiscussList() {
     pagination.itemCount = total!
   }
   catch (err) {
-    // 处理异常
+    list = []
+  }
+  finally {
+    useTimeoutFn(endLoading, 500)
   }
 }
 fetchDiscussList()
@@ -62,7 +70,12 @@ function likeCallback({ id, type }: { id?: number; type: 'like' | 'dislike' }) {
             <SayWords @refresh="fetchDiscussList" />
           </n-list-item>
           <n-list-item v-for="item in list" :key="item.id">
-            <DiscussItem :item="item" :is-auth-like="getAuthLike(item?.id)" @like-callback="likeCallback" />
+            <DiscussItem
+              :item="item"
+              :loading="loading"
+              :is-auth-like="getAuthLike(item?.id)"
+              @like-callback="likeCallback"
+            />
           </n-list-item>
         </n-list>
         <div v-if="list?.length > 0" mt10px flex justify-end>
