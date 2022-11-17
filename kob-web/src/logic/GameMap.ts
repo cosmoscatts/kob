@@ -3,8 +3,8 @@ import { Game } from './Game'
 import { GameSnake } from './GameSnake'
 import { GameWall } from './GameWall'
 
-const COLOR_EVEN = '#AAD751'
-const COLOR_ODD = '#A2D149'
+const COLOR_EVEN = '#C3944E'
+const COLOR_ODD = '#C3944E'
 
 export class GameMap extends Game {
   ctx: CanvasRenderingContext2D
