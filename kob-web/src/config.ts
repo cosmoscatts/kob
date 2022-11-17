@@ -27,6 +27,19 @@ export const appMeta = {
  */
 export const appChangeLog: ChangeLog[] = [
   {
+    date: '22/11/17',
+    title: '🆕 新增功能',
+    description: '',
+    changes: [
+      {
+        id: '22/11/17/1',
+        type: 'add',
+        title: '讨论区功能，可以留下对项目的意见',
+        content: '只能简单的添加意见，还没有实现多人回复，嵌套回复等功能',
+      },
+    ],
+  },
+  {
     date: '22/11/16',
     title: '🆕 新增功能',
     description: '',
