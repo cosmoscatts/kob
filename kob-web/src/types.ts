@@ -165,3 +165,18 @@ export interface UserSecurity {
   hasQQ?: boolean
   hasWechat?: boolean
 }
+
+/** 定义更新日志数据结构 */
+export interface ChangeLog {
+  date?: string
+  title?: string
+  description?: string
+  changes?: ChangeLogItem[]
+}
+
+export interface ChangeLogItem {
+  id: string
+  type: 'add' | 'update' | 'fix'
+  title?: string
+  content?: string
+}

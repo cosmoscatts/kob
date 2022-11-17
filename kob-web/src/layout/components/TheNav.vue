@@ -14,8 +14,9 @@ const isMobile = breakpoints.smaller('sm')
     <NavMenu v-if="!isMobile" mx-5 />
     <div flex-auto />
     <div v-if="!isMobile" flex-y-center mr-10>
+      <div i-carbon-debug icon-btn text-lg mx-5 @click="$router.push('/changelog')" />
       <a
-        icon-btn text-lg i-carbon-logo-github mx-5
+        icon-btn text-lg i-carbon-logo-github mr-5
         :href="appMeta.github"
         target="_blank" title="GitHub"
       />
