@@ -39,7 +39,7 @@ const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkI
 function likeCallback({ id, type }: { id?: number; type: 'like' | 'dislike' }) {
   if (!id)
     return
-  fetchCUrrentUserLikes()
+  fetchCurrentUserLikes()
   const item = list.find(i => i.id === id)
   if (item?.likes !== undefined)
     item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1]
