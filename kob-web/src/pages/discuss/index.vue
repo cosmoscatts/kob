@@ -23,7 +23,7 @@ async function fetchDiscussList() {
 fetchDiscussList()
 
 let likes = $ref<number[]>([])
-async function fetchCUrrentUserLikes() {
+async function fetchCurrentUserLikes() {
   try {
     const { data } = await DiscussApi.getCurrentUserLikes()
     likes = data ?? []
@@ -32,7 +32,7 @@ async function fetchCUrrentUserLikes() {
     likes = []
   }
 }
-fetchCUrrentUserLikes()
+fetchCurrentUserLikes()
 
 const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkId)
 
