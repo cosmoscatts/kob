@@ -32,8 +32,12 @@ export const useUserStore = defineStore(
       const { code, data } = await UserApi.getLoginUserInfo()
       const validation = code !== 0 || !data
       hasLogin.value = !validation
-      if (validation)
-        logout()
+      if (validation) { logout() }
+      else {
+        if (!data.avatar)
+          data.avatar = defaultAvatar
+        user.value = data
+      }
       return validation
         ? 'expire'
         : 'hasLogin'
