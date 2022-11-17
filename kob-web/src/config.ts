@@ -125,7 +125,7 @@ export const appChangeLog: ChangeLog[] = [
   {
     date: '22/10/31',
     title: '😋 一锅烩',
-    description: '',
+    description: '新增功能 & 功能优化',
     changes: [
       {
         id: '22/10/31/1',
