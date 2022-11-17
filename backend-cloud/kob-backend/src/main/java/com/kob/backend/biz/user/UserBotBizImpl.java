@@ -62,7 +62,7 @@ public class UserBotBizImpl implements UserBotBiz {
             return "最多只能添加 10 个 bot！";
         }
 
-        if (Objects.isNull(botReqVO.getDescription())) {
+        if (Objects.isNull(botReqVO.getDescription()) || botReqVO.getDescription().length() == 0) {
             botReqVO.setDescription("这个用户很懒，什么也没留下~");
         }
 

@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 import { RobotOutlined } from '@vicons/antd'
-import { DocumentTextOutline, HomeOutline, MedalOutline } from '@vicons/ionicons5'
+import { ChatbubblesOutline, DocumentTextOutline, HomeOutline, MedalOutline } from '@vicons/ionicons5'
 import type { ChangeLog, Menu } from '~/types'
 
 /** 是否为 `debug` 模式 */
@@ -210,6 +210,12 @@ export const appMenus: Menu[] = [
     path: '/rank',
     icon: 'rank',
   },
+  {
+    id: 105,
+    label: '讨论区',
+    path: '/discuss',
+    icon: 'discuss',
+  },
 ]
 
 /**
@@ -220,4 +226,5 @@ export const appMenuIconMap: Record<string, Component> = {
   pk: RobotOutlined,
   record: DocumentTextOutline,
   rank: MedalOutline,
+  discuss: ChatbubblesOutline,
 }
