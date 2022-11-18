@@ -152,13 +152,13 @@ const rules = createRules()
           </n-input>
         </n-form-item>
         <n-form-item label="代码" path="content">
-          <n-scrollbar style="max-height: 300px">
+          <n-scrollbar style="max-height: 260px">
             <VAceEditor
               v-model:value="formModel.content"
               lang="java"
               theme="monokai"
               :style="{
-                minHeight: '300px',
+                minHeight: '260px',
                 minWidth: '100%',
                 overflow: 'hidden',
               }"

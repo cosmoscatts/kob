@@ -52,7 +52,7 @@ onMounted(() => {
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
         </div>
       </div>
-      <div class="vs animate__animated animate__fadeInDownBig animate__faster">
+      <div class="vs animate__animated animate__fadeInDownBig animate__faster font-game">
         {{ title }}
       </div>
       <div class="side right animate__animated animate__fadeInRightBig animate__faster">
@@ -98,21 +98,33 @@ onMounted(() => {
   }
 
   .side.left {
-    background-color: rgba(2, 132, 199, 0.6);
     padding-left: 300px;
+    background: rgb(26, 188, 156);
+    background: -moz-linear-gradient(-45deg, rgba(26, 188, 156, 1) 0%, rgba(142, 68, 173, 1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(26, 188, 156, 1) 0%, rgba(142, 68, 173, 1) 100%);
+    background: linear-gradient(135deg, rgba(26, 188, 156, 1) 0%, rgba(142, 68, 173, 1) 100%);
   }
 
   .side.right {
-    background-color: rgba(220, 38, 38, 0.6);
     padding-right: 300px;
+    background: #A1161F;
+    background: -moz-linear-gradient(-45deg, rgba(161, 22, 31, 1) 0%, rgba(176, 27, 182, 1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(161, 22, 31, 1) 0%, rgba(176, 27, 182, 1) 100%);
+    background: linear-gradient(135deg, rgba(161, 22, 31, 1) 0%, rgba(176, 27, 182, 1) 100%);
   }
 
   .side.left div {
     box-shadow: 0px 0px 20px blue inset;
+    padding: 10px;
+    border-radius: 10px;
+    border: 6px blue solid;
   }
 
   .side.right div {
     box-shadow: 0px 0px 20px red inset;
+    padding: 10px;
+    border-radius: 10px;
+    border: 6px red solid;
   }
 
   .vs {
@@ -123,7 +135,11 @@ onMounted(() => {
     font-style: italic;
     font-weight: bold;
     text-align: center;
-    color: yellow;
+    color: #FF9626;
+    z-index: 1000;
+    text-shadow: 0 0 0.6rem #FFE3B8, 0 0 1.5rem #FFCD87,
+    -0.2rem 0.1rem 1rem #FFCD87, 0.2rem 0.1rem 1rem #FFCD87,
+    0 -0.5rem 2rem #D26913, 0 0.5rem 3rem #D26913;
   }
 </style>
 

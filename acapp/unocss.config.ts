@@ -33,6 +33,7 @@ export default defineConfig({
     },
     fontFamily: {
       self: 'mainfont',
+      game: 'Changa',
     },
     boxShadow: {
       nav_item: '0px 0px 4px #eee inset',
