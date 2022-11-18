@@ -20,7 +20,7 @@ function toggle() {
       v-if="hasLogin"
       icon-btn text-lg
       i-carbon-menu
-      @click="toggle()"
+      @click="toggle"
     />
     <NavAvatar v-else />
   </div>

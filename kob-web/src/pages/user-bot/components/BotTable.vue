@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
+import { BulbOutline } from '@vicons/ionicons5'
 import { createColumns, handleSaveBot } from '../helper'
 import BotTableForm from './BotTableForm.vue'
+import How2Code from './How2Code.vue'
 import type { Bot } from '~/types'
 
 const { message, dialog } = useGlobalNaiveApi()
@@ -112,12 +114,22 @@ fetchTableData()
 // 是否为移动端（包含 `PC` 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = breakpoints.smaller('sm')
+
+const how2CodeVisible = ref(false)
 </script>
 
 <template>
   <div w-full>
     <n-card title="我的Bot" hoverable>
       <template #header-extra>
+        <n-button v-if="!isMobile" text :style="{ marginRight: '10px' }" @click="how2CodeVisible = true">
+          <template #icon>
+            <n-icon>
+              <BulbOutline />
+            </n-icon>
+          </template>
+          怎么编写bot代码？
+        </n-button>
         <NButton type="primary" text-color="white" @click="onAddBot">
           添加Bot
         </NButton>
@@ -148,6 +160,9 @@ const isMobile = breakpoints.smaller('sm')
         form: selectedBot,
       }"
       @save-bot-data="onSaveBotData"
+    />
+    <How2Code
+      v-model:visible="how2CodeVisible"
     />
   </div>
 </template>

@@ -63,6 +63,9 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       List: {
         color: cardColor,
       },
+      Drawer: {
+        color: modalColor,
+      },
     }
   })
   return themeOverrides
