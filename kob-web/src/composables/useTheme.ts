@@ -50,6 +50,11 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       },
       Message: {
         color: modalColor,
+        colorInfo: modalColor,
+        colorSuccess: modalColor,
+        colorWarning: modalColor,
+        colorError: modalColor,
+        colorLoading: modalColor,
       },
       Notification: {
         color: modalColor,
