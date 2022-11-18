@@ -16,6 +16,7 @@ function congrats() {
     ],
     shapes: ['square'],
     ticks: 500,
+    zIndex: 2000,
   } as confetti.Options
   confetti({
     ...defaults,
