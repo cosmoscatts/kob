@@ -19,13 +19,26 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2022/11/17',
+  lastUpdate: '2022/11/18',
 }
 
 /**
  * 项目更新日志
  */
 export const appChangeLog: ChangeLog[] = [
+  {
+    date: '22/11/18',
+    title: '🆕 新增功能',
+    description: '',
+    changes: [
+      {
+        id: '22/11/18/1',
+        type: 'add',
+        title: 'Bot代码示例',
+        content: '',
+      },
+    ],
+  },
   {
     date: '22/11/17',
     title: '😋 一锅烩',
