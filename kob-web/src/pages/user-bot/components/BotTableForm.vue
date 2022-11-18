@@ -157,6 +157,7 @@ const editorTheme = computed(() => {
           </template>
         </n-input> -->
         <VAceEditor
+          v-if="modalVisible"
           v-model:value="formModel.content"
           lang="java"
           :theme="editorTheme"
