@@ -37,10 +37,12 @@ html.dark {
 .fade-slide-enter-active {
   transition: all 0.3s;
 }
+
 .fade-slide-enter-from {
   opacity: 0;
   transform: translateX(-30px);
 }
+
 .fade-slide-leave-to {
   opacity: 0;
   transform: translateX(30px);
@@ -93,8 +95,35 @@ html.dark {
 }
 
 @font-face {
-  font-family: 'mainfont';
-  src: url('~/assets/fonts/mainfont.otf');
+  font-family: "mainfont";
+  src: url("~/assets/fonts/mainfont.otf");
   font-weight: normal;
   font-style: normal;
+}
+
+/* arabic */
+@font-face {
+  font-family: "Changa";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Changa SemiBold"), local("Changa-SemiBold"), url("~/assets/fonts/changa/changa-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE80-FEFC;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: "Changa";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Changa SemiBold"), local("Changa-SemiBold"), url("~/assets/fonts/changa/changa-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+@font-face {
+  font-family: "Changa";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Changa SemiBold"), local("Changa-SemiBold"), url("~/assets/fonts/changa/changa-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }

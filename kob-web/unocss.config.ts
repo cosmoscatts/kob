@@ -42,6 +42,7 @@ export default defineConfig({
     },
     fontFamily: {
       self: 'mainfont',
+      game: 'Changa',
     },
     colors: {
       primary: 'var(--primary-color)',

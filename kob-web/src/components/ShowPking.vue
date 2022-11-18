@@ -54,7 +54,7 @@ onMounted(() => {
           <img :src="players?.[0]?.id === user!.id ? user?.avatar : opponent?.avatar" h-full w-full rounded-full>
         </div>
       </div>
-      <div class="vs animate__animated animate__fadeInDownBig animate__faster">
+      <div class="vs animate__animated animate__fadeInDownBig animate__faster font-game">
         {{ title }}
       </div>
       <div class="side right animate__animated animate__fadeInRightBig">
