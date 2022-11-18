@@ -56,3 +56,10 @@
   width: 830px;
   height: 500px;
 }
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 0!important;
+  font-weight: 700;
+}

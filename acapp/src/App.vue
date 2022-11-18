@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
+import hljs from 'highlight.js/lib/core'
+import java from 'highlight.js/lib/languages/java'
 import Home from '~/pages/home/index.vue'
 import PK from '~/pages/pk/index.vue'
 import RankList from '~/pages/rank/index.vue'
 import RecordList from '~/pages/record/index.vue'
 import UserBot from '~/pages/user-bot/index.vue'
+
+hljs.registerLanguage('java', java)
 
 const themeOverrides = useThemeOverrides()
 // 将 `naive-ui` 自带颜色写入 `body`
@@ -76,6 +80,7 @@ login()
     :theme-overrides="themeOverrides"
     :locale="zhCN"
     :date-locale="dateZhCN"
+    :hljs="hljs"
     flex justify-center
     wfull hfull font-self m0 p0 of-hidden
     text-white bg="[#47485C]"

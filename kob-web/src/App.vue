@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
+import hljs from 'highlight.js/lib/core'
+import java from 'highlight.js/lib/languages/java'
+
+hljs.registerLanguage('java', java)
 
 // 创建 `head` 数据
 useHeadMeta()
@@ -38,6 +42,7 @@ window.addEventListener('unload', () => {
     :theme-overrides="themeOverrides"
     :locale="zhCN"
     :date-locale="dateZhCN"
+    :hljs="hljs"
   >
     <n-loading-bar-provider>
       <PreLoaded v-if="appLoading" :before-leave-ms="BEFORE_LEAVE_MS" />
