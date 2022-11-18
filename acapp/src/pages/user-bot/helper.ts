@@ -1,5 +1,7 @@
 import type { DataTableColumns } from 'naive-ui'
-import { NButton } from 'naive-ui'
+import { NButton, NIcon } from 'naive-ui'
+import { TrashBinOutline } from '@vicons/ionicons5'
+import { EditOutlined } from '@vicons/antd'
 import type { Bot } from '~/types'
 
 /**
@@ -54,22 +56,36 @@ export function createColumns({
               NButton,
               {
                 size: 'small',
-                tertiary: true,
                 type: 'warning',
+                textColor: 'white',
                 style: { marginRight: '10px' },
                 onClick: () => onUpdateBot?.(row),
               },
-              { default: () => '编辑' },
+              {
+                icon: () => h(
+                  NIcon,
+                  {
+                    component: EditOutlined,
+                  },
+                ),
+              },
             ),
             h(
               NButton,
               {
                 size: 'small',
-                tertiary: true,
                 type: 'error',
+                textColor: 'white',
                 onClick: () => onRemoveBot?.(row),
               },
-              { default: () => '删除' },
+              {
+                icon: () => h(
+                  NIcon,
+                  {
+                    component: TrashBinOutline,
+                  },
+                ),
+              },
             ),
           ],
         )

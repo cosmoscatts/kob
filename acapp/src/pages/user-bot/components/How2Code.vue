@@ -72,3 +72,16 @@ public interface BotInterface {
     </n-drawer-content>
   </n-drawer>
 </template>
+
+<style>
+.n-card__content code {
+  padding: 0!important;
+  background-color: #232731!important;
+}
+
+.n-code pre {
+  color: #D3D4D6!important;
+  background-color: #232731!important;
+  border: 1px solid #232731!important;
+}
+</style>
