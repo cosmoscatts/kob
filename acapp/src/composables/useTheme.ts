@@ -37,6 +37,14 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         tdColor: 'transparent',
         tdColorHover: 'transparent',
       },
+      Message: {
+        color: modalColor,
+        colorInfo: modalColor,
+        colorSuccess: modalColor,
+        colorWarning: modalColor,
+        colorError: modalColor,
+        colorLoading: modalColor,
+      },
       Dialog: {
         color: modalColor,
       },
@@ -50,6 +58,12 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         color: modalColor,
       },
       Tooltip: {
+        color: modalColor,
+      },
+      List: {
+        color: cardColor,
+      },
+      Drawer: {
         color: modalColor,
       },
     }

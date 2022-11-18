@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import { BulbOutline } from '@vicons/ionicons5'
 import { createColumns, handleSaveBot } from '../helper'
 import BotTableForm from './BotTableForm.vue'
+import How2Code from './How2Code.vue'
 import type { Bot } from '~/types'
 
 const containerWidth = inject<Ref<number>>('containerWidth')!
@@ -110,12 +112,22 @@ async function fetchTableData() {
   }
 }
 fetchTableData()
+
+const how2CodeVisible = ref(false)
 </script>
 
 <template>
   <div w-full hfull>
     <n-card title="我的Bot" hoverable hfull>
       <template #header-extra>
+        <n-button v-if="containerWidth > 500" text :style="{ marginRight: '10px' }" @click="how2CodeVisible = true">
+          <template #icon>
+            <n-icon>
+              <BulbOutline />
+            </n-icon>
+          </template>
+          怎么编写bot代码？
+        </n-button>
         <NButton type="primary" text-color="white" @click="onAddBot">
           添加Bot
         </NButton>
@@ -147,6 +159,9 @@ fetchTableData()
         form: selectedBot,
       }"
       @save-bot-data="onSaveBotData"
+    />
+    <How2Code
+      v-model:visible="how2CodeVisible"
     />
   </div>
 </template>

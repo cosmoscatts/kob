@@ -1,5 +1,6 @@
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton, NEllipsis, NTag } from 'naive-ui'
+import { NAvatar, NButton, NEllipsis, NIcon, NTag } from 'naive-ui'
+import { TrashBinOutline, VideocamOutline } from '@vicons/ionicons5'
 import type { Record } from '~/types'
 
 /**
@@ -89,7 +90,14 @@ export function createColumns({
               textColor: 'white',
               onClick: () => checkVideo?.(row),
             },
-            { default: () => '查看录像' },
+            {
+              icon: () => h(
+                NIcon,
+                {
+                  component: VideocamOutline,
+                },
+              ),
+            },
           ),
         ]
         if (canDelete?.(row.aId, row.bId) ?? false) {
@@ -103,7 +111,14 @@ export function createColumns({
                 style: { marginLeft: '10px' },
                 onClick: () => onRemoveRecord?.(row),
               },
-              { default: () => '删除' },
+              {
+                icon: () => h(
+                  NIcon,
+                  {
+                    component: TrashBinOutline,
+                  },
+                ),
+              },
             ),
           )
         }
