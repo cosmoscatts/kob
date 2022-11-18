@@ -28,13 +28,25 @@ export const appMeta = {
 export const appChangeLog: ChangeLog[] = [
   {
     date: '22/11/18',
-    title: '🆕 新增功能',
-    description: '',
+    title: '😋 一锅烩',
+    description: '新增功能 & 页面样式优化',
     changes: [
       {
         id: '22/11/18/1',
         type: 'add',
         title: 'Bot代码示例',
+        content: '',
+      },
+      {
+        id: '22/11/18/2',
+        type: 'update',
+        title: '匹配成功界面的背景优化，增加阴影',
+        content: '',
+      },
+      {
+        id: '22/11/18/3',
+        type: 'update',
+        title: '对局列表页面表格行增加每个对局的胜者标识',
         content: '',
       },
     ],
