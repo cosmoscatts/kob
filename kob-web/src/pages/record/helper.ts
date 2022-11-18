@@ -1,5 +1,6 @@
 import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton, NEllipsis, NTag } from 'naive-ui'
+import { NAvatar, NButton, NEllipsis, NIcon, NIconWrapper, NTag } from 'naive-ui'
+import { Paw } from '@vicons/ionicons5'
 import type { Record } from '~/types'
 
 /**
@@ -29,16 +30,16 @@ export function createColumns({
       title: '玩家A',
       key: 'aId',
       align: 'center',
-      render({ aAvatar, aName }) {
-        return renderPlayer(aAvatar, aName)
+      render({ aAvatar, aName, loser }) {
+        return renderPlayer(aAvatar, aName, !!loser && !['all', 'A'].includes(loser))
       },
     },
     {
       title: '玩家B',
       key: 'bId',
       align: 'center',
-      render({ bAvatar, bName }) {
-        return renderPlayer(bAvatar, bName)
+      render({ bAvatar, bName, loser }) {
+        return renderPlayer(bAvatar, bName, !!loser && !['all', 'B'].includes(loser))
       },
     },
     {
@@ -121,7 +122,50 @@ export function createColumns({
 /**
  * 渲染玩家单元格内容
  */
-function renderPlayer(avatar?: string, name?: string) {
+function renderPlayer(avatar?: string, name?: string, win = false) {
+  const widgets = [
+    h(
+      NAvatar,
+      {
+        size: 'small',
+        round: true,
+        src: avatar,
+      },
+    ),
+    h(
+      NEllipsis,
+      {
+        maxWidth: '200px',
+        style: {
+          marginLeft: '10px',
+        },
+      },
+      () => name,
+    ),
+  ]
+  if (win) {
+    widgets.push(
+      h(
+        NIconWrapper,
+        {
+          size: 24,
+          borderRadius: 10,
+          color: '#886BFA',
+          iconColor: 'white',
+          style: {
+            marginLeft: '10px',
+          },
+        },
+        () => h(
+          NIcon,
+          {
+            size: 16,
+            component: Paw,
+          },
+        ),
+      ),
+    )
+  }
   return h(
     'div',
     {
@@ -131,26 +175,7 @@ function renderPlayer(avatar?: string, name?: string) {
         alignItems: 'center',
       },
     },
-    [
-      h(
-        NAvatar,
-        {
-          size: 'small',
-          round: true,
-          src: avatar,
-        },
-      ),
-      h(
-        NEllipsis,
-        {
-          maxWidth: '200px',
-          style: {
-            marginLeft: '15px',
-          },
-        },
-        () => name,
-      ),
-    ],
+    widgets,
   )
 }
 
