@@ -48,7 +48,7 @@ socket.onmessage = (msg) => {
       socket.send(JSON.stringify({
         event: 'start-game',
       }))
-    }, 4500)
+    }, 5000)
   }
   else if (data.event === 'move') {
     const { snakes } = gameMapObject.value!
