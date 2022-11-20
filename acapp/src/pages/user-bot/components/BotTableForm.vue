@@ -3,8 +3,9 @@ import type { FormInst, FormValidationError } from 'naive-ui'
 import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
-import { VAceEditor } from 'vue3-ace-editor'
-import ace from 'ace-builds'
+import { Codemirror } from 'vue-codemirror'
+import { java } from '@codemirror/lang-java'
+import { oneDark } from '@codemirror/theme-one-dark'
 import { createRules } from '../helper'
 import type { Bot } from '~/types'
 
@@ -22,11 +23,6 @@ const {
 }>()
 
 const emits = defineEmits(['update:modal-visible', 'saveBotData'])
-
-/** 代码编辑器 */
-ace.config.set(
-  'basePath',
-  `https://cdn.jsdelivr.net/npm/ace-builds@${ace.version}/src-noconflict/`)
 
 // 标题
 const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot')
@@ -66,12 +62,6 @@ function assign() {
     for (const [key, value] of Object.entries(target)) {
       if (!Object.prototype.hasOwnProperty.call(formModel, key))
         continue
-
-      if (key === 'content') {
-        formModel[key] = value ?? ''
-        continue
-      }
-
       formModel[key as K] = value
     }
 }
@@ -105,6 +95,8 @@ function onCloseModal() {
 
 // 生成表单校验规则
 const rules = createRules()
+
+const extensions = [java(), oneDark]
 </script>
 
 <template>
@@ -153,15 +145,13 @@ const rules = createRules()
         </n-form-item>
         <n-form-item label="代码" path="content">
           <n-scrollbar style="max-height: 260px">
-            <VAceEditor
-              v-model:value="formModel.content"
-              lang="java"
-              theme="monokai"
-              :style="{
-                minHeight: '260px',
-                minWidth: '100%',
-                overflow: 'hidden',
-              }"
+            <Codemirror
+              v-model="formModel.content"
+              :style="{ height: '260px', width: '100%', overflow: 'hidden' }"
+              :autofocus="false"
+              :indent-with-tab="true"
+              :tab-size="2"
+              :extensions="extensions"
             />
           </n-scrollbar>
         </n-form-item>
@@ -181,3 +171,16 @@ const rules = createRules()
   </n-modal>
 </template>
 
+<style>
+.ͼ1 .cm-scroller {
+  font-family: 'Consolas';
+}
+
+.ͼo {
+  background-color: #393D46;
+}
+
+.ͼo .cm-gutters {
+  background-color: #393D46;
+}
+</style>

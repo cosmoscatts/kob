@@ -3,8 +3,9 @@ import type { FormInst, FormValidationError } from 'naive-ui'
 import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
-import { VAceEditor } from 'vue3-ace-editor'
-import ace from 'ace-builds'
+import { Codemirror } from 'vue-codemirror'
+import { java } from '@codemirror/lang-java'
+import { oneDark } from '@codemirror/theme-one-dark'
 import { createRules } from '../helper'
 import type { Bot } from '~/types'
 
@@ -22,11 +23,6 @@ const {
 }>()
 
 const emits = defineEmits(['update:modal-visible', 'saveBotData'])
-
-/** 代码编辑器 */
-ace.config.set(
-  'basePath',
-  `https://cdn.jsdelivr.net/npm/ace-builds@${ace.version}/src-noconflict/`)
 
 // 标题
 const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot')
@@ -66,12 +62,6 @@ function assign() {
     for (const [key, value] of Object.entries(target)) {
       if (!Object.prototype.hasOwnProperty.call(formModel, key))
         continue
-
-      if (key === 'content') {
-        formModel[key] = value ?? ''
-        continue
-      }
-
       formModel[key as K] = value
     }
 }
@@ -106,11 +96,7 @@ function onCloseModal() {
 // 生成表单校验规则
 const rules = createRules()
 
-const editorTheme = computed(() => {
-  return isDark.value
-    ? 'monokai'
-    : 'chrome'
-})
+const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
 </script>
 
 <template>
@@ -151,20 +137,13 @@ const editorTheme = computed(() => {
         </n-input>
       </n-form-item>
       <n-form-item label="代码" path="content">
-        <!-- <n-input v-model:value="formModel.content" type="textarea" placeholder="请输入代码" clearable>
-          <template #clear-icon>
-            <n-icon :component="TrashBinOutlineIcon" />
-          </template>
-        </n-input> -->
-        <VAceEditor
-          v-if="modalVisible"
-          v-model:value="formModel.content"
-          lang="java"
-          :theme="editorTheme"
-          :style="{
-            height: '300px',
-            width: '100%',
-          }"
+        <Codemirror
+          v-model="formModel.content"
+          :style="{ height: '300px', width: '100%' }"
+          :autofocus="false"
+          :indent-with-tab="true"
+          :tab-size="2"
+          :extensions="extensions"
         />
       </n-form-item>
     </n-form>
@@ -181,3 +160,20 @@ const editorTheme = computed(() => {
   </n-modal>
 </template>
 
+<style>
+.ͼ1 .cm-scroller {
+  font-family: 'Consolas';
+}
+
+.ͼo {
+  background-color: #3C3C3C;
+}
+
+.ͼo .cm-gutters {
+  background-color: #3C3C3C;
+}
+
+.ͼo .cm-activeLineGutter {
+  background-color: #303033;
+}
+</style>
