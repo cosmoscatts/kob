@@ -2,6 +2,7 @@ import type { DataTableColumns } from 'naive-ui'
 import { NAvatar, NEllipsis, NIcon } from 'naive-ui'
 import { Medal, Trophy } from '@vicons/ionicons5'
 import type { Rank } from '~/types'
+import defaultAvatar from '~/assets/default-avatar.png'
 
 /**
  * 创建表格列
@@ -85,7 +86,7 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
         {
           size: 'small',
           round: true,
-          src: avatar,
+          src: avatar ?? defaultAvatar,
         },
       ),
       h(
