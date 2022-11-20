@@ -51,9 +51,11 @@ export class GameMap extends Game {
       return true
     g[sx][sy] = true
 
-    const dx = [-1, 0, 1, 0]; const dy = [0, 1, 0, -1]
+    const dx = [-1, 0, 1, 0]
+    const dy = [0, 1, 0, -1]
     for (let i = 0; i < 4; i++) {
-      const x = sx + dx[i]; const y = sy + dy[i]
+      const x = sx + dx[i]
+      const y = sy + dy[i]
       if (!g[x][y] && this.checkConnectivity(g, x, y, tx, ty))
         return true
     }
