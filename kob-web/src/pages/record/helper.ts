@@ -2,6 +2,7 @@ import type { DataTableColumns } from 'naive-ui'
 import { NAvatar, NButton, NEllipsis, NIcon, NIconWrapper, NTag } from 'naive-ui'
 import { Paw } from '@vicons/ionicons5'
 import type { Record } from '~/types'
+import defaultAvatar from '~/assets/default-avatar.png'
 
 /**
  * 创建表格列
@@ -129,7 +130,7 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
       {
         size: 'small',
         round: true,
-        src: avatar,
+        src: avatar ?? defaultAvatar,
       },
     ),
     h(
