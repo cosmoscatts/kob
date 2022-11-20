@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { FormInst, FormValidationError } from 'naive-ui'
 import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
@@ -10,6 +11,8 @@ const { loading, startLoading, endLoading } = useLoading()
 const userStore = useUserStore()
 const { updateUser } = userStore
 const { user } = storeToRefs(userStore)
+
+const refForm = ref<FormInst | null>(null)
 
 type FormModel = Pick<User, 'id' | 'name' | 'email' >
 function getBaseFormModel(): FormModel {
@@ -25,17 +28,21 @@ const formModel = reactive<FormModel>({
   ...getBaseFormModel(),
 })
 
-async function onSubmit() {
-  startLoading()
-  const { code } = await UserApi.updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
-  if (code === 0) {
-    message.success('修改成功')
-    updateUser()
-  }
+function onSubmit(e: MouseEvent) {
+  e.preventDefault()
+  refForm.value?.validate(async (errors?: FormValidationError[]) => {
+    if (errors)
+      return
+    startLoading()
+    const { code } = await UserApi.updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
+    if (code === 0) {
+      message.success('修改成功')
+      updateUser()
+    }
+    else { message.error('修改失败') }
 
-  else { message.error('修改失败') }
-
-  useTimeoutFn(endLoading, 1000)
+    useTimeoutFn(endLoading, 1000)
+  })
 }
 </script>
 
@@ -49,7 +56,16 @@ async function onSubmit() {
       }"
     >
       <n-form
+        ref="refForm"
         :model="formModel"
+        :rules="{
+          name: [
+            {
+              required: true,
+              message: '请输入用户名',
+            },
+          ],
+        }"
         label-placement="left"
         label-width="auto"
         :show-require-mark="false"
