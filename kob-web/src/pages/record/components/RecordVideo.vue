@@ -2,6 +2,7 @@
 import lottie from 'lottie-web'
 import type { PlayerInfo } from '../helper'
 import { appLayout } from '~/config'
+import defaultAvatar from '~/assets/default-avatar.png'
 
 const {
   playerInfoList = [],
@@ -101,7 +102,7 @@ document.addEventListener('visibilitychange', () => {
               <n-avatar
                 round
                 :size="60"
-                :src="playerInfoList[0].avatar"
+                :src="playerInfoList[0].avatar ?? defaultAvatar"
               />
               <div>{{ playerInfoList[0].name ?? '-' }}</div>
             </div>
@@ -115,7 +116,7 @@ document.addEventListener('visibilitychange', () => {
               <n-avatar
                 round
                 :size="60"
-                :src="playerInfoList[1].avatar"
+                :src="playerInfoList[1].avatar ?? defaultAvatar"
               />
               <div>{{ playerInfoList[1].name ?? '-' }}</div>
             </div>
