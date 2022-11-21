@@ -198,7 +198,8 @@ export class GameSnake extends Game {
 
     // 用长方形补全蛇身体
     for (let i = 1; i < snakeCells.length; i++) {
-      const a = snakeCells[i - 1]; const b = snakeCells[i]
+      const a = snakeCells[i - 1]
+      const b = snakeCells[i]
       if (Math.abs(a.x - b.x) < eps && Math.abs(a.y - b.y) < eps)
         continue
         // 垂直方向
