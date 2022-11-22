@@ -213,7 +213,7 @@ export class GameMap extends Game {
   beforeDestory() {
     if (this.gameWalls.length > 0)
       this.gameWalls.forEach(wall => wall.destory())
-    if (this.snakes.length)
+    if (this.snakes.length > 0)
       this.snakes.forEach(snake => snake.destory())
     // 销毁 canvas
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
