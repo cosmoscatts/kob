@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import { BulbOutline } from '@vicons/ionicons5'
-import { createColumns, handleSaveBot } from '../helper'
+import { createColumns } from '../helper'
 import BotTableForm from './BotTableForm.vue'
 import How2Code from './How2Code.vue'
 import type { Bot } from '~/types'
@@ -52,14 +52,18 @@ function onUpdateBot(bot: Bot) {
  * 保存 `bot` -『新增』&『编辑』
  */
 async function onSaveBotData(bot: Bot) {
-  const result = await handleSaveBot({
-    type: botModalAction,
-    data: bot,
-  })
-  if (result) {
+  const { addBot: add, updateBot: update } = BotApi
+  const fn = [add, update][Number(botModalAction === 'edit')]
+  const msgPrefix = ['添加', '编辑'][Number(botModalAction === 'edit')]
+  fn(bot).then(({ code, msg }) => {
+    if (code !== 0) {
+      message.error(msg ?? `${msgPrefix}失败`)
+      return
+    }
+    message.success(`${msgPrefix}成功`)
     botModalVisible = false
     fetchTableData()
-  }
+  })
 }
 
 /**

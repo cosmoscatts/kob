@@ -79,44 +79,6 @@ export function createColumns({
 }
 
 /**
- * 统一处理保存 `bot` 功能
- */
-export function handleSaveBot({
-  type = 'add',
-  data = {},
-}: {
-  type?: 'add' | 'edit'
-  data?: Bot
-}) {
-  const { message } = useGlobalNaiveApi()
-
-  const actionMap = {
-    add: async () => {
-      const { code, msg } = await BotApi.addBot(data)
-      if (code !== 0)
-        message.error(msg ?? '添加失败')
-
-      else
-        message.success('添加成功')
-
-      return code === 0
-    },
-    edit: async () => {
-      const { code, msg } = await BotApi.updateBot(data)
-      if (code !== 0)
-        message.error(msg ?? '编辑失败')
-
-      else
-        message.success('编辑成功')
-
-      return code === 0
-    },
-  }
-
-  return actionMap[type]()
-}
-
-/**
  * 生成表单校验规则
  */
 export function createRules() {

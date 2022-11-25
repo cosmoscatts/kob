@@ -1,31 +1,35 @@
 import type { AnyObject, Bot, PageQuery, PageResult, Result } from '~/types'
 
-export class BotApi {
+const { get, post, put, delete: del } = useRequest
+type ListPageRes = Promise<PageResult<Bot>>
+type VoidRes = Promise<Result<null>>
+
+export const BotApi = {
   /**
    * 查询 `bot` 列表
    */
-  static getBotList(query: PageQuery) {
-    return useRequest.get('/api/user/bot/list', { urlParams: query as AnyObject }) as unknown as Promise<PageResult<Bot>>
-  }
+  getBotList(query: PageQuery) {
+    return get('/api/user/bot/list', { urlParams: query as AnyObject }) as unknown as ListPageRes
+  },
 
   /**
    * 添加 `bot`
    */
-  static addBot(bot: Bot) {
-    return useRequest.post('/api/user/bot/add', { body: bot as AnyObject }) as unknown as Promise<Result<null>>
-  }
+  addBot(bot: Bot) {
+    return post('/api/user/bot/add', { body: bot as AnyObject }) as unknown as VoidRes
+  },
 
   /**
    * 更新 `bot`
    */
-  static updateBot(bot: Bot) {
-    return useRequest.put('/api/user/bot/update', { body: bot as AnyObject }) as unknown as Promise<Result<null>>
-  }
+  updateBot(bot: Bot) {
+    return put('/api/user/bot/update', { body: bot as AnyObject }) as unknown as VoidRes
+  },
 
   /**
    * 删除 `bot`
    */
-  static deleteBot(id: number) {
-    return useRequest.delete('/api/user/bot/delete', { urlParams: { id } }) as unknown as Promise<Result<null>>
-  }
+  deleteBot(id: number) {
+    return del('/api/user/bot/delete', { urlParams: { id } }) as unknown as VoidRes
+  },
 }

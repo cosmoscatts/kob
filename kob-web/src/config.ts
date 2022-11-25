@@ -27,6 +27,31 @@ export const appMeta = {
  */
 export const appChangeLog: ChangeLog[] = [
   {
+    date: 'IDEAS 💡',
+    title: '🧐 一些想法...',
+    description: '大概率只是想想 😅',
+    changes: [
+      {
+        id: 'IDEA-1',
+        type: 'add',
+        title: '全局大厅聊天系统',
+        content: '',
+      },
+      {
+        id: 'IDEA-2',
+        type: 'add',
+        title: '通过链接加入匹配对战',
+        content: '',
+      },
+      {
+        id: 'IDEA-3',
+        type: 'add',
+        title: '讨论区多人嵌套回复',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '22/11/18',
     title: '😋 一锅烩',
     description: '新增功能 & 页面样式优化',
@@ -110,7 +135,7 @@ export const appChangeLog: ChangeLog[] = [
       {
         id: '22/11/10/1',
         type: 'add',
-        title: '重新回放/ 暂停回放 / 取消暂停',
+        title: '重新回放 / 暂停回放 / 取消暂停',
         content: '在录像回放时，可以选则暂停，暂停后可以重新开始，整个录像播放完成后，可以重新观看',
       },
       {

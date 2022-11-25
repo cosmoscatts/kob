@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import lottie from 'lottie-web'
 import { useThemeVars } from 'naive-ui'
 import { appMeta } from '~/config'
 
@@ -11,18 +10,16 @@ const {
 
 const themeVars = useThemeVars()
 
-const bodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
+const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 
 // 控制内层动画
 const { loading, endLoading } = useLoading(true)
 useTimeoutFn(endLoading, beforeLeaveMs)
 
 onMounted(() => {
-  lottie.loadAnimation({
+  useLottie({
     container: document.querySelector('#lottie-container')!,
     path: 'https://assets6.lottiefiles.com/packages/lf20_iqxl5bjr.json',
-    loop: true,
-    renderer: 'svg',
   })
 })
 </script>

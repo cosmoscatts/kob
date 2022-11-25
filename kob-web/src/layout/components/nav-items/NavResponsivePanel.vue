@@ -7,11 +7,9 @@ let showNavPanel = $ref(false)
 
 const { hasLogin } = storeToRefs(useUserStore())
 
-const panelBodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
+const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 
-function toggle() {
-  showNavPanel = !showNavPanel
-}
+const toggle = () => showNavPanel = !showNavPanel
 </script>
 
 <template>
