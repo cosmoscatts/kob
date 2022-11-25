@@ -92,9 +92,11 @@ onMounted(() => {
                 :size="60"
                 :src="playerInfoList[0].avatar"
               />
-              <div>{{ playerInfoList[0].name ?? '-' }}</div>
+              <n-ellipsis :style="{ maxWidth: '80px' }">
+                {{ playerInfoList[0].name ?? '-' }}
+              </n-ellipsis>
             </div>
-            <div text="50px yellow" font="bold italic">
+            <div w80px text="50px yellow center" font="bold italic game">
               VS
             </div>
             <div flex="~ col" justify-between items-center gap-y-4>
@@ -106,7 +108,9 @@ onMounted(() => {
                 :size="60"
                 :src="playerInfoList[1].avatar"
               />
-              <div>{{ playerInfoList[1].name ?? '-' }}</div>
+              <n-ellipsis :style="{ maxWidth: '80px' }">
+                {{ playerInfoList[1].name ?? '-' }}
+              </n-ellipsis>
             </div>
           </div>
           <div text="center 24px" font="bold italic" mt-10px>

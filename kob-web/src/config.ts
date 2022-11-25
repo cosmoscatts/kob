@@ -19,7 +19,7 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2022/11/18',
+  lastUpdate: '2022/11/25',
 }
 
 /**
@@ -47,6 +47,19 @@ export const appChangeLog: ChangeLog[] = [
         id: 'IDEA-3',
         type: 'add',
         title: '讨论区多人嵌套回复',
+        content: '',
+      },
+    ],
+  },
+  {
+    date: '22/11/25',
+    title: '🐛 问题修复',
+    description: '',
+    changes: [
+      {
+        id: '22/11/25/1',
+        type: 'fix',
+        title: '回放时，如果用户名太长，对局详情看板会错位的问题',
         content: '',
       },
     ],

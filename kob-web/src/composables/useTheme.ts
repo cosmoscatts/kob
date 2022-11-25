@@ -11,15 +11,10 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
   const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
 
   const themeOverrides = computed<GlobalThemeOverrides>(() => {
-    const bodyColor = isDark.value
-      ? '#121212'
-      : '#ffffff'
-    const cardColor = isDark.value
-      ? '#131313'
-      : '#fefefe'
-    const modalColor = isDark.value
-      ? '#262626'
-      : '#ffffff'
+    const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)]
+    const cardColor = ['#fefefe', '#131313'][Number(isDark.value)]
+    const modalColor = ['#ffffff', '#262626'][Number(isDark.value)]
+
     return {
       common: {
         ...primaryColorOverrides,
@@ -70,6 +65,10 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       },
       Drawer: {
         color: modalColor,
+      },
+      Tooltip: {
+        color: modalColor,
+        textColor: ['rgb(51, 54, 57)', 'rgba(255, 255, 255, 0.82)'][Number(isDark.value)],
       },
     }
   })
