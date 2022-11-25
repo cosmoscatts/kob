@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import lottie from 'lottie-web'
 import type { PlayerInfo } from '../helper'
 import { appLayout } from '~/config'
 import defaultAvatar from '~/assets/default-avatar.png'
@@ -43,11 +42,9 @@ function pause() {
 }
 
 onMounted(() => {
-  lottie.loadAnimation({
+  useLottie({
     container: document.querySelector('#lottie-trophy')!,
     path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
-    loop: true,
-    renderer: 'svg',
   })
 })
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import lottie from 'lottie-web'
 import { breakpointsTailwind } from '@vueuse/core'
 import { appMeta } from '~/config'
 
@@ -11,11 +10,9 @@ const hideTitle = breakpoints.between('sm', 'lg')
 
 onMounted(() => {
   useTimeoutFn(() => {
-    lottie.loadAnimation({
+    useLottie({
       container: document.querySelector('#lottie-logo')!,
       path: 'https://assets10.lottiefiles.com/packages/lf20_i9arxzcg.json',
-      loop: true,
-      renderer: 'svg',
     })
   }, 10)
 })

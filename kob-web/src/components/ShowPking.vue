@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import lottie from 'lottie-web'
-
 const { user } = storeToRefs(useUserStore())
 const { opponent, players } = storeToRefs(usePkStore())
 
@@ -34,11 +32,9 @@ const titleLeft = computed(() => {
 
 onMounted(() => {
   useTimeoutFn(() => {
-    lottie.loadAnimation({
+    useLottie({
       container: document.querySelector('#lottie-loading')!,
       path: 'https://assets1.lottiefiles.com/packages/lf20_F5Nz1IPcfz.json',
-      loop: true,
-      renderer: 'svg',
     })
   }, 1000)
 })

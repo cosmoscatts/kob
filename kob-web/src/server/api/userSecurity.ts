@@ -1,21 +1,25 @@
 import type { Result, UserSecurity } from '~/types'
 
-export class UserSecurityApi {
+const { get, post } = useRequest
+type UserSecurityRes = Promise<Result<UserSecurity>>
+type VoidRes = Promise<Result<null>>
+
+export const UserSecurityApi = {
   /**
    * 判断用户是否设置密码
    */
-  static checkSecurity() {
-    return useRequest.get('/api/user/security/check', {}) as unknown as Promise<Result<UserSecurity>>
-  }
+  checkSecurity() {
+    return get('/api/user/security/check', {}) as unknown as UserSecurityRes
+  },
 
   /**
    * 修改用户密码
    */
-  static updatePassword(data: {
+  updatePassword(data: {
     oldPass: string
     newPass: string
     reenteredNewPass: string
   }) {
-    return useRequest.post('/api/user/security/update/password', { body: data }) as unknown as Promise<Result<null>>
-  }
+    return post('/api/user/security/update/password', { body: data }) as unknown as VoidRes
+  },
 }

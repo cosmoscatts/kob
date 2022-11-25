@@ -9,11 +9,7 @@ hljs.registerLanguage('java', java)
 useHeadMeta()
 
 // 主题和自定义主题覆盖
-const theme = computed(() => {
-  return isDark.value
-    ? darkTheme
-    : null
-})
+const theme = computed(() => [null, darkTheme][Number(isDark.value)])
 const themeOverrides = useThemeOverrides()
 
 // 初始化 `loading`
