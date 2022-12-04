@@ -19,7 +19,7 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2022/11/25',
+  lastUpdate: '2022/12/04',
 }
 
 /**
@@ -53,13 +53,19 @@ export const appChangeLog: ChangeLog[] = [
   },
   {
     date: '22/12/04',
-    title: '💎 功能优化',
-    description: '页面展示优化',
+    title: '💎 功能优化 & 代码优化',
+    description: '页面展示优化，重构了部分代码',
     changes: [
       {
         id: '22/12/04/1',
         type: 'update',
         title: '优化匹配成功页面的动画展示',
+        content: '',
+      },
+      {
+        id: '22/12/04/2',
+        type: 'update',
+        title: '代码重构',
         content: '',
       },
     ],

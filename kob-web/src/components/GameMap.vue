@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GameMap } from '~/logic'
+import { GameMap } from '~/logic/map'
 
 const refParentEl = ref<HTMLElement>()
 const refCanvas = ref<HTMLCanvasElement>()
