@@ -155,7 +155,7 @@ export class GameMap extends Game {
       if (!this.task) {
         const flag = fn()
         if (flag)
-          this.task = useIntervalFn(fn, 100)
+          this.task = useIntervalFn(fn, 200)
       }
     }
 
