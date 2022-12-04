@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Confetti: typeof import('./components/Confetti.vue')['default']
+    FightAnimation: typeof import('./components/FightAnimation.vue')['default']
     GameMap: typeof import('./components/GameMap.vue')['default']
     GameMatchGround: typeof import('./components/GameMatchGround.vue')['default']
     GamePlayground: typeof import('./components/GamePlayground.vue')['default']
@@ -37,6 +38,5 @@ declare module '@vue/runtime-core' {
     NTabs: typeof import('naive-ui')['NTabs']
     NTooltip: typeof import('naive-ui')['NTooltip']
     ResultBoard: typeof import('./components/ResultBoard.vue')['default']
-    ShowPking: typeof import('./components/ShowPking.vue')['default']
   }
 }

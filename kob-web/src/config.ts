@@ -52,6 +52,19 @@ export const appChangeLog: ChangeLog[] = [
     ],
   },
   {
+    date: '22/12/04',
+    title: '💎 功能优化',
+    description: '页面展示优化',
+    changes: [
+      {
+        id: '22/12/04/1',
+        type: 'update',
+        title: '优化匹配成功页面的动画展示',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '22/11/25',
     title: '🐛 问题修复',
     description: '',

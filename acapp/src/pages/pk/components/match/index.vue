@@ -17,7 +17,7 @@ const urlPrefix = import.meta.env.MODE === 'development'
 const socketUrl = `${urlPrefix}/websocket/${userStore.token}/`
 const socket = new WebSocket(socketUrl)
 
-let showPking = $ref(false)
+let showFightAnimation = $ref(false)
 
 onMounted(() => {
   socket.onopen = () => {
@@ -35,10 +35,10 @@ onMounted(() => {
       })
       updateGame(data.game)
       updateStatus('play')
-      showPking = true
+      showFightAnimation = true
       message.success('匹配成功')
       useTimeoutFn(() => {
-        showPking = false
+        showFightAnimation = false
         socket.send(JSON.stringify({
           event: 'start-game',
         }))
@@ -85,8 +85,8 @@ const showConfetti = computed(() => {
 <template>
   <div w-full h-full flex="~ col">
     <GameMatchGround v-if="status === 'match'" />
-    <GamePlayground v-if="status === 'play' && !showPking" />
-    <ShowPking v-if="status === 'play' && showPking" />
+    <GamePlayground v-if="(status === 'play' && !showFightAnimation)" />
+    <FightAnimation v-if="(status === 'play' && showFightAnimation)" />
     <ResultBoard v-if="loser !== 'none'" />
     <Confetti :passed="showConfetti" />
 

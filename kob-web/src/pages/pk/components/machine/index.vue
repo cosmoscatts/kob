@@ -29,7 +29,7 @@ const socket = new WebSocket(socketUrl)
 
 socket.onopen = () => updateSocket(socket)
 
-let showPking = $ref(false)
+let showFightAnimation = $ref(false)
 socket.onmessage = (msg) => {
   const { message } = useGlobalNaiveApi()
   const data = JSON.parse(msg.data)
@@ -41,10 +41,10 @@ socket.onmessage = (msg) => {
     })
     updateGame(data.game)
     updateStatus('play')
-    showPking = true
+    showFightAnimation = true
     message.success('人机试炼开始')
     useTimeoutFn(() => {
-      showPking = false
+      showFightAnimation = false
       socket.send(JSON.stringify({
         event: 'start-game',
       }))
@@ -90,8 +90,8 @@ const showConfetti = computed(() => {
 <template>
   <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
     <ChooseLevel v-if="status === 'match'" />
-    <GamePlayground v-if="status === 'play' && !showPking" />
-    <ShowPking v-if="status === 'play' && showPking" />
+    <GamePlayground v-if="(status === 'play' && !showFightAnimation)" />
+    <FightAnimation v-if="(status === 'play' && showFightAnimation)" />
     <ResultBoard v-if="loser !== 'none'" />
     <Confetti :passed="showConfetti" />
 
