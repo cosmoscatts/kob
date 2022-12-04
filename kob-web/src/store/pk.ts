@@ -1,5 +1,5 @@
 import type { Game, User } from '~/types'
-import type { GameMap } from '~/logic'
+import type { GameMap } from '~/logic/map'
 import opponentDefaultAvatar from '~/assets/opponent.png'
 
 type Opponent = Pick<User, 'name' | 'avatar'>

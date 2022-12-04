@@ -19,6 +19,7 @@ export class GameMap extends Game {
   ]
 
   recordFn: Pausable | null = null// 录像执行方法
+  task: Pausable | null = null // 匹配时，读取下一步操作的定时任务
 
   constructor(
     public ctx: CanvasRenderingContext2D,
@@ -137,9 +138,27 @@ export class GameMap extends Game {
   }
 
   update() {
+    const { isRecord } = useRecordStore()
+    const fn = () => {
+      if (this.checkSnakeReady()) {
+        this.nextStep()
+        return true
+      }
+      return false
+    }
+
     this.updateSize()
-    if (this.checkSnakeReady())
-      this.nextStep()
+
+    // eslint-disable-next-line max-statements-per-line
+    if (isRecord) { fn() }
+    else {
+      if (!this.task) {
+        const flag = fn()
+        if (flag)
+          this.task = useIntervalFn(fn, 100)
+      }
+    }
+
     this.render()
   }
 
