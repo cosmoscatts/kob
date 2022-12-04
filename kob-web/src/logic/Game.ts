@@ -36,7 +36,6 @@ export class Game {
    */
   destory() {
     this.beforeDestory()
-
     for (let i = 0; i < GAME_OBJECTS.length; i++) {
       const game = GAME_OBJECTS[i]
       if (game === this) {
