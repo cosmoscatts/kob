@@ -45,9 +45,11 @@ socket.onmessage = (msg) => {
     message.success('人机试炼开始')
     useTimeoutFn(() => {
       showFightAnimation = false
-      socket.send(JSON.stringify({
-        event: 'start-game',
-      }))
+      useTimeoutFn(() => {
+        socket.send(JSON.stringify({
+          event: 'start-game',
+        }))
+      }, 50)
     }, 5000)
   }
   else if (data.event === 'move') {
