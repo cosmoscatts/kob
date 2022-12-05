@@ -48,8 +48,6 @@ export class Snake {
   ]
 
   constructor({ id, color, r, c }: SnakeInfo, public gameMap: GameMap) {
-    // super()
-
     this.id = id
     this.color = color
     this.gameMap = gameMap

@@ -8,7 +8,7 @@ const COLOR_ODD = '#A57332'
 
 export class GameMap extends Game {
   L = 0 // `1` 单位长度
-  rows = 13// 地图行数
+  rows = 13 // 地图行数
   cols = 14 // 地图列数
   baseCtx: CanvasRenderingContext2D | undefined
 
@@ -18,7 +18,7 @@ export class GameMap extends Game {
     new Snake({ id: 1, color: '#CB272D', r: 1, c: this.cols - 2 }, this),
   ]
 
-  recordFn: Pausable | null = null// 录像执行方法
+  recordFn: Pausable | null = null // 录像执行方法
   task: Pausable | null = null // 匹配时，读取下一步操作的定时任务
 
   constructor(
