@@ -13,16 +13,12 @@ export default defineConfig({
       '~/': `${resolve(__dirname, 'src')}/`,
     },
   },
-
   plugins: [
     UnoCSS(),
-
     Vue({
       reactivityTransform: true,
     }),
-
     DefineOptions(),
-
     AutoImport({
       imports: [
         'vue',
@@ -40,7 +36,6 @@ export default defineConfig({
       ],
       vueTemplate: true,
     }),
-
     Components({
       resolvers: [
         NaiveUiResolver(),

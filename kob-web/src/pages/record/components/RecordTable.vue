@@ -70,16 +70,13 @@ function onRemoveRecord({ id }: Record) {
 
 const { updateIsRecord, updateSteps, updateGame, updateLoser } = useRecordStore()
 
-/** 将地图从字符串转为二维数组 */
-const convert2DArray = (map: string) => {
+const convert2DArray = (map: string) => { // 将地图从字符串转为二维数组
   const g: number[][] = []
   for (let i = 0, k = 0; i < 13; i++) {
     const line = []
-    for (let j = 0; j < 14; j++, k++) {
-      if (map[k] === '0')
-        line.push(0)
-      else line.push(1)
-    }
+    for (let j = 0; j < 14; j++, k++)
+      line.push([1, 0][Number(map[k] === '0')])
+
     g.push(line)
   }
   return g
@@ -96,7 +93,11 @@ async function fetchTableData() {
   const { page, pageSize } = pagination
   const { name: _name } = searchModel
   try {
-    const { data: { records, total } } = await RecordApi.getRecordList({ page, pageSize, name: _name?.trim() })
+    const { data: { records, total } } = await RecordApi.getRecordList({
+      page,
+      pageSize,
+      name: _name?.trim(),
+    })
     tableData = records!
     pagination.itemCount = total!
   }
@@ -133,7 +134,7 @@ const columns = createColumns({
   onRemoveRecord,
 })
 
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
+// 是否为移动端（包含 PC 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = breakpoints.smaller('sm')
 const labelHidden = breakpoints.smaller('md')

@@ -23,8 +23,7 @@ function changeCurrentTab(
   _playerInfoList: PlayerInfo[],
   _name = undefined,
 ) {
-  // 保存表格的分页数据
-  if (tab === 1) {
+  if (tab === 1) { // 保存表格的分页数据
     name = _name
     pagination = _pagination
     playerInfoList = _playerInfoList

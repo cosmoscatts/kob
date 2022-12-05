@@ -39,7 +39,7 @@ const refLoginPhone = ref()
 const refRegister = ref()
 
 /**
- * 实现 `form` 显示时，`input` 自动 `focus`
+ * 实现 form 显示时，input 框自动 focus
  */
 function inputAutoFocus() {
   const refMap: Record<Tab, Ref> = {
@@ -51,12 +51,10 @@ function inputAutoFocus() {
 }
 
 watch(authModalVisible, (val) => {
-  if (val)
-    // 等待 `form` 挂载完成
+  if (val) // 等待 form 挂载完成
     useTimeoutFn(inputAutoFocus, 200)
 })
-watch(currentTab, () => {
-  // 等待 `form` 挂载完成
+watch(currentTab, () => { // 等待 form 挂载完成
   useTimeoutFn(inputAutoFocus, 200)
 })
 

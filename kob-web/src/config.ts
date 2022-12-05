@@ -3,10 +3,10 @@ import { RobotOutlined } from '@vicons/antd'
 import { ChatbubblesOutline, DocumentTextOutline, HomeOutline, MedalOutline } from '@vicons/ionicons5'
 import type { ChangeLog, Menu } from '~/types'
 
-/** 是否为 `debug` 模式 */
+/** 是否为 debug 模式 */
 export const debug = import.meta.env.MODE === 'development'
 
-/** 存储 `token` 的键 */
+/** 存储 token 的键 */
 export const TOKEN_KEY = 'jwt_token'
 
 /**
@@ -275,11 +275,11 @@ export const appLayout = {
   contentPadding: 30,
   /** 底部栏高度 */
   footHeight: 50,
-  /** `backTop` 距离页面右部的距离 */
+  /** backTop 距离页面右部的距离 */
   backTopRight: 20,
-  /** `backTop` 距离页面底部的距离 */
+  /** backTop 距离页面底部的距离 */
   backTopBottom: 200,
-  /** `backTop` 滚动时触发显示回到顶部的高度 */
+  /** backTop 滚动时触发显示回到顶部的高度 */
   backTopvisibilityHeight: 250,
 }
 

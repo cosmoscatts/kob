@@ -5,23 +5,21 @@ import java from 'highlight.js/lib/languages/java'
 
 hljs.registerLanguage('java', java)
 
-// 创建 `head` 数据
-useHeadMeta()
+useHeadMeta() // 创建 head 数据
 
 // 主题和自定义主题覆盖
 const theme = computed(() => [null, darkTheme][Number(isDark.value)])
 const themeOverrides = useThemeOverrides()
 
-// 初始化 `loading`
+// 初始化 loading
 const { loading: appLoading, endLoading } = useLoading(true)
 
-// 定义 `loading` 整体时间和内层动画持续时间
+// 定义 loading 整体时间和内层动画持续时间
 const LOADING_INTERVAL = 2500
 const BEFORE_LEAVE_MS = 1800
 useTimeoutFn(endLoading, LOADING_INTERVAL)
 
-// 将 `naive-ui` 自带颜色写入 `body`
-writeThemeColorsToBody()
+writeThemeColorsToBody() // 将 naive-ui 自带颜色写入 body
 
 // 关闭浏览器清空缓存
 let beginTime = $ref(0)
