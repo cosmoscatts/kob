@@ -11,8 +11,8 @@ import UserBot from '~/pages/user-bot/index.vue'
 hljs.registerLanguage('java', java)
 
 const themeOverrides = useThemeOverrides()
-// 将 `naive-ui` 自带颜色写入 `body`
-writeThemeColorsToBody()
+
+writeThemeColorsToBody() // 将 naive-ui 自带颜色写入 body
 
 const { currentPage } = storeToRefs(usePageStore())
 

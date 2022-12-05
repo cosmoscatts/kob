@@ -13,14 +13,14 @@ export type RGBA = [number, number, number, number]
 export type RGB = [number, number, number]
 
 /**
- * 创建 `Hover` 颜色
+ * 创建 Hover 颜色
  * @param color
  */
 export function createHoverColor(color: string | RGB | RGBA) {
   return composite(color, [255, 255, 255, 0.12])
 }
 /**
- * 创建 `Pressed` 颜色
+ * 创建 Pressed 颜色
  * @param color
  */
 export function createPressedColor(color: string | RGB | RGBA) {
@@ -35,7 +35,7 @@ export function addColorAlpha(color: string, alpha: number) {
   return colord(color).alpha(alpha).toHex()
 }
 /**
- * 生成主色调的其他状态颜色，包括 `hover`、`pressed`、`suppl` 等状态
+ * 生成主色调的其他状态颜色，包括 hover、pressed、suppl 等状态
  */
 export function generatePrimaryColor(_primaryColor: string) {
   return {
@@ -47,19 +47,19 @@ export function generatePrimaryColor(_primaryColor: string) {
 }
 
 /**
- * 获取 `token`
+ * 获取 token
  */
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 /**
- * 设置 `token`
+ * 设置 token
  */
 export function setToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token)
 }
 /**
- * 删除 `token`
+ * 删除 token
  */
 export function removeToken() {
   localStorage.removeItem(TOKEN_KEY)
@@ -68,7 +68,7 @@ export function removeToken() {
 const AXIOS_TIMEOUT = 5000
 
 /**
- * 创建 `axios`
+ * 创建 axios
  */
 export function createAxios() {
   const _axios = axios.create({
@@ -78,7 +78,7 @@ export function createAxios() {
 
   _axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      // 统一在 `header` 中添加 `token`
+      // 统一在 header 中添加 token
       const token = useUserStore().token
       if (token)
         config!.headers!.Authorization = `Bearer ${token}`

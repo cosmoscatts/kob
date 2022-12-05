@@ -6,7 +6,7 @@ export const useUserStore = defineStore(
   () => {
     const user = ref<User>()
     const token = ref<string | null>(null)
-    // AcWingOS, 打包后更改为外部传入的 `AcWingOS` 对象
+    // AcWingOS, 打包后更改为外部传入的 AcWingOS 对象
     const acWingOS = 'AcWingOS' as any
 
     async function updateUser() {

@@ -19,7 +19,7 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2022/12/04',
+  lastUpdate: '2022/12/05',
 }
 
 /**
@@ -47,6 +47,25 @@ export const appChangeLog: ChangeLog[] = [
         id: 'IDEA-3',
         type: 'add',
         title: '讨论区多人嵌套回复',
+        content: '',
+      },
+    ],
+  },
+  {
+    date: '22/12/05',
+    title: '💎 功能优化 & 代码优化',
+    description: '这个问题本地一直不能复现，我只能尽可能地做一些优化',
+    changes: [
+      {
+        id: '22/12/05/1',
+        type: 'update',
+        title: '对战时前端偶尔出现错位的问题',
+        content: '',
+      },
+      {
+        id: '22/12/05/2',
+        type: 'update',
+        title: '重构 acapp 游戏逻辑代码',
         content: '',
       },
     ],

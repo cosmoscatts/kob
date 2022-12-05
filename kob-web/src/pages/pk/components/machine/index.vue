@@ -41,16 +41,11 @@ socket.onmessage = (msg) => {
     })
     updateGame(data.game)
     updateStatus('play')
-    showFightAnimation = true
     message.success('人机试炼开始')
+    showFightAnimation = true
     useTimeoutFn(() => {
       showFightAnimation = false
     }, 5000)
-    useTimeoutFn(() => {
-      socket.send(JSON.stringify({
-        event: 'start-game',
-      }))
-    }, 5050)
   }
   else if (data.event === 'move') {
     const { snakes } = gameMapObject.value!

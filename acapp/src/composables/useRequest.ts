@@ -11,7 +11,7 @@ import type {
 type Fn = () => Promise<AxiosResponse<any, any>>
 
 /**
- * 拼接 `url` 参数
+ * 拼接 url 参数
  */
 function handleUrlParams(params?: AnyObject | AnyObject[]) {
   if (!params)
@@ -45,7 +45,7 @@ function handleRequestError(fn: Fn) {
 }
 
 /**
- * 统一封装 `axios` 请求
+ * 统一封装 axios 请求
  */
 function createRequest() {
   const axios = createAxios()

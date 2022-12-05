@@ -1,15 +1,13 @@
 import type { Game, User } from '~/types'
-import type { GameMap } from '~/logic'
+import type { GameMap } from '~/scripts/map'
 import opponentDefaultAvatar from '~/assets/opponent.png'
 
 type Opponent = Pick<User, 'name' | 'avatar'>
 
 interface Player {
   id: number
-  /** 起始行 */
-  sx: number
-  /** 起始列 */
-  sy: number
+  sx: number // 起始行
+  sy: number // 起始列
 }
 
 // 初始对手信息
@@ -21,14 +19,14 @@ const defaultOpponent = {
 export const usePkStore = defineStore(
   'pkStore',
   () => {
-    // `match` - 匹配界面， `play` - 对战界面
+    // match - 匹配界面， play - 对战界面
     const status = ref<'match' | 'play'>('match')
     const socket = ref()
     const opponent = ref<Opponent>()
     const gameMap = ref<number[][]>()
     const players = ref<Player[]>([])
     const gameMapObject = ref<GameMap>()
-    // `all` - 平局 | `A` - `A` 输 | `B` - `B` 输
+    // all - 平局 | A - A 输 | B - B 输
     const loser = ref<'all' | 'A' | 'B' | 'none'>('none')
 
     function updateStatus(_status: 'match' | 'play') {

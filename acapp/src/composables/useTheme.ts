@@ -95,7 +95,7 @@ const colorPropertyMap: { [key: string]: string } = {
 }
 
 /**
- * 将 `naive ui` 的通用颜色，并写入 `body`
+ * 将 naive ui 的通用颜色，并写入 body
  */
 export function writeThemeColorsToBody() {
   const primaryColorOverrides = generatePrimaryColor(primaryColor)
