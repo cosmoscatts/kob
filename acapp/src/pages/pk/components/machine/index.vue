@@ -36,14 +36,11 @@ onMounted(() => {
       })
       updateGame(data.game)
       updateStatus('play')
-      showFightAnimation = true
       message.success('开始战斗')
+      showFightAnimation = true
       useTimeoutFn(() => {
         showFightAnimation = false
-        socket.send(JSON.stringify({
-          event: 'start-game',
-        }))
-      }, 4500)
+      }, 5000)
     }
     else if (data.event === 'move') {
       const { snakes } = gameMapObject.value!

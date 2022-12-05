@@ -23,7 +23,7 @@ export function formatDate({
 }
 
 /**
- * 封装 `loading` 通用方法
+ * 封装 loading 通用方法
  */
 export function useLoading(initValue = false) {
   const {

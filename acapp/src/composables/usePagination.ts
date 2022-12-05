@@ -1,7 +1,7 @@
 /**
  * 定义分页通用方法
  */
-export function usePagination({
+ export function usePagination({
   page = 1,
   pageSize = 10,
   itemCount = 0,
@@ -10,20 +10,13 @@ export function usePagination({
   onChangeCallback,
   onUpdatePageSizeCallback,
 }: {
-  /** 当前页码 */
-  page?: number
-  /** 每页条数 */
-  pageSize?: number
-  /** 总条数 */
-  itemCount?: number
-  /** 是否显示每页条数的选择器 */
-  showSizePicker?: boolean
-  /** 每页条数选择器选项 */
-  pageSizes?: number[]
-  /** 改变页码的回调方法 */
-  onChangeCallback?: () => void
-  /** 每页条数改变的回调方法 */
-  onUpdatePageSizeCallback?: () => void
+  page?: number // 当前页码
+  pageSize?: number // 每页条数
+  itemCount?: number // 总条数
+  showSizePicker?: boolean // 是否显示每页条数的选择器
+  pageSizes?: number[] // 每页条数选择器选项
+  onChangeCallback?: () => void // 改变页码的回调方法
+  onUpdatePageSizeCallback?: () => void // 每页条数改变的回调方法
 }) {
   const pagination = reactive({
     page,

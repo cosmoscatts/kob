@@ -2,28 +2,21 @@ import type { Game } from '~/types'
 
 interface Player {
   id: number
-  /** 起始行 */
-  sx: number
-  /** 起始列 */
-  sy: number
+  sx: number // 起始行
+  sy: number // 起始列
 }
 
 export const useRecordStore = defineStore(
   'recordStore',
   () => {
-    // 是否为录像
-    const isRecord = ref(false)
-    // 玩家 A 的操作字符串
-    const aSteps = ref()
-    // 玩家 B 的操作字符串
-    const bSteps = ref()
-    // 游戏对局信息
-    const gameMap = ref<number[][]>()
+    const isRecord = ref(false) // 是否为录像
+    const aSteps = ref() // 玩家 A 的操作字符串
+    const bSteps = ref() // 玩家 B 的操作字符串
+    const gameMap = ref<number[][]>() // 游戏对局信息
     const players = ref<Player[]>([])
-    // `all` - 平局 | `A` - `A` 输 | `B` - `B` 输
+    // all - 平局 | A - A 输 | B - B 输
     const loser = ref<'all' | 'A' | 'B' | 'none'>('none')
-    // 录像是否播放完毕
-    const recordFinished = ref(true)
+    const recordFinished = ref(true) // 录像是否播放完毕
 
     function updateIsRecord(_isRecord: boolean) {
       isRecord.value = _isRecord

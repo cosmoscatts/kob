@@ -4,37 +4,42 @@ import { GameMap } from '~/scripts/map'
 const refParentEl = ref<HTMLElement>()
 const refCanvas = ref<HTMLCanvasElement>()
 
-const { updateGameMapObject } = usePkStore()
-const { updateRecordFinished } = useRecordStore()
+const pkStore = usePkStore()
+const recordStore = useRecordStore()
 let gameMap: GameMap | null = null
+
+const sendStartGameSingal = () => {
+  if (!pkStore.socket)
+    return
+  pkStore.socket.send(JSON.stringify({
+    event: 'start-game',
+  }))
+}
 
 function createGameMap() {
   const { value: canvas } = refCanvas
   gameMap?.destory()
   gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!)
-  updateGameMapObject(gameMap)
-  updateRecordFinished(false)
+  pkStore.updateGameMapObject(gameMap)
+  if (recordStore.isRecord)
+    recordStore.updateRecordFinished(false)
+  else
+    sendStartGameSingal()
 }
 
 onMounted(createGameMap)
 
-function replayVideo() {
-  createGameMap()
-}
+const replayVideo = () => createGameMap()
 
 /**
  * 暂停
  */
-function pauseVideo() {
-  gameMap?.recordFn?.pause()
-}
+const pauseVideo = () => gameMap?.recordFn?.pause()
 
 /**
  * 取消暂停
  */
-function resumeVideo() {
-  gameMap?.recordFn?.resume()
-}
+const resumeVideo = () => gameMap?.recordFn?.resume()
 
 defineExpose({
   replayVideo,
