@@ -175,11 +175,11 @@ function createRouterGuard(router: Router): void {
     actions[checkLoginState]()
   })
   router.afterEach((to, from, failure) => {
-    // 设置 `document title`
+    // 设置 document title
     const title = to.meta?.title as string ?? appMeta.appShortName
     useTitle(title)
 
-    // `loadingBar` 加载结束
+    // loadingBar 加载结束
     if (to.path !== from.path && failure)
       loadingBar.error()
 

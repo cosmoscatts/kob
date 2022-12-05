@@ -19,7 +19,7 @@ const renderIcon = (icon: Component) => {
 }
 
 /**
- * 创建 `dropdown` 选项数据
+ * 创建 dropdown 选项数据
  */
 export function createDropdownOptions(router: Router) {
   const { logout } = useUserStore()

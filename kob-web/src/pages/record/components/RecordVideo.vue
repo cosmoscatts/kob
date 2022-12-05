@@ -48,8 +48,7 @@ onMounted(() => {
   })
 })
 
-// 判断是否离开页面
-document.addEventListener('visibilitychange', () => {
+document.addEventListener('visibilitychange', () => { // 判断是否离开页面
   if (document.visibilityState === 'hidden')
     refGameMap.value?.pauseVideo?.()
   else

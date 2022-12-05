@@ -14,7 +14,7 @@ export {
 }
 
 /**
- * 创建页面 `head` 数据
+ * 创建页面 head 数据
  */
 export function useHeadMeta() {
   const { appShortName } = appMeta
@@ -43,7 +43,7 @@ export function formatDate({
 }
 
 /**
- * 封装 `loading` 通用方法
+ * 封装 loading 通用方法
  */
 export function useLoading(initValue = false) {
   const {

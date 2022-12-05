@@ -8,16 +8,16 @@ export const useUserStore = defineStore(
     const user = ref<User>()
     // 是否登录
     const hasLogin = ref(false)
-    // 是否打开登录 / 注册 `Modal`
+    // 是否打开 [登录 / 注册] 模态框
     const authModalVisible = ref(false)
 
     /**
-     * 判断是否登录 && `token` 是否过期
-     * `token` 过期需要清空
+     * 判断是否登录 && token 是否过期
+     * token 过期需要清空
      * @return
-     *  - `hasLogin` - 已经登录 & `token` 未过期
-     *  - `notLogin` - 未登录
-     *  - `expire` - `token `过期
+     *  - hasLogin - 已经登录 & token 未过期
+     *  - notLogin - 未登录
+     *  - expire - token 过期
      */
     async function checkLoginState(): Promise<LoginState> {
       const token = getToken()

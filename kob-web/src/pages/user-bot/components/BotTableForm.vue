@@ -14,27 +14,21 @@ const {
   modalVisible = false,
   form = {},
 } = defineProps<{
-  /** 表单操作类型 */
-  type?: 'add' | 'edit'
-  /** 表单是否显示 */
-  modalVisible?: boolean
-  /** 表单数据 */
-  form?: Bot
+  type?: 'add' | 'edit' // 表单操作类型
+  modalVisible?: boolean // 表单是否显示
+  form?: Bot // 表单数据
 }>()
 
 const emits = defineEmits(['update:modal-visible', 'saveBotData'])
 
-// 标题
-const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot')
+const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot') // 标题
 
-// `card` 分级
-const segmented = {
+const segmented = { // card 分级
   content: 'soft',
   footer: 'soft',
 } as const
 
-// `form` 表单元素
-const refForm = ref<FormInst | null>(null)
+const refForm = ref<FormInst | null>(null) // form 表单元素
 
 type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' > & { content: string }
 const baseFormModel: FormModel = {
@@ -87,15 +81,13 @@ function onSubmit(e: MouseEvent) {
 }
 
 /**
- * 关闭 `modal`
+ * 关闭 modal
  */
 function onCloseModal() {
   emits('update:modal-visible', false)
 }
 
-// 生成表单校验规则
-const rules = createRules()
-
+const rules = createRules() // 生成表单校验规则
 const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
 </script>
 

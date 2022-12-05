@@ -9,8 +9,7 @@ import type { Bot } from '~/types'
 const { message, dialog } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
 
-// 分页参数
-const pagination = usePagination({
+const pagination = usePagination({ // 分页参数
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
 })
@@ -23,15 +22,12 @@ function createRowNumber(rowIndex: number) {
   return (page - 1) * pageSize + rowIndex + 1
 }
 
-// 是否显示『添加』、『编辑』`bot` 表单
-let botModalVisible = $ref(false)
-// `bot` 表单操作类型 - `add`： 新增、`edit`：编辑
-let botModalAction = $ref<'add' | 'edit'>()
-// 编辑用户时，选中的用户
-let selectedBot = $ref<Bot>()
+let botModalVisible = $ref(false) // 是否显示『添加』、『编辑』bot 表单
+let botModalAction = $ref<'add' | 'edit'>() // bot 表单操作类型
+let selectedBot = $ref<Bot>() // 编辑用户时，选中的用户
 
 /**
- * 添加 `bot`
+ * 添加 bot
  */
 function onAddBot() {
   selectedBot = {}
@@ -40,7 +36,7 @@ function onAddBot() {
 }
 
 /**
- * 编辑 `bot`
+ * 编辑 bot
  */
 function onUpdateBot(bot: Bot) {
   selectedBot = bot
@@ -49,7 +45,7 @@ function onUpdateBot(bot: Bot) {
 }
 
 /**
- * 保存 `bot` -『新增』&『编辑』
+ * 保存 bot -『新增』&『编辑』
  */
 async function onSaveBotData(bot: Bot) {
   const { addBot: add, updateBot: update } = BotApi
@@ -115,7 +111,7 @@ async function fetchTableData() {
 }
 fetchTableData()
 
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
+// 是否为移动端（包含 PC 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isMobile = breakpoints.smaller('sm')
 

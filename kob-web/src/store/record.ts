@@ -2,10 +2,8 @@ import type { Game } from '~/types'
 
 interface Player {
   id: number
-  /** 起始行 */
-  sx: number
-  /** 起始列 */
-  sy: number
+  sx: number // 起始行
+  sy: number // 起始列
 }
 
 export const useRecordStore = defineStore(
@@ -20,7 +18,7 @@ export const useRecordStore = defineStore(
     // 游戏对局信息
     const gameMap = ref<number[][]>()
     const players = ref<Player[]>([])
-    // `all` - 平局 | `A` - `A` 输 | `B` - `B` 输
+    // all - 平局 | A - A 输 | B - B 输
     const loser = ref<'all' | 'A' | 'B' | 'none'>('none')
     // 录像是否播放完毕
     const recordFinished = ref(true)

@@ -4,7 +4,7 @@ import { appMeta } from '~/config'
 
 const { appName } = appMeta
 
-// 是否为移动端（包含 `PC` 端宽度过小的情况）
+// 是否为移动端（包含 PC 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const hideTitle = breakpoints.between('sm', 'lg')
 
