@@ -3,7 +3,7 @@ const GAME_OBJECTS: Game[] = []
 // ----- 游戏对象基类 -----
 
 export class Game {
-  timedelta = 0 // 距离上一帧的时间间隔（ms）
+  timeDelta = 0 // 距离上一帧的时间间隔（ms）
   hasCalledStart = false
 
   constructor() {
@@ -32,7 +32,7 @@ const step = (timestamp: number) => {
       game.hasCalledStart = true
       game.start()
     } else {
-      game.timedelta = timestamp - lastTimestamp
+      game.timeDelta = timestamp - lastTimestamp
       game.update()
     }
   })
