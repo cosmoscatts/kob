@@ -190,4 +190,3 @@ function createRouterGuard(router: Router): void {
 createRouterGuard(router)
 
 export default router
-

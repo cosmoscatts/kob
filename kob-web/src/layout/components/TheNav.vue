@@ -26,4 +26,3 @@ const isMobile = breakpoints.smaller('sm')
     <NavResponsivePanel v-if="isMobile" />
   </div>
 </template>
-

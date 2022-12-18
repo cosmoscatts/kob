@@ -9,4 +9,3 @@ const toggle = toggleDark
     @click="toggle()"
   />
 </template>
-

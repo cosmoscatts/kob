@@ -150,4 +150,3 @@ const titleLeft = computed(() => {
     0 -0.5rem 2rem #D26913, 0 0.5rem 3rem #D26913;
 }
 </style>
-

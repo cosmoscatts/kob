@@ -6,7 +6,7 @@ import {
   lightTheme,
 } from 'naive-ui'
 import lottie from 'lottie-web'
-import type{ RendererType } from 'lottie-web'
+import type { RendererType } from 'lottie-web'
 import { appMeta } from '~/config'
 
 export {
