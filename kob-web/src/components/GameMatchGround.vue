@@ -19,8 +19,7 @@ function onClick() {
       event: 'start-matching',
       botId: selectedBot.value,
     }))
-  }
-  else {
+  } else {
     endLoading()
     matchBtnText = '开始匹配'
     socket.value?.send(JSON.stringify({
