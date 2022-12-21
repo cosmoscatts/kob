@@ -1,28 +1,25 @@
-import type { AnyObject, Discuss, PageQuery, PageResult, Result } from '~/types'
+import type { AnyObject, Discuss, PageData, PageQuery } from '~/types'
 
 const { get, post } = useRequest
-type ListPageRes = Promise<PageResult<Discuss>>
-type ListRes = Promise<Result<number[]>>
-type VoidRes = Promise<Result<null>>
 
 export const DiscussApi = {
   addDiscuss(discuss: Discuss) {
-    return post('/api/discuss/remark', { body: discuss as AnyObject }) as unknown as VoidRes
+    return post('/api/discuss/remark', { body: discuss as AnyObject })
   },
 
   getDiscussList(query: PageQuery) {
-    return get('/api/discuss/remark/list', { urlParams: query as AnyObject }) as unknown as ListPageRes
+    return get<PageData<Discuss>>('/api/discuss/remark/list', { urlParams: query as AnyObject })
   },
 
   getCurrentUserLikes() {
-    return get('/api/discuss/remark/auth/likes', {}) as unknown as ListRes
+    return get<number[]>('/api/discuss/remark/auth/likes', {})
   },
 
   likeDiscuss(query: { remarkId?: number }) {
-    return get('/api/discuss/remark/like', { urlParams: query }) as unknown as VoidRes
+    return get('/api/discuss/remark/like', { urlParams: query })
   },
 
   dislikeDiscuss(query: { remarkId?: number }) {
-    return get('/api/discuss/remark/dislike', { urlParams: query }) as unknown as VoidRes
+    return get('/api/discuss/remark/dislike', { urlParams: query })
   },
 }

@@ -43,14 +43,10 @@ export interface PageQuery {
 }
 
 /** 分页返回数据结构 */
-export interface PageResult<T> {
-  code: number
-  data: {
-    [key: string]: any
-    records?: T[]
-    total?: number
-  }
-  msg?: string
+export interface PageData<T> {
+  [key: string]: any
+  records?: T[]
+  total?: number
 }
 
 /** 登录状态 */
