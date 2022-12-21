@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import { createAxios } from '~/utils'
 import type {
   AnyObject,
@@ -6,42 +5,19 @@ import type {
   GetParams,
   PostParams,
   PutParams,
+  Result,
 } from '~/types'
 
-type Fn = () => Promise<AxiosResponse<any, any>>
-
-/**
- * 拼接 url 参数
- */
-function handleUrlParams(params?: AnyObject | AnyObject[]) {
-  if (!params)
-    return ''
-
+const handleUrlParams = (params?: AnyObject | AnyObject[]) => {
+  if (!params) return ''
+  if (!Array.isArray(params)) params = [params]
   let paramStr = ''
-  if (!Array.isArray(params))
-    params = [params]
-
-  const arr = params.flatMap((i: AnyObject) => Object.entries(i))
-  for (const [k, v] of arr) {
-    if (v === '')
-      continue
-    paramStr += `&${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`
+  for (const [k, v] of params.flatMap((i: AnyObject) => Object.entries(i))) {
+    if (!v || (Array.isArray(v) && v.length === 0)) continue
+    const values = Array.isArray(v) ? [...v] : [v]
+    values.forEach(i => paramStr += `&${encodeURIComponent(k)}=${encodeURIComponent(i as string)}`)
   }
-
   return `?${paramStr.slice(1)}`
-}
-
-/**
- * 处理请求错误
- */
-function handleRequestError(fn: Fn) {
-  return fn?.().then(
-    data => data,
-    (error) => {
-      console.error('resp >', error)
-      return undefined
-    },
-  )
 }
 
 /**
@@ -50,38 +26,24 @@ function handleRequestError(fn: Fn) {
 function createRequest() {
   const axios = createAxios()
 
-  const httpMap = {
-    doGet: (url: string) => axios.get(url),
-    doPost: (url: string, body: AnyObject) => axios.post(url, body),
-    doPut: (url: string, body: AnyObject) => axios.put(url, body),
-    doDelete: (url: string) => axios.delete(url),
+  const _get = <T = any>(url: string, { urlParams }: GetParams) => {
+    url += handleUrlParams(urlParams)
+    return axios.get<any, Result<T>>(url)
   }
 
-  const {
-    doGet,
-    doPost,
-    doPut,
-    doDelete,
-  } = httpMap
-
-  const _get = (url: string, { urlParams }: GetParams) => {
+  const _post = <T = any>(url: string, { urlParams, body = {} }: PostParams) => {
     url += handleUrlParams(urlParams)
-    return handleRequestError(() => doGet(url))
+    return axios.post<any, Result<T>>(url, body)
   }
 
-  const _post = (url: string, { urlParams, body = {} }: PostParams) => {
+  const _put = <T = any>(url: string, { urlParams, body = {} }: PutParams) => {
     url += handleUrlParams(urlParams)
-    return handleRequestError(() => doPost(url, body))
+    return axios.put<any, Result<T>>(url, body)
   }
 
-  const _put = (url: string, { urlParams, body = {} }: PutParams) => {
+  const _delete = <T = any>(url: string, { urlParams }: DeleteParams) => {
     url += handleUrlParams(urlParams)
-    return handleRequestError(() => doPut(url, body))
-  }
-
-  const _delete = (url: string, { urlParams }: DeleteParams) => {
-    url += handleUrlParams(urlParams)
-    return handleRequestError(() => doDelete(url))
+    return axios.delete<any, Result<T>>(url)
   }
 
   return {
