@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
-
 const changePageIndex = inject('changePageIndex') as Function
 
 const { user } = storeToRefs(useUserStore())
@@ -51,8 +49,7 @@ watch(selectedTab, (val) => {
   machineBotId.value = undefined
 })
 
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isMobile = breakpoints.smaller('sm')
+const { isMobile } = useResponsive()
 </script>
 
 <template>

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
 import { APP_META } from '~/config'
 
-// 是否为移动端（包含 PC 端宽度过小的情况）
-const breakpoints = useBreakpoints(breakpointsTailwind)
+const { breakpoints } = useResponsive()
 const hideTitle = breakpoints.between('sm', 'lg')
-
 onMounted(() => {
   useTimeoutFn(() => {
     useLottie({
