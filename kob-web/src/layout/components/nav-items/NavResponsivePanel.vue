@@ -4,12 +4,9 @@ import NavAvatar from './NavAvatar.vue'
 import { APP_META } from '~/config'
 
 let showNavPanel = $ref(false)
-
-const { hasLogin } = storeToRefs(useUserStore())
-
-const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
-
 const toggle = () => showNavPanel = !showNavPanel
+const { hasLogin } = storeToRefs(useUserStore())
+const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 </script>
 
 <template>

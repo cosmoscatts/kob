@@ -14,6 +14,7 @@ declare global {
   const $shallowRef: typeof import('vue/macros')['$shallowRef']
   const $toRef: typeof import('vue/macros')['$toRef']
   const BotApi: typeof import('./server/api/bot')['BotApi']
+  const Conditional: typeof import('./composables/conditional')['Conditional']
   const DiscussApi: typeof import('./server/api/remark')['DiscussApi']
   const EffectScope: typeof import('vue')['EffectScope']
   const R: typeof import('./composables/tools')['R']
@@ -327,6 +328,7 @@ declare module 'vue' {
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
+    readonly Conditional: UnwrapRef<typeof import('./composables/conditional')['Conditional']>
     readonly DiscussApi: UnwrapRef<typeof import('./server/api/remark')['DiscussApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly R: UnwrapRef<typeof import('./composables/tools')['R']>

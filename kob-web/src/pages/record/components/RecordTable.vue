@@ -30,39 +30,28 @@ const pagination = usePagination({
   onUpdatePageSizeCallback: fetchTableData,
 })
 
-/**
- * 创建表格序号
- */
-function createRowNumber(rowIndex: number) {
-  const { page, pageSize } = pagination
-  return (page - 1) * pageSize + rowIndex + 1
-}
-
-/**
- * 是否有删除权限
- */
 function canDelete(aId: number, bId: number): boolean {
   const userId = useUserStore()?.user?.id
   return userId === aId || userId === bId
 }
 
-/**
- * 删除对局
- */
 function onRemoveRecord({ id }: Record) {
   $dialog.warning({
     title: '警告',
     content: '你确定要删除该对局吗？',
     positiveText: '确定',
     negativeText: '取消',
-    onPositiveClick: async () => {
-      const { code, msg } = await RecordApi.deleteRecord(id as number)
-      if (code !== 0) {
-        $message.error(msg ?? '删除失败')
-        return
-      }
-      $message.success('删除成功')
-      fetchTableData()
+    onPositiveClick: () => {
+      RecordApi
+        .deleteRecord(id as number)
+        .then(({ code, msg }) => {
+          if (code !== 0) {
+            $message.error(msg ?? '删除失败')
+            return
+          }
+          $message.success('删除成功')
+          fetchTableData()
+        })
     },
   })
 }
@@ -84,34 +73,19 @@ const convert2DArray = (map: string) => { // 将地图从字符串转为二维�
 let tableData = $ref<Record[]>([])
 const searchModel = reactive<{ name?: string }>({ name })
 
-/**
- * 查询表格数据
- */
-async function fetchTableData() {
+function fetchTableData() {
   startLoading()
   const { page, pageSize } = pagination
-  const { name: _name } = searchModel
-  try {
-    const { data: { records, total } } = await RecordApi.getRecordList({
-      page,
-      pageSize,
-      name: _name?.trim(),
+  RecordApi
+    .getRecordList({ page, pageSize, name: searchModel.name?.trim() })
+    .then(({ data: { records = [], total = 0 } }) => {
+      tableData = records
+      pagination.itemCount = total
     })
-    tableData = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    // 处理异常
-  }
-  finally {
-    useTimeoutFn(endLoading, 1000)
-  }
+    .finally(() => useTimeoutFn(endLoading, 1000))
 }
 fetchTableData()
 
-/**
- * 查看录像
- */
 function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, aAvatar, aName, bAvatar, bName }: Record) {
   updateIsRecord(true)
   updateSteps(aSteps, bSteps)
@@ -127,7 +101,7 @@ function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, 
 }
 
 const columns = createColumns({
-  createRowNumber,
+  createRowNumber: pagination.createRowNumber,
   canDelete,
   checkVideo,
   onRemoveRecord,

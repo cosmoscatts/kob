@@ -9,8 +9,7 @@ const recordStore = useRecordStore()
 let gameMap: GameMap | null = null
 
 const sendStartGameSingal = () => {
-  if (!pkStore.socket)
-    return
+  if (!pkStore.socket) return
   pkStore.socket.send(JSON.stringify({
     event: 'start-game',
   }))
@@ -21,25 +20,18 @@ function createGameMap() {
   gameMap?.destory()
   gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!)
   pkStore.updateGameMapObject(gameMap)
-  if (recordStore.isRecord)
+  if (recordStore.isRecord) {
     recordStore.updateRecordFinished(false)
-  else
+  } else {
     sendStartGameSingal()
+  }
 }
 
 onMounted(createGameMap)
 
 const replayVideo = () => createGameMap()
-
-/**
- * 暂停
- */
-const pauseVideo = () => gameMap?.recordFn?.pause()
-
-/**
- * 取消暂停
- */
-const resumeVideo = () => gameMap?.recordFn?.resume()
+const pauseVideo = () => gameMap?.recordFn?.pause() // 暂停
+const resumeVideo = () => gameMap?.recordFn?.resume() // 取消暂停
 
 defineExpose({
   replayVideo,

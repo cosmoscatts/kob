@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import { BulbOutline } from '@vicons/ionicons5'
-import { createColumns } from '../helper'
+import { createColumns } from '../columns'
 import BotTableForm from './BotTableForm.vue'
 import How2Code from './How2Code.vue'
 import type { Bot } from '~/types'
@@ -13,100 +13,76 @@ const pagination = usePagination({ // 分页参数
   onUpdatePageSizeCallback: fetchTableData,
 })
 
-/**
- * 创建表格序号
- */
-function createRowNumber(rowIndex: number) {
-  const { page, pageSize } = pagination
-  return (page - 1) * pageSize + rowIndex + 1
-}
+let modalVisible = $ref(false)
+let modalAction = $ref<'add' | 'edit'>()
+let selectedBot = $ref<Bot>()
 
-let botModalVisible = $ref(false) // 是否显示『添加』、『编辑』bot 表单
-let botModalAction = $ref<'add' | 'edit'>() // bot 表单操作类型
-let selectedBot = $ref<Bot>() // 编辑用户时，选中的用户
-
-/**
- * 添加 bot
- */
 function onAddBot() {
   selectedBot = {}
-  botModalAction = 'add'
-  botModalVisible = true
+  modalAction = 'add'
+  modalVisible = true
 }
 
-/**
- * 编辑 bot
- */
 function onUpdateBot(bot: Bot) {
   selectedBot = bot
-  botModalAction = 'edit'
-  botModalVisible = true
+  modalAction = 'edit'
+  modalVisible = true
 }
 
-/**
- * 保存 bot -『新增』&『编辑』
- */
-async function onSaveBotData(bot: Bot) {
+function onSaveBotData(bot: Bot) {
   const { addBot: add, updateBot: update } = BotApi
-  const fn = [add, update][Number(botModalAction === 'edit')]
-  const msgPrefix = ['添加', '编辑'][Number(botModalAction === 'edit')]
+  const fn = [add, update][Number(modalAction === 'edit')]
+  const msgPrefix = ['添加', '编辑'][Number(modalAction === 'edit')]
   fn(bot).then(({ code, msg }) => {
     if (code !== 0) {
       $message.error(msg ?? `${msgPrefix}失败`)
       return
     }
     $message.success(`${msgPrefix}成功`)
-    botModalVisible = false
+    modalVisible = false
     fetchTableData()
   })
 }
 
-/**
- * 删除用户 `bot`
- */
 function onRemoveBot({ id }: Bot) {
   $dialog.warning({
     title: '警告',
     content: '你确定要删除该Bot吗？',
     positiveText: '确定',
     negativeText: '取消',
-    onPositiveClick: async () => {
-      const { code, msg } = await BotApi.deleteBot(id as number)
-      if (code !== 0) {
-        $message.error(msg ?? '删除失败')
-        return
-      }
-      $message.success('删除成功')
-      fetchTableData()
+    onPositiveClick: () => {
+      BotApi
+        .deleteBot(id as number)
+        .then(({ code, msg }) => {
+          if (code !== 0) {
+            $message.error(msg ?? '删除失败')
+            return
+          }
+          $message.success('删除成功')
+          fetchTableData()
+        })
     },
   })
 }
 
 const columns = createColumns({
-  createRowNumber,
+  createRowNumber: pagination.createRowNumber,
   onUpdateBot,
   onRemoveBot,
 })
 
 let tableData = $ref<Bot[]>([])
 
-/**
- * 查询表格数据
- */
-async function fetchTableData() {
+function fetchTableData() {
   startLoading()
   const { page, pageSize } = pagination
-  try {
-    const { data: { records, total } } = await BotApi.getBotList({ page, pageSize })
-    tableData = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    // 处理异常
-  }
-  finally {
-    useTimeoutFn(endLoading, 1000)
-  }
+  BotApi
+    .getBotList({ page, pageSize })
+    .then(({ data: { records = [], total = 0 } }) => {
+      tableData = records
+      pagination.itemCount = total
+    })
+    .finally(() => useTimeoutFn(endLoading, 1000))
 }
 fetchTableData()
 
@@ -153,9 +129,9 @@ const how2CodeVisible = ref(false)
       </div>
     </n-card>
     <BotTableForm
-      v-model:modal-visible="botModalVisible"
+      v-model:modal-visible="modalVisible"
       v-bind="{
-        type: botModalAction,
+        type: modalAction,
         form: selectedBot,
       }"
       @save-bot-data="onSaveBotData"

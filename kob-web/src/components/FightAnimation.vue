@@ -16,11 +16,11 @@ const { pause, resume } = useIntervalFn(() => {
     title.value = 'VS'
     return
   }
-  if (title.value === 'VS')
+  if (title.value === 'VS') {
     title.value = 3
-
-  else
+  } else {
     title.value = title.value as number - 1
+  }
 }, 1000)
 useTimeoutFn(resume, 500)
 

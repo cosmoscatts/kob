@@ -30,6 +30,10 @@ export function usePagination({
       pagination.page = 1
       onUpdatePageSizeCallback?.()
     },
+    createRowNumber: (rowIndex: number) => {
+      const { page, pageSize } = pagination
+      return (page - 1) * pageSize + rowIndex + 1
+    },
   })
 
   return pagination

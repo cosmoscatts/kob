@@ -11,4 +11,3 @@
     </RouterView>
   </div>
 </template>
-

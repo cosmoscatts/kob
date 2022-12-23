@@ -18,7 +18,8 @@ onMounted(() => {
 
 <template>
   <div
-    flex-center h-full cursor-pointer @click="$router.push('/')"
+    flex-center h-full cursor-pointer
+    @click="$router.push('/')"
   >
     <div id="lottie-logo" h44px />
     <span v-if="!hideTitle" font="bold" pl-16px text-24px>

@@ -5,50 +5,33 @@ import {
   Search as SearchIcon,
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
-import { createColumns } from './helper'
+import { createColumns } from './columns'
 import type { Rank } from '~/types'
 
 const { loading, startLoading, endLoading } = useLoading()
 
-// 分页参数
-const pagination = usePagination({
+const pagination = usePagination({ // 分页参数
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
 })
 
-/**
- * 创建表格序号
- */
-function createRowNumber(rowIndex: number) {
-  const { page, pageSize } = pagination
-  return (page - 1) * pageSize + rowIndex + 1
-}
-
 const columns = createColumns({
-  createRowNumber,
+  createRowNumber: pagination.createRowNumber,
 })
 
 let tableData = $ref<Rank[]>([])
 const searchModel = reactive<{ name?: string }>({ name: '' })
 
-/**
- * 查询表格数据
- */
-async function fetchTableData() {
+function fetchTableData() {
   startLoading()
   const { page, pageSize } = pagination
-  const { name: _name } = searchModel
-  try {
-    const { data: { records, total } } = await RankApi.getRankList({ page, pageSize, name: _name?.trim() })
-    tableData = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    // 处理异常
-  }
-  finally {
-    useTimeoutFn(endLoading, 1000)
-  }
+  RankApi
+    .getRankList({ page, pageSize, name: searchModel.name?.trim() })
+    .then(({ data: { records = [], total = 0 } }) => {
+      tableData = records
+      pagination.itemCount = total
+    })
+    .finally(() => useTimeoutFn(endLoading, 1000))
 }
 fetchTableData()
 

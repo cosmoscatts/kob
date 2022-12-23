@@ -9,7 +9,6 @@ const {
 }>()
 
 const themeVars = useThemeVars()
-
 const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 
 // 控制内层动画
