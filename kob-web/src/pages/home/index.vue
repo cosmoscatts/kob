@@ -21,12 +21,10 @@ const emojiArray = [
 const getEmoji = (): string =>
   emojiArray[Math.floor(Math.random() * emojiArray.length)]
 
-onMounted(() => {
-  useLottie({
-    container: document.querySelector('#lottie-cat')!,
-    path: 'https://assets1.lottiefiles.com/packages/lf20_cSNnXm5euH.json',
-  })
-})
+onMounted(() => useLottie({
+  container: document.querySelector('#lottie-cat')!,
+  path: 'https://assets1.lottiefiles.com/packages/lf20_cSNnXm5euH.json',
+}))
 </script>
 
 <template>

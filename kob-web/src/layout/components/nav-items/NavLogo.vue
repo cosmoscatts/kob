@@ -4,12 +4,10 @@ import { APP_META } from '~/config'
 const { breakpoints } = useResponsive()
 const hideTitle = breakpoints.between('sm', 'lg')
 onMounted(() => {
-  useTimeoutFn(() => {
-    useLottie({
-      container: document.querySelector('#lottie-logo')!,
-      path: 'https://assets10.lottiefiles.com/packages/lf20_i9arxzcg.json',
-    })
-  }, 10)
+  useTimeoutFn(() => useLottie({
+    container: document.querySelector('#lottie-logo')!,
+    path: 'https://assets10.lottiefiles.com/packages/lf20_i9arxzcg.json',
+  }), 10)
 })
 </script>
 

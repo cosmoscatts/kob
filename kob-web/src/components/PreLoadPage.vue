@@ -15,12 +15,10 @@ const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 const { loading, endLoading } = useLoading(true)
 useTimeoutFn(endLoading, beforeLeaveMs)
 
-onMounted(() => {
-  useLottie({
-    container: document.querySelector('#lottie-container')!,
-    path: 'https://assets6.lottiefiles.com/packages/lf20_iqxl5bjr.json',
-  })
-})
+onMounted(() => useLottie({
+  container: document.querySelector('#lottie-container')!,
+  path: 'https://assets6.lottiefiles.com/packages/lf20_iqxl5bjr.json',
+}))
 </script>
 
 <template>

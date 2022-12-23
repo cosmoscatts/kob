@@ -17,9 +17,7 @@ export const createDropdownOptions = (router: Router, userStore = useUserStore()
     key: 'userBot',
     icon: renderIcon(BotIcon),
     props: {
-      onClick: () => {
-        router.push('/userBot')
-      },
+      onClick: () => router.push('/userBot'),
     },
   },
   {
@@ -27,9 +25,7 @@ export const createDropdownOptions = (router: Router, userStore = useUserStore()
     key: 'profile',
     icon: renderIcon(UserIcon),
     props: {
-      onClick: () => {
-        router.push('/profile')
-      },
+      onClick: () => router.push('/profile'),
     },
   },
   {
