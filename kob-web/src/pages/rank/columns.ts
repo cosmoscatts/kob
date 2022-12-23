@@ -22,9 +22,7 @@ export function createColumns({
       title: '玩家',
       key: 'id',
       align: 'center',
-      render({ avatar, name, rankNum }) {
-        return renderPlayer(avatar, name, rankNum)
-      },
+      render: ({ avatar, name, rankNum }) => renderPlayer(avatar, name, rankNum),
     },
     {
       title: '天梯分',
@@ -38,9 +36,7 @@ export function createColumns({
       title: '创建时间',
       key: 'description',
       align: 'center',
-      render({ createTime }) {
-        return formatDate({ date: createTime })
-      },
+      render: ({ createTime }) => formatDate({ date: createTime }),
     },
   ]
 }

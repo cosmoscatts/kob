@@ -12,45 +12,41 @@ const { loading, startLoading, endLoading } = useLoading()
 
 let list = $ref<Discuss[]>([])
 const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }]
-async function fetchDiscussList() {
+function fetchDiscussList() {
   startLoading()
   list = [...defaultLoadingData]
   const { page, pageSize } = pagination
-  try {
-    const { data: { records, total } } = await DiscussApi.getDiscussList({ page, pageSize })
-    list = records!
-    pagination.itemCount = total!
-  }
-  catch (err) {
-    list = []
-  }
-  finally {
-    useTimeoutFn(endLoading, 500)
-  }
+  DiscussApi
+    .getDiscussList({ page, pageSize })
+    .then(({ data: { records = [], total = 0 } }) => {
+      list = records
+      pagination.itemCount = total
+    })
+    .catch(() => list = [])
+    .finally(() => useTimeoutFn(endLoading, 500))
 }
 fetchDiscussList()
 
 let likes = $ref<number[]>([])
-async function fetchCurrentUserLikes() {
-  try {
-    const { data } = await DiscussApi.getCurrentUserLikes()
-    likes = data ?? []
-  }
-  catch (err) {
-    likes = []
-  }
+function fetchCurrentUserLikes() {
+  DiscussApi
+    .getCurrentUserLikes()
+    .then(({ data = [] }) => {
+      likes = data
+    })
+    .catch(() => likes = [])
 }
 fetchCurrentUserLikes()
 
 const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkId)
 
 function likeCallback({ id, type }: { id?: number; type: 'like' | 'dislike' }) {
-  if (!id)
-    return
+  if (!id) return
   fetchCurrentUserLikes()
   const item = list.find(i => i.id === id)
-  if (item?.likes !== undefined)
+  if (item?.likes !== undefined) {
     item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1]
+  }
 }
 </script>
 

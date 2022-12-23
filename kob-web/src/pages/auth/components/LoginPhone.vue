@@ -11,17 +11,11 @@ import {
 import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
 
-/**
- * 定义表单数据结构
- */
 interface ModelType {
   phone?: string
   code?: string
 }
-
 const refForm = ref<FormInst | null>(null)
-
-// 表单基础数据
 const baseFormModel = isDevelopment
   ? {
       phone: '13650223322',
@@ -31,20 +25,11 @@ const baseFormModel = isDevelopment
       phone: '',
       code: '',
     }
-
-// 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
 
-/**
- * 校验手机号
- */
-function validatePhone(value: string) {
-  return REGEXP_PHONE.test(value)
-}
-
-// 表单校验规则
+const validatePhone = (value: string) => REGEXP_PHONE.test(value)
 const rules: FormRules = {
   phone: [
     {
@@ -69,14 +54,10 @@ const rules: FormRules = {
 
 const { loading } = useLoading()
 
-/**
- * 登录
- */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
-  refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
-      return
+  refForm.value?.validate((errors?: FormValidationError[]) => {
+    if (errors) return
     if (formModel.code !== '123456') {
       $message.error('验证码错误')
       return
@@ -85,11 +66,8 @@ function onSubmit(e: MouseEvent) {
   })
 }
 
-// 实现聚焦功能
 const refInputPhone = ref()
-function focusFirstInput() {
-  refInputPhone.value?.focus()
-}
+const focusFirstInput = () => refInputPhone.value?.focus()
 
 // 禁用验证码及发送按钮
 const codeInputDisabled = computed(() => (!formModel.phone || !validatePhone(formModel.phone)))
@@ -106,16 +84,12 @@ const {
   startCounting,
 } = countSendingSmsCode()
 
-/**
- * 处理发送验证码
- */
 function handleSmsCode() {
   startSmsLoading()
   useTimeoutFn(() => {
     $message.success('验证码发送成功')
-    endSmsLoading()
-    startCounting()
-    getSmsCode()
+    ;[endSmsLoading, startCounting, getSmsCode]
+      .forEach(fn => fn())
   }, 1000)
 }
 

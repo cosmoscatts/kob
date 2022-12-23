@@ -14,18 +14,13 @@ import FuncBar from './FuncBar.vue'
 
 const loginCallback = inject<Function>('loginCallback')
 
-/**
- * 定义表单数据结构
- */
 interface ModelType {
   username?: string
   password?: string
 }
 
 const refForm = ref<FormInst | null>(null)
-
-// 表单基础数据
-const baseFormModel = isDevelopment
+const baseFormModel = isDevelopment // 表单基础数据
   ? {
       username: 'admin',
       password: '123456',
@@ -34,13 +29,10 @@ const baseFormModel = isDevelopment
       username: '',
       password: '',
     }
-
-// 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
 
-// 表单校验规则
 const rules: FormRules = {
   username: [
     {
@@ -65,34 +57,29 @@ const rules: FormRules = {
 
 const { loading, startLoading, endLoading } = useLoading()
 
-/**
- * 登录
- */
-async function onSubmit(e: MouseEvent) {
+function onSubmit(e: MouseEvent) {
   e.preventDefault()
-  refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
-      return
+  refForm.value?.validate((errors?: FormValidationError[]) => {
+    if (errors) return
     startLoading()
-    const { code, data, msg } = await UserApi.getToken(JSON.parse(JSON.stringify(formModel)))
-    if (code !== 0) {
-      useTimeoutFn(endLoading, 1000)
-      $message.error(msg ?? '账号或密码错误')
-      return
-    }
-
-    useTimeoutFn(() => {
-      endLoading()
-      loginCallback?.(data.token)
-    }, 1000)
+    UserApi
+      .getToken(JSON.parse(JSON.stringify(formModel)))
+      .then(({ code, data, msg }) => {
+        if (code !== 0) {
+          useTimeoutFn(endLoading, 1000)
+          $message.error(msg ?? '账号或密码错误')
+          return
+        }
+        useTimeoutFn(() => {
+          endLoading()
+          loginCallback?.(data.token)
+        }, 1000)
+      })
   })
 }
 
-// 实现聚焦功能
 const refInputUserName = ref()
-function focusFirstInput() {
-  refInputUserName.value?.focus()
-}
+const focusFirstInput = () => refInputUserName.value?.focus()
 
 defineExpose({
   focusFirstInput,
@@ -109,7 +96,13 @@ defineExpose({
     size="large"
   >
     <n-form-item path="username">
-      <n-input ref="refInputUserName" v-model:value="formModel.username" placeholder="账号" clearable @keydown.enter.prevent>
+      <n-input
+        ref="refInputUserName"
+        v-model:value="formModel.username"
+        placeholder="账号"
+        clearable
+        @keydown.enter.prevent
+      >
         <template #clear-icon>
           <n-icon :component="TrashBinOutlineIcon" />
         </template>

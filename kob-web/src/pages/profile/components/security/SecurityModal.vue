@@ -16,9 +16,8 @@ const emit = defineEmits(['update:modalVisible'])
 const bodyStyle = {
   width: '390px',
 }
-
-const { setAuthModalVisible, logout } = useUserStore()
 const router = useRouter()
+const { setAuthModalVisible, logout } = useUserStore()
 
 const securityActionCallback = () => {
   emit('update:modalVisible', false)

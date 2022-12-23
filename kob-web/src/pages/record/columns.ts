@@ -23,37 +23,31 @@ export function createColumns({
       key: 'id',
       title: '序号',
       align: 'center',
-      render(_row, rowIndex) {
-        return createRowNumber?.(rowIndex)
-      },
+      render: (_, rowIndex) => createRowNumber?.(rowIndex),
     },
     {
       title: '玩家A',
       key: 'aId',
       align: 'center',
-      render({ aAvatar, aName, loser }) {
-        return renderPlayer(aAvatar, aName, !!loser && !['all', 'A'].includes(loser))
-      },
+      render: ({ aAvatar, aName, loser }) =>
+        renderPlayer(aAvatar, aName, !!loser && !['all', 'A'].includes(loser)),
     },
     {
       title: '玩家B',
       key: 'bId',
       align: 'center',
-      render({ bAvatar, bName, loser }) {
-        return renderPlayer(bAvatar, bName, !!loser && !['all', 'B'].includes(loser))
-      },
+      render: ({ bAvatar, bName, loser }) =>
+        renderPlayer(bAvatar, bName, !!loser && !['all', 'B'].includes(loser)),
     },
     {
       title: '对局模式',
       key: 'mode',
       align: 'center',
-      render({ mode }) {
-        return h(
-          NTag,
-          { type: mode === 'match' ? 'error' : 'warning' },
-          () => mode === 'match' ? '匹配对战' : '人机试炼',
-        )
-      },
+      render: ({ mode }) => (h(
+        NTag,
+        { type: mode === 'match' ? 'error' : 'warning' },
+        () => mode === 'match' ? '匹配对战' : '人机试炼',
+      )),
     },
     {
       title: '对战结果',
@@ -73,9 +67,7 @@ export function createColumns({
       title: '对战时间',
       key: 'description',
       align: 'center',
-      render({ createTime }) {
-        return formatDate({ date: createTime })
-      },
+      render: ({ createTime }) => formatDate({ date: createTime }),
     },
     {
       title: '操作',
@@ -120,9 +112,6 @@ export function createColumns({
   ]
 }
 
-/**
- * 渲染玩家单元格内容
- */
 function renderPlayer(avatar?: string, name?: string, win = false) {
   const widgets = [
     h(
@@ -145,39 +134,28 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
     ),
   ]
   if (win) {
-    widgets.push(
-      h(
-        NIconWrapper,
-        {
-          size: 24,
-          borderRadius: 10,
-          color: '#886BFA',
-          iconColor: 'white',
-          style: {
-            marginLeft: '10px',
-          },
-        },
-        () => h(
-          NIcon,
-          {
-            size: 16,
-            component: Paw,
-          },
-        ),
-      ),
-    )
-  }
-  return h(
-    'div',
-    {
+    widgets.push(h(NIconWrapper, {
+      size: 24,
+      borderRadius: 10,
+      color: '#886BFA',
+      iconColor: 'white',
       style: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginLeft: '10px',
       },
     },
-    widgets,
-  )
+    () => h(NIcon, {
+      size: 16,
+      component: Paw,
+    })))
+  }
+  return h('div', {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  },
+  widgets)
 }
 
 export interface PlayerInfo {

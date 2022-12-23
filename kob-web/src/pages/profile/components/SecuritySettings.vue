@@ -4,26 +4,20 @@ import type { UserSecurity } from '~/types'
 
 let security = $ref<UserSecurity>({})
 
-async function checkUserHasPassword() {
-  const { data } = await UserSecurityApi.checkSecurity()
-  security = data ?? {}
+const checkUserHasPassword = () => {
+  UserSecurityApi.checkSecurity().then(({ data = {} }) => security = data)
 }
 checkUserHasPassword()
 
 let modalVisible = $ref(false)
 let modalTitle = $ref('')
 let formIndex = $ref(0)
-
 type T = 'password' | 'phone' | 'github' | 'qq' | 'wx' | 'bilibili'
-
 function onClick(type: T) {
   const hash = ['password', 'phone', 'github', 'qq', 'wx', 'bilibili']
   const title = ['密码', '手机号', 'Github', 'QQ', '微信', 'Bilibili']
-
   const index = hash.findIndex(i => i === type)
-  if (index < 0)
-    return
-
+  if (~index) return
   modalVisible = true
   modalTitle = `设置${title[index]}`
   formIndex = index
@@ -121,4 +115,3 @@ function onClick(type: T) {
     <SecurityModal v-model:modal-visible="modalVisible" v-bind="{ formIndex, title: modalTitle }" />
   </div>
 </template>
-

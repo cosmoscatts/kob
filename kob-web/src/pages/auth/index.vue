@@ -51,16 +51,10 @@ function inputAutoFocus() {
 }
 
 watch(authModalVisible, (val) => {
-  if (val) // 等待 form 挂载完成
-    useTimeoutFn(inputAutoFocus, 200)
+  if (val) useTimeoutFn(inputAutoFocus, 200)
 })
-watch(currentTab, () => { // 等待 form 挂载完成
-  useTimeoutFn(inputAutoFocus, 200)
-})
+watch(currentTab, () => useTimeoutFn(inputAutoFocus, 200))
 
-/**
- * 登录完成的回调方法
- */
 function loginCallback(token: string) {
   router.push('/')
   login(token)
@@ -72,9 +66,6 @@ function loginCallback(token: string) {
   setAuthModalVisible(false)
 }
 
-/**
- * 注册完成的回调方法
- */
 function registerCallback() {
   $notification.success({
     title: '注册成功',

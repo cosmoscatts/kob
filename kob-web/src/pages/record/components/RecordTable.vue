@@ -4,7 +4,7 @@ import {
   Search as SearchIcon,
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
-import { createColumns } from '../helper'
+import { createColumns } from '../columns'
 import type { Record } from '~/types'
 
 const {

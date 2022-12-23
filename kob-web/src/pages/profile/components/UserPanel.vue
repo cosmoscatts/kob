@@ -2,41 +2,34 @@
 import type { UploadFileInfo } from 'naive-ui'
 
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
-const { updateUser } = userStore
-
 function onChange({
   file,
 }: {
   file: UploadFileInfo
   fileList: UploadFileInfo[]
 }) {
-  getBase64(file.file).then(async (imageAsDateURL) => {
-    const { code } = await UserApi.updateLoginUserInfo({ avatar: imageAsDateURL as string })
-    if (code === 0) {
-      $message.success('上传成功')
-      updateUser()
-    } else {
-      $message.error('上传失败')
-    }
+  getBase64(file.file!).then(async (imageAsDateURL) => {
+    UserApi
+      .updateLoginUserInfo({ avatar: imageAsDateURL as string })
+      .then(({ code }) => {
+        if (code === 0) {
+          $message.success('上传成功')
+          userStore.updateUser()
+        } else {
+          $message.error('上传失败')
+        }
+      })
   })
 }
 
-function getBase64(file: any) {
+function getBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     let imageAsDateURL = ''
     reader.readAsDataURL(file)
-    reader.onload = (data) => {
-      const res: any = data.target || data.srcElement
-      imageAsDateURL = res.result
-    }
-    reader.onerror = (err) => {
-      reject(err)
-    }
-    reader.onloadend = () => {
-      resolve(imageAsDateURL)
-    }
+    reader.onload = data => imageAsDateURL = data.target?.result as string
+    reader.onerror = err => reject(err)
+    reader.onloadend = () => resolve(imageAsDateURL)
   })
 }
 
@@ -67,7 +60,7 @@ function beforeUpload({
           }"
           lt-md="max-w-150px"
           size="large"
-          :src="user?.avatar"
+          :src="userStore.user?.avatar"
           @click="$router.push('/profile')"
         />
         <n-divider />

@@ -4,13 +4,10 @@ import { APP_LAYOUT_PARAMS } from '~/config'
 
 const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
 const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6)
-
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)')
 
 let currentPageIndex = $ref(0)
-function changePageIndex(index: number) {
-  currentPageIndex = index
-}
+const changePageIndex = (index: number) => currentPageIndex = index
 provide('changePageIndex', changePageIndex)
 </script>
 
