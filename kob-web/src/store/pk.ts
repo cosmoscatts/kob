@@ -10,8 +10,7 @@ interface Player {
   sy: number // 起始列
 }
 
-// 初始对手信息
-const defaultOpponent = {
+const defaultOpponent = { // 初始对手信息
   name: '你的对手',
   avatar: opponentDefaultAvatar,
 }

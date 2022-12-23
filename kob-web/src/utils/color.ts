@@ -27,7 +27,7 @@ export const addColorAlpha = (color: string, alpha: number) => colord(color).alp
 /**
  * 生成主色调的其他状态颜色，包括 hover、pressed、suppl 等状态
  */
-export const generatePrimaryColor = (primaryColor: string) => ({
+export const createPrimaryColor = (primaryColor: string) => ({
   primaryColor,
   primaryColorHover: createHoverColor(primaryColor),
   primaryColorPressed: createPressedColor(primaryColor),
