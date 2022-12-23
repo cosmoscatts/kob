@@ -22,6 +22,7 @@ const { loser, recordFinished } = storeToRefs(recordStore)
 
 const pause = () => refGameMap.value?.pauseVideo?.()
 const replay = () => refGameMap.value?.replayVideo?.()
+const resume = () => refGameMap.value?.resumeVideo?.()
 
 function goBack() {
   pause()
@@ -31,9 +32,9 @@ function goBack() {
 
 let recordPaused = $ref(false)
 function doPause() {
+  if (recordPaused) resume()
+  else pause()
   recordPaused = !recordPaused
-  if (recordPaused) pause()
-  else replay()
 }
 
 onMounted(() => useLottie({

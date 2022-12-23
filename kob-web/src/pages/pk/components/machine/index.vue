@@ -37,10 +37,8 @@ const socket = useSocket((msg) => {
 })
 
 const clear = () => [
-  socket.close,
-  () => pkStore.updateLoser('none'),
-  pkStore.updateOpponent,
-  () => pkStore.updateStatus('match'),
+  () => socket.close(),
+  () => pkStore.reset(),
 ].forEach(fn => fn())
 onUnmounted(clear)
 
