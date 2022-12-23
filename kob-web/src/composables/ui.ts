@@ -1,24 +1,21 @@
-import type { GlobalThemeOverrides } from 'naive-ui'
+import type { GlobalThemeOverrides, ThemeCommonVars } from 'naive-ui'
 import { commonDark, commonLight } from 'naive-ui'
 import type { ComputedRef } from 'vue'
-import { generatePrimaryColor } from '~/utils'
+import { createPrimaryColor } from '~/utils'
 import { APP_LAYOUT_PARAMS } from '~/config'
 
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const primaryColorOverrides = generatePrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
-
-  const themeOverrides = computed<GlobalThemeOverrides>(() => {
+  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
+  return computed<GlobalThemeOverrides>(() => {
     const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)]
     const cardColor = ['#fefefe', '#131313'][Number(isDark.value)]
     const modalColor = ['#ffffff', '#262626'][Number(isDark.value)]
 
     return {
-      common: {
-        ...primaryColorOverrides,
-      },
+      common: { ...overrides },
       LoadingBar: {
         colorLoading: APP_LAYOUT_PARAMS.primaryColor,
       },
@@ -72,7 +69,6 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
       },
     }
   })
-  return themeOverrides
 }
 
 const colorPropertyMap: { [key: string]: string } = {
@@ -102,19 +98,17 @@ const colorPropertyMap: { [key: string]: string } = {
  * 将 naive ui 的通用颜色，并写入 body
  */
 export function writeThemeColorsToBody() {
-  const primaryColorOverrides = generatePrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
+  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
 
-  const colors: any = isDark.value
+  const colors: ThemeCommonVars = isDark.value
     ? commonDark
     : commonLight
-
   const mergedColors = {
     ...colors,
-    ...primaryColorOverrides,
+    ...overrides,
   }
-
   Object.entries(colorPropertyMap).forEach(([key, value]) => {
-    document.body.style.setProperty(value, mergedColors[key])
+    document.body.style.setProperty(value, mergedColors[key as keyof ThemeCommonVars])
   })
 }
 
