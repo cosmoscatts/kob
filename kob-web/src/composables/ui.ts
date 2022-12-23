@@ -130,3 +130,8 @@ export function writeThemeColorsToBody() {
 }
 
 watch(isDark, writeThemeColorsToBody)
+
+// ----- Content Height -----
+
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
+export const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3)

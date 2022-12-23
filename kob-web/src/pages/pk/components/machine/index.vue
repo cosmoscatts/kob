@@ -1,97 +1,62 @@
 <script setup lang="ts">
 import ChooseLevel from './components/ChooseLevel.vue'
-import { APP_LAYOUT_PARAMS } from '~/config'
-import { Token } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
 
-const token = Token.get()
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
-
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
-})
-
-const { user } = storeToRefs(useUserStore())
-
+const contentHeght = diffHeight
 const pkStore = usePkStore()
-const { status, loser, gameMapObject, players } = storeToRefs(pkStore)
-const { updateSocket, updateOpponent, updateGame, updateStatus, updateLoser } = pkStore
+const userStore = useUserStore()
 
-// 更新对手信息
-updateOpponent()
-
-const urlPrefix = import.meta.env.MODE === 'development'
-  ? 'ws://127.0.0.1:3000'
-  : 'wss://app3626.acapp.acwing.com.cn'
-const socketUrl = `${urlPrefix}/websocket/${token}/`
-
-const socket = new WebSocket(socketUrl)
-
-socket.onopen = () => updateSocket(socket)
+pkStore.updateOpponent() // 更新对手信息
 
 let showFightAnimation = $ref(false)
-socket.onmessage = (msg) => {
+
+const socket = useSocket((msg) => {
   const data = JSON.parse(msg.data)
-  // 匹配成功
-  if (data.event === 'match-success') {
-    updateOpponent({
-      name: data?.opponentName || '-',
-      avatar: data?.opponentAvatar ?? defaultAvatar,
-    })
-    updateGame(data.game)
-    updateStatus('play')
-    $message.success('人机试炼开始')
-    showFightAnimation = true
-    useTimeoutFn(() => {
-      showFightAnimation = false
-    }, 5000)
-  }
-  else if (data.event === 'move') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
-    snake0.setDirection(data.aDirection)
-    snake1.setDirection(data.bDirection)
-  }
-  else if (data.event === 'result') {
-    const { snakes } = gameMapObject.value!
-    const [snake0, snake1] = snakes
+  const fns: [boolean, Function][] = [
+    [data.event === 'match-success', () => { // 匹配成功
+      pkStore.updateOpponent({
+        name: data?.opponentName || '-',
+        avatar: data?.opponentAvatar ?? defaultAvatar,
+      })
+      pkStore.updateGame(data.game)
+      pkStore.updateStatus('play')
+      $message.success('人机试炼开始')
+      showFightAnimation = true
+      useTimeoutFn(() => showFightAnimation = false, 5000)
+    }],
+    [data.event === 'move', () => pkStore.gameMapObject!.snakes.forEach((snake, index) =>
+      snake.setDirection([data.aDirection, data.bDirection][index]))],
+    [data.event === 'result', () => {
+      const [snake0, snake1] = pkStore.gameMapObject!.snakes
+      if (['all', 'A'].includes(data.loser)) snake0.status = 'die'
+      if (['all', 'B'].includes(data.loser)) snake1.status = 'die'
+      pkStore.updateLoser(data.loser)
+    }],
+  ]
+  Conditional.some(fns)
+})
 
-    if (['all', 'A'].includes(data.loser))
-      snake0.status = 'die'
-
-    if (['all', 'B'].includes(data.loser))
-      snake1.status = 'die'
-
-    updateLoser(data.loser)
-  }
-}
-
-socket.onclose = () => {}
-
-function clear() {
-  socket.close()
-  updateLoser('none')
-  updateOpponent()
-  updateStatus('match')
-}
-
+const clear = () => [
+  socket.close,
+  () => pkStore.updateLoser('none'),
+  pkStore.updateOpponent,
+  () => pkStore.updateStatus('match'),
+].forEach(fn => fn())
 onUnmounted(clear)
 
-const showConfetti = computed(() => {
-  return (loser.value === 'A' && players.value[1].id === user.value?.id)
-  || (loser.value === 'B' && players.value[0].id === user.value?.id)
-})
+const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1].id === userStore.user?.id)
+  || (pkStore.loser === 'B' && pkStore.players[0].id === userStore.user?.id)))
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
-    <ChooseLevel v-if="status === 'match'" />
-    <GamePlayground v-if="(status === 'play' && !showFightAnimation)" />
-    <FightAnimation v-if="(status === 'play' && showFightAnimation)" />
-    <ResultBoard v-if="loser !== 'none'" />
+  <div flex="col center" :style="{ minHeight: `calc(100vh - ${contentHeght}px)` }">
+    <ChooseLevel v-if="pkStore.status === 'match'" />
+    <GamePlayground v-if="(pkStore.status === 'play' && !showFightAnimation)" />
+    <FightAnimation v-if="(pkStore.status === 'play' && showFightAnimation)" />
+    <ResultBoard v-if="pkStore.loser !== 'none'" />
     <Confetti :passed="showConfetti" />
 
-    <div v-if="status === 'play'" mt-15px h-5vh>
+    <div v-if="pkStore.status === 'play'" mt-15px h-5vh>
       <div text-24px font-bold flex-center>
         <div i-akar-icons-face-wink mr-2 />
         您在左下角
