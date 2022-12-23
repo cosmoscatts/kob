@@ -14,9 +14,6 @@ import {
 
 const securityActionCallback = inject<Function>('securityActionCallback')
 
-/**
- * 定义表单数据结构
- */
 interface ModelType {
   oldPass?: string
   newPass?: string
@@ -24,32 +21,22 @@ interface ModelType {
 }
 
 const refForm = ref<FormInst | null>(null)
-
-// 表单基础数据
 const baseFormModel = {
   oldPass: '',
   newPass: '',
   reenteredNewPass: '',
 }
-// 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
 
-// 重复密码框元素
 const refRPasswordFormItem = ref<FormItemInst | null>(null)
-
-/**
- * 处理密码框的输入，当输入密码时，触发重复密码框的校验
- */
 function handlePasswordInput() {
-  if (formModel.reenteredNewPass)
+  if (formModel.reenteredNewPass) {
     refRPasswordFormItem.value?.validate({ trigger: 'password-input' })
+  }
 }
 
-/**
- * 校验重复密码是否以输入的密码为开头
- */
 function validatePasswordStartWith(
   _rule: FormItemRule,
   value: string,
@@ -61,14 +48,8 @@ function validatePasswordStartWith(
   )
 }
 
-/**
- * 校验两次输入的密码是否一致
- */
-function validatePasswordSame(_rule: FormItemRule, value: string): boolean {
-  return value === formModel.newPass
-}
+const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.newPass
 
-// 表单校验规则
 const rules: FormRules = {
   oldPass: [
     {
@@ -103,32 +84,30 @@ const rules: FormRules = {
 
 const { loading, startLoading, endLoading } = useLoading()
 
-async function onSubmit(e: MouseEvent) {
+function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
-      return
+    if (errors) return
     startLoading()
-    const { code, msg } = await UserSecurityApi.updatePassword(JSON.parse(JSON.stringify(formModel)))
-    if (code !== 0) {
-      useTimeoutFn(endLoading, 1000)
-      $message.error(msg ?? '保存失败')
-      return
-    }
-
-    $message.success('保存成功')
-    useTimeoutFn(() => {
-      endLoading()
-      securityActionCallback?.()
-    }, 1000)
+    UserSecurityApi
+      .updatePassword(JSON.parse(JSON.stringify(formModel)))
+      .then(({ code, msg }) => {
+        if (code !== 0) {
+          useTimeoutFn(endLoading, 1000)
+          $message.error(msg ?? '保存失败')
+          return
+        }
+        $message.success('保存成功')
+        useTimeoutFn(() => {
+          endLoading()
+          securityActionCallback?.()
+        }, 1000)
+      })
   })
 }
 
-// 实现聚焦功能
 const refInputOldPass = ref()
-function focusFirstInput() {
-  refInputOldPass.value?.focus()
-}
+const focusFirstInput = () => refInputOldPass.value?.focus()
 
 defineExpose({
   focusFirstInput,

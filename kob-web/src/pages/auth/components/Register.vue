@@ -15,9 +15,6 @@ import FuncBar from './FuncBar.vue'
 
 const registerCallback = inject<Function>('registerCallback')
 
-/**
- * 定义表单数据结构
- */
 interface ModelType {
   username?: string
   password?: string
@@ -25,32 +22,23 @@ interface ModelType {
 }
 
 const refForm = ref<FormInst | null>(null)
-
-// 表单基础数据
 const baseFormModel = {
   username: '',
   password: '',
   reenteredPassword: '',
 }
-// 表单数据
 const formModel = reactive<ModelType>({
   ...baseFormModel,
 })
 
-// 重复密码框元素
 const refRPasswordFormItem = ref<FormItemInst | null>(null)
 
-/**
- * 处理密码框的输入，当输入密码时，触发重复密码框的校验
- */
 function handlePasswordInput() {
-  if (formModel.reenteredPassword)
+  if (formModel.reenteredPassword) {
     refRPasswordFormItem.value?.validate({ trigger: 'password-input' })
+  }
 }
 
-/**
- * 校验重复密码是否以输入的密码为开头
- */
 function validatePasswordStartWith(
   _rule: FormItemRule,
   value: string,
@@ -62,14 +50,8 @@ function validatePasswordStartWith(
   )
 }
 
-/**
- * 校验两次输入的密码是否一致
- */
-function validatePasswordSame(_rule: FormItemRule, value: string): boolean {
-  return value === formModel.password
-}
+const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.password
 
-// 表单校验规则
 const rules: FormRules = {
   username: [
     {
@@ -111,34 +93,27 @@ const rules: FormRules = {
 
 const { loading, startLoading, endLoading } = useLoading()
 
-/**
- * 注册
- */
-async function onSubmit(e: MouseEvent) {
+function onSubmit(e: MouseEvent) {
   e.preventDefault()
-  refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
-      return
+  refForm.value?.validate((errors?: FormValidationError[]) => {
+    if (errors) return
     startLoading()
-    const { code, msg } = await UserApi.register(JSON.parse(JSON.stringify(formModel)))
-    if (code !== 0) {
-      useTimeoutFn(endLoading, 1000)
-      $message.error(msg ?? '注册失败')
-      return
-    }
-
-    useTimeoutFn(() => {
-      endLoading()
-      registerCallback?.()
-    }, 1000)
+    UserApi
+      .register(JSON.parse(JSON.stringify(formModel)))
+      .then(({ code, msg }) => {
+        if (code !== 0) {
+          $message.error(msg ?? '注册失败')
+          return
+        }
+        $message.success('注册成功')
+        registerCallback?.()
+      })
+      .finally(() => useTimeoutFn(endLoading, 1000))
   })
 }
 
-// 实现聚焦功能
 const refInputUserName = ref()
-function focusFirstInput() {
-  refInputUserName.value?.focus()
-}
+const focusFirstInput = () => refInputUserName.value?.focus()
 
 defineExpose({
   focusFirstInput,

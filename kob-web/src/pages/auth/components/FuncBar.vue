@@ -12,19 +12,12 @@ const actionName = computed(() => {
     register: '账密登录',
   } as Record<Tab, string>)[tab.value ?? 'account']
 })
-
-function go2() {
+const go2 = () => {
   const map = { account: 'phone', phone: 'account', register: 'account' }
   changeTab?.(map[tab.value ?? 'account'])
 }
-
-function register() {
-  changeTab?.('register')
-}
-
-function onClick() {
-  $message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
-}
+const register = () => changeTab?.('register')
+const onClick = () => $message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
 </script>
 
 <template>

@@ -5,42 +5,35 @@ import {
 } from '@vicons/ionicons5'
 import type { User } from '~/types'
 
+const userStore = useUserStore()
 const { loading, startLoading, endLoading } = useLoading()
 
-const userStore = useUserStore()
-const { updateUser } = userStore
-const { user } = storeToRefs(userStore)
-
 const refForm = ref<FormInst | null>(null)
-
 type FormModel = Pick<User, 'id' | 'name' | 'email' >
-function getBaseFormModel(): FormModel {
-  const { value: _user } = user
-  return {
-    id: undefined,
-    name: _user?.name ?? '',
-    email: _user?.email ?? '',
-  }
-}
-
+const getBaseFormModel: () => FormModel = () => ({
+  id: undefined,
+  name: userStore.user?.name ?? '',
+  email: userStore.user?.email ?? '',
+})
 const formModel = reactive<FormModel>({
   ...getBaseFormModel(),
 })
 
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
-  refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
-      return
+  refForm.value?.validate((errors?: FormValidationError[]) => {
+    if (errors) return
     startLoading()
-    const { code } = await UserApi.updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
-    if (code === 0) {
-      $message.success('修改成功')
-      updateUser()
-    }
-    else { $message.error('修改失败') }
-
-    useTimeoutFn(endLoading, 1000)
+    UserApi
+      .updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
+      .then(({ code, msg }) => {
+        if (code === 0) {
+          $message.success('修改成功')
+          userStore.updateUser()
+        }
+        else { $message.error(msg || '修改失败') }
+      })
+      .finally(() => useTimeoutFn(endLoading, 1000))
   })
 }
 </script>
