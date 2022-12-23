@@ -143,10 +143,8 @@ const router = createRouter({
 })
 
 function createRouterGuard(router: Router): void {
-  const { loadingBar, message } = useGlobalNaiveApi()
-
   router.beforeEach(async (to, _from, next) => {
-    loadingBar.start()
+    $loadingBar.start()
 
     const userStore = useUserStore()
     const needLogin = to.meta.requiresAuth
@@ -162,12 +160,12 @@ function createRouterGuard(router: Router): void {
         next()
       },
       notLogin: () => {
-        message.error('您还未登录！')
+        $message.error('您还未登录！')
         userStore.setAuthModalVisible(true)
         next('/home')
       },
       expire: () => {
-        message.error('您的登录已过期！')
+        $message.error('您的登录已过期！')
         userStore.setAuthModalVisible(true)
         next('/home')
       },
@@ -176,8 +174,8 @@ function createRouterGuard(router: Router): void {
   })
   router.afterEach((to, from, failure) => {
     useTitle(to.meta?.title as string ?? APP_META.shortName)
-    if (to.path !== from.path && failure) loadingBar.error()
-    else loadingBar.finish()
+    if (to.path !== from.path && failure) $loadingBar.error()
+    else $loadingBar.finish()
   })
 }
 createRouterGuard(router)

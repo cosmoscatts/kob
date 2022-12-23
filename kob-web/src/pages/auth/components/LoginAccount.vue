@@ -22,8 +22,6 @@ interface ModelType {
   password?: string
 }
 
-const { message } = useGlobalNaiveApi()
-
 const refForm = ref<FormInst | null>(null)
 
 // 表单基础数据
@@ -79,7 +77,7 @@ async function onSubmit(e: MouseEvent) {
     const { code, data, msg } = await UserApi.getToken(JSON.parse(JSON.stringify(formModel)))
     if (code !== 0) {
       useTimeoutFn(endLoading, 1000)
-      message.error(msg ?? '账号或密码错误')
+      $message.error(msg ?? '账号或密码错误')
       return
     }
 

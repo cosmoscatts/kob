@@ -20,7 +20,6 @@ const {
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
-const { message, dialog } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
 
 // 分页参数
@@ -51,7 +50,7 @@ function canDelete(aId: number, bId: number): boolean {
  * 删除对局
  */
 function onRemoveRecord({ id }: Record) {
-  dialog.warning({
+  $dialog.warning({
     title: '警告',
     content: '你确定要删除该对局吗？',
     positiveText: '确定',
@@ -59,10 +58,10 @@ function onRemoveRecord({ id }: Record) {
     onPositiveClick: async () => {
       const { code, msg } = await RecordApi.deleteRecord(id as number)
       if (code !== 0) {
-        message.error(msg ?? '删除失败')
+        $message.error(msg ?? '删除失败')
         return
       }
-      message.success('删除成功')
+      $message.success('删除成功')
       fetchTableData()
     },
   })

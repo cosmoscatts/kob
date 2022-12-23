@@ -15,25 +15,23 @@ const {
 
 const emits = defineEmits(['likeCallback'])
 
-const { message } = useGlobalNaiveApi()
-
 const like = useThrottleFn(async (remarkId?: number) => {
   const { code, msg } = await DiscussApi.likeDiscuss({ remarkId })
   if (code !== 0) {
-    message.error(msg || '支持失败，请重试')
+    $message.error(msg || '支持失败，请重试')
     return
   }
-  message.success('已支持该意见')
+  $message.success('已支持该意见')
   emits('likeCallback', { id: remarkId, type: 'like' })
 }, 500)
 
 const dislike = useThrottleFn(async (remarkId?: number) => {
   const { code, msg } = await DiscussApi.dislikeDiscuss({ remarkId })
   if (code !== 0) {
-    message.error(msg || '取消支持失败，请重试')
+    $message.error(msg || '取消支持失败，请重试')
     return
   }
-  message.success('已取消支持该意见')
+  $message.success('已取消支持该意见')
   emits('likeCallback', { id: remarkId, type: 'dislike' })
 }, 500)
 

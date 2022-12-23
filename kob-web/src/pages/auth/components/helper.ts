@@ -10,9 +10,8 @@ export const REGEXP_PHONE
  * 获取验证码
  */
 export function getSmsCode() {
-  const { notification } = useGlobalNaiveApi()
   useTimeoutFn(() => {
-    notification.info({
+    $notification.info({
       content: `【${APP_META.shortName}】验证码：123456，有效期10分钟。如非本人操作，请忽略。`,
       duration: 30 * 1000,
     })

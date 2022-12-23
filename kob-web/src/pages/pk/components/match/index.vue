@@ -30,7 +30,6 @@ socket.onopen = () => updateSocket(socket)
 
 let showFightAnimation = $ref(false)
 socket.onmessage = (msg) => {
-  const { message } = useGlobalNaiveApi()
   const data = JSON.parse(msg.data)
   // 匹配成功
   if (data.event === 'match-success') {
@@ -40,7 +39,7 @@ socket.onmessage = (msg) => {
     })
     updateGame(data.game)
     updateStatus('play')
-    message.success('您的对手已找到')
+    $message.success('您的对手已找到')
     showFightAnimation = true
     useTimeoutFn(() => {
       showFightAnimation = false

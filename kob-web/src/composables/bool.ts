@@ -21,7 +21,6 @@ export function useLoading(initValue = false) {
     setFalse: endLoading,
     toggle: toggleLoading,
   } = useBoolean(initValue)
-
   return {
     loading,
     setLoading,

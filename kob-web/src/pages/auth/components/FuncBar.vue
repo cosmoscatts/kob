@@ -23,8 +23,7 @@ function register() {
 }
 
 function onClick() {
-  const { message } = useGlobalNaiveApi()
-  message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
+  $message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
 }
 </script>
 

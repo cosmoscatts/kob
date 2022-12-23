@@ -6,7 +6,6 @@ import BotTableForm from './BotTableForm.vue'
 import How2Code from './How2Code.vue'
 import type { Bot } from '~/types'
 
-const { message, dialog } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
 
 const pagination = usePagination({ // 分页参数
@@ -53,10 +52,10 @@ async function onSaveBotData(bot: Bot) {
   const msgPrefix = ['添加', '编辑'][Number(botModalAction === 'edit')]
   fn(bot).then(({ code, msg }) => {
     if (code !== 0) {
-      message.error(msg ?? `${msgPrefix}失败`)
+      $message.error(msg ?? `${msgPrefix}失败`)
       return
     }
-    message.success(`${msgPrefix}成功`)
+    $message.success(`${msgPrefix}成功`)
     botModalVisible = false
     fetchTableData()
   })
@@ -66,7 +65,7 @@ async function onSaveBotData(bot: Bot) {
  * 删除用户 `bot`
  */
 function onRemoveBot({ id }: Bot) {
-  dialog.warning({
+  $dialog.warning({
     title: '警告',
     content: '你确定要删除该Bot吗？',
     positiveText: '确定',
@@ -74,10 +73,10 @@ function onRemoveBot({ id }: Bot) {
     onPositiveClick: async () => {
       const { code, msg } = await BotApi.deleteBot(id as number)
       if (code !== 0) {
-        message.error(msg ?? '删除失败')
+        $message.error(msg ?? '删除失败')
         return
       }
-      message.success('删除成功')
+      $message.success('删除成功')
       fetchTableData()
     },
   })

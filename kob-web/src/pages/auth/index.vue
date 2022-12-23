@@ -62,10 +62,9 @@ watch(currentTab, () => { // 等待 form 挂载完成
  * 登录完成的回调方法
  */
 function loginCallback(token: string) {
-  const { notification } = useGlobalNaiveApi()
   router.push('/')
   login(token)
-  notification.success({
+  $notification.success({
     title: '登录成功',
     content: '欢迎使用，快来一场伟大的战斗吧~',
     duration: 3000,
@@ -77,8 +76,7 @@ function loginCallback(token: string) {
  * 注册完成的回调方法
  */
 function registerCallback() {
-  const { notification } = useGlobalNaiveApi()
-  notification.success({
+  $notification.success({
     title: '注册成功',
     content: '快去登录把~',
     duration: 3000,
