@@ -243,6 +243,7 @@ declare global {
   const useRecordStore: typeof import('./store/record')['useRecordStore']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
+  const useResponsive: typeof import('./composables/ui')['useResponsive']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
@@ -557,6 +558,7 @@ declare module 'vue' {
     readonly useRecordStore: UnwrapRef<typeof import('./store/record')['useRecordStore']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
+    readonly useResponsive: UnwrapRef<typeof import('./composables/ui')['useResponsive']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
