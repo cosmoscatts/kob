@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PlayerInfo } from '../helper'
-import { appLayout } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config'
 import defaultAvatar from '~/assets/default-avatar.png'
 
 const {
@@ -11,7 +11,7 @@ const {
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
-const { navHeight, footHeight, contentPadding } = appLayout
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
 
 const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50

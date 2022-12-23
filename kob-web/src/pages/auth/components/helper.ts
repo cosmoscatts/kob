@@ -1,4 +1,4 @@
-import { appMeta } from '~/config'
+import { APP_META } from '~/config'
 
 export type Tab = 'account' | 'phone' | 'register'
 
@@ -13,7 +13,7 @@ export function getSmsCode() {
   const { notification } = useGlobalNaiveApi()
   useTimeoutFn(() => {
     notification.info({
-      content: `【${appMeta.appShortName}】验证码：123456，有效期10分钟。如非本人操作，请忽略。`,
+      content: `【${APP_META.shortName}】验证码：123456，有效期10分钟。如非本人操作，请忽略。`,
       duration: 30 * 1000,
     })
   }, 5000)
@@ -33,8 +33,9 @@ export function countSendingSmsCode() {
   let maxMs = COUNT_MAX_NUM
 
   const { resume, pause } = useIntervalFn(() => {
-    if (maxMs > 0) { maxMs -= 1 }
-    else if (maxMs === 0) {
+    if (maxMs > 0) {
+      maxMs -= 1
+    } else if (maxMs === 0) {
       isCounting.value = false
       sendCodeBtnLabel.value = RETRY_BTN_LABEL
       pause()

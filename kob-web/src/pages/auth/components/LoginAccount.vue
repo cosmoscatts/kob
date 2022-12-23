@@ -11,7 +11,6 @@ import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5'
 import FuncBar from './FuncBar.vue'
-import { debug } from '~/config'
 
 const loginCallback = inject<Function>('loginCallback')
 
@@ -28,7 +27,7 @@ const { message } = useGlobalNaiveApi()
 const refForm = ref<FormInst | null>(null)
 
 // 表单基础数据
-const baseFormModel = debug
+const baseFormModel = isDevelopment
   ? {
       username: 'admin',
       password: '123456',
@@ -147,4 +146,3 @@ defineExpose({
   </n-form>
   <FuncBar />
 </template>
-

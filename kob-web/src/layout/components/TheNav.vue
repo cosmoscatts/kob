@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import { NavAvatar, NavLogo, NavMenu, NavResponsivePanel } from './nav-items'
-import { appMeta } from '~/config'
+import { APP_META } from '~/config'
 
 // 是否为移动端（包含 PC 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -17,7 +17,7 @@ const isMobile = breakpoints.smaller('sm')
       <div i-carbon-debug icon-btn text-lg mx-5 @click="$router.push('/changelog')" />
       <a
         icon-btn text-lg i-carbon-logo-github mr-5
-        :href="appMeta.github"
+        :href="APP_META.github"
         target="_blank" title="GitHub"
       />
       <DarkToggle mr-5 />

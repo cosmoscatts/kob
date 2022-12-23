@@ -1,12 +1,10 @@
-import type { AnyObject, PageData, PageQuery, Record } from '~/types'
-
-const { get } = useRequest
+import type { PageData, PageQuery, Record } from '~/types'
 
 export const RankApi = {
   /**
    * 查询排行榜列表
    */
-  getRankList(query: PageQuery & { name?: string }) {
-    return get<PageData<Record>>('/api/rank/list', { urlParams: query as AnyObject })
+  getRankList(params: PageQuery & { name?: string }) {
+    return R.get<PageData<Record>>('/api/rank/list', { params })
   },
 }

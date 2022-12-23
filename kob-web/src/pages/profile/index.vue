@@ -22,4 +22,3 @@ import SecuritySettings from './components/SecuritySettings.vue'
     </div>
   </div>
 </template>
-

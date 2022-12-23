@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { appLayout } from '~/config'
-import { getToken } from '~/utils'
+import { APP_LAYOUT_PARAMS } from '~/config'
+import { Token } from '~/utils'
 import defaultAvatar from '~/assets/default-avatar.png'
 
-const token = getToken()
-const { navHeight, footHeight, contentPadding } = appLayout
+const token = Token.get()
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
 
 const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3

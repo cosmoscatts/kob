@@ -20,30 +20,27 @@ const handleUrlParams = (params?: AnyObject | AnyObject[]) => {
   return `?${paramStr.slice(1)}`
 }
 
-/**
- * 统一封装 axios 请求
- */
 function createRequest() {
   const axios = createAxios()
 
-  const _get = <T = any>(url: string, { urlParams }: GetParams) => {
-    url += handleUrlParams(urlParams)
-    return axios.get<any, Result<T>>(url)
+  const _get = <T = any>(url: string, { params }: GetParams = {}) => {
+    url += handleUrlParams(params)
+    return axios.get<T, Result<T>>(url)
   }
 
-  const _post = <T = any>(url: string, { urlParams, body = {} }: PostParams) => {
-    url += handleUrlParams(urlParams)
-    return axios.post<any, Result<T>>(url, body)
+  const _post = <T = any>(url: string, { params, body = {} }: PostParams = {}) => {
+    url += handleUrlParams(params)
+    return axios.post<T, Result<T>>(url, body)
   }
 
-  const _put = <T = any>(url: string, { urlParams, body = {} }: PutParams) => {
-    url += handleUrlParams(urlParams)
-    return axios.put<any, Result<T>>(url, body)
+  const _put = <T = any>(url: string, { params, body = {} }: PutParams = {}) => {
+    url += handleUrlParams(params)
+    return axios.put<T, Result<T>>(url, body)
   }
 
-  const _delete = <T = any>(url: string, { urlParams }: DeleteParams) => {
-    url += handleUrlParams(urlParams)
-    return axios.delete<any, Result<T>>(url)
+  const _delete = <T = any>(url: string, { params }: DeleteParams = {}) => {
+    url += handleUrlParams(params)
+    return axios.delete<T, Result<T>>(url)
   }
 
   return {
@@ -54,4 +51,4 @@ function createRequest() {
   }
 }
 
-export const useRequest = createRequest()
+export const R = createRequest()

@@ -1,7 +1,7 @@
 import type { Router } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { BaseLayout } from '~/layout'
-import { appMeta } from '~/config'
+import { APP_META } from '~/config'
 import type { LoginState } from '~/types'
 
 const router = createRouter({
@@ -175,16 +175,9 @@ function createRouterGuard(router: Router): void {
     actions[checkLoginState]()
   })
   router.afterEach((to, from, failure) => {
-    // 设置 document title
-    const title = to.meta?.title as string ?? appMeta.appShortName
-    useTitle(title)
-
-    // loadingBar 加载结束
-    if (to.path !== from.path && failure)
-      loadingBar.error()
-
-    else
-      loadingBar.finish()
+    useTitle(to.meta?.title as string ?? APP_META.shortName)
+    if (to.path !== from.path && failure) loadingBar.error()
+    else loadingBar.finish()
   })
 }
 createRouterGuard(router)

@@ -1,6 +1,6 @@
 import { SnakeCell } from './snake-cell'
 import type { GameMap } from './map'
-import { drawEllipse } from './helper'
+import { drawEllipse } from './utils'
 
 export interface SnakeInfo {
   id: number

@@ -1,33 +1,35 @@
-import type { AnyObject, User } from '~/types'
-
-const { get, post, put } = useRequest
+import type { User } from '~/types'
 
 export const UserApi = {
   /**
-   * 获取 `token`
+   * 获取 token
    */
-  getToken(params?: { username: string; password: string }) {
-    return post<{ token: string }>('/api/user/account/token', { body: params })
+  getToken(body?: { username: string; password: string }) {
+    return R.post<{ token: string }>('/api/user/account/token', { body })
   },
 
   /**
    * 用户注册
    */
-  register(params?: { username: string; password: string; reenteredPassword: string }) {
-    return post('/api/user/account/register', { body: params })
+  register(body?: {
+    username: string
+    password: string
+    reenteredPassword: string
+  }) {
+    return R.post('/api/user/account/register', { body })
   },
 
   /**
    * 获取登录用户的信息
    */
   getLoginUserInfo() {
-    return get<User>('/api/user/account/info', {})
+    return R.get<User>('/api/user/account/info')
   },
 
   /**
    * 修改登录用户的信息
    */
-  updateLoginUserInfo(user: User) {
-    return put('/api/user/account/info', { body: user as AnyObject })
+  updateLoginUserInfo(body: User) {
+    return R.put('/api/user/account/info', { body })
   },
 }

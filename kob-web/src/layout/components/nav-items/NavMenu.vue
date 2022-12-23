@@ -4,7 +4,7 @@ import { NEllipsis, NIcon } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import type { Menu } from '~/types'
-import { appMenus, appMenuIconMap as iconMap } from '~/config'
+import { APP_MENUS, APP_MENU_ICON_MAP } from '~/config'
 
 const {
   mode = 'horizontal',
@@ -45,8 +45,8 @@ function generateMenuOption(menuItem: Menu): MenuOption {
   return {
     key: id,
     label: renderLabel(label, path),
-    icon: icon && iconMap[icon]
-      ? renderIcon(iconMap[icon])
+    icon: icon && APP_MENU_ICON_MAP[icon]
+      ? renderIcon(APP_MENU_ICON_MAP[icon])
       : undefined,
     path,
     children: children?.map((child: Menu) => generateMenuOption(child)) || undefined,
@@ -54,7 +54,7 @@ function generateMenuOption(menuItem: Menu): MenuOption {
 }
 
 const menuOptions = computed<MenuOption[]>(() => {
-  return appMenus.map(i => generateMenuOption(i)) || []
+  return APP_MENUS.map(i => generateMenuOption(i)) || []
 })
 
 const route = useRoute()
@@ -75,4 +75,3 @@ const defaultSelectedMenuOptionKey = computed(() => { // 默认选中的 menu op
     :options="menuOptions"
   />
 </template>
-

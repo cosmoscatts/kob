@@ -7,26 +7,14 @@ import {
 } from 'naive-ui'
 import lottie from 'lottie-web'
 import type { RendererType } from 'lottie-web'
-import { appMeta } from '~/config'
+import { R } from '~/utils'
+
+const isDevelopment = import.meta.env.MODE === 'development'
 
 export {
   dayjs,
-}
-
-/**
- * 创建页面 head 数据
- */
-export function useHeadMeta() {
-  const { appShortName } = appMeta
-  useHead({
-    title: appShortName,
-    link: [
-      {
-        rel: 'icon',
-        href: '/favicon.ico',
-      },
-    ],
-  })
+  isDevelopment,
+  R,
 }
 
 /**
@@ -40,27 +28,6 @@ export function formatDate({
   pattern?: string
 }) {
   return dayjs(date).format(pattern)
-}
-
-/**
- * 封装 loading 通用方法
- */
-export function useLoading(initValue = false) {
-  const {
-    bool: loading,
-    setBool: setLoading,
-    setTrue: startLoading,
-    setFalse: endLoading,
-    toggle: toggleLoading,
-  } = useBoolean(initValue)
-
-  return {
-    loading,
-    setLoading,
-    startLoading,
-    endLoading,
-    toggleLoading,
-  }
 }
 
 export function useGlobalNaiveApi() {

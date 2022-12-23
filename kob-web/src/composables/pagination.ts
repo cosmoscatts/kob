@@ -1,6 +1,3 @@
-/**
- * 定义分页通用方法
- */
 export function usePagination({
   page = 1,
   pageSize = 10,
