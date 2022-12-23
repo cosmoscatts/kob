@@ -2,13 +2,13 @@ import type { GlobalThemeOverrides } from 'naive-ui'
 import { commonDark, commonLight } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import { generatePrimaryColor } from '~/utils'
-import { appLayout } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config'
 
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
+  const primaryColorOverrides = generatePrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
 
   const themeOverrides = computed<GlobalThemeOverrides>(() => {
     const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)]
@@ -20,7 +20,7 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         ...primaryColorOverrides,
       },
       LoadingBar: {
-        colorLoading: appLayout.primaryColor,
+        colorLoading: APP_LAYOUT_PARAMS.primaryColor,
       },
       Layout: {
         color: bodyColor,
@@ -102,7 +102,7 @@ const colorPropertyMap: { [key: string]: string } = {
  * 将 naive ui 的通用颜色，并写入 body
  */
 export function writeThemeColorsToBody() {
-  const primaryColorOverrides = generatePrimaryColor(appLayout.primaryColor)
+  const primaryColorOverrides = generatePrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
 
   const colors: any = isDark.value
     ? commonDark

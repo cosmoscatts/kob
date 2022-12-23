@@ -10,7 +10,6 @@ import {
 } from '@vicons/ionicons5'
 import { REGEXP_PHONE, countSendingSmsCode, getSmsCode } from './helper'
 import FuncBar from './FuncBar.vue'
-import { debug } from '~/config'
 
 /**
  * 定义表单数据结构
@@ -25,7 +24,7 @@ const { message } = useGlobalNaiveApi()
 const refForm = ref<FormInst | null>(null)
 
 // 表单基础数据
-const baseFormModel = debug
+const baseFormModel = isDevelopment
   ? {
       phone: '13650223322',
       code: '123456',
@@ -188,4 +187,3 @@ defineExpose({
   </n-form>
   <FuncBar />
 </template>
-

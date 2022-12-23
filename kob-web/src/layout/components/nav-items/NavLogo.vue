@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-import { appMeta } from '~/config'
-
-const { appName } = appMeta
+import { APP_META } from '~/config'
 
 // 是否为移动端（包含 PC 端宽度过小的情况）
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -24,8 +22,7 @@ onMounted(() => {
   >
     <div id="lottie-logo" h44px />
     <span v-if="!hideTitle" font="bold" pl-16px text-24px>
-      {{ appName }}
+      {{ APP_META.name }}
     </span>
   </div>
 </template>
-

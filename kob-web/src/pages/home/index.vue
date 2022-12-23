@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { appLayout } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config'
 
-const { navHeight, footHeight, contentPadding } = appLayout
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
 
 const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3

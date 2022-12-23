@@ -1,6 +1,6 @@
 import type { LoginState, User } from '~/types'
 import defaultAvatar from '~/assets/default-avatar.png'
-import { getToken, removeToken, setToken } from '~/utils'
+import { Token } from '~/utils'
 
 export const useUserStore = defineStore(
   'userStore',
@@ -20,7 +20,7 @@ export const useUserStore = defineStore(
      *  - expire - token 过期
      */
     async function checkLoginState(): Promise<LoginState> {
-      const token = getToken()
+      const token = Token.get()
       if (!token) {
         hasLogin.value = false
         return 'notLogin'
@@ -65,13 +65,13 @@ export const useUserStore = defineStore(
     function login(token: string) {
       hasLogin.value = true
       updateUser()
-      setToken(token)
+      Token.set(token)
     }
 
     function logout() {
       hasLogin.value = false
       removeUser()
-      removeToken()
+      Token.remove()
     }
 
     return {

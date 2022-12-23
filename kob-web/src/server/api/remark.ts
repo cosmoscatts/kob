@@ -1,25 +1,23 @@
-import type { AnyObject, Discuss, PageData, PageQuery } from '~/types'
-
-const { get, post } = useRequest
+import type { Discuss, PageData, PageQuery } from '~/types'
 
 export const DiscussApi = {
-  addDiscuss(discuss: Discuss) {
-    return post('/api/discuss/remark', { body: discuss as AnyObject })
+  addDiscuss(body: Discuss) {
+    return R.post('/api/discuss/remark', { body })
   },
 
-  getDiscussList(query: PageQuery) {
-    return get<PageData<Discuss>>('/api/discuss/remark/list', { urlParams: query as AnyObject })
+  getDiscussList(params: PageQuery) {
+    return R.get<PageData<Discuss>>('/api/discuss/remark/list', { params })
   },
 
   getCurrentUserLikes() {
-    return get<number[]>('/api/discuss/remark/auth/likes', {})
+    return R.get<number[]>('/api/discuss/remark/auth/likes')
   },
 
-  likeDiscuss(query: { remarkId?: number }) {
-    return get('/api/discuss/remark/like', { urlParams: query })
+  likeDiscuss(params: { remarkId?: number }) {
+    return R.get('/api/discuss/remark/like', { params })
   },
 
-  dislikeDiscuss(query: { remarkId?: number }) {
-    return get('/api/discuss/remark/dislike', { urlParams: query })
+  dislikeDiscuss(params: { remarkId?: number }) {
+    return R.get('/api/discuss/remark/dislike', { params })
   },
 }

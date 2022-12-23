@@ -5,8 +5,6 @@ import java from 'highlight.js/lib/languages/java'
 
 hljs.registerLanguage('java', java)
 
-useHeadMeta() // 创建 head 数据
-
 // 主题和自定义主题覆盖
 const theme = computed(() => [null, darkTheme][Number(isDark.value)])
 const themeOverrides = useThemeOverrides()

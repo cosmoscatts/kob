@@ -2,7 +2,7 @@
 import TheNav from './components/TheNav.vue'
 import TheContent from './components/TheContent.vue'
 import TheFoot from './components/TheFoot.vue'
-import { appLayout } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config'
 
 const {
   navHeight,
@@ -11,7 +11,7 @@ const {
   backTopRight,
   backTopBottom,
   backTopvisibilityHeight,
-} = appLayout
+} = APP_LAYOUT_PARAMS
 
 // 设置 `backTop` 的监听目标
 const refWrapper = ref()
