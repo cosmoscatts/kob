@@ -1,6 +1,7 @@
 import type { GlobalThemeOverrides, ThemeCommonVars } from 'naive-ui'
 import { commonDark, commonLight } from 'naive-ui'
 import type { ComputedRef } from 'vue'
+import { breakpointsTailwind } from '@vueuse/core'
 import { createPrimaryColor } from '~/utils'
 import { APP_LAYOUT_PARAMS } from '~/config'
 
@@ -70,6 +71,22 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
     }
   })
 }
+// ----- 响应式 -----
+
+export function useResponsive() {
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = breakpoints.smaller('sm')
+  const isPC = breakpoints.greaterOrEqual('sm')
+  const labelHidden = breakpoints.smaller('md') // 隐藏 [form label]
+  return {
+    breakpoints,
+    isMobile,
+    isPC,
+    labelHidden,
+  }
+}
+
+// ----- Color -----
 
 const colorPropertyMap: { [key: string]: string } = {
   primaryColor: '--primary-color',
