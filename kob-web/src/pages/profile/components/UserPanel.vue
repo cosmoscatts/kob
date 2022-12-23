@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { UploadFileInfo } from 'naive-ui'
 
-const { message } = useGlobalNaiveApi()
-
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 const { updateUser } = userStore
@@ -16,11 +14,10 @@ function onChange({
   getBase64(file.file).then(async (imageAsDateURL) => {
     const { code } = await UserApi.updateLoginUserInfo({ avatar: imageAsDateURL as string })
     if (code === 0) {
-      message.success('上传成功')
+      $message.success('上传成功')
       updateUser()
-    }
-    else {
-      message.error('上传失败')
+    } else {
+      $message.error('上传失败')
     }
   })
 }
@@ -50,7 +47,7 @@ function beforeUpload({
   fileList: UploadFileInfo[]
 }) {
   if (!file.file?.type.startsWith('image')) {
-    message.error('只能上传图片文件，请重新上传')
+    $message.error('只能上传图片文件，请重新上传')
     return false
   }
   return true

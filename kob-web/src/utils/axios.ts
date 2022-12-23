@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
-import { Token } from '.'
+import { Token } from './token'
 
 const AXIOS_TIMEOUT = 5000
 
@@ -9,20 +9,15 @@ export function createAxios() {
     baseURL: import.meta.env.VITE_BASE_API_URL as string,
     timeout: AXIOS_TIMEOUT,
   })
-
   _axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      // 统一在 header 中添加 token
-      const token = Token.get()
-      if (token)
-        config!.headers!.Authorization = `Bearer ${token}`
+      if (Token.get()) { // 统一在 header 中添加 token
+        config.headers!.Authorization = `Bearer ${Token.get()}`
+      }
       return config
     },
-    (e: any) => {
-      Promise.reject(e)
-    },
+    (e: any) => { Promise.reject(e) },
   )
-
   _axios.interceptors.response.use(
     async (response: AxiosResponse) => {
       const {
@@ -34,6 +29,5 @@ export function createAxios() {
       return Promise.reject(error)
     },
   )
-
   return _axios
 }

@@ -5,6 +5,11 @@ declare global {
   const $: typeof import('vue/macros')['$']
   const $computed: typeof import('vue/macros')['$computed']
   const $customRef: typeof import('vue/macros')['$customRef']
+  const $dialog: typeof import('./composables/tools')['$dialog']
+  const $discrete_api: typeof import('./composables/tools')['$discrete_api']
+  const $loadingBar: typeof import('./composables/tools')['$loadingBar']
+  const $message: typeof import('./composables/tools')['$message']
+  const $notification: typeof import('./composables/tools')['$notification']
   const $ref: typeof import('vue/macros')['$ref']
   const $shallowRef: typeof import('vue/macros')['$shallowRef']
   const $toRef: typeof import('vue/macros')['$toRef']
@@ -191,7 +196,6 @@ declare global {
   const useFullscreen: typeof import('@vueuse/core')['useFullscreen']
   const useGamepad: typeof import('@vueuse/core')['useGamepad']
   const useGeolocation: typeof import('@vueuse/core')['useGeolocation']
-  const useGlobalNaiveApi: typeof import('./composables/tools')['useGlobalNaiveApi']
   const useHead: typeof import('@vueuse/head')['useHead']
   const useIdle: typeof import('@vueuse/core')['useIdle']
   const useImage: typeof import('@vueuse/core')['useImage']
@@ -204,7 +208,7 @@ declare global {
   const useLink: typeof import('vue-router')['useLink']
   const useLoading: typeof import('./composables/bool')['useLoading']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
-  const useLottie: typeof import('./composables/tools')['useLottie']
+  const useLottie: typeof import('./composables/lottie')['useLottie']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']
   const useMediaControls: typeof import('@vueuse/core')['useMediaControls']
@@ -314,6 +318,11 @@ declare module 'vue' {
     readonly $: UnwrapRef<typeof import('vue/macros')['$']>
     readonly $computed: UnwrapRef<typeof import('vue/macros')['$computed']>
     readonly $customRef: UnwrapRef<typeof import('vue/macros')['$customRef']>
+    readonly $dialog: UnwrapRef<typeof import('./composables/tools')['$dialog']>
+    readonly $discrete_api: UnwrapRef<typeof import('./composables/tools')['$discrete_api']>
+    readonly $loadingBar: UnwrapRef<typeof import('./composables/tools')['$loadingBar']>
+    readonly $message: UnwrapRef<typeof import('./composables/tools')['$message']>
+    readonly $notification: UnwrapRef<typeof import('./composables/tools')['$notification']>
     readonly $ref: UnwrapRef<typeof import('vue/macros')['$ref']>
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
@@ -500,7 +509,6 @@ declare module 'vue' {
     readonly useFullscreen: UnwrapRef<typeof import('@vueuse/core')['useFullscreen']>
     readonly useGamepad: UnwrapRef<typeof import('@vueuse/core')['useGamepad']>
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
-    readonly useGlobalNaiveApi: UnwrapRef<typeof import('./composables/tools')['useGlobalNaiveApi']>
     readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
@@ -513,7 +521,7 @@ declare module 'vue' {
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useLoading: UnwrapRef<typeof import('./composables/bool')['useLoading']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useLottie: UnwrapRef<typeof import('./composables/tools')['useLottie']>
+    readonly useLottie: UnwrapRef<typeof import('./composables/lottie')['useLottie']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
     readonly useMediaControls: UnwrapRef<typeof import('@vueuse/core')['useMediaControls']>

@@ -25,8 +25,6 @@ interface ModelType {
 
 const refForm = ref<FormInst | null>(null)
 
-const { message } = useGlobalNaiveApi()
-
 // 表单基础数据
 const baseFormModel = {
   oldPass: '',
@@ -114,11 +112,11 @@ async function onSubmit(e: MouseEvent) {
     const { code, msg } = await UserSecurityApi.updatePassword(JSON.parse(JSON.stringify(formModel)))
     if (code !== 0) {
       useTimeoutFn(endLoading, 1000)
-      message.error(msg ?? '保存失败')
+      $message.error(msg ?? '保存失败')
       return
     }
 
-    message.success('保存成功')
+    $message.success('保存成功')
     useTimeoutFn(() => {
       endLoading()
       securityActionCallback?.()

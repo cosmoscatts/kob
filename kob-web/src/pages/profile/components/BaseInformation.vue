@@ -5,7 +5,6 @@ import {
 } from '@vicons/ionicons5'
 import type { User } from '~/types'
 
-const { message } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
 
 const userStore = useUserStore()
@@ -36,10 +35,10 @@ function onSubmit(e: MouseEvent) {
     startLoading()
     const { code } = await UserApi.updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
     if (code === 0) {
-      message.success('修改成功')
+      $message.success('修改成功')
       updateUser()
     }
-    else { message.error('修改失败') }
+    else { $message.error('修改失败') }
 
     useTimeoutFn(endLoading, 1000)
   })

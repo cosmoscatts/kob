@@ -5,8 +5,7 @@ import {
   darkTheme,
   lightTheme,
 } from 'naive-ui'
-import lottie from 'lottie-web'
-import type { RendererType } from 'lottie-web'
+
 import { R } from '~/utils'
 
 const isDevelopment = import.meta.env.MODE === 'development'
@@ -17,63 +16,31 @@ export {
   R,
 }
 
-/**
- * 格式化时间
- */
-export function formatDate({
+// ----- Naive Ui Global API -----
+
+const configProviderProps = computed<ConfigProviderProps>(() => {
+  const { value: themeOverrides } = useThemeOverrides()
+  return {
+    theme: isDark.value
+      ? darkTheme
+      : lightTheme,
+    themeOverrides,
+  }
+})
+export const $discrete_api = createDiscreteApi(
+  ['message', 'dialog', 'notification', 'loadingBar'],
+  { configProviderProps },
+)
+export const $dialog = $discrete_api.dialog
+export const $message = $discrete_api.message
+export const $notification = $discrete_api.notification
+export const $loadingBar = $discrete_api.loadingBar
+
+// ----- 格式化时间 -----
+export const formatDate = ({
   date = new Date(),
   pattern = 'YYYY-MM-DD HH:mm:ss',
 }: {
   date?: Date | string | number
   pattern?: string
-}) {
-  return dayjs(date).format(pattern)
-}
-
-export function useGlobalNaiveApi() {
-  const configProviderProps = computed<ConfigProviderProps>(() => {
-    const { value: themeOverrides } = useThemeOverrides()
-    return {
-      theme: isDark.value
-        ? darkTheme
-        : lightTheme,
-      themeOverrides,
-    }
-  })
-
-  const {
-    dialog,
-    message,
-    notification,
-    loadingBar,
-  } = createDiscreteApi(
-    ['message', 'dialog', 'notification', 'loadingBar'],
-    { configProviderProps },
-  )
-
-  return {
-    dialog,
-    message,
-    notification,
-    loadingBar,
-  }
-}
-
-export function useLottie({
-  container,
-  path,
-  loop = true,
-  renderer = 'svg',
-}: {
-  container: Element
-  path: string
-  loop?: boolean
-  renderer?: RendererType
-}) {
-  lottie.loadAnimation({
-    container,
-    path,
-    loop,
-    renderer,
-  })
-}
+}) => dayjs(date).format(pattern)

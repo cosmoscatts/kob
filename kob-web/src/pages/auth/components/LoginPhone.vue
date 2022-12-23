@@ -19,8 +19,6 @@ interface ModelType {
   code?: string
 }
 
-const { message } = useGlobalNaiveApi()
-
 const refForm = ref<FormInst | null>(null)
 
 // 表单基础数据
@@ -80,17 +78,10 @@ function onSubmit(e: MouseEvent) {
     if (errors)
       return
     if (formModel.code !== '123456') {
-      message.error('验证码错误')
+      $message.error('验证码错误')
       return
     }
-    message.warning('此功能暂不支持嘻嘻 (┬┬﹏┬┬)')
-
-    // startLoading()
-
-    // useTimeoutFn(() => {
-    //   endLoading()
-    //   loginCallback?.('44444dasdas4d')
-    // }, 1000)
+    $message.warning('此功能暂不支持嘻嘻 (┬┬﹏┬┬)')
   })
 }
 
@@ -121,7 +112,7 @@ const {
 function handleSmsCode() {
   startSmsLoading()
   useTimeoutFn(() => {
-    message.success('验证码发送成功')
+    $message.success('验证码发送成功')
     endSmsLoading()
     startCounting()
     getSmsCode()

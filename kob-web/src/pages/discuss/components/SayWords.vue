@@ -2,27 +2,26 @@
 const emits = defineEmits(['refresh'])
 
 const words = ref('')
-const { message } = useGlobalNaiveApi()
 const { loading, startLoading, endLoading } = useLoading()
 
 const submit = useThrottleFn(async () => {
   const value = words.value.trim()
   if (!value?.length) {
-    message.warning('您不能什么也不说哦')
+    $message.warning('您不能什么也不说哦')
     return
   }
   if (value.length > 1000) {
-    message.warning('字数太多了哦')
+    $message.warning('字数太多了哦')
     return
   }
   startLoading()
   try {
     const { code, msg } = await DiscussApi.addDiscuss({ remark: value })
     if (code !== 0) {
-      message.error(msg || '提交失败')
+      $message.error(msg || '提交失败')
       return
     }
-    message.success('提交成功')
+    $message.success('提交成功')
     words.value = ''
     emits('refresh')
   }

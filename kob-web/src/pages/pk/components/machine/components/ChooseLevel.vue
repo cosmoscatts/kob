@@ -3,8 +3,6 @@ import { breakpointsTailwind } from '@vueuse/core'
 
 const changePageIndex = inject('changePageIndex') as Function
 
-const { message } = useGlobalNaiveApi()
-
 const { user } = storeToRefs(useUserStore())
 const { socket } = storeToRefs(usePkStore())
 
@@ -16,7 +14,7 @@ const machineBotId = ref<number>()
 
 function onClick() {
   if (selectedBot.value === undefined || machineId.value === undefined || machineBotId.value === undefined) {
-    message.warning('请选择双方出战Bot')
+    $message.warning('请选择双方出战Bot')
     return
   }
 

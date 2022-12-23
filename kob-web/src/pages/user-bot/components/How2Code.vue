@@ -15,14 +15,13 @@ const width = computed(() => _width.value > 600 ? 600 : 502)
 const source = ref(codeExample)
 const { copy, isSupported } = useClipboard({ source })
 
-const { message } = useGlobalNaiveApi()
 function handleCopy() {
   if (!isSupported.value) {
-    message.warning('当前浏览器不支持该操作')
+    $message.warning('当前浏览器不支持该操作')
     return
   }
   copy()
-  message.success('复制成功，快去编写Bot吧~')
+  $message.success('复制成功，快去编写Bot吧~')
 }
 </script>
 

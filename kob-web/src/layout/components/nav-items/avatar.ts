@@ -23,7 +23,6 @@ const renderIcon = (icon: Component) => {
  */
 export function createDropdownOptions(router: Router) {
   const { logout } = useUserStore()
-  const { notification } = useGlobalNaiveApi()
 
   return [
     {
@@ -52,7 +51,7 @@ export function createDropdownOptions(router: Router) {
       icon: renderIcon(LogoutIcon),
       props: {
         onClick: () => {
-          notification.success({
+          $notification.success({
             title: '登出成功',
             content: '记得回来~',
             duration: 1000,
