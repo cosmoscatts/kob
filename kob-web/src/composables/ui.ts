@@ -5,6 +5,8 @@ import { breakpointsTailwind } from '@vueuse/core'
 import { createPrimaryColor } from '~/utils'
 import { APP_LAYOUT_PARAMS } from '~/config'
 
+// ----- Theme -----
+
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 
