@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { APP_LAYOUT_PARAMS } from '~/config'
-
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3
-})
+const contentHeght = diffHeight
 
 const emojiArray = [
   '\\(o_o)/',
@@ -30,7 +25,7 @@ onMounted(() => useLottie({
 <template>
   <div
     w-70vw mx-a flex="col center"
-    :style="{ height: `calc(100vh - ${diffHeight}px)` }"
+    :style="{ height: `calc(100vh - ${contentHeght}px)` }"
   >
     <div id="lottie-cat" w400px h200px />
     <div text-center font-bold>
