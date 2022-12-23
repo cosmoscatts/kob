@@ -6,10 +6,38 @@ export const useUserStore = defineStore(
   'userStore',
   () => {
     const user = ref<User>()
-    // 是否登录
-    const hasLogin = ref(false)
-    // 是否打开 [登录 / 注册] 模态框
-    const authModalVisible = ref(false)
+    const hasLogin = ref(false) // 是否登录
+    const authModalVisible = ref(false) // 是否打开 [登录 / 注册] 模态框
+
+    // setters
+
+    const setUser = (data?: User) => user.value = data
+    const setHasLogin = (state = false) => hasLogin.value = state
+    const setAuthModalVisible = (state: boolean) => authModalVisible.value = state
+
+    // fn
+
+    const updateUser = () => {
+      UserApi
+        .getLoginUserInfo()
+        .then(({ data = {} }) => {
+          if (!data.avatar) {
+            data.avatar = defaultAvatar
+          }
+          setUser(data)
+        })
+    }
+
+    const removeUser = () => setUser()
+
+    const login = (token: string) => {
+      updateUser()
+      Token.set(token)
+      setHasLogin(true)
+    }
+
+    const logout = () => [setHasLogin, removeUser, Token.remove]
+      .forEach(fn => fn())
 
     /**
      * 判断是否登录 && token 是否过期
@@ -19,59 +47,29 @@ export const useUserStore = defineStore(
      *  - notLogin - 未登录
      *  - expire - token 过期
      */
-    async function checkLoginState(): Promise<LoginState> {
-      const token = Token.get()
-      if (!token) {
-        hasLogin.value = false
-        return 'notLogin'
-      }
-
-      if (hasLogin.value && user.value?.id)
-        return 'hasLogin'
-
-      const { code, data } = await UserApi.getLoginUserInfo()
-      const validation = code !== 0 || !data
-      hasLogin.value = !validation
-      if (validation) {
-        logout()
-      }
-      else {
-        if (!data.avatar)
-          data.avatar = defaultAvatar
-        user.value = data
-      }
-      return validation
-        ? 'expire'
-        : 'hasLogin'
-    }
-
-    async function updateUser() {
-      const { code, data } = await UserApi.getLoginUserInfo()
-      if (code !== 0 || !data)
-        return
-      if (!data.avatar)
-        data.avatar = defaultAvatar
-      user.value = data
-    }
-
-    function removeUser() {
-      user.value = undefined
-    }
-
-    function setAuthModalVisible(value: boolean) {
-      authModalVisible.value = value
-    }
-
-    function login(token: string) {
-      hasLogin.value = true
-      updateUser()
-      Token.set(token)
-    }
-
-    function logout() {
-      hasLogin.value = false
-      removeUser()
-      Token.remove()
+    const checkLoginState = () => {
+      const fns: [boolean, Function][] = [
+        [!Token.get(), () => {
+          hasLogin.value = false
+          return 'notLogin'
+        }],
+        [hasLogin.value && !!user.value?.id, () => 'hasLogin'],
+        [true, async () => {
+          const { code, data = {} } = await UserApi.getLoginUserInfo()
+          const inValid = code !== 0 || !Object.keys(data).length
+          hasLogin.value = !inValid
+          if (inValid) {
+            logout()
+          } else {
+            if (!data.avatar) data.avatar = defaultAvatar
+            user.value = data
+          }
+          return inValid
+            ? 'expire'
+            : 'hasLogin'
+        }],
+      ]
+      return Conditional.someWithValue<LoginState>(fns) ?? 'notLogin'
     }
 
     return {
@@ -86,9 +84,9 @@ export const useUserStore = defineStore(
       setAuthModalVisible,
     }
   },
-  {
-    persist: {
-      enabled: true,
-    },
-  },
+  { persist: { enabled: true } },
 )
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
+}

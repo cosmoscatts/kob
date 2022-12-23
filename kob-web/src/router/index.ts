@@ -2,7 +2,6 @@ import type { Router } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { BaseLayout } from '~/layout'
 import { APP_META } from '~/config'
-import type { LoginState } from '~/types'
 
 const router = createRouter({
   history: createWebHashHistory('/'),
@@ -145,32 +144,25 @@ const router = createRouter({
 function createRouterGuard(router: Router): void {
   router.beforeEach(async (to, _from, next) => {
     $loadingBar.start()
-
     const userStore = useUserStore()
     const needLogin = to.meta.requiresAuth
-
-    if (!needLogin) {
-      next()
-      return
-    }
-
-    const checkLoginState = await userStore.checkLoginState()
-    const actions: Record<LoginState, Function> = {
-      hasLogin: () => {
-        next()
-      },
-      notLogin: () => {
+    const state = needLogin
+      ? userStore.checkLoginState()
+      : 'noNeedLogin'
+    const fns: [boolean, Function][] = [
+      [['noNeedLogin', 'hasLogin'].includes(state), () => next()],
+      [state === 'notLogin', () => {
         $message.error('您还未登录！')
         userStore.setAuthModalVisible(true)
         next('/home')
-      },
-      expire: () => {
+      }],
+      [state === 'expire', () => {
         $message.error('您的登录已过期！')
         userStore.setAuthModalVisible(true)
         next('/home')
-      },
-    }
-    actions[checkLoginState]()
+      }],
+    ]
+    Conditional.some(fns)
   })
   router.afterEach((to, from, failure) => {
     useTitle(to.meta?.title as string ?? APP_META.shortName)

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const pkStore = usePkStore()
-const { reset } = pkStore
 const { players, loser } = storeToRefs(pkStore)
-const { user } = storeToRefs(useUserStore())
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -10,17 +9,17 @@ const { user } = storeToRefs(useUserStore())
     <div v-if="loser === 'all'" class="result-board-text">
       Draw
     </div>
-    <div v-else-if="loser === 'A' && players[0].id === user!.id" class="result-board-text">
+    <div v-else-if="loser === 'A' && players[0].id === userStore.user!.id" class="result-board-text">
       Lose
     </div>
-    <div v-else-if="loser === 'B' && players[1].id === user!.id" class="result-board-text">
+    <div v-else-if="loser === 'B' && players[1].id === userStore.user!.id" class="result-board-text">
       Lose
     </div>
     <div v-else class="result-board-text">
       Win
     </div>
     <div mt-2vh>
-      <n-button type="primary" text-color="white" @click="reset">
+      <n-button type="primary" text-color="white" @click="pkStore.reset">
         <span font-bold>再来亿把</span>
       </n-button>
     </div>

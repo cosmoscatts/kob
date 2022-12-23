@@ -4,9 +4,6 @@ import { Medal, Trophy } from '@vicons/ionicons5'
 import type { Rank } from '~/types'
 import defaultAvatar from '~/assets/default-avatar.png'
 
-/**
- * 创建表格列
- */
 export function createColumns({
   createRowNumber,
 }: {
@@ -48,58 +45,44 @@ export function createColumns({
   ]
 }
 
-/**
- * 渲染玩家单元格内容
- */
 function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
   const reward = []
   if (rankNum && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(rankNum)) {
     const colors = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA']
     const color = rankNum <= 3 ? colors[rankNum - 1] : colors[3]
     const component = rankNum <= 3 ? Trophy : Medal
-    reward.push(
-      h(
-        NIcon,
-        {
-          component,
-          color,
-          size: 16,
-          style: {
-            marginLeft: '15px',
-          },
+    reward.push(h(
+      NIcon,
+      {
+        component,
+        color,
+        size: 16,
+        style: {
+          marginLeft: '15px',
         },
-      ),
-    )
+      },
+    ))
   }
-  return h(
-    'div',
-    {
+  return h('div', {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  },
+  [
+    h(NAvatar, {
+      size: 'small',
+      round: true,
+      src: avatar ?? defaultAvatar,
+    }),
+    h(NEllipsis, {
+      maxWidth: '200px',
       style: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginLeft: '15px',
       },
     },
-    [
-      h(
-        NAvatar,
-        {
-          size: 'small',
-          round: true,
-          src: avatar ?? defaultAvatar,
-        },
-      ),
-      h(
-        NEllipsis,
-        {
-          maxWidth: '200px',
-          style: {
-            marginLeft: '15px',
-          },
-        },
-        () => name,
-      ),
-      ...reward,
-    ],
-  )
+    () => name),
+    ...reward,
+  ])
 }

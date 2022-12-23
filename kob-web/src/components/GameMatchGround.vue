@@ -29,13 +29,16 @@ function onClick() {
 }
 
 const defaultBotOptions = [{ value: -1, label: '亲自出马' }]
-async function fetchBotList() {
-  const { data: { records } } = await BotApi.getBotList({})
-  botOptions.value = [
-    ...defaultBotOptions,
-    ...records?.map(i => ({ value: i.id, label: i.title })) || [],
-  ] as { value: number; label: string }[]
-  selectedBot.value = -1
+function fetchBotList() {
+  BotApi
+    .getBotList({})
+    .then(({ data: { records = [] } }) => {
+      botOptions.value = [
+        ...defaultBotOptions,
+        ...records?.map(i => ({ value: i.id, label: i.title })) || [],
+      ] as { value: number; label: string }[]
+      selectedBot.value = -1
+    })
 }
 fetchBotList()
 </script>

@@ -6,7 +6,7 @@ import {
 import { Codemirror } from 'vue-codemirror'
 import { java } from '@codemirror/lang-java'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { createRules } from '../helper'
+import { createRules } from '../rules'
 import type { Bot } from '~/types'
 
 const {
@@ -44,9 +44,6 @@ const formModel = reactive<FormModel>({
 
 const { loading, startLoading, endLoading } = useLoading()
 
-/**
- * 表单赋值
- */
 function assign() {
   const target: Bot = modalVisible && type === 'edit'
     ? unref(form)
@@ -66,26 +63,17 @@ watch(() => modalVisible, () => {
   refForm.value?.restoreValidation()
 })
 
-/**
- * 提交表单
- */
 function onSubmit(e: MouseEvent) {
   e.preventDefault()
   refForm.value?.validate((errors?: FormValidationError[]) => {
-    if (errors)
-      return
+    if (errors) return
     startLoading()
     emits('saveBotData', JSON.parse(JSON.stringify(formModel)))
     useTimeoutFn(endLoading, 2000)
   })
 }
 
-/**
- * 关闭 modal
- */
-function onCloseModal() {
-  emits('update:modal-visible', false)
-}
+const onCloseModal = () => emits('update:modal-visible', false)
 
 const rules = createRules() // 生成表单校验规则
 const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
@@ -94,12 +82,14 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
 <template>
   <n-modal
     :show="modalVisible"
-    :title="title" size="huge"
-    style="width: 650px;"
-    preset="card" :bordered="false"
+    :title="title"
+    size="huge"
+    preset="card"
+    :bordered="false"
     :segmented="segmented"
     :mask-closable="false"
     transform-origin="center"
+    :style="{ width: '650px;' }"
     :on-esc="onCloseModal"
     :on-close="onCloseModal"
   >
