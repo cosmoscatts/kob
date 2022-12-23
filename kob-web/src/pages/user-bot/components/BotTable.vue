@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { breakpointsTailwind } from '@vueuse/core'
 import { BulbOutline } from '@vicons/ionicons5'
 import { createColumns } from '../columns'
 import BotTableForm from './BotTableForm.vue'
@@ -86,10 +85,7 @@ function fetchTableData() {
 }
 fetchTableData()
 
-// 是否为移动端（包含 PC 端宽度过小的情况）
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const isMobile = breakpoints.smaller('sm')
-
+const { isMobile } = useResponsive()
 const how2CodeVisible = ref(false)
 </script>
 
