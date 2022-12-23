@@ -6,6 +6,13 @@ const { user } = storeToRefs(useUserStore())
 const pageStore = usePageStore()
 const { currentPage } = storeToRefs(pageStore)
 const { changePage } = pageStore
+
+onMounted(() => {
+  useTimeoutFn(() => useLottie({
+    container: document.querySelector('#lottie-cap')!,
+    path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
+  }), 10)
+})
 </script>
 
 <template>
@@ -52,7 +59,10 @@ const { changePage } = pageStore
       <div w40px h40px ml-4>
         <n-tooltip placement="bottom" trigger="hover">
           <template #trigger>
-            <img :src="user?.avatar" h-full w-full rounded-full cursor-pointer>
+            <div relative cursor-pointer>
+              <img :src="user?.avatar" h-full w-full rounded-full>
+              <div id="lottie-cap" h44px w80px absolute left="[-15px]" top="[-5px]" />
+            </div>
           </template>
           <span font-self> {{ user?.name ?? '匿名玩家' }} </span>
         </n-tooltip>

@@ -7,7 +7,13 @@ import { APP_LAYOUT_PARAMS } from '~/config'
 
 // ----- Theme -----
 
-export const isDark = useDark()
+const THEME_MODE_KEY = 'THEME_MODE'
+localStorage.setItem(THEME_MODE_KEY, 'dark') // 默认暗色
+export const isDark = useDark({
+  storageKey: THEME_MODE_KEY,
+  valueDark: 'dark',
+  valueLight: 'light',
+})
 export const toggleDark = useToggle(isDark)
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {

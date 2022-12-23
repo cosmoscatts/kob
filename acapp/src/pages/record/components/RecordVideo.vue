@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import lottie from 'lottie-web'
 import type { Ref } from 'vue'
 import type { PlayerInfo } from '../helper'
 
@@ -36,14 +35,10 @@ function pause() {
     refGameMap.value?.resumeVideo?.()
 }
 
-onMounted(() => {
-  lottie.loadAnimation({
-    container: document.querySelector('#lottie-trophy')!,
-    path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
-    loop: true,
-    renderer: 'svg',
-  })
-})
+onMounted(() => useLottie({
+  container: document.querySelector('#lottie-trophy')!,
+  path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
+}))
 </script>
 
 <template>
