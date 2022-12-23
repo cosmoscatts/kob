@@ -7,11 +7,13 @@ const router = useRouter()
 const userStore = useUserStore()
 const options = createDropdownOptions(router, userStore)
 
-onMounted(() => {
-  useTimeoutFn(() => useLottie({
-    container: document.querySelector('#lottie-cap')!,
-    path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
-  }), 10)
+const loadLottie = () => useTimeoutFn(() => useLottie({
+  container: document.querySelector('#lottie-cap')!,
+  path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
+}), 10)
+onMounted(loadLottie)
+watch(() => userStore.hasLogin, (val) => {
+  if (val) loadLottie()
 })
 </script>
 
