@@ -44,12 +44,9 @@ function onSaveBotData(bot: Bot) {
 }
 
 function onRemoveBot({ id }: Bot) {
-  $dialog.warning({
-    title: '警告',
-    content: '你确定要删除该Bot吗？',
-    positiveText: '确定',
-    negativeText: '取消',
-    onPositiveClick: () => {
+  useConfirm(
+    '你确定要删除该Bot吗？',
+    () => {
       BotApi
         .deleteBot(id as number)
         .then(({ code, msg }) => {
@@ -61,7 +58,7 @@ function onRemoveBot({ id }: Bot) {
           fetchTableData()
         })
     },
-  })
+  )
 }
 
 const columns = createColumns({

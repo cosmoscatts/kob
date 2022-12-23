@@ -37,6 +37,7 @@ export const $notification = $discrete_api.notification
 export const $loadingBar = $discrete_api.loadingBar
 
 // ----- 格式化时间 -----
+
 export const formatDate = ({
   date = new Date(),
   pattern = 'YYYY-MM-DD HH:mm:ss',
@@ -44,3 +45,15 @@ export const formatDate = ({
   date?: Date | string | number
   pattern?: string
 }) => dayjs(date).format(pattern)
+
+// ----- Confirm 确认框 -----
+
+export function useConfirm(content: string, onPositiveClick: (e: MouseEvent) => unknown) {
+  $dialog.warning({
+    title: '警告',
+    content,
+    positiveText: '确定',
+    negativeText: '取消',
+    onPositiveClick,
+  })
+}

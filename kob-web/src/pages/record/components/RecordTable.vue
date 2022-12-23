@@ -35,12 +35,9 @@ function canDelete(aId: number, bId: number): boolean {
 }
 
 function onRemoveRecord({ id }: Record) {
-  $dialog.warning({
-    title: '警告',
-    content: '你确定要删除该对局吗？',
-    positiveText: '确定',
-    negativeText: '取消',
-    onPositiveClick: () => {
+  useConfirm(
+    '你确定要删除该对局吗？',
+    () => {
       RecordApi
         .deleteRecord(id as number)
         .then(({ code, msg }) => {
@@ -52,7 +49,7 @@ function onRemoveRecord({ id }: Record) {
           fetchTableData()
         })
     },
-  })
+  )
 }
 
 const { updateIsRecord, updateSteps, updateGame, updateLoser } = useRecordStore()
