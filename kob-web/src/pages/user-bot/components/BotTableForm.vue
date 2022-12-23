@@ -89,7 +89,7 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
     :segmented="segmented"
     :mask-closable="false"
     transform-origin="center"
-    :style="{ width: '650px;' }"
+    style="width: 650px;"
     :on-esc="onCloseModal"
     :on-close="onCloseModal"
   >

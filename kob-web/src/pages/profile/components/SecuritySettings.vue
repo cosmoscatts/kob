@@ -17,7 +17,7 @@ function onClick(type: T) {
   const hash = ['password', 'phone', 'github', 'qq', 'wx', 'bilibili']
   const title = ['密码', '手机号', 'Github', 'QQ', '微信', 'Bilibili']
   const index = hash.findIndex(i => i === type)
-  if (~index) return
+  if (!~index) return
   modalVisible = true
   modalTitle = `设置${title[index]}`
   formIndex = index
