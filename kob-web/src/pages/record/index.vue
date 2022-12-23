@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RecordTable from './components/RecordTable.vue'
 import RecordVideo from './components/RecordVideo.vue'
-import type { PlayerInfo } from './helper'
+import type { PlayerInfo } from './columns'
 import type { PageQuery } from '~/types'
 
 let currentTab = $ref(0)
@@ -27,11 +27,9 @@ function changeCurrentTab(
     name = _name
     pagination = _pagination
     playerInfoList = _playerInfoList
-  }
-  else {
+  } else {
     playerInfoList = []
   }
-
   currentTab = tab
 }
 

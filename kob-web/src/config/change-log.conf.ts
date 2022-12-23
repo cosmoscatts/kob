@@ -27,6 +27,19 @@ export const APP_CHANGE_LOG: ChangeLog[] = [
     ],
   },
   {
+    date: '22/12/23',
+    title: '💎 代码重构',
+    description: '',
+    changes: [
+      {
+        id: '22/12/23/1',
+        type: 'update',
+        title: '重构了 Web 端大部分代码',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '22/12/05',
     title: '💎 功能优化 & 代码优化',
     description: '这个问题本地一直不能复现，我只能尽可能地做一些优化',

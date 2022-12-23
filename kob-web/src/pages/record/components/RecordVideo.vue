@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PlayerInfo } from '../helper'
+import type { PlayerInfo } from '../columns'
 import { APP_LAYOUT_PARAMS } from '~/config'
 import defaultAvatar from '~/assets/default-avatar.png'
 
@@ -12,48 +12,40 @@ const {
 const changeCurrentTab = inject<Function>('changeCurrentTab')!
 
 const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
-
 const diffHeight = computed(() => {
   return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50
 })
 
 const refGameMap = ref()
+const recordStore = useRecordStore()
+const { loser, recordFinished } = storeToRefs(recordStore)
 
-const { loser, recordFinished } = storeToRefs(useRecordStore())
-const { clearVideo } = useRecordStore()
+const pause = () => refGameMap.value?.pauseVideo?.()
+const replay = () => refGameMap.value?.replayVideo?.()
 
 function goBack() {
-  clearVideo()
-  refGameMap.value?.pauseVideo?.()
+  pause()
+  recordStore.clearVideo()
   changeCurrentTab(0, {})
 }
 
-function replay() {
-  refGameMap.value?.replayVideo?.()
-}
-
 let recordPaused = $ref(false)
-function pause() {
+function doPause() {
   recordPaused = !recordPaused
-  if (recordPaused)
-    refGameMap.value?.pauseVideo?.()
-  else
-    refGameMap.value?.resumeVideo?.()
+  if (recordPaused) pause()
+  else replay()
 }
 
-onMounted(() => {
-  useLottie({
-    container: document.querySelector('#lottie-trophy')!,
-    path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
-  })
-})
+onMounted(() => useLottie({
+  container: document.querySelector('#lottie-trophy')!,
+  path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
+}))
 
 document.addEventListener('visibilitychange', () => { // 判断是否离开页面
-  if (document.visibilityState === 'hidden')
-    refGameMap.value?.pauseVideo?.()
-  else
-  if (!recordPaused)
-    replay()
+  if (document.visibilityState === 'hidden') pause()
+  else {
+    if (!recordPaused) replay()
+  }
 })
 </script>
 
@@ -75,7 +67,7 @@ document.addEventListener('visibilitychange', () => { // 判断是否离开页�
         <n-button type="primary" text-color="white" :disabled="!recordFinished" @click="replay">
           重新回放
         </n-button>
-        <n-button type="warning" text-color="white" :disabled="recordFinished" @click="pause">
+        <n-button type="warning" text-color="white" :disabled="recordFinished" @click="doPause">
           {{ ['暂停回放', '取消暂停'][Number(recordPaused)] }}
         </n-button>
         <n-button type="error" text-color="white" @click="goBack">
