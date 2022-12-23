@@ -15,10 +15,16 @@ const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 const { loading, endLoading } = useLoading(true)
 useTimeoutFn(endLoading, beforeLeaveMs)
 
-onMounted(() => useLottie({
-  container: document.querySelector('#lottie-container')!,
-  path: 'https://assets6.lottiefiles.com/packages/lf20_iqxl5bjr.json',
-}))
+onMounted(() => {
+  useLottie({
+    container: document.querySelector('#lottie-container')!,
+    path: 'https://assets7.lottiefiles.com/packages/lf20_UkrzGeRgj9.json',
+  })
+  useLottie({
+    container: document.querySelector('#lottie-logo')!,
+    path: 'https://assets3.lottiefiles.com/packages/lf20_stxjvzmw.json',
+  })
+})
 </script>
 
 <template>
@@ -29,7 +35,7 @@ onMounted(() => useLottie({
         <div id="lottie-container" w300px h300px />
         <div class="animate__animated animate__fadeInUpBig animate__faster">
           <div flex-center>
-            <div i-ri-game-fill text="primary 40px" />
+            <div id="lottie-logo" h44px />
             <div ml-20px>
               <n-gradient-text
                 :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"

@@ -1,7 +1,7 @@
 export const APP_META = {
-  name: '阿伟你又在玩蛇',
+  name: '蛇蛇大作战',
   shortName: 'KOB',
-  description: '玩蛇两年半的练习生',
+  description: '圣诞快乐鸭 (Mary Christmas) 🤣',
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',

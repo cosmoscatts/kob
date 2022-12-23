@@ -6,7 +6,7 @@ const hideTitle = breakpoints.between('sm', 'lg')
 onMounted(() => {
   useTimeoutFn(() => useLottie({
     container: document.querySelector('#lottie-logo')!,
-    path: 'https://assets10.lottiefiles.com/packages/lf20_i9arxzcg.json',
+    path: 'https://assets3.lottiefiles.com/packages/lf20_stxjvzmw.json',
   }), 10)
 })
 </script>
