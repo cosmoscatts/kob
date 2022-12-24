@@ -40,8 +40,7 @@ export class GameMap extends Game {
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (g[r][c])
-          this.walls.push(new Wall(r, c, this))
+        if (g[r][c]) this.walls.push(new Wall(r, c, this))
       }
     }
   }
@@ -54,16 +53,11 @@ export class GameMap extends Game {
 
     _recordFn = this.recordFn = useIntervalFn(() => {
       if (k >= aSteps.length - 1) {
-        if (['all', 'A'].includes(loser))
-          snake0.status = 'die'
-
-        if (['all', 'B'].includes(loser))
-          snake1.status = 'die'
-
+        if (['all', 'A'].includes(loser)) snake0.status = 'die'
+        if (['all', 'B'].includes(loser)) snake1.status = 'die'
         _recordFn?.pause() // 这里注意 this 的指向问题
         updateRecordFinished(true)
-      }
-      else {
+      } else {
         snake0.setDirection(parseInt(aSteps[k]))
         snake1.setDirection(parseInt(bSteps[k]))
       }
@@ -79,14 +73,10 @@ export class GameMap extends Game {
 
     canvas.addEventListener('keydown', (e) => {
       let d = -1
-      if (e.key === 'w')
-        d = 0
-      else if (e.key === 'd')
-        d = 1
-      else if (e.key === 's')
-        d = 2
-      else if (e.key === 'a')
-        d = 3
+      if (e.key === 'w') d = 0
+      else if (e.key === 'd') d = 1
+      else if (e.key === 's') d = 2
+      else if (e.key === 'a') d = 3
 
       if (d >= 0) {
         socket?.send(JSON.stringify({
@@ -100,8 +90,7 @@ export class GameMap extends Game {
   start() {
     this.createWalls()
     const { isRecord } = useRecordStore()
-    if (isRecord)
-      this.playRecord()
+    if (isRecord) this.playRecord()
     else this.addListeningEvents()
   }
 
@@ -123,8 +112,7 @@ export class GameMap extends Game {
    */
   checkSnakeReady() {
     for (const { directions, status } of this.snakes) {
-      if (status !== 'idle' || !directions.length)
-        return false
+      if (status !== 'idle' || !directions.length) return false
     }
     const [{ directions: { length: l1 } }, { directions: { length: l2 } }] = this.snakes
     return l1 === l2
@@ -164,8 +152,7 @@ export class GameMap extends Game {
   }
 
   renderBaseCanvas() {
-    if (!this.baseCtx)
-      return
+    if (!this.baseCtx) return
     const { ctx, L, cols, rows } = this
 
     const { height, width } = ctx.canvas

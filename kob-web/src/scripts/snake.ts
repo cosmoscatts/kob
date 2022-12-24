@@ -117,8 +117,7 @@ export class Snake {
       this.status = 'idle' // 走完了，停下来
       if (!this.checkTailIncreasing()) // 蛇尾不增加，需要删除旧蛇尾
         this.cells.pop()
-    }
-    else {
+    } else {
       const moveDistance = speed * timeDelta / 1000 // 每两帧之间走的移动距离
       this.cells[0].x += moveDistance * dx / distance
       this.cells[0].y += moveDistance * dy / distance
