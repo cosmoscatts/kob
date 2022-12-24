@@ -9,7 +9,7 @@
   "dependencies": {
     "@codemirror/lang-java": "^6.0.1",
     "@codemirror/theme-one-dark": "^6.1.0",
-    "@vueuse/core": "^9.8.2",
+    "@vueuse/core": "^9.9.0",
     "@vueuse/head": "^1.0.22",
     "animate.css": "^4.1.1",
     "axios": "^1.2.1",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.0",
-    "@iconify/json": "^2.1.155",
+    "@iconify/json": "^2.1.156",
     "@types/canvas-confetti": "^1.6.0",
     "@types/node": "18.11.17",
     "@unocss/preset-icons": "^0.48.0",
