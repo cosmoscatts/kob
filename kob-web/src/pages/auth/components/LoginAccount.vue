@@ -63,7 +63,7 @@ function onSubmit(e: MouseEvent) {
     if (errors) return
     startLoading()
     UserApi
-      .getToken(JSON.parse(JSON.stringify(formModel)))
+      .getToken(useClone(formModel))
       .then(({ code, data, msg }) => {
         if (code !== 0) {
           useTimeoutFn(endLoading, 1000)

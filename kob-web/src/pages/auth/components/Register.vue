@@ -99,7 +99,7 @@ function onSubmit(e: MouseEvent) {
     if (errors) return
     startLoading()
     UserApi
-      .register(JSON.parse(JSON.stringify(formModel)))
+      .register(useClone(formModel))
       .then(({ code, msg }) => {
         if (code !== 0) {
           $message.error(msg ?? '注册失败')

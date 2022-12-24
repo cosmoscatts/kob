@@ -25,7 +25,7 @@ function onSubmit(e: MouseEvent) {
     if (errors) return
     startLoading()
     UserApi
-      .updateLoginUserInfo(JSON.parse(JSON.stringify(formModel)))
+      .updateLoginUserInfo(useClone(formModel))
       .then(({ code, msg }) => {
         if (code === 0) {
           $message.success('修改成功')
