@@ -55,10 +55,16 @@ fetchBotList()
     </div>
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
-        <div col-span-2 h-10vh flex-center>
-          <n-select v-model:value="selectedBot" :options="botOptions" :style="{ width: '20vw', textAlign: 'center' }" />
+        <div col-span-2 h15vh flex="col center" py2vh>
+          <n-alert title="注意事项" type="warning" :style="{ width: '40vw' }">
+            选择亲自出马时，使用`W`、`A`、`S`、`D`控制方向.
+          </n-alert>
+          <n-select
+            v-model:value="selectedBot" :options="botOptions"
+            :style="{ width: '20vw', textAlign: 'center', marginTop: '20px' }"
+          />
         </div>
-        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
+        <div col-span-1 h40vh lt-md="col-span-2 ha py-20px">
           <div flex="~ col center" h-full>
             <n-avatar
               :style="{
@@ -76,14 +82,14 @@ fetchBotList()
             </div>
           </div>
         </div>
-        <div col-span-2 h-20vh>
+        <div col-span-2 h10vh>
           <div flex-center h-full>
             <n-button size="large" type="warning" text-color="white" @click="onClick">
               {{ matchBtnText }}
             </n-button>
           </div>
         </div>
-        <div col-span-1 h-40vh lt-md="col-span-2 ha py-20px">
+        <div col-span-1 h40vh lt-md="col-span-2 ha py-20px">
           <div flex="~ col center" h-full>
             <n-avatar
               :style="{

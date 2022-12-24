@@ -5,6 +5,7 @@ import { APP_LAYOUT_PARAMS } from '~/config'
 const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
 const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6)
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)')
+const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`)
 
 let currentPageIndex = $ref(0)
 const changePageIndex = (index: number) => currentPageIndex = index
@@ -33,10 +34,7 @@ provide('changePageIndex', changePageIndex)
           </div>
         </n-card>
 
-        <div
-          flex-y-center justify-between
-          min-h52vh xxl:h68vh
-        >
+        <div flex-y-center justify-between my5vh>
           <div class="menu" @click="changePageIndex(1)">
             <span text-10vw>匹</span>配
             <div i-ri-sword-line class="icon" />
@@ -60,7 +58,8 @@ provide('changePageIndex', changePageIndex)
   justify-content: center;
   align-items: center;
   grid-column: span 1 / span 1;
-  height: 40vh;
+  height: v-bind(menuHeight);
+  min-height: 200px;
   width: 25vw;
   font-size: 6vw;
   font-weight: 800;

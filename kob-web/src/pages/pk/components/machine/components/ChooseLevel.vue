@@ -63,9 +63,10 @@ const { isMobile } = useResponsive()
       </n-button>
     </div>
     <n-card v-if="!isMobile" :style="{ minHeight: '65vh', padding: '30px' }">
-      <div w40vw mxa>
+      <div w45vw mxa>
         <n-alert title="注意事项" type="warning">
           请选择我方出战的bot和人机难度，也可以选择我方bot作为对手。
+          选择亲自出马时，使用`W`、`A`、`S`、`D`控制方向.
         </n-alert>
       </div>
       <n-card my25px>
