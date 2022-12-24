@@ -33,6 +33,7 @@
         <joor-java-8.version>0.9.14</joor-java-8.version>
         <httpclient.version>4.5.13</httpclient.version>
         <redis.version>2.7.3</redis.version>
+        <emoji-java.version>3.2.0</emoji-java.version>
     </properties>
 
     <dependencies>
@@ -151,6 +152,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${redis.version}</version>
+            </dependency>
+            <!-- emoji-java -->
+            <dependency>
+                <groupId>com.vdurmont</groupId>
+                <artifactId>emoji-java</artifactId>
+                <version>${emoji-java.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
