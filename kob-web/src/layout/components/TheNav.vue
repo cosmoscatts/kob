@@ -15,7 +15,7 @@ const development = isDevelopment
       <div i-carbon-debug icon-btn text-lg mx-5 @click="$router.push('/changelog')" />
       <a
         v-if="development"
-        icon-btn text-lg i-carbon-logo-github mr-5
+        icon-btn text-lg i-uil-github-alt mr-5
         :href="APP_META.github"
         target="_blank" title="GitHub"
       />
