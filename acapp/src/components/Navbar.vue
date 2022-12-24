@@ -52,7 +52,7 @@ onMounted(() => {
       >
         <a
           i-ri:github-fill text-22px bg-white
-          href="https://github.com/cosmoscatts/kob"
+          href="https://www.acwing.com/file_system/file/content/whole/index/content/7002938/"
           target="_blank" title="GitHub"
         />
       </div>
