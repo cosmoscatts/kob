@@ -90,7 +90,7 @@ function onSubmit(e: MouseEvent) {
     if (errors) return
     startLoading()
     UserSecurityApi
-      .updatePassword(JSON.parse(JSON.stringify(formModel)))
+      .updatePassword(useClone(formModel))
       .then(({ code, msg }) => {
         if (code !== 0) {
           useTimeoutFn(endLoading, 1000)

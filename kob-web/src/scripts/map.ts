@@ -141,11 +141,7 @@ export class GameMap extends Game {
     // eslint-disable-next-line max-statements-per-line
     if (isRecord) { fn() }
     else {
-      if (!this.task) {
-        const flag = fn()
-        if (flag)
-          this.task = useIntervalFn(fn, 100)
-      }
+      if (!this.task && fn()) this.task = useIntervalFn(fn, 100)
     }
 
     this.render()

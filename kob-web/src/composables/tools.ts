@@ -57,3 +57,7 @@ export function useConfirm(content: string, onPositiveClick: (e: MouseEvent) => 
     onPositiveClick,
   })
 }
+
+// ----- Clone -----
+
+export const useClone = <T = any>(data: T) => JSON.parse(JSON.stringify(data))

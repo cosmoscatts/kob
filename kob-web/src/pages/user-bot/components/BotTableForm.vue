@@ -68,7 +68,7 @@ function onSubmit(e: MouseEvent) {
   refForm.value?.validate((errors?: FormValidationError[]) => {
     if (errors) return
     startLoading()
-    emits('saveBotData', JSON.parse(JSON.stringify(formModel)))
+    emits('saveBotData', useClone(formModel))
     useTimeoutFn(endLoading, 2000)
   })
 }
