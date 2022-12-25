@@ -1,15 +1,15 @@
 import type { AnyObject } from './global'
 
 export interface User extends AnyObject {
-  id?: number // id
-  username?: string // 账号
-  name?: string // 用户名称
-  password?: string // 密码
-  avatar?: string // 头像
-  phone?: string // 手机号
-  email?: string // 邮箱
-  rating?: number // 天梯分
-  createTime?: Date // 创建时间
+  id?: number
+  username?: string
+  name?: string
+  password?: string
+  avatar?: string
+  phone?: string
+  email?: string
+  rating?: number
+  createTime?: Date
 }
 
 export interface UserSecurity extends AnyObject {
