@@ -41,9 +41,6 @@ export const APP_MENUS: Menu[] = [
   },
 ]
 
-/**
- * 菜单图标映射
- */
 export const APP_MENU_ICON_MAP: Record<string, Component> = {
   home: HomeOutline,
   pk: RobotOutlined,

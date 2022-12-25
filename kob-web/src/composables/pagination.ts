@@ -7,13 +7,13 @@ export function usePagination({
   onChangeCallback,
   onUpdatePageSizeCallback,
 }: {
-  page?: number // 当前页码
-  pageSize?: number // 每页条数
-  itemCount?: number // 总条数
-  showSizePicker?: boolean // 是否显示每页条数的选择器
-  pageSizes?: number[] // 每页条数选择器选项
-  onChangeCallback?: () => void // 改变页码的回调方法
-  onUpdatePageSizeCallback?: () => void // 每页条数改变的回调方法
+  page?: number
+  pageSize?: number
+  itemCount?: number
+  showSizePicker?: boolean
+  pageSizes?: number[]
+  onChangeCallback?: () => void
+  onUpdatePageSizeCallback?: () => void
 }) {
   const pagination = reactive({
     page,
