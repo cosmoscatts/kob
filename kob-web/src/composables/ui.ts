@@ -120,9 +120,6 @@ const colorPropertyMap: { [key: string]: string } = {
   successColorSuppl: '--success-color-suppl',
 }
 
-/**
- * 将 naive ui 的通用颜色，并写入 body
- */
 export function writeThemeColorsToBody() {
   const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
 
