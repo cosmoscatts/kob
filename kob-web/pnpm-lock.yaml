@@ -6,6 +6,7 @@ specifiers:
   '@codemirror/theme-one-dark': ^6.1.0
   '@iconify/json': ^2.1.156
   '@types/canvas-confetti': ^1.6.0
+  '@types/crypto-js': ^4.1.1
   '@types/node': 18.11.17
   '@unocss/preset-icons': ^0.48.0
   '@unocss/preset-wind': ^0.48.0
@@ -19,6 +20,7 @@ specifiers:
   canvas-confetti: ^1.6.0
   codemirror: ^6.0.1
   colord: ^2.9.3
+  crypto-js: ^4.1.1
   dayjs: ^1.11.7
   eslint: ^8.30.0
   highlight.js: ^11.7.0
@@ -48,6 +50,7 @@ dependencies:
   canvas-confetti: registry.npmmirror.com/canvas-confetti/1.6.0
   codemirror: registry.npmmirror.com/codemirror/6.0.1
   colord: registry.npmmirror.com/colord/2.9.3
+  crypto-js: registry.npmmirror.com/crypto-js/4.1.1
   dayjs: registry.npmmirror.com/dayjs/1.11.7
   highlight.js: registry.npmmirror.com/highlight.js/11.7.0
   lottie-web: registry.npmmirror.com/lottie-web/5.10.0
@@ -62,6 +65,7 @@ devDependencies:
   '@antfu/eslint-config': registry.npmmirror.com/@antfu/eslint-config/0.34.0_lzzuuodtsqwxnvqeq4g4likcqa
   '@iconify/json': registry.npmmirror.com/@iconify/json/2.1.156
   '@types/canvas-confetti': registry.npmmirror.com/@types/canvas-confetti/1.6.0
+  '@types/crypto-js': registry.npmmirror.com/@types/crypto-js/4.1.1
   '@types/node': registry.npmmirror.com/@types/node/18.11.17
   '@unocss/preset-icons': registry.npmmirror.com/@unocss/preset-icons/0.48.0
   '@unocss/preset-wind': registry.npmmirror.com/@unocss/preset-wind/0.48.0
@@ -841,6 +845,12 @@ packages:
     resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/canvas-confetti/-/canvas-confetti-1.6.0.tgz}
     name: '@types/canvas-confetti'
     version: 1.6.0
+    dev: true
+
+  registry.npmmirror.com/@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/crypto-js/-/crypto-js-4.1.1.tgz}
+    name: '@types/crypto-js'
+    version: 4.1.1
     dev: true
 
   registry.npmmirror.com/@types/estree/1.0.0:
@@ -1973,6 +1983,12 @@ packages:
       shebang-command: registry.npmmirror.com/shebang-command/2.0.0
       which: registry.npmmirror.com/which/2.0.2
     dev: true
+
+  registry.npmmirror.com/crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/crypto-js/-/crypto-js-4.1.1.tgz}
+    name: crypto-js
+    version: 4.1.1
+    dev: false
 
   registry.npmmirror.com/css-render/0.15.11:
     resolution: {integrity: sha512-hnLrHPUndVUTF5nmNPRey6hpixK02IPUGdEsm2xRjvJuewToyrVFx9Nmai8rgfVzhTFo5SJVh2PHAtzaIV8JKw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/css-render/-/css-render-0.15.11.tgz}
