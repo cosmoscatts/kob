@@ -210,6 +210,7 @@ declare global {
   const useKeyModifier: typeof import('@vueuse/core')['useKeyModifier']
   const useLastChanged: typeof import('@vueuse/core')['useLastChanged']
   const useLink: typeof import('vue-router')['useLink']
+  const useListLottie: typeof import('./composables/lottie')['useListLottie']
   const useLoading: typeof import('./composables/bool')['useLoading']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useLottie: typeof import('./composables/lottie')['useLottie']
@@ -529,6 +530,7 @@ declare module 'vue' {
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useListLottie: UnwrapRef<typeof import('./composables/lottie')['useListLottie']>
     readonly useLoading: UnwrapRef<typeof import('./composables/bool')['useLoading']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useLottie: UnwrapRef<typeof import('./composables/lottie')['useLottie']>

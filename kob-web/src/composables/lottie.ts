@@ -1,21 +1,25 @@
 import lottie from 'lottie-web'
 import type { RendererType } from 'lottie-web'
 
-export function useLottie({
-  container,
-  path,
-  loop = true,
-  renderer = 'svg',
-}: {
-  container: Element
+export interface LottieParams {
+  containerId: string
   path: string
   loop?: boolean
   renderer?: RendererType
-}) {
-  lottie.loadAnimation({
-    container,
-    path,
-    loop,
-    renderer,
-  })
 }
+
+const getElement = (id: string) => document.querySelector(id)!
+
+export const useLottie = ({
+  containerId,
+  path,
+  loop = true,
+  renderer = 'svg',
+}: LottieParams) => lottie.loadAnimation({
+  path,
+  loop,
+  renderer,
+  container: getElement(containerId),
+})
+
+export const useListLottie = (list: LottieParams[]) => list.forEach(item => useLottie(item))
