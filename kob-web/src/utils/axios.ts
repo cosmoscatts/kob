@@ -25,9 +25,7 @@ export function createAxios() {
       } = response
       return Promise.resolve({ code, data, msg }) as any
     },
-    (error: any) => {
-      return Promise.reject(error)
-    },
+    (error: any) => Promise.reject(error),
   )
   return _axios
 }
