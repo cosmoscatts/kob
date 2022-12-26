@@ -1,7 +1,13 @@
-export const TOKEN_KEY = 'jwt_token'
+import { cryptoDecode, cryptoEncode } from './crypto'
 
+export const TOKEN_KEY = 'jwt_token'
 export const Token = {
-  get: () => localStorage.getItem(TOKEN_KEY),
-  set: (token: string) => localStorage.setItem(TOKEN_KEY, token),
+  get: () => {
+    const token = localStorage.getItem(TOKEN_KEY)
+    return token
+      ? cryptoDecode(token)
+      : null
+  },
+  set: (token: string) => localStorage.setItem(TOKEN_KEY, cryptoEncode(token)),
   remove: () => localStorage.removeItem(TOKEN_KEY),
 }
