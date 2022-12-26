@@ -38,7 +38,7 @@ function doPause() {
 }
 
 onMounted(() => useLottie({
-  container: document.querySelector('#lottie-trophy')!,
+  containerId: '#lottie-trophy',
   path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
 }))
 

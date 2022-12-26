@@ -15,16 +15,14 @@ const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 const { loading, endLoading } = useLoading(true)
 useTimeoutFn(endLoading, beforeLeaveMs)
 
-onMounted(() => {
-  useLottie({
-    container: document.querySelector('#lottie-container')!,
-    path: 'https://assets7.lottiefiles.com/packages/lf20_UkrzGeRgj9.json',
-  })
-  useLottie({
-    container: document.querySelector('#lottie-logo')!,
-    path: 'https://assets3.lottiefiles.com/packages/lf20_stxjvzmw.json',
-  })
-})
+const createLottie = () => useListLottie([{
+  containerId: '#lottie-container',
+  path: 'https://assets7.lottiefiles.com/packages/lf20_UkrzGeRgj9.json',
+}, {
+  containerId: '#lottie-logo',
+  path: 'https://assets3.lottiefiles.com/packages/lf20_stxjvzmw.json',
+}])
+onMounted(createLottie)
 </script>
 
 <template>
