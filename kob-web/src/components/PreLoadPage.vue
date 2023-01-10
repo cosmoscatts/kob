@@ -17,10 +17,10 @@ useTimeoutFn(endLoading, beforeLeaveMs)
 
 const createLottie = () => useListLottie([{
   containerId: '#lottie-container',
-  path: 'https://assets7.lottiefiles.com/packages/lf20_UkrzGeRgj9.json',
+  path: 'https://assets10.lottiefiles.com/packages/lf20_poqmycwy.json',
 }, {
   containerId: '#lottie-logo',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_stxjvzmw.json',
+  path: 'https://assets3.lottiefiles.com/packages/lf20_96bovdur.json',
 }])
 onMounted(createLottie)
 </script>
@@ -30,7 +30,9 @@ onMounted(createLottie)
   <Transition leave-active-class="animate__animated animate__bounceOut">
     <div v-if="loading" class="loading-wrapper">
       <div mb-100px>
-        <div id="lottie-container" w300px h300px />
+        <div flex-center>
+          <div id="lottie-container" w300px h300px />
+        </div>
         <div class="animate__animated animate__fadeInUpBig animate__faster">
           <div flex-center>
             <div id="lottie-logo" h44px />

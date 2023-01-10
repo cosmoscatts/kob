@@ -12,7 +12,12 @@ export function createAxios() {
   _axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
       if (Token.get()) { // 统一在 header 中添加 token
-        config.headers!.Authorization = `Bearer ${Token.get()}`
+        config = {
+          ...config,
+          headers: {
+            Authorization: `Bearer ${Token.get()}`,
+          },
+        }
       }
       return config
     },

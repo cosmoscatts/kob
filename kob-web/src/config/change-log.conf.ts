@@ -27,6 +27,19 @@ export const APP_CHANGE_LOG: ChangeLog[] = [
     ],
   },
   {
+    date: '23/01/10',
+    title: '💎 样式更新',
+    description: '',
+    changes: [
+      {
+        id: '23/01/10/1',
+        type: 'update',
+        title: '更新了一些页面的动画样式',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '22/12/23',
     title: '💎 代码重构',
     description: '',
