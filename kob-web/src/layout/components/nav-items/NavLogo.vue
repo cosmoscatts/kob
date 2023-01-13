@@ -5,7 +5,7 @@ const { breakpoints } = useResponsive()
 const hideTitle = breakpoints.between('sm', 'lg')
 onMounted(() => useTimeoutFn(() => useLottie({
   containerId: '#lottie-logo',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_96bovdur.json',
+  path: 'https://assets3.lottiefiles.com/packages/lf20_myfthhyo.json',
 }), 10))
 </script>
 
