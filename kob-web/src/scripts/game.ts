@@ -18,7 +18,7 @@ export class Game {
 
   destory() {
     this.beforeDestory()
-    const idx = GAME_OBJECTS.findIndex(i => i === this)
+    const idx = GAME_OBJECTS.findIndex(i => i === toRaw(this))
     if (~idx) {
       GAME_OBJECTS.splice(idx) // 删除之后的所有对象
     }

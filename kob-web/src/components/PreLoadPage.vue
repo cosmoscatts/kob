@@ -17,10 +17,10 @@ useTimeoutFn(endLoading, beforeLeaveMs)
 
 const createLottie = () => useListLottie([{
   containerId: '#lottie-container',
-  path: 'https://assets10.lottiefiles.com/packages/lf20_poqmycwy.json',
+  path: 'https://assets3.lottiefiles.com/packages/lf20_c5vj9laj.json',
 }, {
   containerId: '#lottie-logo',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_96bovdur.json',
+  path: 'https://assets3.lottiefiles.com/packages/lf20_myfthhyo.json',
 }])
 onMounted(createLottie)
 </script>
@@ -35,7 +35,7 @@ onMounted(createLottie)
         </div>
         <div class="animate__animated animate__fadeInUpBig animate__faster">
           <div flex-center>
-            <div id="lottie-logo" h44px />
+            <div id="lottie-logo" h64px />
             <div ml-20px>
               <n-gradient-text
                 :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"
