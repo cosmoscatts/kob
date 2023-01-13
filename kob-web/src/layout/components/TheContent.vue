@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div>
     <RouterView v-slot="{ Component, route }">

@@ -46,7 +46,14 @@ export class GameMap extends Game {
   }
 
   playRecord() {
-    const { aSteps, bSteps, loser, updateRecordFinished } = useRecordStore()
+    const {
+      aSteps,
+      bSteps,
+      loser,
+      updateRecordFinished,
+    } = useRecordStore()
+    if (!aSteps || !bSteps) return
+
     let k = 0
     const [snake0, snake1] = this.snakes
     let _recordFn: Pausable | null = null

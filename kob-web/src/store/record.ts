@@ -12,8 +12,8 @@ export const useRecordStore = defineStore(
   'recordStore',
   () => {
     let isRecord = $ref(false) // 是否为录像
-    let aSteps = $ref<string>() // 玩家 A 的操作字符串
-    let bSteps = $ref<string>() // 玩家 B 的操作字符串
+    let aSteps = $ref<string | undefined>() // 玩家 A 的操作字符串
+    let bSteps = $ref<string | undefined>() // 玩家 B 的操作字符串
     let gameMap = $ref<number[][]>()
     let players = $ref<Player[]>([])
     let loser = $ref<Loser>('none')
