@@ -2,7 +2,7 @@
 import ChooseLevel from './components/ChooseLevel.vue'
 import defaultAvatar from '~/assets/default-avatar.png'
 
-const contentHeght = diffHeight
+const contentHeight = diffHeight
 const pkStore = usePkStore()
 const userStore = useUserStore()
 
@@ -47,7 +47,7 @@ const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1
 </script>
 
 <template>
-  <div flex="col center" :style="{ minHeight: `calc(100vh - ${contentHeght}px)` }">
+  <div flex="col center" :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }">
     <ChooseLevel v-if="pkStore.status === 'match'" />
     <GamePlayground v-if="(pkStore.status === 'play' && !showFightAnimation)" />
     <FightAnimation v-if="(pkStore.status === 'play' && showFightAnimation)" />

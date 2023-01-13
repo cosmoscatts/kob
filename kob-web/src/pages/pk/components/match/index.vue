@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import defaultAvatar from '~/assets/default-avatar.png'
 
-const contentHeght = diffHeight
+const contentHeight = diffHeight
 
 const pkStore = usePkStore()
 const userStore = useUserStore()
@@ -46,7 +46,7 @@ const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${contentHeght}px)` }" flex="col center">
+  <div :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }" flex="col center">
     <GameMatchGround v-if="pkStore.status === 'match'" />
     <GamePlayground v-if="(pkStore.status === 'play' && !showFightAnimation)" />
     <FightAnimation v-if="(pkStore.status === 'play' && showFightAnimation)" />
