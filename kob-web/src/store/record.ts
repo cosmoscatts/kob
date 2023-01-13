@@ -11,25 +11,25 @@ type Loser = 'all' | 'A' | 'B' | 'none'
 export const useRecordStore = defineStore(
   'recordStore',
   () => {
-    const isRecord = ref(false) // 是否为录像
-    const aSteps = ref() // 玩家 A 的操作字符串
-    const bSteps = ref() // 玩家 B 的操作字符串
-    const gameMap = ref<number[][]>()
-    const players = ref<Player[]>([])
-    const loser = ref<Loser>('none')
-    const recordFinished = ref(true) // 录像是否播放完毕
+    let isRecord = $ref(false) // 是否为录像
+    let aSteps = $ref<string>() // 玩家 A 的操作字符串
+    let bSteps = $ref<string>() // 玩家 B 的操作字符串
+    let gameMap = $ref<number[][]>()
+    let players = $ref<Player[]>([])
+    let loser = $ref<Loser>('none')
+    let recordFinished = $ref(true) // 录像是否播放完毕
 
-    const updateIsRecord = (value: boolean) => isRecord.value = value
+    const updateIsRecord = (value: boolean) => isRecord = value
     const updateSteps = (_aSteps?: string, _bSteps?: string) => {
-      aSteps.value = _aSteps
-      bSteps.value = _bSteps
+      aSteps = _aSteps
+      bSteps = _bSteps
     }
-    const updateLoser = (value: Loser) => loser.value = value
-    const updateRecordFinished = (value: boolean) => recordFinished.value = value
+    const updateLoser = (value: Loser) => loser = value
+    const updateRecordFinished = (value: boolean) => recordFinished = value
 
     function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
-      gameMap.value = map
-      players.value = [
+      gameMap = map
+      players = [
         { id: aId, sx: aSx, sy: aSy },
         { id: bId, sx: bSx, sy: bSy },
       ]
@@ -39,11 +39,11 @@ export const useRecordStore = defineStore(
       updateIsRecord(false)
       updateSteps(undefined, undefined)
       updateLoser('none')
-      gameMap.value = undefined
-      players.value = []
+      gameMap = undefined
+      players = []
     }
 
-    return {
+    return $$({
       isRecord,
       aSteps,
       bSteps,
@@ -57,7 +57,7 @@ export const useRecordStore = defineStore(
       updateLoser,
       clearVideo,
       updateRecordFinished,
-    }
+    })
   },
 )
 

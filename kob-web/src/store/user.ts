@@ -5,15 +5,15 @@ import { Token } from '~/utils'
 export const useUserStore = defineStore(
   'userStore',
   () => {
-    const user = ref<User>()
-    const hasLogin = ref(false) // 是否登录
-    const authModalVisible = ref(false) // 是否打开 [登录 / 注册] 模态框
+    let user = $ref<User>()
+    let hasLogin = $ref(false) // 是否登录
+    let authModalVisible = $ref(false) // 是否打开 [登录 / 注册] 模态框
 
     // setters
 
-    const setUser = (data?: User) => user.value = data
-    const setHasLogin = (state = false) => hasLogin.value = state
-    const setAuthModalVisible = (state: boolean) => authModalVisible.value = state
+    const setUser = (data?: User) => user = data
+    const setHasLogin = (state = false) => hasLogin = state
+    const setAuthModalVisible = (state: boolean) => authModalVisible = state
 
     // fn
 
@@ -50,19 +50,19 @@ export const useUserStore = defineStore(
     const checkLoginState = () => {
       const fns: [boolean, Function][] = [
         [!Token.get(), () => {
-          hasLogin.value = false
+          hasLogin = false
           return 'notLogin'
         }],
-        [hasLogin.value && !!user.value?.id, () => 'hasLogin'],
+        [hasLogin && !!user?.id, () => 'hasLogin'],
         [true, async () => {
           const { code, data = {} } = await UserApi.getLoginUserInfo()
           const inValid = code !== 0 || !Object.keys(data).length
-          hasLogin.value = !inValid
+          hasLogin = !inValid
           if (inValid) {
             logout()
           } else {
             if (!data.avatar) data.avatar = defaultAvatar
-            user.value = data
+            user = data
           }
           return inValid
             ? 'expire'
@@ -72,7 +72,7 @@ export const useUserStore = defineStore(
       return Conditional.someWithValue<LoginState>(fns) ?? 'notLogin'
     }
 
-    return {
+    return $$({
       user,
       hasLogin,
       authModalVisible,
@@ -82,7 +82,7 @@ export const useUserStore = defineStore(
       logout,
       checkLoginState,
       setAuthModalVisible,
-    }
+    })
   },
   { persist: { enabled: true } },
 )
