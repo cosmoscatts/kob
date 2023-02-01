@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { Token } from './token'
 
@@ -19,7 +19,7 @@ export function createAxios() {
           },
         }
       }
-      return config
+      return config as InternalAxiosRequestConfig<any>
     },
     (e: any) => { Promise.reject(e) },
   )
