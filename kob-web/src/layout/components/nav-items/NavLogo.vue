@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { APP_META } from '~/config'
-
+import logo from '~/assets/logo.png'
 const { breakpoints } = useResponsive()
 const hideTitle = breakpoints.between('sm', 'lg')
-onMounted(() => useTimeoutFn(() => useLottie({
-  containerId: '#lottie-logo',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_myfthhyo.json',
-}), 10))
 </script>
 
 <template>
   <div
-    flex-center h-full cursor-pointer
+    flex-center hfull cursor-pointer
     @click="$router.push('/')"
   >
-    <div id="lottie-logo" h44px />
+    <n-avatar
+      round
+      color="transparent"
+      size="small"
+      :src="logo"
+    />
     <span v-if="!hideTitle" font="bold" pl-16px text-24px>
       {{ APP_META.name }}
     </span>

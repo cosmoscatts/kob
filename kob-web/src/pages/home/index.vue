@@ -18,7 +18,7 @@ const getEmoji = (): string =>
 
 onMounted(() => useLottie({
   containerId: '#lottie',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_Zz37yH.json',
+  path: 'https://assets7.lottiefiles.com/packages/lf20_znxtcbvh33.json',
 }))
 </script>
 
@@ -27,8 +27,8 @@ onMounted(() => useLottie({
     w-70vw mx-a flex="col center"
     :style="{ height: `calc(100vh - ${contentHeight}px)` }"
   >
-    <div id="lottie" w400px h230px mt10px />
-    <div text-center font-bold mt30px>
+    <div id="lottie" w400px h300px mt10px />
+    <div text-center font-bold mt="[-20px]">
       <h1 text="3xl" m="t-2 b-2">
         Hi@Everyone, {{ getEmoji() }}. this is an astonishing game.
       </h1>
