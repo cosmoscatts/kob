@@ -27,24 +27,24 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.35.2",
+    "@antfu/eslint-config": "^0.35.3",
     "@iconify/json": "^2.2.27",
     "@types/canvas-confetti": "^1.6.0",
     "@types/crypto-js": "^4.1.1",
     "@types/node": "18.14.1",
-    "@unocss/preset-icons": "^0.50.0",
-    "@unocss/preset-wind": "^0.50.0",
+    "@unocss/preset-icons": "^0.50.1",
+    "@unocss/preset-wind": "^0.50.1",
     "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "eslint": "^8.34.0",
     "naive-ui": "^2.34.3",
     "typescript": "^4.9.5",
-    "unocss": "^0.50.0",
+    "unocss": "^0.50.1",
     "unplugin-auto-import": "^0.15.0",
     "unplugin-vue-components": "^0.24.0",
     "unplugin-vue-define-options": "^1.2.3",
     "vite": "^4.1.4",
-    "vue-tsc": "^1.1.7"
+    "vue-tsc": "^1.2.0"
   }
 }
