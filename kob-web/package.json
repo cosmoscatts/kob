@@ -37,7 +37,7 @@
     "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^4.0.0",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "naive-ui": "^2.34.3",
     "typescript": "^4.9.5",
     "unocss": "^0.50.1",
