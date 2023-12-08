@@ -5,7 +5,7 @@ king of bots
 
 ## 项目预览
 
-[快开始你的战斗吧~](https://app3655.acapp.acwing.com.cn/) (╯°□°）╯︵ ┻━┻
+[快开始你的战斗吧~](https://kob.hilyc.cn/) (╯°□°）╯︵ ┻━┻
 
 ## 技术栈
 
