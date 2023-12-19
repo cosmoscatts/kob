@@ -9,13 +9,6 @@ hljs.registerLanguage('java', java)
 const theme = computed(() => [null, darkTheme][Number(isDark.value)])
 const themeOverrides = useThemeOverrides()
 
-const { loading, endLoading } = useLoading(true)
-
-// 定义 loading 整体时间和内层动画持续时间
-const LOADING_INTERVAL = 2500
-const BEFORE_LEAVE_MS = 1800
-useTimeoutFn(endLoading, LOADING_INTERVAL)
-
 writeThemeColorsToBody() // 将 naive-ui 自带颜色写入 body
 
 // 关闭浏览器清空缓存
@@ -35,8 +28,7 @@ window.addEventListener('unload', () => {
     :hljs="hljs"
   >
     <n-loading-bar-provider>
-      <PreLoadPage v-if="loading" :before-leave-ms="BEFORE_LEAVE_MS" />
-      <RouterView v-else />
+      <RouterView />
     </n-loading-bar-provider>
   </n-config-provider>
 </template>

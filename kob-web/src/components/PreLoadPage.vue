@@ -2,18 +2,13 @@
 import { useThemeVars } from 'naive-ui'
 import { APP_META } from '~/config'
 import logo from '~/assets/logo.png'
-const {
-  beforeLeaveMs = 1500,
-} = defineProps<{
-  beforeLeaveMs: number
-}>()
 
 const themeVars = useThemeVars()
 const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
 
 // 控制内层动画
 const { loading, endLoading } = useLoading(true)
-useTimeoutFn(endLoading, beforeLeaveMs)
+useTimeoutFn(endLoading, 800)
 
 const createLottie = () => useLottie({
   containerId: '#lottie-container',
