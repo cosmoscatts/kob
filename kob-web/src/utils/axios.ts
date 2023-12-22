@@ -2,7 +2,7 @@ import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } fr
 import axios from 'axios'
 import { Token } from './token'
 
-const AXIOS_TIMEOUT = 5000
+const AXIOS_TIMEOUT = 15000
 
 export function createAxios() {
   const _axios = axios.create({
