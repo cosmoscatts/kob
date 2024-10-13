@@ -1,6 +1,6 @@
-import type { DataTableColumns } from 'naive-ui'
-import { NButton } from 'naive-ui'
-import type { Bot } from '~/types'
+import type { DataTableColumns } from 'naive-ui';
+import { NButton } from 'naive-ui';
+import type { Bot } from '~/types';
 
 /**
  * 创建表格列
@@ -20,7 +20,7 @@ export function createColumns({
       title: '序号',
       align: 'center',
       render(_row, rowIndex) {
-        return createRowNumber?.(rowIndex)
+        return createRowNumber?.(rowIndex);
       },
     },
     {
@@ -38,7 +38,7 @@ export function createColumns({
       key: 'description',
       align: 'center',
       render({ createTime }) {
-        return formatDate({ date: createTime })
+        return formatDate({ date: createTime });
       },
     },
     {
@@ -72,8 +72,8 @@ export function createColumns({
               { default: () => '删除' },
             ),
           ],
-        )
+        );
       },
     },
-  ]
+  ];
 }

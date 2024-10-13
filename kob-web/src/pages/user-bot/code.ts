@@ -87,4 +87,4 @@ public class Bot implements java.util.function.Supplier<Integer> {
       }
   }
 }
-`
+`;

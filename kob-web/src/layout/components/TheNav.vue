@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { NavAvatar, NavLogo, NavMenu, NavResponsivePanel } from './nav-items'
-import { APP_META } from '~/config'
+import { APP_META } from '~/config';
+import { NavAvatar, NavLogo, NavMenu, NavResponsivePanel } from './nav-items';
 
-const { isMobile } = useResponsive()
-const development = isDevelopment
+const { isMobile } = useResponsive();
+const development = isDevelopment;
 </script>
 
 <template>

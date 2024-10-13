@@ -1,13 +1,13 @@
-import type { App } from 'vue'
+import type { App } from 'vue';
 
-export type UserModule = (app: App) => void
-export type { App as AppContext }
+export type UserModule = (app: App) => void;
+export type { App as AppContext };
 
 export interface AnyObject {
   [key: string]: unknown
 }
 
-export type LoginState = 'hasLogin' | 'notLogin' | 'expire'
+export type LoginState = 'hasLogin' | 'notLogin' | 'expire';
 
 // ----- Http -----
 

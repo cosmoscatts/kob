@@ -1,8 +1,8 @@
-import type { DataTableColumns } from 'naive-ui'
-import { NAvatar, NButton, NEllipsis, NIcon, NIconWrapper, NTag } from 'naive-ui'
-import { Paw } from '@vicons/ionicons5'
-import type { Record } from '~/types'
-import defaultAvatar from '~/assets/default-avatar.png'
+import type { DataTableColumns } from 'naive-ui';
+import { Paw } from '@vicons/ionicons5';
+import { NAvatar, NButton, NEllipsis, NIcon, NIconWrapper, NTag } from 'naive-ui';
+import defaultAvatar from '~/assets/default-avatar.png';
+import type { Record } from '~/types';
 
 /**
  * 创建表格列
@@ -60,7 +60,7 @@ export function createColumns({
             ? '玩家A获胜'
             : loser === 'all'
               ? '平局'
-              : '-'
+              : '-';
       },
     },
     {
@@ -85,7 +85,7 @@ export function createColumns({
             },
             { default: () => '查看录像' },
           ),
-        ]
+        ];
         if (canDelete?.(row.aId, row.bId) ?? false) {
           btnArray.push(
             h(
@@ -99,17 +99,17 @@ export function createColumns({
               },
               { default: () => '删除' },
             ),
-          )
+          );
         }
 
         return h(
           'div',
           {},
           btnArray,
-        )
+        );
       },
     },
-  ]
+  ];
 }
 
 function renderPlayer(avatar?: string, name?: string, win = false) {
@@ -132,7 +132,7 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
       },
       () => name,
     ),
-  ]
+  ];
   if (win) {
     widgets.push(h(NIconWrapper, {
       size: 24,
@@ -142,11 +142,10 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
       style: {
         marginLeft: '10px',
       },
-    },
-    () => h(NIcon, {
+    }, () => h(NIcon, {
       size: 16,
       component: Paw,
-    })))
+    })));
   }
   return h('div', {
     style: {
@@ -154,8 +153,7 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
       justifyContent: 'center',
       alignItems: 'center',
     },
-  },
-  widgets)
+  }, widgets);
 }
 
 export interface PlayerInfo {

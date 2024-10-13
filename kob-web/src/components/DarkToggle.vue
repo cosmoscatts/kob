@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const toggle = toggleDark
+const toggle = toggleDark;
 </script>
 
 <template>

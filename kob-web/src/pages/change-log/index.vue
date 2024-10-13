@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { BugOutline, BulbOutline, DiamondOutline } from '@vicons/ionicons5'
-import { APP_CHANGE_LOG, APP_META } from '~/config'
+import { BugOutline, BulbOutline, DiamondOutline } from '@vicons/ionicons5';
+import { APP_CHANGE_LOG, APP_META } from '~/config';
 
-type Type = 'add' | 'update' | 'fix'
+type Type = 'add' | 'update' | 'fix';
 const getTimelineType = (type: Type) => ({
   add: 'info',
   update: 'warning',
   fix: 'error',
-}[type])
+}[type]);
 const getTimelineIcon = (type: Type) => ({
   add: BulbOutline,
   update: DiamondOutline,
   fix: BugOutline,
-}[type])
+}[type]);
 </script>
 
 <template>

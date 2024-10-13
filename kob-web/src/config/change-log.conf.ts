@@ -1,4 +1,4 @@
-import type { ChangeLog } from '~/types'
+import type { ChangeLog } from '~/types';
 
 export const APP_CHANGE_LOG: ChangeLog[] = [
   {
@@ -281,4 +281,4 @@ export const APP_CHANGE_LOG: ChangeLog[] = [
       },
     ],
   },
-]
+];

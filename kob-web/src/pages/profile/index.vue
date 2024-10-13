@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BaseInformation from './components/BaseInformation.vue'
-import UserPanel from './components/UserPanel.vue'
-import SecuritySettings from './components/SecuritySettings.vue'
+import BaseInformation from './components/BaseInformation.vue';
+import SecuritySettings from './components/SecuritySettings.vue';
+import UserPanel from './components/UserPanel.vue';
 </script>
 
 <template>

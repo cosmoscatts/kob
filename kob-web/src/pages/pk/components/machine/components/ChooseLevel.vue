@@ -1,19 +1,19 @@
 <script setup lang="ts">
-const changePageIndex = inject('changePageIndex') as Function
+const changePageIndex = inject('changePageIndex') as Function;
 
-const { user } = storeToRefs(useUserStore())
-const { socket } = storeToRefs(usePkStore())
+const { user } = storeToRefs(useUserStore());
+const { socket } = storeToRefs(usePkStore());
 
-const selectedBot = ref()
-const botOptions = ref<{ value: number; label: string }[]>([])
+const selectedBot = ref();
+const botOptions = ref<{ value: number, label: string }[]>([]);
 // 人机
-const machineId = ref<number>()
-const machineBotId = ref<number>()
+const machineId = ref<number>();
+const machineBotId = ref<number>();
 
 function onClick() {
   if (selectedBot.value === undefined || machineId.value === undefined || machineBotId.value === undefined) {
-    $message.warning('请选择双方出战Bot')
-    return
+    $message.warning('请选择双方出战Bot');
+    return;
   }
 
   socket.value?.send(JSON.stringify({
@@ -21,35 +21,35 @@ function onClick() {
     botId: selectedBot.value,
     machineId: machineId.value,
     machineBotId: machineBotId.value,
-  }))
+  }));
 }
 
-const defaultBotOptions = [{ value: -1, label: '亲自出马' }]
+const defaultBotOptions = [{ value: -1, label: '亲自出马' }];
 async function fetchBotList() {
-  const { data: { records } } = await BotApi.getBotList({})
+  const { data: { records } } = await BotApi.getBotList({});
   botOptions.value = [
     ...defaultBotOptions,
     ...records?.map(i => ({ value: i.id, label: i.title })) || [],
-  ] as { value: number; label: string }[]
-  selectedBot.value = -1
+  ] as { value: number, label: string }[];
+  selectedBot.value = -1;
 }
-fetchBotList()
+fetchBotList();
 
 const levelOptions = ref([
   { value: 0, label: '黑铁' },
   { value: 1, label: '黄金' },
   { value: 2, label: '钻石' },
   { value: 3, label: '王者' },
-])
+]);
 
-const selectedTab = ref<'standard' | 'selfDefine'>('standard')
-machineId.value = 1
+const selectedTab = ref<'standard' | 'selfDefine'>('standard');
+machineId.value = 1;
 watch(selectedTab, (val) => {
-  machineId.value = val === 'standard' ? -1 : user.value?.id
-  machineBotId.value = undefined
-})
+  machineId.value = val === 'standard' ? -1 : user.value?.id;
+  machineBotId.value = undefined;
+});
 
-const { isMobile } = useResponsive()
+const { isMobile } = useResponsive();
 </script>
 
 <template>

@@ -1,43 +1,44 @@
 <script setup lang="ts">
-import { GameMap } from '~/scripts/map'
+import { GameMap } from '~/scripts/map';
 
-const refParentEl = ref<HTMLElement>()
-const refCanvas = ref<HTMLCanvasElement>()
+const refParentEl = ref<HTMLElement>();
+const refCanvas = ref<HTMLCanvasElement>();
 
-const pkStore = usePkStore()
-const recordStore = useRecordStore()
-let gameMap: GameMap | null = null
+const pkStore = usePkStore();
+const recordStore = useRecordStore();
+let gameMap: GameMap | null = null;
 
 const sendStartGameSingal = () => {
-  if (!pkStore.socket) return
+  if (!pkStore.socket)
+    return;
   pkStore.socket.send(JSON.stringify({
     event: 'start-game',
-  }))
-}
+  }));
+};
 
 function createGameMap() {
-  const { value: canvas } = refCanvas
-  gameMap?.destory()
-  gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!)
-  pkStore.updateGameMapObject(gameMap)
+  const { value: canvas } = refCanvas;
+  gameMap?.destory();
+  gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!);
+  pkStore.updateGameMapObject(gameMap);
   if (recordStore.isRecord) {
-    recordStore.updateRecordFinished(false)
+    recordStore.updateRecordFinished(false);
   } else {
-    sendStartGameSingal()
+    sendStartGameSingal();
   }
 }
 
-onMounted(createGameMap)
+onMounted(createGameMap);
 
-const replayVideo = () => createGameMap()
-const pauseVideo = () => gameMap?.recordFn?.pause() // 暂停
-const resumeVideo = () => gameMap?.recordFn?.resume() // 取消暂停
+const replayVideo = () => createGameMap();
+const pauseVideo = () => gameMap?.recordFn?.pause(); // 暂停
+const resumeVideo = () => gameMap?.recordFn?.resume(); // 取消暂停
 
 defineExpose({
   replayVideo,
   pauseVideo,
   resumeVideo,
-})
+});
 </script>
 
 <template>

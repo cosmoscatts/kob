@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import NavMenu from './NavMenu.vue'
-import NavAvatar from './NavAvatar.vue'
-import { APP_META } from '~/config'
+import { APP_META } from '~/config';
+import NavAvatar from './NavAvatar.vue';
+import NavMenu from './NavMenu.vue';
 
-let showNavPanel = $ref(false)
-const toggle = () => showNavPanel = !showNavPanel
-const { hasLogin } = storeToRefs(useUserStore())
-const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
+let showNavPanel = $ref(false);
+const toggle = () => showNavPanel = !showNavPanel;
+const { hasLogin } = storeToRefs(useUserStore());
+const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
 </script>
 
 <template>

@@ -1,40 +1,41 @@
 <script setup lang="ts">
-import type { FormInst, FormValidationError } from 'naive-ui'
+import type { FormInst, FormValidationError } from 'naive-ui';
 import {
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import type { User } from '~/types'
+} from '@vicons/ionicons5';
+import type { User } from '~/types';
 
-const userStore = useUserStore()
-const { loading, startLoading, endLoading } = useLoading()
+const userStore = useUserStore();
+const { loading, startLoading, endLoading } = useLoading();
 
-const refForm = ref<FormInst | null>(null)
-type FormModel = Pick<User, 'id' | 'name' | 'email' >
+const refForm = ref<FormInst | null>(null);
+type FormModel = Pick<User, 'id' | 'name' | 'email' >;
 const getBaseFormModel: () => FormModel = () => ({
   id: undefined,
   name: userStore.user?.name ?? '',
   email: userStore.user?.email ?? '',
-})
+});
 const formModel = reactive<FormModel>({
   ...getBaseFormModel(),
-})
+});
 
 function onSubmit(e: MouseEvent) {
-  e.preventDefault()
+  e.preventDefault();
   refForm.value?.validate((errors?: FormValidationError[]) => {
-    if (errors) return
-    startLoading()
+    if (errors)
+      return;
+    startLoading();
     UserApi
       .updateLoginUserInfo(useClone(formModel))
       .then(({ code, msg }) => {
         if (code === 0) {
-          $message.success('修改成功')
-          userStore.updateUser()
+          $message.success('修改成功');
+          userStore.updateUser();
         }
-        else { $message.error(msg || '修改失败') }
+        else { $message.error(msg || '修改失败'); }
       })
-      .finally(() => useTimeoutFn(endLoading, 1000))
-  })
+      .finally(() => useTimeoutFn(endLoading, 1000));
+  });
 }
 </script>
 

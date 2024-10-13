@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Machine, Match } from './components'
-import { APP_LAYOUT_PARAMS } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config';
+import { Machine, Match } from './components';
 
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
-const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6)
-const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)')
-const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`)
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS;
+const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6);
+const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
+const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`);
 
-let currentPageIndex = $ref(0)
-const changePageIndex = (index: number) => currentPageIndex = index
-provide('changePageIndex', changePageIndex)
+let currentPageIndex = $ref(0);
+const changePageIndex = (index: number) => currentPageIndex = index;
+provide('changePageIndex', changePageIndex);
 </script>
 
 <template>

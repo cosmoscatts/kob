@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SecurityPasswordForm from './SecurityPasswordForm.vue'
+import SecurityPasswordForm from './SecurityPasswordForm.vue';
 
 const {
   modalVisible = false,
@@ -9,24 +9,24 @@ const {
   modalVisible?: boolean
   formIndex?: number
   title?: string
-}>()
+}>();
 
-const emit = defineEmits(['update:modalVisible'])
+const emit = defineEmits(['update:modalVisible']);
 
 const bodyStyle = {
   width: '390px',
-}
-const router = useRouter()
-const { setAuthModalVisible, logout } = useUserStore()
+};
+const router = useRouter();
+const { setAuthModalVisible, logout } = useUserStore();
 
 const securityActionCallback = () => {
-  emit('update:modalVisible', false)
-  logout()
-  router.push('/home')
-  setAuthModalVisible(true)
-}
+  emit('update:modalVisible', false);
+  logout();
+  router.push('/home');
+  setAuthModalVisible(true);
+};
 
-provide('securityActionCallback', securityActionCallback)
+provide('securityActionCallback', securityActionCallback);
 </script>
 
 <template>

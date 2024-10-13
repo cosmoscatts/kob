@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { codeExample } from '../code'
+import { codeExample } from '../code';
 
 const {
   visible = false,
 } = defineProps<{
   visible?: boolean
-}>()
+}>();
 
-defineEmits(['update:visible'])
+defineEmits(['update:visible']);
 
-const { width: _width } = useWindowSize()
-const width = computed(() => _width.value > 600 ? 600 : 502)
+const { width: _width } = useWindowSize();
+const width = computed(() => _width.value > 600 ? 600 : 502);
 
-const source = ref(codeExample)
-const { copy, isSupported } = useClipboard({ source })
+const source = ref(codeExample);
+const { copy, isSupported } = useClipboard({ source });
 
 function handleCopy() {
   if (!isSupported.value) {
-    $message.warning('当前浏览器不支持该操作')
-    return
+    $message.warning('当前浏览器不支持该操作');
+    return;
   }
-  copy()
-  $message.success('复制成功，快去编写Bot吧~')
+  copy();
+  $message.success('复制成功，快去编写Bot吧~');
 }
 </script>
 

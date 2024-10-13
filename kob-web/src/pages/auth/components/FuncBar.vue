@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import type { Tab } from './helper'
+import type { Ref } from 'vue';
+import type { Tab } from './helper';
 
-const tab = inject<Ref<Tab>>('tab')!
-const changeTab = inject<Function>('changeTab')
+const tab = inject<Ref<Tab>>('tab')!;
+const changeTab = inject<Function>('changeTab');
 
 const actionName = computed(() => {
   return ({
     account: '验证码登录',
     phone: '其他方式登录',
     register: '账密登录',
-  } as Record<Tab, string>)[tab.value ?? 'account']
-})
+  } as Record<Tab, string>)[tab.value ?? 'account'];
+});
 const go2 = () => {
-  const map = { account: 'phone', phone: 'account', register: 'account' }
-  changeTab?.(map[tab.value ?? 'account'])
-}
-const register = () => changeTab?.('register')
-const onClick = () => $message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)')
+  const map = { account: 'phone', phone: 'account', register: 'account' };
+  changeTab?.(map[tab.value ?? 'account']);
+};
+const register = () => changeTab?.('register');
+const onClick = () => $message.warning('需要备案，所以不实现嘻嘻 (┬┬﹏┬┬)');
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const contentHeight = diffHeight
+const contentHeight = diffHeight;
 
 const emojiArray = [
   '\\(o_o)/',
@@ -12,14 +12,14 @@ const emojiArray = [
   '(>_<)',
   '\\(°ˊДˋ°)/',
   'ㄟ(▔▽▔)ㄏ',
-]
+];
 const getEmoji = (): string =>
-  emojiArray[Math.floor(Math.random() * emojiArray.length)]
+  emojiArray[Math.floor(Math.random() * emojiArray.length)];
 
 onMounted(() => useLottie({
   containerId: '#lottie',
   path: 'https://assets7.lottiefiles.com/packages/lf20_znxtcbvh33.json',
-}))
+}));
 </script>
 
 <template>

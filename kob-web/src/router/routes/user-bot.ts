@@ -1,4 +1,4 @@
-import { BaseLayout } from '~/layout'
+import { BaseLayout } from '~/layout';
 
 export default {
   path: '/userBot',
@@ -14,4 +14,4 @@ export default {
       },
     },
   ],
-}
+};

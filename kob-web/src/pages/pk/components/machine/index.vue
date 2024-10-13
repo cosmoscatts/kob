@@ -1,49 +1,51 @@
 <script setup lang="ts">
-import ChooseLevel from './components/ChooseLevel.vue'
-import defaultAvatar from '~/assets/default-avatar.png'
+import defaultAvatar from '~/assets/default-avatar.png';
+import ChooseLevel from './components/ChooseLevel.vue';
 
-const contentHeight = diffHeight
-const pkStore = usePkStore()
-const userStore = useUserStore()
+const contentHeight = diffHeight;
+const pkStore = usePkStore();
+const userStore = useUserStore();
 
-pkStore.updateOpponent() // 更新对手信息
+pkStore.updateOpponent(); // 更新对手信息
 
-let showFightAnimation = $ref(false)
+let showFightAnimation = $ref(false);
 
 const socket = useSocket((msg) => {
-  const data = JSON.parse(msg.data)
+  const data = JSON.parse(msg.data);
   const fns: [boolean, Function][] = [
     [data.event === 'match-success', () => { // 匹配成功
       pkStore.updateOpponent({
         name: data?.opponentName || '-',
         avatar: data?.opponentAvatar ?? defaultAvatar,
-      })
-      pkStore.updateGame(data.game)
-      pkStore.updateStatus('play')
-      $message.success('人机试炼开始')
-      showFightAnimation = true
-      useTimeoutFn(() => showFightAnimation = false, 5000)
+      });
+      pkStore.updateGame(data.game);
+      pkStore.updateStatus('play');
+      $message.success('人机试炼开始');
+      showFightAnimation = true;
+      useTimeoutFn(() => showFightAnimation = false, 5000);
     }],
     [data.event === 'move', () => pkStore.gameMapObject!.snakes.forEach((snake, index) =>
       snake.setDirection([data.aDirection, data.bDirection][index]))],
     [data.event === 'result', () => {
-      const [snake0, snake1] = pkStore.gameMapObject!.snakes
-      if (['all', 'A'].includes(data.loser)) snake0.status = 'die'
-      if (['all', 'B'].includes(data.loser)) snake1.status = 'die'
-      pkStore.updateLoser(data.loser)
+      const [snake0, snake1] = pkStore.gameMapObject!.snakes;
+      if (['all', 'A'].includes(data.loser))
+        snake0.status = 'die';
+      if (['all', 'B'].includes(data.loser))
+        snake1.status = 'die';
+      pkStore.updateLoser(data.loser);
     }],
-  ]
-  Conditional.some(fns)
-})
+  ];
+  Conditional.some(fns);
+});
 
 const clear = () => [
   () => socket.close(),
   () => pkStore.reset(),
-].forEach(fn => fn())
-onUnmounted(clear)
+].forEach(fn => fn());
+onUnmounted(clear);
 
 const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1].id === userStore.user?.id)
-  || (pkStore.loser === 'B' && pkStore.players[0].id === userStore.user?.id)))
+  || (pkStore.loser === 'B' && pkStore.players[0].id === userStore.user?.id)));
 </script>
 
 <template>

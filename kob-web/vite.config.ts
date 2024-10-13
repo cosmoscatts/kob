@@ -1,13 +1,10 @@
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import DefineOptions from 'unplugin-vue-define-options/vite'
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-import UnoCSS from 'unocss/vite'
+import { resolve } from 'node:path';
+import Vue from '@vitejs/plugin-vue';
+import UnoCSS from 'unocss/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   resolve: {
@@ -17,10 +14,7 @@ export default defineConfig({
   },
   plugins: [
     UnoCSS(),
-    Vue({
-      reactivityTransform: true,
-    }),
-    DefineOptions(),
+    Vue(),
     AutoImport({
       imports: [
         'vue',
@@ -45,4 +39,4 @@ export default defineConfig({
       dts: 'src/components.d.ts',
     }),
   ],
-})
+});

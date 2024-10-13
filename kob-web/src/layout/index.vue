@@ -1,8 +1,8 @@
 <script  setup lang="ts">
-import TheNav from './components/TheNav.vue'
-import TheContent from './components/TheContent.vue'
-import TheFoot from './components/TheFoot.vue'
-import { APP_LAYOUT_PARAMS } from '~/config'
+import { APP_LAYOUT_PARAMS } from '~/config';
+import TheContent from './components/TheContent.vue';
+import TheFoot from './components/TheFoot.vue';
+import TheNav from './components/TheNav.vue';
 
 const {
   navHeight,
@@ -11,10 +11,10 @@ const {
   backTopRight,
   backTopBottom,
   backTopvisibilityHeight,
-} = APP_LAYOUT_PARAMS
+} = APP_LAYOUT_PARAMS;
 
 // 设置 `backTop` 的监听目标
-const refWrapper = ref()
+const refWrapper = ref();
 </script>
 
 <template>

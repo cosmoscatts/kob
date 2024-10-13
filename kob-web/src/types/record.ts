@@ -1,4 +1,4 @@
-import type { AnyObject } from './global'
+import type { AnyObject } from './global';
 
 export interface Record extends AnyObject {
   id: number

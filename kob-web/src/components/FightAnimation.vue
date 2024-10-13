@@ -1,34 +1,34 @@
 <script setup lang="ts">
-const { user } = storeToRefs(useUserStore())
-const { opponent, players } = storeToRefs(usePkStore())
+const { user } = storeToRefs(useUserStore());
+const { opponent, players } = storeToRefs(usePkStore());
 
-const bodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF')
+const bodyColor = computed(() => isDark.value ? '#121212' : '#FFFFFF');
 
 // 控制内层动画
-const { loading, endLoading } = useLoading(true)
-useTimeoutFn(endLoading, 5000)
+const { loading, endLoading } = useLoading(true);
+useTimeoutFn(endLoading, 5000);
 
-const title = ref<string | number>('VS')
+const title = ref<string | number>('VS');
 
 const { pause, resume } = useIntervalFn(() => {
   if (title.value === 0) {
-    pause()
-    title.value = 'VS'
-    return
+    pause();
+    title.value = 'VS';
+    return;
   }
   if (title.value === 'VS') {
-    title.value = 3
+    title.value = 3;
   } else {
-    title.value = title.value as number - 1
+    title.value = title.value as number - 1;
   }
-}, 1000)
-useTimeoutFn(resume, 500)
+}, 1000);
+useTimeoutFn(resume, 500);
 
 const titleLeft = computed(() => {
   return title.value === 'VS'
     ? 'calc(50% - 10rem)'
-    : 'calc(50% - 5rem)'
-})
+    : 'calc(50% - 5rem)';
+});
 </script>
 
 <template>

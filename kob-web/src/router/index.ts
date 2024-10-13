@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { createRouterGuard } from './guard'
-import routes from './format-routes'
+import { createRouter, createWebHistory } from 'vue-router';
+import routes from './format-routes';
+import { createRouterGuard } from './guard';
 
 const router = createRouter({
   history: createWebHistory('/'),
@@ -17,7 +17,7 @@ const router = createRouter({
     },
   ],
   scrollBehavior: () => ({ top: 0 }),
-})
-createRouterGuard(router)
+});
+createRouterGuard(router);
 
-export default router
+export default router;

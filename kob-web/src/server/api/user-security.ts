@@ -1,4 +1,4 @@
-import type { UserSecurity } from '~/types'
+import type { UserSecurity } from '~/types';
 
 export const UserSecurityApi = {
   checkSecurity: () => R.get<UserSecurity>('/api/user/security/check'),
@@ -7,4 +7,4 @@ export const UserSecurityApi = {
     newPass: string
     reenteredNewPass: string
   }) => R.post('/api/user/security/update/password', { body }),
-}
+};

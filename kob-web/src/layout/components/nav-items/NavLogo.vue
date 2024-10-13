@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { APP_META } from '~/config'
-import logo from '~/assets/logo.png'
-const { breakpoints } = useResponsive()
-const hideTitle = breakpoints.between('sm', 'lg')
+import logo from '~/assets/logo.png';
+import { APP_META } from '~/config';
+
+const { breakpoints } = useResponsive();
+const hideTitle = breakpoints.between('sm', 'lg');
 </script>
 
 <template>

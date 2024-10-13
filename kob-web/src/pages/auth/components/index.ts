@@ -1,12 +1,11 @@
-import LoginAccount from './LoginAccount.vue'
-import Register from './Register.vue'
-import LoginPhone from './LoginPhone.vue'
-import type { Tab } from './helper'
+import type { Tab } from './helper';
+import LoginAccount from './LoginAccount.vue';
+import LoginPhone from './LoginPhone.vue';
+import Register from './Register.vue';
 
 export {
   LoginAccount,
-  Register,
   LoginPhone,
+  Register,
   Tab,
-}
-
+};

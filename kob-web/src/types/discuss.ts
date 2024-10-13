@@ -1,5 +1,5 @@
-import type { User } from './user'
-import type { AnyObject } from './global'
+import type { AnyObject } from './global';
+import type { User } from './user';
 
 export interface Discuss extends AnyObject {
   id?: number

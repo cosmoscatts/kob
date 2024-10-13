@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { APP_META } from '~/config'
+import { APP_META } from '~/config';
 </script>
 
 <template>

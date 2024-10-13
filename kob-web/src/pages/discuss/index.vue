@@ -1,51 +1,52 @@
 <script setup lang="ts">
-import DiscussItem from './components/DiscussItem.vue'
-import SayWords from './components/SayWords.vue'
-import type { Discuss } from '~/types'
+import type { Discuss } from '~/types';
+import DiscussItem from './components/DiscussItem.vue';
+import SayWords from './components/SayWords.vue';
 
 const pagination = usePagination({
   onChangeCallback: fetchDiscussList,
   onUpdatePageSizeCallback: fetchDiscussList,
-})
+});
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
-let list = $ref<Discuss[]>([])
-const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }]
+let list = $ref<Discuss[]>([]);
+const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }];
 function fetchDiscussList() {
-  startLoading()
-  list = [...defaultLoadingData]
-  const { page, pageSize } = pagination
+  startLoading();
+  list = [...defaultLoadingData];
+  const { page, pageSize } = pagination;
   DiscussApi
     .getDiscussList({ page, pageSize })
     .then(({ data: { records = [], total = 0 } }) => {
-      list = records
-      pagination.itemCount = total
+      list = records;
+      pagination.itemCount = total;
     })
     .catch(() => list = [])
-    .finally(() => useTimeoutFn(endLoading, 500))
+    .finally(() => useTimeoutFn(endLoading, 500));
 }
-fetchDiscussList()
+fetchDiscussList();
 
-let likes = $ref<number[]>([])
+let likes = $ref<number[]>([]);
 function fetchCurrentUserLikes() {
   DiscussApi
     .getCurrentUserLikes()
     .then(({ data = [] }) => {
-      likes = data
+      likes = data;
     })
-    .catch(() => likes = [])
+    .catch(() => likes = []);
 }
-fetchCurrentUserLikes()
+fetchCurrentUserLikes();
 
-const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkId)
+const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkId);
 
-function likeCallback({ id, type }: { id?: number; type: 'like' | 'dislike' }) {
-  if (!id) return
-  fetchCurrentUserLikes()
-  const item = list.find(i => i.id === id)
+function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
+  if (!id)
+    return;
+  fetchCurrentUserLikes();
+  const item = list.find(i => i.id === id);
   if (item?.likes !== undefined) {
-    item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1]
+    item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1];
   }
 }
 </script>
