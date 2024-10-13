@@ -34,9 +34,9 @@ export class GameMap extends Game {
   createWalls() {
     const { rows, cols } = this;
     const { gameMap } = usePkStore();
-    const { isRecord, gameMap: gameMap2 } = useRecordStore();
+    const { isRecording, gameMap: gameMap2 } = useRecordStore();
 
-    const g: number[][] = [gameMap!, gameMap2!][Number(isRecord)];
+    const g: number[][] = [gameMap!, gameMap2!][Number(isRecording)];
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -50,8 +50,8 @@ export class GameMap extends Game {
     const {
       aSteps,
       bSteps,
-      loser,
-      updateRecordFinished,
+      gameResult,
+      setReplayFinished,
     } = useRecordStore();
     if (!aSteps || !bSteps)
       return;
@@ -62,12 +62,12 @@ export class GameMap extends Game {
 
     _recordFn = this.recordFn = useIntervalFn(() => {
       if (k >= aSteps.length - 1) {
-        if (['all', 'A'].includes(loser))
+        if (['draw', 'playerBWon'].includes(gameResult))
           snake0.status = 'die';
-        if (['all', 'B'].includes(loser))
+        if (['draw', 'playerAWon'].includes(gameResult))
           snake1.status = 'die';
         _recordFn?.pause(); // 这里注意 this 的指向问题
-        updateRecordFinished(true);
+        setReplayFinished(true);
       } else {
         snake0.setDirection(Number.parseInt(aSteps[k]));
         snake1.setDirection(Number.parseInt(bSteps[k]));
@@ -104,8 +104,8 @@ export class GameMap extends Game {
 
   start() {
     this.createWalls();
-    const { isRecord } = useRecordStore();
-    if (isRecord)
+    const { isRecording } = useRecordStore();
+    if (isRecording)
       this.playRecord();
     else this.addListeningEvents();
   }
@@ -145,7 +145,7 @@ export class GameMap extends Game {
   }
 
   update() {
-    const { isRecord } = useRecordStore();
+    const { isRecording } = useRecordStore();
     const fn = () => {
       if (this.checkSnakeReady()) {
         this.nextStep();
@@ -156,7 +156,7 @@ export class GameMap extends Game {
 
     this.updateSize();
 
-    if (isRecord) { fn(); }
+    if (isRecording) { fn(); }
     else {
       if (!this.task && fn())
         this.task = useIntervalFn(fn, 100);

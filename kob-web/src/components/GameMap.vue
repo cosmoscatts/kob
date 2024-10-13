@@ -22,8 +22,8 @@ function createGameMap() {
   gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!);
   pkStore.updateGameState({ gameMapObject: gameMap as any });
 
-  if (recordStore.isRecord) {
-    recordStore.updateRecordFinished(false);
+  if (recordStore.isRecording) {
+    recordStore.setReplayFinished(false);
   } else {
     sendStartGameSingal();
   }

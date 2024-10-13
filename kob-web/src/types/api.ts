@@ -5,12 +5,6 @@ export interface PageQuery extends AnyObject {
   pageSize?: number
 }
 
-export interface Result<T> extends AnyObject {
-  code: number
-  data: T
-  msg?: string
-}
-
 export interface PageData<T> extends AnyObject {
   records?: T[]
   total?: number
@@ -21,6 +15,6 @@ export interface ApiResponse<T = any> {
   data: T
   msg: string
 }
-export type ApiResponseWithoutData = Omit<Result<never>, 'data'>;
-export type ApiResponseWithData<T> = Result<T>;
+export type ApiResponseWithoutData = Omit<ApiResponse<never>, 'data'>;
+export type ApiResponseWithData<T> = ApiResponse<T>;
 export type PageDataResponse<T> = ApiResponseWithData<PageData<T>>;
