@@ -6,11 +6,11 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const $dialog: typeof import('./composables/tools')['$dialog']
-  const $discrete_api: typeof import('./composables/tools')['$discrete_api']
-  const $loadingBar: typeof import('./composables/tools')['$loadingBar']
-  const $message: typeof import('./composables/tools')['$message']
-  const $notification: typeof import('./composables/tools')['$notification']
+  const $dialog: typeof import('./composables/naive-ui-api')['$dialog']
+  const $discrete_api: typeof import('./composables/naive-ui-api')['$discrete_api']
+  const $loadingBar: typeof import('./composables/naive-ui-api')['$loadingBar']
+  const $message: typeof import('./composables/naive-ui-api')['$message']
+  const $notification: typeof import('./composables/naive-ui-api')['$notification']
   const BotApi: typeof import('./server/api/bot')['BotApi']
   const ConditionalExecutor: typeof import('./composables/conditional-executor')['ConditionalExecutor']
   const DiscussApi: typeof import('./server/api/discuss')['DiscussApi']
@@ -41,17 +41,17 @@ declare global {
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const customRef: typeof import('vue')['customRef']
-  const dayjs: typeof import('./composables/tools')['dayjs']
+  const dayjs: typeof import('./composables/date')['dayjs']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
-  const diffHeight: typeof import('./composables/ui')['diffHeight']
+  const diffHeight: typeof import('./composables/content-height')['diffHeight']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
-  const formatDate: typeof import('./composables/tools')['formatDate']
+  const formatDate: typeof import('./composables/date')['formatDate']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
@@ -59,9 +59,9 @@ declare global {
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
-  const isDark: typeof import('./composables/ui')['isDark']
+  const isDark: typeof import('./composables/theme')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
-  const isDevelopment: typeof import('./composables/tools')['isDevelopment']
+  const isDevelopment: typeof import('./composables/env')['isDevelopment']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -129,7 +129,7 @@ declare global {
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
   const toValue: typeof import('vue')['toValue']
-  const toggleDark: typeof import('./composables/ui')['toggleDark']
+  const toggleDark: typeof import('./composables/theme')['toggleDark']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryOnBeforeMount: typeof import('@vueuse/core')['tryOnBeforeMount']
   const tryOnBeforeUnmount: typeof import('@vueuse/core')['tryOnBeforeUnmount']
@@ -139,6 +139,7 @@ declare global {
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
+  const updateThemeColors: typeof import('./composables/theme-colors')['updateThemeColors']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useArrayDifference: typeof import('@vueuse/core')['useArrayDifference']
@@ -166,10 +167,10 @@ declare global {
   const useCached: typeof import('@vueuse/core')['useCached']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']
-  const useClone: typeof import('./composables/tools')['useClone']
+  const useClone: typeof import('./composables/clone')['useClone']
   const useCloned: typeof import('@vueuse/core')['useCloned']
   const useColorMode: typeof import('@vueuse/core')['useColorMode']
-  const useConfirm: typeof import('./composables/tools')['useConfirm']
+  const useConfirm: typeof import('./composables/dialog')['useConfirm']
   const useConfirmDialog: typeof import('@vueuse/core')['useConfirmDialog']
   const useCounter: typeof import('@vueuse/core')['useCounter']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -262,7 +263,7 @@ declare global {
   const useRecordStore: typeof import('./store/record')['useRecordStore']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
-  const useResponsive: typeof import('./composables/ui')['useResponsive']
+  const useResponsive: typeof import('./composables/responsive')['useResponsive']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
@@ -289,7 +290,7 @@ declare global {
   const useTextDirection: typeof import('@vueuse/core')['useTextDirection']
   const useTextSelection: typeof import('@vueuse/core')['useTextSelection']
   const useTextareaAutosize: typeof import('@vueuse/core')['useTextareaAutosize']
-  const useThemeOverrides: typeof import('./composables/ui')['useThemeOverrides']
+  const useThemeOverrides: typeof import('./composables/theme')['useThemeOverrides']
   const useThrottle: typeof import('@vueuse/core')['useThrottle']
   const useThrottleFn: typeof import('@vueuse/core')['useThrottleFn']
   const useThrottledRefHistory: typeof import('@vueuse/core')['useThrottledRefHistory']
@@ -347,16 +348,15 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
-    readonly $dialog: UnwrapRef<typeof import('./composables/tools')['$dialog']>
-    readonly $discrete_api: UnwrapRef<typeof import('./composables/tools')['$discrete_api']>
-    readonly $loadingBar: UnwrapRef<typeof import('./composables/tools')['$loadingBar']>
-    readonly $message: UnwrapRef<typeof import('./composables/tools')['$message']>
-    readonly $notification: UnwrapRef<typeof import('./composables/tools')['$notification']>
+    readonly $dialog: UnwrapRef<typeof import('./composables/naive-ui-api')['$dialog']>
+    readonly $discrete_api: UnwrapRef<typeof import('./composables/naive-ui-api')['$discrete_api']>
+    readonly $loadingBar: UnwrapRef<typeof import('./composables/naive-ui-api')['$loadingBar']>
+    readonly $message: UnwrapRef<typeof import('./composables/naive-ui-api')['$message']>
+    readonly $notification: UnwrapRef<typeof import('./composables/naive-ui-api')['$notification']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
     readonly ConditionalExecutor: UnwrapRef<typeof import('./composables/conditional-executor')['ConditionalExecutor']>
     readonly DiscussApi: UnwrapRef<typeof import('./server/api/discuss')['DiscussApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly R: UnwrapRef<typeof import('./composables/tools')['R']>
     readonly RankApi: UnwrapRef<typeof import('./server/api/rank')['RankApi']>
     readonly RecordApi: UnwrapRef<typeof import('./server/api/record')['RecordApi']>
     readonly UserApi: UnwrapRef<typeof import('./server/api/user')['UserApi']>
@@ -382,17 +382,17 @@ declare module 'vue' {
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly dayjs: UnwrapRef<typeof import('./composables/tools')['dayjs']>
+    readonly dayjs: UnwrapRef<typeof import('./composables/date')['dayjs']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
-    readonly diffHeight: UnwrapRef<typeof import('./composables/ui')['diffHeight']>
+    readonly diffHeight: UnwrapRef<typeof import('./composables/content-height')['diffHeight']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly formatDate: UnwrapRef<typeof import('./composables/tools')['formatDate']>
+    readonly formatDate: UnwrapRef<typeof import('./composables/date')['formatDate']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -400,9 +400,9 @@ declare module 'vue' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
-    readonly isDark: UnwrapRef<typeof import('./composables/ui')['isDark']>
+    readonly isDark: UnwrapRef<typeof import('./composables/theme')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
-    readonly isDevelopment: UnwrapRef<typeof import('./composables/tools')['isDevelopment']>
+    readonly isDevelopment: UnwrapRef<typeof import('./composables/env')['isDevelopment']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -470,7 +470,7 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
-    readonly toggleDark: UnwrapRef<typeof import('./composables/ui')['toggleDark']>
+    readonly toggleDark: UnwrapRef<typeof import('./composables/theme')['toggleDark']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>
@@ -480,6 +480,7 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
+    readonly updateThemeColors: UnwrapRef<typeof import('./composables/theme-colors')['updateThemeColors']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useArrayDifference: UnwrapRef<typeof import('@vueuse/core')['useArrayDifference']>
@@ -507,10 +508,10 @@ declare module 'vue' {
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
-    readonly useClone: UnwrapRef<typeof import('./composables/tools')['useClone']>
+    readonly useClone: UnwrapRef<typeof import('./composables/clone')['useClone']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
-    readonly useConfirm: UnwrapRef<typeof import('./composables/tools')['useConfirm']>
+    readonly useConfirm: UnwrapRef<typeof import('./composables/dialog')['useConfirm']>
     readonly useConfirmDialog: UnwrapRef<typeof import('@vueuse/core')['useConfirmDialog']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
@@ -603,7 +604,7 @@ declare module 'vue' {
     readonly useRecordStore: UnwrapRef<typeof import('./store/record')['useRecordStore']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
-    readonly useResponsive: UnwrapRef<typeof import('./composables/ui')['useResponsive']>
+    readonly useResponsive: UnwrapRef<typeof import('./composables/responsive')['useResponsive']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useScreenOrientation: UnwrapRef<typeof import('@vueuse/core')['useScreenOrientation']>
@@ -630,7 +631,7 @@ declare module 'vue' {
     readonly useTextDirection: UnwrapRef<typeof import('@vueuse/core')['useTextDirection']>
     readonly useTextSelection: UnwrapRef<typeof import('@vueuse/core')['useTextSelection']>
     readonly useTextareaAutosize: UnwrapRef<typeof import('@vueuse/core')['useTextareaAutosize']>
-    readonly useThemeOverrides: UnwrapRef<typeof import('./composables/ui')['useThemeOverrides']>
+    readonly useThemeOverrides: UnwrapRef<typeof import('./composables/theme')['useThemeOverrides']>
     readonly useThrottle: UnwrapRef<typeof import('@vueuse/core')['useThrottle']>
     readonly useThrottleFn: UnwrapRef<typeof import('@vueuse/core')['useThrottleFn']>
     readonly useThrottledRefHistory: UnwrapRef<typeof import('@vueuse/core')['useThrottledRefHistory']>
@@ -675,6 +676,5 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
-    readonly writeThemeColorsToBody: UnwrapRef<typeof import('./composables/ui')['writeThemeColorsToBody']>
   }
 }

@@ -103,7 +103,7 @@ const columns = createColumns({
   onRemoveRecord,
 });
 
-const { isMobile, labelHidden } = useResponsive();
+const { isMobile } = useResponsive();
 
 function reset() {
   searchModel.name = '';
@@ -116,7 +116,7 @@ function reset() {
     <n-card title="对局记录" hoverable>
       <template v-if="!isMobile" #header-extra>
         <div flex gap-x-2>
-          <n-form-item label="玩家名称" label-placement="left" :show-label="!labelHidden" :show-feedback="false">
+          <n-form-item label="玩家名称" label-placement="left" :show-feedback="false">
             <n-input v-model:value="searchModel.name" placeholder="玩家名称" clearable :style="{ width: '150px' }">
               <template #clear-icon>
                 <n-icon :component="TrashBinOutlineIcon" />

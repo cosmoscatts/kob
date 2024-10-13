@@ -9,7 +9,7 @@ hljs.registerLanguage('java', java);
 const theme = computed(() => [null, darkTheme][Number(isDark.value)]);
 const themeOverrides = useThemeOverrides();
 
-writeThemeColorsToBody(); // 将 naive-ui 自带颜色写入 body
+updateThemeColors();
 
 // 关闭浏览器清空缓存
 const beginTime = ref(0);
