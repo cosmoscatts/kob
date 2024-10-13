@@ -3,7 +3,7 @@ import type { ComputedRef } from 'vue';
 import { breakpointsTailwind } from '@vueuse/core';
 import { commonDark, commonLight } from 'naive-ui';
 import { APP_LAYOUT_PARAMS } from '~/config';
-import { createPrimaryColor } from '~/utils';
+import { createPrimaryColorPalette } from '~/utils/color';
 
 // ----- Theme -----
 
@@ -17,7 +17,7 @@ export const isDark = useDark({
 export const toggleDark = useToggle(isDark);
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor);
+  const overrides = createPrimaryColorPalette(APP_LAYOUT_PARAMS.primaryColor);
   return computed<GlobalThemeOverrides>(() => {
     const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)];
     const cardColor = ['#fefefe', '#131313'][Number(isDark.value)];
@@ -121,7 +121,7 @@ const colorPropertyMap: { [key: string]: string } = {
 };
 
 export function writeThemeColorsToBody() {
-  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor);
+  const overrides = createPrimaryColorPalette(APP_LAYOUT_PARAMS.primaryColor);
 
   const colors: ThemeCommonVars = isDark.value
     ? commonDark

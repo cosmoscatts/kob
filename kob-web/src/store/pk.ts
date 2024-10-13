@@ -53,7 +53,7 @@ export const usePkStore = defineStore(
       gameMapObject.value = undefined;
     }
 
-    return $$({
+    return {
       status,
       socket,
       opponent,
@@ -68,7 +68,7 @@ export const usePkStore = defineStore(
       updateGameMapObject,
       updateLoser,
       reset,
-    });
+    };
   },
 );
 
