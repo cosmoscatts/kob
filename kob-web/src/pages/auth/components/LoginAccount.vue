@@ -59,23 +59,27 @@ const { loading, startLoading, endLoading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
   e.preventDefault();
-  refForm.value?.validate((errors?: FormValidationError[]) => {
+  refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return;
     startLoading();
-    UserApi
-      .getToken(useClone(formModel))
-      .then(({ code, data, msg }) => {
-        if (code !== 0) {
-          useTimeoutFn(endLoading, 1000);
-          $message.error(msg ?? '账号或密码错误');
-          return;
-        }
-        useTimeoutFn(() => {
-          endLoading();
-          loginCallback?.(data.token);
-        }, 1000);
-      });
+    try {
+      const result = await UserApi.getToken(useClone(formModel));
+      const { code, data, msg } = result.data;
+      if (code !== 0) {
+        useTimeoutFn(endLoading, 1000);
+        $message.error(msg ?? '账号或密码错误');
+        return;
+      }
+      useTimeoutFn(() => {
+        loginCallback?.(data.token);
+      }, 1000);
+    } catch (e) {
+      console.error(e);
+      $message.error('登录发生异常');
+    } finally {
+      endLoading();
+    }
   });
 }
 
