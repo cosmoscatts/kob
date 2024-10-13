@@ -1,7 +1,6 @@
-import type { AnyObject } from './global';
+import type { EntityBase } from './base';
 
-export interface User extends AnyObject {
-  id?: number
+export interface User extends EntityBase {
   username?: string
   name?: string
   password?: string
@@ -9,10 +8,9 @@ export interface User extends AnyObject {
   phone?: string
   email?: string
   rating?: number
-  createTime?: Date
 }
 
-export interface UserSecurity extends AnyObject {
+export interface UserSecurity {
   hasPassword?: boolean
   hasPhone?: boolean
   hasBilibili?: boolean

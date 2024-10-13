@@ -1,7 +1,6 @@
-import type { AnyObject } from './global';
+import type { EntityBase } from './base';
 
-export interface Record extends AnyObject {
-  id: number
+export interface Record extends EntityBase {
   aId: number
   aSx: number
   aSy: number
@@ -12,7 +11,6 @@ export interface Record extends AnyObject {
   bSteps: string
   map: string
   loser: string
-  createTime: Date
 
   aName?: string
   aAvatar?: string

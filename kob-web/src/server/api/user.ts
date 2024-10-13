@@ -1,13 +1,19 @@
-import type { User } from '~/types';
+import type { ApiResponse, ApiResponseWithoutData, User } from '~/types';
+import api from '~/utils/axios';
 
 export const UserApi = {
   getToken: (body?: { username: string, password: string }) =>
-    R.post<{ token: string }>('/api/user/account/token', { body }),
+    api.post<ApiResponse<{ token: string }>>('/api/user/account/token', body),
+
   register: (body?: {
     username: string
     password: string
     reenteredPassword: string
-  }) => R.post('/api/user/account/register', { body }),
-  getLoginUserInfo: () => R.get<User>('/api/user/account/info'),
-  updateLoginUserInfo: (body: User) => R.put('/api/user/account/info', { body }),
+  }) => api.post<ApiResponseWithoutData>('/api/user/account/register', body),
+
+  getLoginUserInfo: () =>
+    api.get<ApiResponse<User>>('/api/user/account/info'),
+
+  updateLoginUserInfo: (body: User) =>
+    api.put<ApiResponseWithoutData>('/api/user/account/info', body),
 };

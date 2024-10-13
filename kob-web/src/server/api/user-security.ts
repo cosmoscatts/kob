@@ -1,10 +1,13 @@
-import type { UserSecurity } from '~/types';
+import type { ApiResponse, ApiResponseWithoutData, UserSecurity } from '~/types';
+import api from '~/utils/axios';
 
 export const UserSecurityApi = {
-  checkSecurity: () => R.get<UserSecurity>('/api/user/security/check'),
+  checkSecurity: () =>
+    api.get<ApiResponse<UserSecurity>>('/api/user/security/check'),
+
   updatePassword: (body: {
     oldPass: string
     newPass: string
     reenteredNewPass: string
-  }) => R.post('/api/user/security/update/password', { body }),
+  }) => api.post<ApiResponseWithoutData>('/api/user/security/update/password', body),
 };
