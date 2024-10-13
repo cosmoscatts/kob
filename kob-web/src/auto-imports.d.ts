@@ -13,7 +13,7 @@ declare global {
   const $notification: typeof import('./composables/tools')['$notification']
   const BotApi: typeof import('./server/api/bot')['BotApi']
   const ConditionalExecutor: typeof import('./composables/conditional-executor')['ConditionalExecutor']
-  const DiscussApi: typeof import('./server/api/remark')['DiscussApi']
+  const DiscussApi: typeof import('./server/api/discuss')['DiscussApi']
   const EffectScope: typeof import('vue')['EffectScope']
   const R: typeof import('./composables/tools')['R']
   const RankApi: typeof import('./server/api/rank')['RankApi']
@@ -354,7 +354,7 @@ declare module 'vue' {
     readonly $notification: UnwrapRef<typeof import('./composables/tools')['$notification']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
     readonly ConditionalExecutor: UnwrapRef<typeof import('./composables/conditional-executor')['ConditionalExecutor']>
-    readonly DiscussApi: UnwrapRef<typeof import('./server/api/remark')['DiscussApi']>
+    readonly DiscussApi: UnwrapRef<typeof import('./server/api/discuss')['DiscussApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly R: UnwrapRef<typeof import('./composables/tools')['R']>
     readonly RankApi: UnwrapRef<typeof import('./server/api/rank')['RankApi']>

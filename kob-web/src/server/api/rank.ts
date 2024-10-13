@@ -1,6 +1,7 @@
-import type { PageData, PageQuery, Record } from '~/types';
+import type { PageDataResponse, PageQuery, Record } from '~/types';
+import api from '~/utils/axios';
 
 export const RankApi = {
   getRankList: (params: PageQuery & { name?: string }) =>
-    R.get<PageData<Record>>('/api/rank/list', { params }),
+    api.get<PageDataResponse<Record>>('/api/rank/list', { params }),
 };

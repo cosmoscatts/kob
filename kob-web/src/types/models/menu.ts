@@ -1,4 +1,4 @@
-import type { AnyObject } from './global';
+import type { AnyObject } from './base';
 
 export interface Menu extends AnyObject {
   id: number

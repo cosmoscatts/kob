@@ -1,14 +1,9 @@
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import type { ApiResponse } from '~/types';
 import { tokenStorage } from './token-storage';
 
 const AXIOS_TIMEOUT = 15000;
-
-export interface ApiResponse<T = any> {
-  code: number
-  data: T
-  msg: string
-}
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL as string,

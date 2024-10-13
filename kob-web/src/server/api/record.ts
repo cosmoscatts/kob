@@ -1,8 +1,10 @@
-import type { PageData, PageQuery, Record } from '~/types';
+import type { ApiResponseWithoutData, PageDataResponse, PageQuery, Record } from '~/types';
+import api from '~/utils/axios';
 
 export const RecordApi = {
   getRecordList: (params: PageQuery & { name?: string }) =>
-    R.get<PageData<Record>>('/api/record/list', { params }),
+    api.get<PageDataResponse<Record>>('/api/record/list', { params }),
+
   deleteRecord: (id: number) =>
-    R.delete('/api/record/delete', { params: { id } }),
+    api.delete<ApiResponseWithoutData>('/api/record/delete', { params: { id } }),
 };
