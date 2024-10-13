@@ -12,14 +12,14 @@ const loadLottie = () => useTimeoutFn(() => useLottie({
   path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
 }), 10);
 onMounted(loadLottie);
-watch(() => userStore.hasLogin, (val) => {
+watch(() => userStore.isLoggedIn, (val) => {
   if (val)
     loadLottie();
 });
 </script>
 
 <template>
-  <n-dropdown v-if="userStore.hasLogin" :options="options" trigger="click">
+  <n-dropdown v-if="userStore.isLoggedIn" :options="options" trigger="click">
     <div flex-y-center cursor-pointer relative>
       <n-avatar
         round

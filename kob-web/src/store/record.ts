@@ -8,58 +8,63 @@ interface Player {
 
 type Loser = 'all' | 'A' | 'B' | 'none';
 
-export const useRecordStore = defineStore(
-  'recordStore',
-  () => {
-    const isRecord = ref(false); // 是否为录像
-    const aSteps = ref<string | undefined>(); // 玩家 A 的操作字符串
-    const bSteps = ref<string | undefined>(); // 玩家 B 的操作字符串
-    const gameMap = ref<number[][]>();
-    const players = ref<Player[]>([]);
-    const loser = ref<Loser>('none');
-    const recordFinished = ref(true); // 录像是否播放完毕
+export const useRecordStore = defineStore('recordStore', () => {
+  const state = reactive({
+    isRecord: false,
+    aSteps: undefined as string | undefined,
+    bSteps: undefined as string | undefined,
+    gameMap: undefined as number[][] | undefined,
+    players: [] as Player[],
+    loser: 'none' as Loser,
+    recordFinished: true,
+  });
 
-    const updateIsRecord = (value: boolean) => isRecord.value = value;
-    const updateSteps = (_aSteps?: string, _bSteps?: string) => {
-      aSteps.value = _aSteps;
-      bSteps.value = _bSteps;
-    };
-    const updateLoser = (value: Loser) => loser.value = value;
-    const updateRecordFinished = (value: boolean) => recordFinished.value = value;
+  function updateIsRecord(value: boolean) {
+    state.isRecord = value;
+  }
 
-    function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
-      gameMap.value = map;
-      players.value = [
-        { id: aId, sx: aSx, sy: aSy },
-        { id: bId, sx: bSx, sy: bSy },
-      ];
-    }
+  function updateSteps(_aSteps?: string, _bSteps?: string) {
+    state.aSteps = _aSteps;
+    state.bSteps = _bSteps;
+  }
 
-    function clearVideo() {
-      updateIsRecord(false);
-      updateSteps(undefined, undefined);
-      updateLoser('none');
-      gameMap.value = undefined;
-      players.value = [];
-    }
+  function updateLoser(value: Loser) {
+    state.loser = value;
+  }
 
-    return {
-      isRecord,
-      aSteps,
-      bSteps,
-      gameMap,
-      players,
-      loser,
-      recordFinished,
-      updateIsRecord,
-      updateSteps,
-      updateGame,
-      updateLoser,
-      clearVideo,
-      updateRecordFinished,
-    };
-  },
-);
+  function updateRecordFinished(value: boolean) {
+    state.recordFinished = value;
+  }
+
+  function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
+    state.gameMap = map;
+    state.players = [
+      { id: aId, sx: aSx, sy: aSy },
+      { id: bId, sx: bSx, sy: bSy },
+    ];
+  }
+
+  function clearVideo() {
+    Object.assign(state, {
+      isRecord: false,
+      aSteps: undefined,
+      bSteps: undefined,
+      loser: 'none',
+      gameMap: undefined,
+      players: [],
+    });
+  }
+
+  return {
+    ...toRefs(state),
+    updateIsRecord,
+    updateSteps,
+    updateGame,
+    updateLoser,
+    clearVideo,
+    updateRecordFinished,
+  };
+});
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useRecordStore, import.meta.hot));

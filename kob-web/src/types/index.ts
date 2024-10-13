@@ -14,4 +14,8 @@ export * from './models/user';
 export type UserModule = (app: App) => void;
 export type AppContext = App;
 
-export type LoginState = 'hasLogin' | 'notLogin' | 'expire' | 'noNeedLogin';
+export type LoginState =
+  | 'authenticated' // 用户已登录且认证有效
+  | 'unauthenticated' // 用户未登录
+  | 'tokenExpired' // 用户的认证令牌已过期
+  | 'authNotRequired'; // 当前操作不需要认证

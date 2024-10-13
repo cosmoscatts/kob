@@ -7,8 +7,8 @@ const themeDark = isDark;
 const router = useRouter();
 
 const userStore = useUserStore();
-const { authModalVisible } = storeToRefs(userStore);
-const { login, setAuthModalVisible } = userStore;
+const { isAuthModalVisible } = storeToRefs(userStore);
+const { login, setAuthModalVisibility } = userStore;
 
 const bodyStyle = {
   width: '390px',
@@ -31,7 +31,7 @@ function changeTab(tab: Tab) {
 
 function close() {
   currentTab.value = 'account';
-  setAuthModalVisible(false);
+  setAuthModalVisibility(false);
 }
 
 const refLoginAccount = ref();
@@ -50,7 +50,7 @@ function inputAutoFocus() {
   refMap[currentTab.value]?.value?.focusFirstInput();
 }
 
-watch(authModalVisible, (val) => {
+watch(isAuthModalVisible, (val) => {
   if (val)
     useTimeoutFn(inputAutoFocus, 200);
 });
@@ -64,7 +64,7 @@ function loginCallback(token: string) {
     content: '欢迎使用，快来一场伟大的战斗吧~',
     duration: 3000,
   });
-  setAuthModalVisible(false);
+  setAuthModalVisibility(false);
 }
 
 function registerCallback() {
@@ -83,11 +83,11 @@ provide('registerCallback', registerCallback);
 </script>
 
 <template>
-  <n-button type="primary" :secondary="themeDark" @click="setAuthModalVisible(true)">
+  <n-button type="primary" :secondary="themeDark" @click="setAuthModalVisibility(true)">
     登录 <n-divider vertical /> 注册
   </n-button>
   <n-modal
-    :show="authModalVisible"
+    :show="isAuthModalVisible"
     size="huge"
     preset="card"
     :style="bodyStyle"

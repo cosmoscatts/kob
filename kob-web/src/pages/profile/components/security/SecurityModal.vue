@@ -17,13 +17,13 @@ const bodyStyle = {
   width: '390px',
 };
 const router = useRouter();
-const { setAuthModalVisible, logout } = useUserStore();
+const { setAuthModalVisibility, logout } = useUserStore();
 
 const securityActionCallback = () => {
   emit('update:modalVisible', false);
   logout();
   router.push('/home');
-  setAuthModalVisible(true);
+  setAuthModalVisibility(true);
 };
 
 provide('securityActionCallback', securityActionCallback);

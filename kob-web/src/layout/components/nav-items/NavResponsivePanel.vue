@@ -5,14 +5,14 @@ import NavMenu from './NavMenu.vue';
 
 const showNavPanel = ref(false);
 const toggle = () => showNavPanel.value = !showNavPanel.value;
-const { hasLogin } = storeToRefs(useUserStore());
+const { isLoggedIn } = storeToRefs(useUserStore());
 const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
 </script>
 
 <template>
   <div flex-y-center h-full mr-10>
     <button
-      v-if="hasLogin"
+      v-if="isLoggedIn"
       icon-btn text-lg
       i-carbon-menu
       @click="toggle"

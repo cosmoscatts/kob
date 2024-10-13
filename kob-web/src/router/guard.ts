@@ -12,19 +12,19 @@ export function createRouterGuard(router: Router): void {
     if (needLogin) {
       state = await userStore.checkLoginState() as LoginState;
     } else {
-      state = 'noNeedLogin';
+      state = 'authNotRequired';
     }
 
     const fns: [boolean, () => void][] = [
-      [['noNeedLogin', 'hasLogin'].includes(state), () => next()],
-      [state === 'notLogin', () => {
+      [['authNotRequired', 'authenticated'].includes(state), () => next()],
+      [state === 'unauthenticated', () => {
         $message.error('您还未登录！');
-        userStore.setAuthModalVisible(true);
+        userStore.setAuthModalVisibility(true);
         next('/home');
       }],
-      [state === 'expire', () => {
+      [state === 'tokenExpired', () => {
         $message.error('您的登录已过期！');
-        userStore.setAuthModalVisible(true);
+        userStore.setAuthModalVisibility(true);
         next('/home');
       }],
     ];
