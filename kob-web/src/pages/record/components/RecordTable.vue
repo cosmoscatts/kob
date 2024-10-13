@@ -107,7 +107,11 @@ function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, 
     { name: aName, avatar: aAvatar },
     { name: bName, avatar: bAvatar },
   ];
-  changeCurrentTab(1, { page, pageSize }, playerInfoList, searchModel.name);
+  changeCurrentTab(1, {
+    pagination: { page, pageSize },
+    playerInfoList,
+    name: searchModel.name,
+  });
 }
 
 const columns = createColumns({
