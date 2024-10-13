@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 import type { Tab } from './helper';
 
 const tab = inject<Ref<Tab>>('tab')!;
-const changeTab = inject<Function>('changeTab');
+const changeTab = inject<(Function)>('changeTab');
 
 const actionName = computed(() => {
   return ({

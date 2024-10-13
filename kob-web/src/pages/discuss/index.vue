@@ -10,41 +10,41 @@ const pagination = usePagination({
 
 const { loading, startLoading, endLoading } = useLoading();
 
-let list = $ref<Discuss[]>([]);
+const list = ref<Discuss[]>([]);
 const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }];
 function fetchDiscussList() {
   startLoading();
-  list = [...defaultLoadingData];
+  list.value = [...defaultLoadingData];
   const { page, pageSize } = pagination;
   DiscussApi
     .getDiscussList({ page, pageSize })
     .then(({ data: { records = [], total = 0 } }) => {
-      list = records;
+      list.value = records;
       pagination.itemCount = total;
     })
-    .catch(() => list = [])
+    .catch(() => list.value = [])
     .finally(() => useTimeoutFn(endLoading, 500));
 }
 fetchDiscussList();
 
-let likes = $ref<number[]>([]);
+const likes = ref<number[]>([]);
 function fetchCurrentUserLikes() {
   DiscussApi
     .getCurrentUserLikes()
     .then(({ data = [] }) => {
-      likes = data;
+      likes.value = data;
     })
-    .catch(() => likes = []);
+    .catch(() => likes.value = []);
 }
 fetchCurrentUserLikes();
 
-const getAuthLike = (remarkId?: number) => !!remarkId && likes?.includes(remarkId);
+const getAuthLike = (remarkId?: number) => !!remarkId && likes.value?.includes(remarkId);
 
 function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
   if (!id)
     return;
   fetchCurrentUserLikes();
-  const item = list.find(i => i.id === id);
+  const item = list.value.find(i => i.id === id);
   if (item?.likes !== undefined) {
     item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1];
   }

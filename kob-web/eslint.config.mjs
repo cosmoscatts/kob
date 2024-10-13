@@ -5,5 +5,6 @@ export default antfu({
     'style/semi': ['error', 'always'],
     'style/brace-style': 'off',
     'antfu/top-level-function': 'off',
+    'ts/no-unsafe-function-type': 'off',
   },
 });

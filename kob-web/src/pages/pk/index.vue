@@ -7,8 +7,8 @@ const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
 const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`);
 
-let currentPageIndex = $ref(0);
-const changePageIndex = (index: number) => currentPageIndex = index;
+const currentPageIndex = ref(0);
+const changePageIndex = (index: number) => currentPageIndex.value = index;
 provide('changePageIndex', changePageIndex);
 </script>
 

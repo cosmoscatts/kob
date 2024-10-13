@@ -2,16 +2,16 @@
 import type { UserSecurity } from '~/types';
 import SecurityModal from './security/SecurityModal.vue';
 
-let security = $ref<UserSecurity>({});
+const security = ref<UserSecurity>({});
 
 const checkUserHasPassword = () => {
-  UserSecurityApi.checkSecurity().then(({ data = {} }) => security = data);
+  UserSecurityApi.checkSecurity().then(({ data = {} }) => security.value = data);
 };
 checkUserHasPassword();
 
-let modalVisible = $ref(false);
-let modalTitle = $ref('');
-let formIndex = $ref(0);
+const modalVisible = ref(false);
+const modalTitle = ref('');
+const formIndex = ref(0);
 type T = 'password' | 'phone' | 'github' | 'qq' | 'wx' | 'bilibili';
 function onClick(type: T) {
   const hash = ['password', 'phone', 'github', 'qq', 'wx', 'bilibili'];
@@ -19,9 +19,9 @@ function onClick(type: T) {
   const index = hash.findIndex(i => i === type);
   if (!~index)
     return;
-  modalVisible = true;
-  modalTitle = `设置${title[index]}`;
-  formIndex = index;
+  modalVisible.value = true;
+  modalTitle.value = `设置${title[index]}`;
+  formIndex.value = index;
 }
 </script>
 
