@@ -2,9 +2,9 @@
 import defaultAvatar from '~/assets/default-avatar.png';
 import ChooseLevel from './components/ChooseLevel.vue';
 
-const contentHeight = diffHeight;
 const pkStore = usePkStore();
 const userStore = useUserStore();
+const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
 
 pkStore.updateGameState({ opponent: undefined });
 
@@ -68,7 +68,7 @@ const showConfetti = computed(() => {
 </script>
 
 <template>
-  <div flex="col center" :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }">
+  <div flex="col center" :style="contentStyle">
     <ChooseLevel v-if="pkStore.status === 'matching'" />
     <GamePlayground v-if="pkStore.status === 'playing' && !showFightAnimation" />
     <FightAnimation v-if="pkStore.status === 'playing' && showFightAnimation" />

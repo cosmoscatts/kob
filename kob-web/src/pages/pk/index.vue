@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { layoutConfig } from '~/config';
 import { Machine, Match } from './components';
 
-const { navHeight, footHeight, contentPadding } = layoutConfig;
-const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6);
+const { layoutOffsetHeight } = useLayoutStyle();
+const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
-const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`);
+const menuHeight = computed(() => `calc(100vh - ${layoutOffsetHeight.value + 60}px - 24vh)`);
 
 const currentPageIndex = ref(0);
 const changePageIndex = (index: number) => currentPageIndex.value = index;
@@ -19,7 +18,7 @@ provide('changePageIndex', changePageIndex);
         v-if="currentPageIndex === 0"
         flex="col" w60vw mxa rounded-10px
         :style="{
-          minHeight: `calc(100vh - ${diffHeight}px)`,
+          ...contentStyle,
           border: `1px solid ${borderColor}`,
           padding: '0 8vw',
         }"
