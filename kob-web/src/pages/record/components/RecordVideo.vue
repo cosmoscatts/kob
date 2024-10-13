@@ -1,55 +1,58 @@
 <script setup lang="ts">
 import type { PlayerInfo } from '../columns';
-import defaultAvatar from '~/assets/default-avatar.png';
 import { layoutConfig } from '~/config';
+import GameResult from './GameResult.vue';
+import PlayerInfoCard from './PlayerInfoCard.vue';
 
-const {
-  playerInfoList = [],
-} = defineProps<{
+const props = defineProps<{
   playerInfoList: PlayerInfo[]
 }>();
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!;
 
 const { navHeight, footHeight, contentPadding } = layoutConfig;
-const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50;
-});
+const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 55);
 
 const refGameMap = ref();
 const recordStore = useRecordStore();
 const { gameResult, isReplayFinished } = storeToRefs(recordStore);
 
+const recordPaused = ref(false);
+
 const pause = () => refGameMap.value?.pauseVideo?.();
 const replay = () => refGameMap.value?.replayVideo?.();
 const resume = () => refGameMap.value?.resumeVideo?.();
 
-function goBack() {
+const goBack = () => {
   pause();
   recordStore.resetRecordState();
   changeCurrentTab(0, {});
-}
+};
 
-const recordPaused = ref(false);
-function doPause() {
-  if (recordPaused.value)
-    resume();
-  else pause();
+const doPause = () => {
+  recordPaused.value ? resume() : pause();
   recordPaused.value = !recordPaused.value;
-}
+};
 
-onMounted(() => useLottie({
-  containerId: '#lottie-trophy',
-  path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
-}));
+onMounted(() => {
+  useLottie({
+    containerId: '#lottie-trophy',
+    path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
+  });
 
-document.addEventListener('visibilitychange', () => { // 判断是否离开页面
-  if (document.visibilityState === 'hidden') { pause();
-  }
-  else {
-    if (!recordPaused.value)
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      pause();
+    } else if (!recordPaused.value) {
       replay();
-  }
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  return () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
 });
 </script>
 
@@ -72,7 +75,7 @@ document.addEventListener('visibilitychange', () => { // 判断是否离开页�
           重新回放
         </n-button>
         <n-button type="warning" text-color="white" :disabled="isReplayFinished" @click="doPause">
-          {{ ['暂停回放', '取消暂停'][Number(recordPaused)] }}
+          {{ recordPaused ? '取消暂停' : '暂停回放' }}
         </n-button>
         <n-button type="error" text-color="white" @click="goBack">
           返回
@@ -81,54 +84,19 @@ document.addEventListener('visibilitychange', () => { // 判断是否离开页�
     </div>
     <div flex-x-center gap-x-5vw xl:gap-x-3 pt-3vh>
       <GameMap ref="refGameMap" h-60vh w-40vw lt-md="!w-60vw" />
-      <div v-if="playerInfoList?.length" w-300px ha lt-md:hidden flex-y-center mb15vh>
+      <div v-if="props.playerInfoList?.length" w-300px ha lt-md:hidden flex-y-center mb15vh>
         <n-card hoverable flex="col center" w-full :content-style="{ padding: '10px 20px', width: '100%' }">
           <div text="24px center" font="bold italic">
             对局信息
           </div>
           <div flex justify-between items-center w-full mt-10px>
-            <div flex="col center" gap-y-4>
-              <div text="[#4876EC] 18px" font-bold>
-                蓝方
-              </div>
-              <n-avatar
-                round
-                :size="60"
-                :src="playerInfoList[0].avatar ?? defaultAvatar"
-              />
-              <n-ellipsis :style="{ maxWidth: '80px' }">
-                {{ playerInfoList[0].name ?? '-' }}
-              </n-ellipsis>
-            </div>
+            <PlayerInfoCard :player="props.playerInfoList[0]" color="#4876EC" side="蓝方" />
             <div w80px text="50px yellow center" font="bold italic game">
               VS
             </div>
-            <div flex="col center" gap-y-4>
-              <div text="[#F94848] 18px" font-bold>
-                红方
-              </div>
-              <n-avatar
-                round
-                :size="60"
-                :src="playerInfoList[1].avatar ?? defaultAvatar"
-              />
-              <n-ellipsis :style="{ maxWidth: '80px' }">
-                {{ playerInfoList[1].name ?? '-' }}
-              </n-ellipsis>
-            </div>
+            <PlayerInfoCard :player="props.playerInfoList[1]" color="#F94848" side="红方" />
           </div>
-          <div text="center 24px" font="bold italic" mt-10px>
-            <div v-if="gameResult === 'draw'">
-              平局
-            </div>
-            <div v-else-if="['playerAWon', 'playerBWon'].includes(gameResult)" :style="{ color: gameResult === 'playerBWon' ? '#F94848' : '#4876EC' }" flex-center>
-              <div id="lottie-trophy" mr2 w50px h50px />
-              {{ gameResult === 'playerBWon' ? '红方' : '蓝方' }} <span text-yellow ml-4>胜利</span>
-            </div>
-            <div v-else>
-              无结果
-            </div>
-          </div>
+          <GameResult :result="gameResult" />
         </n-card>
       </div>
     </div>
