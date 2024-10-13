@@ -6,37 +6,37 @@ interface Player {
   sy: number // 起始列
 }
 
-type Loser = 'all' | 'A' | 'B' | 'none';
+type GameResult = 'draw' | 'playerAWon' | 'playerBWon' | 'ongoing';
 
-export const useRecordStore = defineStore('recordStore', () => {
+export const useRecordStore = defineStore('record', () => {
   const state = reactive({
-    isRecord: false,
-    aSteps: undefined as string | undefined,
-    bSteps: undefined as string | undefined,
-    gameMap: undefined as number[][] | undefined,
+    isRecording: false,
+    aSteps: '' as string,
+    bSteps: '' as string,
+    gameMap: [] as number[][],
     players: [] as Player[],
-    loser: 'none' as Loser,
-    recordFinished: true,
+    gameResult: 'ongoing' as GameResult,
+    isReplayFinished: true,
   });
 
-  function updateIsRecord(value: boolean) {
-    state.isRecord = value;
+  function setRecordingState(isRecording: boolean) {
+    state.isRecording = isRecording;
   }
 
-  function updateSteps(_aSteps?: string, _bSteps?: string) {
-    state.aSteps = _aSteps;
-    state.bSteps = _bSteps;
+  function setSteps(aSteps?: string, bSteps?: string) {
+    state.aSteps = aSteps ?? '';
+    state.bSteps = bSteps ?? '';
   }
 
-  function updateLoser(value: Loser) {
-    state.loser = value;
+  function setGameResult(result: GameResult) {
+    state.gameResult = result;
   }
 
-  function updateRecordFinished(value: boolean) {
-    state.recordFinished = value;
+  function setReplayFinished(isFinished: boolean) {
+    state.isReplayFinished = isFinished;
   }
 
-  function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
+  function updateGameState({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
     state.gameMap = map;
     state.players = [
       { id: aId, sx: aSx, sy: aSy },
@@ -44,25 +44,25 @@ export const useRecordStore = defineStore('recordStore', () => {
     ];
   }
 
-  function clearVideo() {
+  function resetRecordState() {
     Object.assign(state, {
-      isRecord: false,
-      aSteps: undefined,
-      bSteps: undefined,
-      loser: 'none',
-      gameMap: undefined,
+      isRecording: false,
+      aSteps: '',
+      bSteps: '',
+      gameResult: 'ongoing',
+      gameMap: [],
       players: [],
     });
   }
 
   return {
     ...toRefs(state),
-    updateIsRecord,
-    updateSteps,
-    updateGame,
-    updateLoser,
-    clearVideo,
-    updateRecordFinished,
+    setRecordingState,
+    setSteps,
+    updateGameState,
+    setGameResult,
+    resetRecordState,
+    setReplayFinished,
   };
 });
 

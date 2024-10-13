@@ -37,22 +37,25 @@ function canDelete(aId: number, bId: number): boolean {
 function onRemoveRecord({ id }: Record) {
   useConfirm(
     '你确定要删除该对局吗？',
-    () => {
-      RecordApi
-        .deleteRecord(id as number)
-        .then(({ code, msg }) => {
-          if (code !== 0) {
-            $message.error(msg ?? '删除失败');
-            return;
-          }
-          $message.success('删除成功');
-          fetchTableData();
-        });
+    async () => {
+      try {
+        const result = await RecordApi.deleteRecord(id as number);
+        const { code, msg } = result.data;
+        if (code !== 0) {
+          $message.error(msg ?? '删除失败');
+          return;
+        }
+        $message.success('删除成功');
+        fetchTableData();
+      } catch (e) {
+        console.error(e);
+        $message.error('删除失败');
+      }
     },
   );
 }
 
-const { updateIsRecord, updateSteps, updateGame, updateLoser } = useRecordStore();
+const { setRecordingState, setSteps, updateGameState, setGameResult } = useRecordStore();
 
 const convert2DArray = (map: string) => { // 将地图从字符串转为二维数组
   const g: number[][] = [];
@@ -69,24 +72,35 @@ const convert2DArray = (map: string) => { // 将地图从字符串转为二维�
 const tableData = ref<Record[]>([]);
 const searchModel = reactive<{ name?: string }>({ name });
 
-function fetchTableData() {
+async function fetchTableData() {
   startLoading();
   const { page, pageSize } = pagination;
-  RecordApi
-    .getRecordList({ page, pageSize, name: searchModel.name?.trim() })
-    .then(({ data: { records = [], total = 0 } }) => {
-      tableData.value = records;
-      pagination.itemCount = total;
-    })
-    .finally(() => useTimeoutFn(endLoading, 1000));
+  try {
+    const result = await RecordApi.getRecordList({ page, pageSize, name: searchModel.name?.trim() });
+    const { data: { records = [], total = 0 } } = result.data;
+    tableData.value = records;
+    pagination.itemCount = total;
+  } catch (e) {
+    console.error(e);
+    tableData.value = [];
+    pagination.itemCount = 0;
+  } finally {
+    useTimeoutFn(endLoading, 1000);
+  }
 }
 fetchTableData();
 
 function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, aAvatar, aName, bAvatar, bName }: Record) {
-  updateIsRecord(true);
-  updateSteps(aSteps, bSteps);
-  updateGame({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) });
-  updateLoser(loser as 'A' | 'B' | 'all' | 'none');
+  setRecordingState(true);
+  setSteps(aSteps, bSteps);
+  updateGameState({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) });
+  const resultMap = {
+    all: 'draw',
+    A: 'playerBWon',
+    B: 'playerAWon',
+    none: 'ongoing',
+  } as const;
+  setGameResult(resultMap[loser as keyof typeof resultMap]);
 
   const { page, pageSize } = pagination;
   const playerInfoList = [
