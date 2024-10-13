@@ -34,25 +34,25 @@ const doPause = () => {
   recordPaused.value = !recordPaused.value;
 };
 
+const handleVisibilityChange = () => {
+  if (document.hidden) {
+    pause();
+  } else if (!recordPaused.value) {
+    replay();
+  }
+};
+
 onMounted(() => {
   useLottie({
     containerId: '#lottie-trophy',
     path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
   });
 
-  const handleVisibilityChange = () => {
-    if (document.hidden) {
-      pause();
-    } else if (!recordPaused.value) {
-      replay();
-    }
-  };
-
   document.addEventListener('visibilitychange', handleVisibilityChange);
+});
 
-  return () => {
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-  };
+onUnmounted(() => {
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 </script>
 
