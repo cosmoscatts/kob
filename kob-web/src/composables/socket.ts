@@ -9,7 +9,7 @@ export function useSocket(onmessage: (msg: any) => void) {
   const pkStore = usePkStore();
   const socket = new WebSocket(formatSocketUrl());
 
-  socket.onopen = () => pkStore.updateSocket(socket);
+  socket.onopen = () => pkStore.updateGameState({ socket });
   socket.onmessage = onmessage;
   socket.onclose = () => {};
 

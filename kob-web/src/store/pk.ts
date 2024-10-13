@@ -1,76 +1,80 @@
+import { defineStore } from 'pinia';
+import { reactive, toRefs } from 'vue';
 import opponentDefaultAvatar from '~/assets/opponent.png';
 import type { GameMap } from '~/scripts/map';
 import type { Game, User } from '~/types';
 
 type Opponent = Pick<User, 'name' | 'avatar'>;
+type GameStatus = 'matching' | 'playing';
+type GameResult = 'draw' | 'playerAWon' | 'playerBWon' | 'ongoing';
 
 interface Player {
   id: number
-  sx: number // 起始行
-  sy: number // 起始列
+  sx: number
+  sy: number
 }
 
-type Status = 'match' | 'play';
+interface PkState {
+  status: GameStatus
+  socket: WebSocket | null
+  opponent: Opponent
+  gameMap: number[][] | null
+  players: Player[]
+  gameMapObject: GameMap | null
+  gameResult: GameResult
+}
 
-type Loser = 'all' | 'A' | 'B' | 'none';
-
-const defaultOpponent = { // 初始对手信息
+const DEFAULT_OPPONENT: Opponent = {
   name: '你的对手',
   avatar: opponentDefaultAvatar,
 };
 
-export const usePkStore = defineStore(
-  'pkStore',
-  () => {
-    const status = ref<Status>('match');
-    const socket = ref<WebSocket>();
-    const opponent = ref<Opponent>();
-    const gameMap = ref<number[][]>();
-    const players = ref<Player[]>([]);
-    const gameMapObject = ref<GameMap>();
-    const loser = ref<Loser>('none');
+export const usePkStore = defineStore('pkStore', () => {
+  const state = reactive<PkState>({
+    status: 'matching',
+    socket: null,
+    opponent: DEFAULT_OPPONENT,
+    gameMap: null,
+    players: [],
+    gameMapObject: null,
+    gameResult: 'ongoing',
+  });
 
-    const updateStatus = (value: Status) => status.value = value;
-    const updateSocket = (value: WebSocket) => socket.value = value;
-    const updateOpponent = (value = defaultOpponent) => opponent.value = value;
-    const updateGameMapObject = (value: GameMap) => gameMapObject.value = value;
-    const updateLoser = (value: Loser) => loser.value = value;
+  const updateGameState = (newState: Partial<PkState>) => {
+    Object.assign(state, {
+      ...newState,
+      opponent: newState.opponent || state.opponent,
+    });
+  };
 
-    function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
-      gameMap.value = map;
-      players.value = [
+  const updateGame = ({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) => {
+    updateGameState({
+      gameMap: map,
+      players: [
         { id: aId, sx: aSx, sy: aSy },
         { id: bId, sx: bSx, sy: bSy },
-      ];
-    }
+      ],
+    });
+  };
 
-    function reset() {
-      updateStatus('match');
-      updateOpponent();
-      updateLoser('none');
-      gameMap.value = undefined;
-      players.value = [];
-      gameMapObject.value = undefined;
-    }
+  const resetGame = () => {
+    updateGameState({
+      status: 'matching',
+      opponent: DEFAULT_OPPONENT,
+      gameResult: 'ongoing',
+      gameMap: null,
+      players: [],
+      gameMapObject: null,
+    });
+  };
 
-    return {
-      status,
-      socket,
-      opponent,
-      gameMap,
-      players,
-      gameMapObject,
-      loser,
-      updateStatus,
-      updateSocket,
-      updateOpponent,
-      updateGame,
-      updateGameMapObject,
-      updateLoser,
-      reset,
-    };
-  },
-);
+  return {
+    ...toRefs(state),
+    updateGameState,
+    updateGame,
+    resetGame,
+  };
+});
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(usePkStore, import.meta.hot));

@@ -20,7 +20,8 @@ function createGameMap() {
   const { value: canvas } = refCanvas;
   gameMap?.destory();
   gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!);
-  pkStore.updateGameMapObject(gameMap);
+  pkStore.updateGameState({ gameMapObject: gameMap as any });
+
   if (recordStore.isRecord) {
     recordStore.updateRecordFinished(false);
   } else {
