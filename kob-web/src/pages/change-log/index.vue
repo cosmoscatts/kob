@@ -3,16 +3,23 @@ import { BugOutline, BulbOutline, DiamondOutline } from '@vicons/ionicons5';
 import { appChangelog, appMeta } from '~/config';
 
 type Type = 'add' | 'update' | 'fix';
-const getTimelineType = (type: Type) => ({
+
+const timelineTypeMap = {
   add: 'info',
   update: 'warning',
   fix: 'error',
-}[type]);
-const getTimelineIcon = (type: Type) => ({
+} as const;
+
+const timelineIconMap = {
   add: BulbOutline,
   update: DiamondOutline,
   fix: BugOutline,
-}[type]);
+} as const;
+
+const getTimelineType = (type: Type) => timelineTypeMap[type];
+const getTimelineIcon = (type: Type) => timelineIconMap[type];
+
+const lastUpdate = computed(() => appMeta.lastUpdate);
 </script>
 
 <template>
@@ -31,7 +38,7 @@ const getTimelineIcon = (type: Type) => ({
           <template #footer>
             <n-alert :show-icon="false">
               <div text-center>
-                上一次更新： {{ appMeta.lastUpdate }} @Cosmoscatts
+                上一次更新： {{ lastUpdate }} @Cosmoscatts
               </div>
             </n-alert>
           </template>
@@ -42,15 +49,15 @@ const getTimelineIcon = (type: Type) => ({
             <n-thing :title="item.title" :description="item.description">
               <n-timeline v-if="item.changes?.length" :icon-size="20">
                 <n-timeline-item
-                  v-for="{ id, type, title, content } in item.changes"
-                  :key="id"
-                  :type="getTimelineType(type)"
-                  :title="title"
-                  :content="content"
+                  v-for="change in item.changes"
+                  :key="change.id"
+                  :type="getTimelineType(change.type)"
+                  :title="change.title"
+                  :content="change.content"
                 >
                   <template #icon>
                     <n-icon>
-                      <Component :is="getTimelineIcon(type)" />
+                      <component :is="getTimelineIcon(change.type)" />
                     </n-icon>
                   </template>
                 </n-timeline-item>
