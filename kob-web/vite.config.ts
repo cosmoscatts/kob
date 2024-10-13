@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import Compression from 'vite-plugin-compression';
 
 export default defineConfig({
   resolve: {
@@ -36,6 +37,13 @@ export default defineConfig({
         NaiveUiResolver(),
       ],
       dts: 'src/components.d.ts',
+    }),
+    Compression({
+      verbose: true,
+      disable: false,
+      threshold: 10240,
+      algorithm: 'gzip',
+      ext: '.gz',
     }),
   ],
 });
