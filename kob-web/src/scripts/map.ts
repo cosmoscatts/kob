@@ -200,7 +200,7 @@ export class GameMap extends Game {
     this.snakes.forEach(snake => snake.render());
   }
 
-  beforeDestory() {
+  beforeDestroy() {
     // 销毁 canvas
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
