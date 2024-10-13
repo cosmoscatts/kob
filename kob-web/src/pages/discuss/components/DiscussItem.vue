@@ -16,30 +16,36 @@ const {
 const emits = defineEmits(['likeCallback']);
 const { width } = useWindowSize();
 
-const like = useThrottleFn((remarkId?: number) => {
-  DiscussApi
-    .likeDiscuss({ remarkId })
-    .then(({ code, msg }) => {
-      if (code !== 0) {
-        $message.error(msg || '支持失败，请重试');
-        return;
-      }
-      $message.success('已支持该意见');
-      emits('likeCallback', { id: remarkId, type: 'like' });
-    });
+const like = useThrottleFn(async (remarkId?: number) => {
+  try {
+    const result = await DiscussApi.likeDiscuss({ remarkId });
+    const { code, msg } = result.data;
+    if (code !== 0) {
+      $message.error(msg || '支持失败，请重试');
+      return;
+    }
+    $message.success('已支持该意见');
+    emits('likeCallback', { id: remarkId, type: 'like' });
+  } catch (e) {
+    console.error(e);
+    $message.error('支持失败，请重试');
+  }
 }, 500);
 
-const dislike = useThrottleFn((remarkId?: number) => {
-  DiscussApi
-    .dislikeDiscuss({ remarkId })
-    .then(({ code, msg }) => {
-      if (code !== 0) {
-        $message.error(msg || '取消支持失败，请重试');
-        return;
-      }
-      $message.success('已取消支持该意见');
-      emits('likeCallback', { id: remarkId, type: 'dislike' });
-    });
+const dislike = useThrottleFn(async (remarkId?: number) => {
+  try {
+    const result = await DiscussApi.dislikeDiscuss({ remarkId });
+    const { code, msg } = result.data;
+    if (code !== 0) {
+      $message.error(msg || '取消支持失败，请重试');
+      return;
+    }
+    $message.success('已取消支持该意见');
+    emits('likeCallback', { id: remarkId, type: 'dislike' });
+  } catch (e) {
+    console.error(e);
+    $message.error('取消支持失败，请重试');
+  }
 }, 500);
 </script>
 

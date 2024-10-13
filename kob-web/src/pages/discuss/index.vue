@@ -12,29 +12,34 @@ const { loading, startLoading, endLoading } = useLoading();
 
 const list = ref<Discuss[]>([]);
 const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }];
-function fetchDiscussList() {
+async function fetchDiscussList() {
   startLoading();
   list.value = [...defaultLoadingData];
   const { page, pageSize } = pagination;
-  DiscussApi
-    .getDiscussList({ page, pageSize })
-    .then(({ data: { records = [], total = 0 } }) => {
-      list.value = records;
-      pagination.itemCount = total;
-    })
-    .catch(() => list.value = [])
-    .finally(() => useTimeoutFn(endLoading, 500));
+  try {
+    const result = await DiscussApi.getDiscussList({ page, pageSize });
+    const { data: { records = [], total = 0 } } = result.data;
+    list.value = records;
+    pagination.itemCount = total;
+  } catch (e) {
+    console.error(e);
+    list.value = [];
+  } finally {
+    useTimeoutFn(endLoading, 500);
+  }
 }
 fetchDiscussList();
 
 const likes = ref<number[]>([]);
-function fetchCurrentUserLikes() {
-  DiscussApi
-    .getCurrentUserLikes()
-    .then(({ data = [] }) => {
-      likes.value = data;
-    })
-    .catch(() => likes.value = []);
+async function fetchCurrentUserLikes() {
+  try {
+    const result = await DiscussApi.getCurrentUserLikes();
+    const { data = [] } = result.data;
+    likes.value = data;
+  } catch (e) {
+    console.error(e);
+    likes.value = [];
+  }
 }
 fetchCurrentUserLikes();
 

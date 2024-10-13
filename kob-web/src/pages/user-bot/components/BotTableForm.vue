@@ -2,35 +2,30 @@
 import type { FormInst, FormValidationError } from 'naive-ui';
 import { java } from '@codemirror/lang-java';
 import { oneDark } from '@codemirror/theme-one-dark';
-import {
-  TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5';
+import { TrashBinOutline as TrashBinOutlineIcon } from '@vicons/ionicons5';
 import { Codemirror } from 'vue-codemirror';
 import type { Bot } from '~/types';
 import { createRules } from '../rules';
 
-const {
-  type = 'add',
-  modalVisible = false,
-  form = {},
-} = defineProps<{
-  type?: 'add' | 'edit' // 表单操作类型
-  modalVisible?: boolean // 表单是否显示
-  form?: Bot // 表单数据
-}>();
+const props = withDefaults(defineProps<{
+  type?: 'add' | 'edit'
+  modalVisible?: boolean
+  form?: Bot
+}>(), {
+  type: 'add',
+  modalVisible: false,
+  form: () => ({}),
+});
 
 const emits = defineEmits(['update:modal-visible', 'saveBotData']);
 
-const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot'); // 标题
+const title = computed(() => props.type === 'add' ? '添加Bot' : '编辑Bot');
 
-const segmented = { // card 分级
-  content: 'soft',
-  footer: 'soft',
-} as const;
+const segmented = { content: 'soft', footer: 'soft' } as const;
 
-const refForm = ref<FormInst | null>(null); // form 表单元素
+const refForm = ref<FormInst | null>(null);
 
-type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' > & { content: string };
+type FormModel = Pick<Bot, 'id' | 'userId' | 'title' | 'description'> & { content: string };
 const baseFormModel: FormModel = {
   id: undefined,
   userId: undefined,
@@ -38,26 +33,23 @@ const baseFormModel: FormModel = {
   description: '',
   content: '',
 };
-const formModel = reactive<FormModel>({
-  ...baseFormModel,
-});
+const formModel = reactive<FormModel>({ ...baseFormModel });
 
 const { loading, startLoading, endLoading } = useLoading();
 
 function assign() {
-  const target: Bot = modalVisible && type === 'edit'
-    ? unref(form)
+  const source = props.modalVisible && props.type === 'edit'
+    ? unref(props.form) as Bot
     : baseFormModel;
 
-    type K = keyof Omit<FormModel, 'content'>;
-    for (const [key, value] of Object.entries(target)) {
-      if (!Object.prototype.hasOwnProperty.call(formModel, key))
-        continue;
-      formModel[key as K] = value;
+  Object.keys(formModel).forEach((key) => {
+    if (key in source) {
+      (formModel as any)[key] = (source as any)[key];
     }
+  });
 }
 
-watch(() => modalVisible, () => {
+watch(() => props.modalVisible, () => {
   assign();
   endLoading();
   refForm.value?.restoreValidation();
@@ -76,7 +68,7 @@ function onSubmit(e: MouseEvent) {
 
 const onCloseModal = () => emits('update:modal-visible', false);
 
-const rules = createRules(); // 生成表单校验规则
+const rules = createRules();
 const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
 </script>
 
