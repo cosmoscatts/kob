@@ -48,7 +48,7 @@ export const useUserStore = defineStore(
      *  - expire - token 过期
      */
     const checkLoginState = () => {
-      const fns: [boolean, Function][] = [
+      const fns: [boolean, () => LoginState | Promise<LoginState>][] = [
         [!Token.get(), () => {
           hasLogin.value = false;
           return 'notLogin';
@@ -70,7 +70,7 @@ export const useUserStore = defineStore(
             : 'hasLogin';
         }],
       ];
-      return Conditional.someWithValue<LoginState>(fns) ?? 'notLogin';
+      return ConditionalExecutor.executeFirstWithResult<LoginState>(fns) ?? 'notLogin';
     };
 
     return $$({

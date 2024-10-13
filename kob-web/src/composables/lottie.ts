@@ -1,4 +1,4 @@
-import type { RendererType } from 'lottie-web';
+import type { AnimationItem, RendererType } from 'lottie-web';
 import lottie from 'lottie-web';
 
 export interface LottieParams {
@@ -6,20 +6,33 @@ export interface LottieParams {
   path: string
   loop?: boolean
   renderer?: RendererType
+  autoplay?: boolean
 }
 
-const getElement = (id: string) => document.querySelector(id)!;
+const getElement = (id: string): HTMLElement => {
+  const element = document.querySelector(id);
+  if (!element) {
+    throw new Error(`Element with id "${id}" not found`);
+  }
+  return element as HTMLElement;
+};
 
 export const useLottie = ({
   containerId,
   path,
   loop = true,
   renderer = 'svg',
-}: LottieParams) => lottie.loadAnimation({
-  path,
-  loop,
-  renderer,
-  container: getElement(containerId),
-});
+  autoplay = true,
+}: LottieParams): AnimationItem => {
+  return lottie.loadAnimation({
+    container: getElement(containerId),
+    path,
+    loop,
+    renderer,
+    autoplay,
+  });
+};
 
-export const useListLottie = (list: LottieParams[]) => list.forEach(item => useLottie(item));
+export const useListLottie = (list: LottieParams[]): AnimationItem[] => {
+  return list.map(useLottie);
+};

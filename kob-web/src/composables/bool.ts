@@ -1,31 +1,42 @@
-export function useBoolean(initValue = false) {
-  const bool = ref(initValue);
-  const setBool = (value: boolean) => bool.value = value;
-  const setTrue = () => setBool(true);
-  const setFalse = () => setBool(false);
-  const toggle = () => setBool(!bool.value);
+import type { Ref } from 'vue';
+import { ref } from 'vue';
+
+interface BooleanControls {
+  value: Ref<boolean>
+  setValue: (value: boolean) => void
+  setTrue: () => void
+  setFalse: () => void
+  toggle: () => void
+}
+
+interface LoadingControls {
+  loading: Ref<boolean>
+  setLoading: (value: boolean) => void
+  startLoading: () => void
+  endLoading: () => void
+  toggleLoading: () => void
+}
+
+export function useBoolean(initialValue = false): BooleanControls {
+  const value = ref(initialValue);
+
   return {
-    bool,
-    setBool,
-    setTrue,
-    setFalse,
-    toggle,
+    value,
+    setValue: (newValue: boolean) => value.value = newValue,
+    setTrue: () => value.value = true,
+    setFalse: () => value.value = false,
+    toggle: () => value.value = !value.value,
   };
 }
 
-export function useLoading(initValue = false) {
-  const {
-    bool: loading,
-    setBool: setLoading,
-    setTrue: startLoading,
-    setFalse: endLoading,
-    toggle: toggleLoading,
-  } = useBoolean(initValue);
+export function useLoading(initialValue = false): LoadingControls {
+  const { value, setValue, setTrue, setFalse, toggle } = useBoolean(initialValue);
+
   return {
-    loading,
-    setLoading,
-    startLoading,
-    endLoading,
-    toggleLoading,
+    loading: value,
+    setLoading: setValue,
+    startLoading: setTrue,
+    endLoading: setFalse,
+    toggleLoading: toggle,
   };
 }
