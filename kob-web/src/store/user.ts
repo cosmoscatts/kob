@@ -63,6 +63,7 @@ export const useUserStore = defineStore('userStore', () => {
     ...toRefs(state),
     login,
     logout,
+    fetchAndUpdateUser,
     checkLoginState,
     setAuthModalVisibility,
   };

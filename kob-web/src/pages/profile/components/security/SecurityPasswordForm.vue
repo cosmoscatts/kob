@@ -90,20 +90,24 @@ function onSubmit(e: MouseEvent) {
     if (errors)
       return;
     startLoading();
-    UserSecurityApi
-      .updatePassword(useClone(formModel))
-      .then(({ code, msg }) => {
-        if (code !== 0) {
-          useTimeoutFn(endLoading, 1000);
-          $message.error(msg ?? '保存失败');
-          return;
-        }
-        $message.success('保存成功');
-        useTimeoutFn(() => {
-          endLoading();
-          securityActionCallback?.();
-        }, 1000);
-      });
+    try {
+      const result = await UserSecurityApi.updatePassword(useClone(formModel));
+      const { code, msg } = result.data;
+      if (code !== 0) {
+        useTimeoutFn(endLoading, 1000);
+        $message.error(msg || '保存失败');
+        return;
+      }
+      $message.success('保存成功');
+      useTimeoutFn(() => {
+        securityActionCallback?.();
+      }, 1000);
+    } catch (e) {
+      console.error(e);
+      $message.error('保存失败');
+    } finally {
+      endLoading();
+    }
   });
 }
 

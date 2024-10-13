@@ -9,16 +9,19 @@ function onChange({
   fileList: UploadFileInfo[]
 }) {
   getBase64(file.file!).then(async (imageAsDateURL) => {
-    UserApi
-      .updateLoginUserInfo({ avatar: imageAsDateURL as string })
-      .then(({ code }) => {
-        if (code === 0) {
-          $message.success('上传成功');
-          userStore.updateUser();
-        } else {
-          $message.error('上传失败');
-        }
-      });
+    try {
+      const result = await UserApi.updateLoginUserInfo({ avatar: imageAsDateURL as string });
+      const { code } = result.data;
+      if (code === 0) {
+        $message.success('上传成功');
+        userStore.fetchAndUpdateUser();
+      } else {
+        $message.error('上传失败');
+      }
+    } catch (e) {
+      console.error(e);
+      $message.error('上传失败');
+    }
   });
 }
 
