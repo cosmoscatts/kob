@@ -1,5 +1,4 @@
 import type { Ref } from 'vue';
-import { ref } from 'vue';
 
 interface BooleanControls {
   value: Ref<boolean>
