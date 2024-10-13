@@ -6,57 +6,76 @@ const contentHeight = diffHeight;
 const pkStore = usePkStore();
 const userStore = useUserStore();
 
-pkStore.updateOpponent(); // 更新对手信息
+pkStore.updateGameState({ opponent: undefined });
 
 const showFightAnimation = ref(false);
+
+const handleMatchSuccess = (data: any) => {
+  pkStore.updateGameState({
+    opponent: {
+      name: data?.opponentName || '-',
+      avatar: data?.opponentAvatar ?? defaultAvatar,
+    },
+    status: 'playing',
+  });
+  pkStore.updateGame(data.game);
+  $message.success('人机试炼开始');
+  showFightAnimation.value = true;
+  useTimeoutFn(() => showFightAnimation.value = false, 5000);
+};
+
+const handleMove = (data: any) => {
+  pkStore.gameMapObject?.snakes.forEach((snake, index) =>
+    snake.setDirection([data.aDirection, data.bDirection][index]));
+};
+
+const handleResult = (data: any) => {
+  const [snake0, snake1] = pkStore.gameMapObject?.snakes || [];
+  if (['all', 'A'].includes(data.loser))
+    snake0.status = 'die';
+  if (['all', 'B'].includes(data.loser))
+    snake1.status = 'die';
+  const resultMap = {
+    all: 'draw',
+    A: 'playerBWon',
+    B: 'playerAWon',
+    none: 'ongoing',
+  } as const;
+  pkStore.updateGameState({ gameResult: resultMap[data.loser as keyof typeof resultMap] });
+};
 
 const socket = useSocket((msg) => {
   const data = JSON.parse(msg.data);
   const fns: [boolean, () => void][] = [
-    [data.event === 'match-success', () => { // 匹配成功
-      pkStore.updateOpponent({
-        name: data?.opponentName || '-',
-        avatar: data?.opponentAvatar ?? defaultAvatar,
-      });
-      pkStore.updateGame(data.game);
-      pkStore.updateStatus('play');
-      $message.success('人机试炼开始');
-      showFightAnimation.value = true;
-      useTimeoutFn(() => showFightAnimation.value = false, 5000);
-    }],
-    [data.event === 'move', () => pkStore.gameMapObject!.snakes.forEach((snake, index) =>
-      snake.setDirection([data.aDirection, data.bDirection][index]))],
-    [data.event === 'result', () => {
-      const [snake0, snake1] = pkStore.gameMapObject!.snakes;
-      if (['all', 'A'].includes(data.loser))
-        snake0.status = 'die';
-      if (['all', 'B'].includes(data.loser))
-        snake1.status = 'die';
-      pkStore.updateLoser(data.loser);
-    }],
+    [data.event === 'match-success', () => handleMatchSuccess(data)],
+    [data.event === 'move', () => handleMove(data)],
+    [data.event === 'result', () => handleResult(data)],
   ];
   ConditionalExecutor.executeFirst(fns);
 });
 
-const clear = () => [
-  () => socket.close(),
-  () => pkStore.reset(),
-].forEach(fn => fn());
-onUnmounted(clear);
+onUnmounted(() => {
+  socket.close();
+  pkStore.resetGame();
+});
 
-const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1].id === userStore.user?.id)
-  || (pkStore.loser === 'B' && pkStore.players[0].id === userStore.user?.id)));
+const showConfetti = computed(() => {
+  const { gameResult, players } = pkStore;
+  const userId = userStore.user?.id;
+  return (gameResult === 'playerBWon' && players[1].id === userId)
+    || (gameResult === 'playerAWon' && players[0].id === userId);
+});
 </script>
 
 <template>
   <div flex="col center" :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }">
-    <ChooseLevel v-if="pkStore.status === 'match'" />
-    <GamePlayground v-if="(pkStore.status === 'play' && !showFightAnimation)" />
-    <FightAnimation v-if="(pkStore.status === 'play' && showFightAnimation)" />
-    <ResultBoard v-if="pkStore.loser !== 'none'" />
+    <ChooseLevel v-if="pkStore.status === 'matching'" />
+    <GamePlayground v-if="pkStore.status === 'playing' && !showFightAnimation" />
+    <FightAnimation v-if="pkStore.status === 'playing' && showFightAnimation" />
+    <ResultBoard v-if="pkStore.gameResult !== 'ongoing'" />
     <Confetti :passed="showConfetti" />
 
-    <div v-if="pkStore.status === 'play'" mt-15px h-5vh>
+    <div v-if="pkStore.status === 'playing'" mt-15px h-5vh>
       <div text-24px font-bold flex-center>
         <div i-akar-icons-face-wink mr-2 />
         您在左下角
