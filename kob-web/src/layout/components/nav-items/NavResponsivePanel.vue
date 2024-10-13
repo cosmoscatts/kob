@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { APP_META } from '~/config';
+import { appMeta } from '~/config';
 import NavAvatar from './NavAvatar.vue';
 import NavMenu from './NavMenu.vue';
 
@@ -36,7 +36,7 @@ const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value
       <div flex-auto />
       <a
         icon-btn text-lg i-carbon-logo-github mx-3
-        :href="APP_META.github"
+        :href="appMeta.github"
         target="_blank" title="GitHub"
       />
       <DarkToggle mr-3 />

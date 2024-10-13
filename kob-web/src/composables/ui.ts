@@ -2,7 +2,7 @@ import type { GlobalThemeOverrides, ThemeCommonVars } from 'naive-ui';
 import type { ComputedRef } from 'vue';
 import { breakpointsTailwind } from '@vueuse/core';
 import { commonDark, commonLight } from 'naive-ui';
-import { APP_LAYOUT_PARAMS } from '~/config';
+import { layoutConfig } from '~/config';
 import { createPrimaryColorPalette } from '~/utils/color';
 
 // ----- Theme -----
@@ -17,7 +17,7 @@ export const isDark = useDark({
 export const toggleDark = useToggle(isDark);
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const overrides = createPrimaryColorPalette(APP_LAYOUT_PARAMS.primaryColor);
+  const overrides = createPrimaryColorPalette(layoutConfig.primaryColor);
   return computed<GlobalThemeOverrides>(() => {
     const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)];
     const cardColor = ['#fefefe', '#131313'][Number(isDark.value)];
@@ -26,7 +26,7 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
     return {
       common: { ...overrides },
       LoadingBar: {
-        colorLoading: APP_LAYOUT_PARAMS.primaryColor,
+        colorLoading: layoutConfig.primaryColor,
       },
       Layout: {
         color: bodyColor,
@@ -121,7 +121,7 @@ const colorPropertyMap: { [key: string]: string } = {
 };
 
 export function writeThemeColorsToBody() {
-  const overrides = createPrimaryColorPalette(APP_LAYOUT_PARAMS.primaryColor);
+  const overrides = createPrimaryColorPalette(layoutConfig.primaryColor);
 
   const colors: ThemeCommonVars = isDark.value
     ? commonDark
@@ -139,5 +139,5 @@ watch(isDark, writeThemeColorsToBody);
 
 // ----- Content Height -----
 
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS;
+const { navHeight, footHeight, contentPadding } = layoutConfig;
 export const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3);

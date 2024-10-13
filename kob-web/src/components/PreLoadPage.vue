@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useThemeVars } from 'naive-ui';
 import logo from '~/assets/logo.png';
-import { APP_META } from '~/config';
+import { appMeta } from '~/config';
 
 const themeVars = useThemeVars();
 const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
@@ -38,7 +38,7 @@ onMounted(createLottie);
                 :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"
                 :size="36" style="font-weight: bold;"
               >
-                {{ APP_META.name }}
+                {{ appMeta.name }}
               </n-gradient-text>
             </div>
           </div>
@@ -48,7 +48,7 @@ onMounted(createLottie);
               :gradient="`linear-gradient(90deg, ${themeVars.successColor} 0%, ${themeVars.warningColor} 33%, ${themeVars.infoColor} 66%, ${themeVars.errorColor} 100%)`"
               :size="24" style="font-weight: bold;"
             >
-              {{ APP_META.description }}
+              {{ appMeta.description }}
             </n-gradient-text>
           </div>
         </div>

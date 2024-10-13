@@ -1,5 +1,5 @@
 <script  setup lang="ts">
-import { APP_LAYOUT_PARAMS } from '~/config';
+import { layoutConfig } from '~/config';
 import TheContent from './components/TheContent.vue';
 import TheFoot from './components/TheFoot.vue';
 import TheNav from './components/TheNav.vue';
@@ -8,12 +8,9 @@ const {
   navHeight,
   contentPadding,
   footHeight,
-  backTopRight,
-  backTopBottom,
-  backTopvisibilityHeight,
-} = APP_LAYOUT_PARAMS;
+  backTop,
+} = layoutConfig;
 
-// 设置 `backTop` 的监听目标
 const refWrapper = ref();
 </script>
 
@@ -42,9 +39,9 @@ const refWrapper = ref();
       </n-layout-content>
       <n-back-top
         :listen-to="refWrapper"
-        :right="backTopRight"
-        :bottom="backTopBottom"
-        :visibility-height="backTopvisibilityHeight"
+        :right="backTop.right"
+        :bottom="backTop.bottom"
+        :visibility-height="backTop.visibilityHeight"
       />
     </n-layout>
     <n-layout-footer

@@ -1,4 +1,4 @@
-import { APP_META } from '~/config';
+import { appMeta } from '~/config';
 
 export type Tab = 'account' | 'phone' | 'register';
 
@@ -12,7 +12,7 @@ export const REGEXP_PHONE
 export function getSmsCode() {
   useTimeoutFn(() => {
     $notification.info({
-      content: `【${APP_META.shortName}】验证码：123456，有效期10分钟。如非本人操作，请忽略。`,
+      content: `【${appMeta.shortName}】验证码：123456，有效期10分钟。如非本人操作，请忽略。`,
       duration: 30 * 1000,
     });
   }, 5000);
