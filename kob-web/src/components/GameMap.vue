@@ -18,7 +18,7 @@ const sendStartGameSingal = () => {
 
 function createGameMap() {
   const { value: canvas } = refCanvas;
-  gameMap?.destory();
+  gameMap?.destroy();
   gameMap = new GameMap(canvas!.getContext('2d')!, refParentEl.value!);
   pkStore.updateGameState({ gameMapObject: gameMap as any });
 
