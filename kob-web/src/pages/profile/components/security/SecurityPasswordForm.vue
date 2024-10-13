@@ -5,14 +5,14 @@ import type {
   FormItemRule,
   FormRules,
   FormValidationError,
-} from 'naive-ui'
+} from 'naive-ui';
 import {
   Glasses as GlassesIcon,
   GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
+} from '@vicons/ionicons5';
 
-const securityActionCallback = inject<Function>('securityActionCallback')
+const securityActionCallback = inject<Function>('securityActionCallback');
 
 interface ModelType {
   oldPass?: string
@@ -20,20 +20,20 @@ interface ModelType {
   reenteredNewPass?: string
 }
 
-const refForm = ref<FormInst | null>(null)
+const refForm = ref<FormInst | null>(null);
 const baseFormModel = {
   oldPass: '',
   newPass: '',
   reenteredNewPass: '',
-}
+};
 const formModel = reactive<ModelType>({
   ...baseFormModel,
-})
+});
 
-const refRPasswordFormItem = ref<FormItemInst | null>(null)
+const refRPasswordFormItem = ref<FormItemInst | null>(null);
 function handlePasswordInput() {
   if (formModel.reenteredNewPass) {
-    refRPasswordFormItem.value?.validate({ trigger: 'password-input' })
+    refRPasswordFormItem.value?.validate({ trigger: 'password-input' });
   }
 }
 
@@ -45,10 +45,10 @@ function validatePasswordStartWith(
     !!formModel.newPass
     && formModel.newPass.startsWith(value)
     && formModel.newPass.length >= value.length
-  )
+  );
 }
 
-const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.newPass
+const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.newPass;
 
 const rules: FormRules = {
   oldPass: [
@@ -80,38 +80,39 @@ const rules: FormRules = {
       trigger: ['blur', 'password-input'],
     },
   ],
-}
+};
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
-  e.preventDefault()
+  e.preventDefault();
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors) return
-    startLoading()
+    if (errors)
+      return;
+    startLoading();
     UserSecurityApi
       .updatePassword(useClone(formModel))
       .then(({ code, msg }) => {
         if (code !== 0) {
-          useTimeoutFn(endLoading, 1000)
-          $message.error(msg ?? '保存失败')
-          return
+          useTimeoutFn(endLoading, 1000);
+          $message.error(msg ?? '保存失败');
+          return;
         }
-        $message.success('保存成功')
+        $message.success('保存成功');
         useTimeoutFn(() => {
-          endLoading()
-          securityActionCallback?.()
-        }, 1000)
-      })
-  })
+          endLoading();
+          securityActionCallback?.();
+        }, 1000);
+      });
+  });
 }
 
-const refInputOldPass = ref()
-const focusFirstInput = () => refInputOldPass.value?.focus()
+const refInputOldPass = ref();
+const focusFirstInput = () => refInputOldPass.value?.focus();
 
 defineExpose({
   focusFirstInput,
-})
+});
 </script>
 
 <template>

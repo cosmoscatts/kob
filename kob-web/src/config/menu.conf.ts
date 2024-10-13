@@ -1,12 +1,12 @@
-import type { Component } from 'vue'
-import { RobotOutlined } from '@vicons/antd'
+import type { Component } from 'vue';
+import { RobotOutlined } from '@vicons/antd';
 import {
   ChatbubblesOutline,
   DocumentTextOutline,
   HomeOutline,
   MedalOutline,
-} from '@vicons/ionicons5'
-import type { Menu } from '~/types'
+} from '@vicons/ionicons5';
+import type { Menu } from '~/types';
 
 export const APP_MENUS: Menu[] = [
   {
@@ -39,7 +39,7 @@ export const APP_MENUS: Menu[] = [
     path: '/discuss',
     icon: 'discuss',
   },
-]
+];
 
 export const APP_MENU_ICON_MAP: Record<string, Component> = {
   home: HomeOutline,
@@ -47,4 +47,4 @@ export const APP_MENU_ICON_MAP: Record<string, Component> = {
   record: DocumentTextOutline,
   rank: MedalOutline,
   discuss: ChatbubblesOutline,
-}
+};

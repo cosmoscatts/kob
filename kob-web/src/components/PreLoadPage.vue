@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { useThemeVars } from 'naive-ui'
-import { APP_META } from '~/config'
-import logo from '~/assets/logo.png'
+import { useThemeVars } from 'naive-ui';
+import logo from '~/assets/logo.png';
+import { APP_META } from '~/config';
 
-const themeVars = useThemeVars()
-const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)])
+const themeVars = useThemeVars();
+const bodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
 
 // 控制内层动画
-const { loading, endLoading } = useLoading(true)
-useTimeoutFn(endLoading, 800)
+const { loading, endLoading } = useLoading(true);
+useTimeoutFn(endLoading, 800);
 
 const createLottie = () => useLottie({
   containerId: '#lottie-container',
   path: 'https://assets2.lottiefiles.com/packages/lf20_IOZ1VGjvs1.json',
-})
-onMounted(createLottie)
+});
+onMounted(createLottie);
 </script>
 
 <template>

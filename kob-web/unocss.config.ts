@@ -5,7 +5,7 @@ import {
   presetUno,
   presetWebFonts,
   presetWind,
-} from 'unocss'
+} from 'unocss';
 
 export default defineConfig({
   shortcuts: {
@@ -67,4 +67,4 @@ export default defineConfig({
       error_suppl: 'var(--error-color-suppl)',
     },
   },
-})
+});

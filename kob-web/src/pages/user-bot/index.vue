@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BotTable from './components/BotTable.vue'
-import BotPanel from './components/BotPanel.vue'
+import BotPanel from './components/BotPanel.vue';
+import BotTable from './components/BotTable.vue';
 </script>
 
 <template>

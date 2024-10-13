@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { UploadFileInfo } from 'naive-ui'
+import type { UploadFileInfo } from 'naive-ui';
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 function onChange({
   file,
 }: {
@@ -13,24 +13,24 @@ function onChange({
       .updateLoginUserInfo({ avatar: imageAsDateURL as string })
       .then(({ code }) => {
         if (code === 0) {
-          $message.success('上传成功')
-          userStore.updateUser()
+          $message.success('上传成功');
+          userStore.updateUser();
         } else {
-          $message.error('上传失败')
+          $message.error('上传失败');
         }
-      })
-  })
+      });
+  });
 }
 
 function getBase64(file: File) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    let imageAsDateURL = ''
-    reader.readAsDataURL(file)
-    reader.onload = data => imageAsDateURL = data.target?.result as string
-    reader.onerror = err => reject(err)
-    reader.onloadend = () => resolve(imageAsDateURL)
-  })
+    const reader = new FileReader();
+    let imageAsDateURL = '';
+    reader.readAsDataURL(file);
+    reader.onload = data => imageAsDateURL = data.target?.result as string;
+    reader.onerror = err => reject(err);
+    reader.onloadend = () => resolve(imageAsDateURL);
+  });
 }
 
 function beforeUpload({
@@ -40,10 +40,10 @@ function beforeUpload({
   fileList: UploadFileInfo[]
 }) {
   if (!file.file?.type.startsWith('image')) {
-    $message.error('只能上传图片文件，请重新上传')
-    return false
+    $message.error('只能上传图片文件，请重新上传');
+    return false;
   }
-  return true
+  return true;
 }
 </script>
 

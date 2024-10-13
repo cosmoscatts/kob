@@ -1,33 +1,33 @@
 <script setup lang="ts">
-const emits = defineEmits(['refresh'])
+const emits = defineEmits(['refresh']);
 
-const words = ref('')
-const { loading, startLoading, endLoading } = useLoading()
+const words = ref('');
+const { loading, startLoading, endLoading } = useLoading();
 
 const submit = useThrottleFn(() => {
-  const remark = words.value.trim()
+  const remark = words.value.trim();
   if (!remark?.length) {
-    $message.warning('您不能什么也不说哦')
-    return
+    $message.warning('您不能什么也不说哦');
+    return;
   }
   if (remark.length > 1000) {
-    $message.warning('字数太多了哦')
-    return
+    $message.warning('字数太多了哦');
+    return;
   }
-  startLoading()
+  startLoading();
   DiscussApi
     .addDiscuss({ remark })
     .then(({ code, msg }) => {
       if (code !== 0) {
-        $message.error(msg || '提交失败')
-        return
+        $message.error(msg || '提交失败');
+        return;
       }
-      $message.success('提交成功')
-      words.value = ''
-      emits('refresh')
+      $message.success('提交成功');
+      words.value = '';
+      emits('refresh');
     })
-    .finally(() => useTimeoutFn(endLoading, 200))
-}, 500)
+    .finally(() => useTimeoutFn(endLoading, 200));
+}, 500);
 </script>
 
 <template>

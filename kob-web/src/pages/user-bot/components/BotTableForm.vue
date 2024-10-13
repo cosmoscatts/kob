@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { FormInst, FormValidationError } from 'naive-ui'
+import type { FormInst, FormValidationError } from 'naive-ui';
+import { java } from '@codemirror/lang-java';
+import { oneDark } from '@codemirror/theme-one-dark';
 import {
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import { Codemirror } from 'vue-codemirror'
-import { java } from '@codemirror/lang-java'
-import { oneDark } from '@codemirror/theme-one-dark'
-import { createRules } from '../rules'
-import type { Bot } from '~/types'
+} from '@vicons/ionicons5';
+import { Codemirror } from 'vue-codemirror';
+import type { Bot } from '~/types';
+import { createRules } from '../rules';
 
 const {
   type = 'add',
@@ -17,66 +17,67 @@ const {
   type?: 'add' | 'edit' // 表单操作类型
   modalVisible?: boolean // 表单是否显示
   form?: Bot // 表单数据
-}>()
+}>();
 
-const emits = defineEmits(['update:modal-visible', 'saveBotData'])
+const emits = defineEmits(['update:modal-visible', 'saveBotData']);
 
-const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot') // 标题
+const title = computed(() => type === 'add' ? '添加Bot' : '编辑Bot'); // 标题
 
 const segmented = { // card 分级
   content: 'soft',
   footer: 'soft',
-} as const
+} as const;
 
-const refForm = ref<FormInst | null>(null) // form 表单元素
+const refForm = ref<FormInst | null>(null); // form 表单元素
 
-type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' > & { content: string }
+type FormModel = Omit<Bot, 'rating' | 'createTime' | 'modifyTime' > & { content: string };
 const baseFormModel: FormModel = {
   id: undefined,
   userId: undefined,
   title: '',
   description: '',
   content: '',
-}
+};
 const formModel = reactive<FormModel>({
   ...baseFormModel,
-})
+});
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 function assign() {
   const target: Bot = modalVisible && type === 'edit'
     ? unref(form)
-    : baseFormModel
+    : baseFormModel;
 
-    type K = keyof Omit<FormModel, 'content'>
+    type K = keyof Omit<FormModel, 'content'>;
     for (const [key, value] of Object.entries(target)) {
       if (!Object.prototype.hasOwnProperty.call(formModel, key))
-        continue
-      formModel[key as K] = value
+        continue;
+      formModel[key as K] = value;
     }
 }
 
 watch(() => modalVisible, () => {
-  assign()
-  endLoading()
-  refForm.value?.restoreValidation()
-})
+  assign();
+  endLoading();
+  refForm.value?.restoreValidation();
+});
 
 function onSubmit(e: MouseEvent) {
-  e.preventDefault()
+  e.preventDefault();
   refForm.value?.validate((errors?: FormValidationError[]) => {
-    if (errors) return
-    startLoading()
-    emits('saveBotData', useClone(formModel))
-    useTimeoutFn(endLoading, 2000)
-  })
+    if (errors)
+      return;
+    startLoading();
+    emits('saveBotData', useClone(formModel));
+    useTimeoutFn(endLoading, 2000);
+  });
 }
 
-const onCloseModal = () => emits('update:modal-visible', false)
+const onCloseModal = () => emits('update:modal-visible', false);
 
-const rules = createRules() // 生成表单校验规则
-const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()])
+const rules = createRules(); // 生成表单校验规则
+const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
 </script>
 
 <template>

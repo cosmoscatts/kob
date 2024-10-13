@@ -1,26 +1,27 @@
 <script setup lang="ts">
-import SecurityModal from './security/SecurityModal.vue'
-import type { UserSecurity } from '~/types'
+import type { UserSecurity } from '~/types';
+import SecurityModal from './security/SecurityModal.vue';
 
-let security = $ref<UserSecurity>({})
+let security = $ref<UserSecurity>({});
 
 const checkUserHasPassword = () => {
-  UserSecurityApi.checkSecurity().then(({ data = {} }) => security = data)
-}
-checkUserHasPassword()
+  UserSecurityApi.checkSecurity().then(({ data = {} }) => security = data);
+};
+checkUserHasPassword();
 
-let modalVisible = $ref(false)
-let modalTitle = $ref('')
-let formIndex = $ref(0)
-type T = 'password' | 'phone' | 'github' | 'qq' | 'wx' | 'bilibili'
+let modalVisible = $ref(false);
+let modalTitle = $ref('');
+let formIndex = $ref(0);
+type T = 'password' | 'phone' | 'github' | 'qq' | 'wx' | 'bilibili';
 function onClick(type: T) {
-  const hash = ['password', 'phone', 'github', 'qq', 'wx', 'bilibili']
-  const title = ['密码', '手机号', 'Github', 'QQ', '微信', 'Bilibili']
-  const index = hash.findIndex(i => i === type)
-  if (!~index) return
-  modalVisible = true
-  modalTitle = `设置${title[index]}`
-  formIndex = index
+  const hash = ['password', 'phone', 'github', 'qq', 'wx', 'bilibili'];
+  const title = ['密码', '手机号', 'Github', 'QQ', '微信', 'Bilibili'];
+  const index = hash.findIndex(i => i === type);
+  if (!~index)
+    return;
+  modalVisible = true;
+  modalTitle = `设置${title[index]}`;
+  formIndex = index;
 }
 </script>
 

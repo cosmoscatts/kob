@@ -1,4 +1,4 @@
-import type { AnyObject } from './global'
+import type { AnyObject } from './global';
 
 export interface ChangeLog extends AnyObject {
   date?: string

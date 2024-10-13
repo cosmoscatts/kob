@@ -5,15 +5,15 @@ import type {
   FormItemRule,
   FormRules,
   FormValidationError,
-} from 'naive-ui'
+} from 'naive-ui';
 import {
   Glasses as GlassesIcon,
   GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import FuncBar from './FuncBar.vue'
+} from '@vicons/ionicons5';
+import FuncBar from './FuncBar.vue';
 
-const registerCallback = inject<Function>('registerCallback')
+const registerCallback = inject<Function>('registerCallback');
 
 interface ModelType {
   username?: string
@@ -21,21 +21,21 @@ interface ModelType {
   reenteredPassword?: string
 }
 
-const refForm = ref<FormInst | null>(null)
+const refForm = ref<FormInst | null>(null);
 const baseFormModel = {
   username: '',
   password: '',
   reenteredPassword: '',
-}
+};
 const formModel = reactive<ModelType>({
   ...baseFormModel,
-})
+});
 
-const refRPasswordFormItem = ref<FormItemInst | null>(null)
+const refRPasswordFormItem = ref<FormItemInst | null>(null);
 
 function handlePasswordInput() {
   if (formModel.reenteredPassword) {
-    refRPasswordFormItem.value?.validate({ trigger: 'password-input' })
+    refRPasswordFormItem.value?.validate({ trigger: 'password-input' });
   }
 }
 
@@ -47,10 +47,10 @@ function validatePasswordStartWith(
     !!formModel.password
     && formModel.password.startsWith(value)
     && formModel.password.length >= value.length
-  )
+  );
 }
 
-const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.password
+const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.password;
 
 const rules: FormRules = {
   username: [
@@ -60,7 +60,7 @@ const rules: FormRules = {
     },
     {
       validator(_rule: FormItemRule, value: string) {
-        return value.length >= 1 && value.length <= 20
+        return value.length >= 1 && value.length <= 20;
       },
       message: '账号的长度为 1 ~ 20',
       trigger: ['input', 'blur'],
@@ -89,35 +89,36 @@ const rules: FormRules = {
       trigger: ['blur', 'password-input'],
     },
   ],
-}
+};
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
-  e.preventDefault()
+  e.preventDefault();
   refForm.value?.validate((errors?: FormValidationError[]) => {
-    if (errors) return
-    startLoading()
+    if (errors)
+      return;
+    startLoading();
     UserApi
       .register(useClone(formModel))
       .then(({ code, msg }) => {
         if (code !== 0) {
-          $message.error(msg ?? '注册失败')
-          return
+          $message.error(msg ?? '注册失败');
+          return;
         }
-        $message.success('注册成功')
-        registerCallback?.()
+        $message.success('注册成功');
+        registerCallback?.();
       })
-      .finally(() => useTimeoutFn(endLoading, 1000))
-  })
+      .finally(() => useTimeoutFn(endLoading, 1000));
+  });
 }
 
-const refInputUserName = ref()
-const focusFirstInput = () => refInputUserName.value?.focus()
+const refInputUserName = ref();
+const focusFirstInput = () => refInputUserName.value?.focus();
 
 defineExpose({
   focusFirstInput,
-})
+});
 </script>
 
 <template>

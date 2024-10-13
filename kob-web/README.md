@@ -1,2 +1,1 @@
-# KOB - King Of Bots 
-
+# KOB - King Of Bots

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const pkStore = usePkStore()
-const { players, loser } = storeToRefs(pkStore)
-const userStore = useUserStore()
+const pkStore = usePkStore();
+const { players, loser } = storeToRefs(pkStore);
+const userStore = useUserStore();
 </script>
 
 <template>

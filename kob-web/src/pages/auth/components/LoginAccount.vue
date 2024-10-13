@@ -4,22 +4,22 @@ import type {
   FormItemRule,
   FormRules,
   FormValidationError,
-} from 'naive-ui'
+} from 'naive-ui';
 import {
   Glasses as GlassesIcon,
   GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import FuncBar from './FuncBar.vue'
+} from '@vicons/ionicons5';
+import FuncBar from './FuncBar.vue';
 
-const loginCallback = inject<Function>('loginCallback')
+const loginCallback = inject<Function>('loginCallback');
 
 interface ModelType {
   username?: string
   password?: string
 }
 
-const refForm = ref<FormInst | null>(null)
+const refForm = ref<FormInst | null>(null);
 const baseFormModel = isDevelopment // 表单基础数据
   ? {
       username: 'admin',
@@ -28,10 +28,10 @@ const baseFormModel = isDevelopment // 表单基础数据
   : {
       username: '',
       password: '',
-    }
+    };
 const formModel = reactive<ModelType>({
   ...baseFormModel,
-})
+});
 
 const rules: FormRules = {
   username: [
@@ -41,7 +41,7 @@ const rules: FormRules = {
     },
     {
       validator(_rule: FormItemRule, value: string) {
-        return value.length >= 1 && value.length <= 20
+        return value.length >= 1 && value.length <= 20;
       },
       message: '账号的长度为 1 ~ 20',
       trigger: ['input', 'blur'],
@@ -53,37 +53,38 @@ const rules: FormRules = {
       message: '请输入密码',
     },
   ],
-}
+};
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
-  e.preventDefault()
+  e.preventDefault();
   refForm.value?.validate((errors?: FormValidationError[]) => {
-    if (errors) return
-    startLoading()
+    if (errors)
+      return;
+    startLoading();
     UserApi
       .getToken(useClone(formModel))
       .then(({ code, data, msg }) => {
         if (code !== 0) {
-          useTimeoutFn(endLoading, 1000)
-          $message.error(msg ?? '账号或密码错误')
-          return
+          useTimeoutFn(endLoading, 1000);
+          $message.error(msg ?? '账号或密码错误');
+          return;
         }
         useTimeoutFn(() => {
-          endLoading()
-          loginCallback?.(data.token)
-        }, 1000)
-      })
-  })
+          endLoading();
+          loginCallback?.(data.token);
+        }, 1000);
+      });
+  });
 }
 
-const refInputUserName = ref()
-const focusFirstInput = () => refInputUserName.value?.focus()
+const refInputUserName = ref();
+const focusFirstInput = () => refInputUserName.value?.focus();
 
 defineExpose({
   focusFirstInput,
-})
+});
 </script>
 
 <template>

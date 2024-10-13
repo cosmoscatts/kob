@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { createDropdownOptions } from './avatar'
-import Auth from '~/pages/auth/index.vue'
-import defaultAvatar from '~/assets/default-avatar.png'
+import defaultAvatar from '~/assets/default-avatar.png';
+import Auth from '~/pages/auth/index.vue';
+import { createDropdownOptions } from './avatar';
 
-const router = useRouter()
-const userStore = useUserStore()
-const options = createDropdownOptions(router, userStore)
+const router = useRouter();
+const userStore = useUserStore();
+const options = createDropdownOptions(router, userStore);
 
 const loadLottie = () => useTimeoutFn(() => useLottie({
   containerId: '#lottie-cap',
   path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
-}), 10)
-onMounted(loadLottie)
+}), 10);
+onMounted(loadLottie);
 watch(() => userStore.hasLogin, (val) => {
-  if (val) loadLottie()
-})
+  if (val)
+    loadLottie();
+});
 </script>
 
 <template>

@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-import { LoginAccount, LoginPhone, Register } from './components'
-import type { Tab } from './components'
+import type { Ref } from 'vue';
+import type { Tab } from './components';
+import { LoginAccount, LoginPhone, Register } from './components';
 
-const themeDark = isDark
-const router = useRouter()
+const themeDark = isDark;
+const router = useRouter();
 
-const userStore = useUserStore()
-const { authModalVisible } = storeToRefs(userStore)
-const { login, setAuthModalVisible } = userStore
+const userStore = useUserStore();
+const { authModalVisible } = storeToRefs(userStore);
+const { login, setAuthModalVisible } = userStore;
 
 const bodyStyle = {
   width: '390px',
-}
+};
 
-const currentTab = ref<Tab>('account')
+const currentTab = ref<Tab>('account');
 
 const title = computed(() => {
-  const { value: tab } = currentTab
+  const { value: tab } = currentTab;
   return {
     account: '账密登录',
     phone: '验证码登录',
     register: '用户注册',
-  }[tab]
-})
+  }[tab];
+});
 
 function changeTab(tab: Tab) {
-  currentTab.value = tab
+  currentTab.value = tab;
 }
 
 function close() {
-  currentTab.value = 'account'
-  setAuthModalVisible(false)
+  currentTab.value = 'account';
+  setAuthModalVisible(false);
 }
 
-const refLoginAccount = ref()
-const refLoginPhone = ref()
-const refRegister = ref()
+const refLoginAccount = ref();
+const refLoginPhone = ref();
+const refRegister = ref();
 
 /**
  * 实现 form 显示时，input 框自动 focus
@@ -46,24 +46,25 @@ function inputAutoFocus() {
     account: refLoginAccount,
     phone: refLoginPhone,
     register: refRegister,
-  }
-  refMap[currentTab.value]?.value?.focusFirstInput()
+  };
+  refMap[currentTab.value]?.value?.focusFirstInput();
 }
 
 watch(authModalVisible, (val) => {
-  if (val) useTimeoutFn(inputAutoFocus, 200)
-})
-watch(currentTab, () => useTimeoutFn(inputAutoFocus, 200))
+  if (val)
+    useTimeoutFn(inputAutoFocus, 200);
+});
+watch(currentTab, () => useTimeoutFn(inputAutoFocus, 200));
 
 function loginCallback(token: string) {
-  router.push('/')
-  login(token)
+  router.push('/');
+  login(token);
   $notification.success({
     title: '登录成功',
     content: '欢迎使用，快来一场伟大的战斗吧~',
     duration: 3000,
-  })
-  setAuthModalVisible(false)
+  });
+  setAuthModalVisible(false);
 }
 
 function registerCallback() {
@@ -71,14 +72,14 @@ function registerCallback() {
     title: '注册成功',
     content: '快去登录把~',
     duration: 3000,
-  })
-  currentTab.value = 'account'
+  });
+  currentTab.value = 'account';
 }
 
-provide('tab', currentTab)
-provide('changeTab', changeTab)
-provide('loginCallback', loginCallback)
-provide('registerCallback', registerCallback)
+provide('tab', currentTab);
+provide('changeTab', changeTab);
+provide('loginCallback', loginCallback);
+provide('registerCallback', registerCallback);
 </script>
 
 <template>

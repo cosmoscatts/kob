@@ -12,5 +12,5 @@ export function createRules() {
         message: '请输入代码',
       },
     ],
-  }
+  };
 }

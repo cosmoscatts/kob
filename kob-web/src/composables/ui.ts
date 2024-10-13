@@ -1,27 +1,27 @@
-import type { GlobalThemeOverrides, ThemeCommonVars } from 'naive-ui'
-import { commonDark, commonLight } from 'naive-ui'
-import type { ComputedRef } from 'vue'
-import { breakpointsTailwind } from '@vueuse/core'
-import { createPrimaryColor } from '~/utils'
-import { APP_LAYOUT_PARAMS } from '~/config'
+import type { GlobalThemeOverrides, ThemeCommonVars } from 'naive-ui';
+import type { ComputedRef } from 'vue';
+import { breakpointsTailwind } from '@vueuse/core';
+import { commonDark, commonLight } from 'naive-ui';
+import { APP_LAYOUT_PARAMS } from '~/config';
+import { createPrimaryColor } from '~/utils';
 
 // ----- Theme -----
 
-const THEME_MODE_KEY = 'THEME_MODE'
-localStorage.setItem(THEME_MODE_KEY, 'dark') // 默认暗色
+const THEME_MODE_KEY = 'THEME_MODE';
+localStorage.setItem(THEME_MODE_KEY, 'dark'); // 默认暗色
 export const isDark = useDark({
   storageKey: THEME_MODE_KEY,
   valueDark: 'dark',
   valueLight: 'light',
-})
-export const toggleDark = useToggle(isDark)
+});
+export const toggleDark = useToggle(isDark);
 
 export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
-  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
+  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor);
   return computed<GlobalThemeOverrides>(() => {
-    const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)]
-    const cardColor = ['#fefefe', '#131313'][Number(isDark.value)]
-    const modalColor = ['#ffffff', '#262626'][Number(isDark.value)]
+    const bodyColor = ['#ffffff', '#121212'][Number(isDark.value)];
+    const cardColor = ['#fefefe', '#131313'][Number(isDark.value)];
+    const modalColor = ['#ffffff', '#262626'][Number(isDark.value)];
 
     return {
       common: { ...overrides },
@@ -76,23 +76,23 @@ export function useThemeOverrides(): ComputedRef<GlobalThemeOverrides> {
         color: modalColor,
         textColor: ['rgb(51, 54, 57)', 'rgba(255, 255, 255, 0.82)'][Number(isDark.value)],
       },
-    }
-  })
+    };
+  });
 }
 
 // ----- 响应式 -----
 
 export function useResponsive() {
-  const breakpoints = useBreakpoints(breakpointsTailwind)
-  const isMobile = breakpoints.smaller('sm')
-  const isPC = breakpoints.greaterOrEqual('sm')
-  const labelHidden = breakpoints.smaller('md') // 隐藏 [form label]
+  const breakpoints = useBreakpoints(breakpointsTailwind);
+  const isMobile = breakpoints.smaller('sm');
+  const isPC = breakpoints.greaterOrEqual('sm');
+  const labelHidden = breakpoints.smaller('md'); // 隐藏 [form label]
   return {
     breakpoints,
     isMobile,
     isPC,
     labelHidden,
-  }
+  };
 }
 
 // ----- Color -----
@@ -118,26 +118,26 @@ const colorPropertyMap: { [key: string]: string } = {
   successColorHover: '--success-color-hover',
   successColorPressed: '--success-color-pressed',
   successColorSuppl: '--success-color-suppl',
-}
+};
 
 export function writeThemeColorsToBody() {
-  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor)
+  const overrides = createPrimaryColor(APP_LAYOUT_PARAMS.primaryColor);
 
   const colors: ThemeCommonVars = isDark.value
     ? commonDark
-    : commonLight
+    : commonLight;
   const mergedColors = {
     ...colors,
     ...overrides,
-  }
+  };
   Object.entries(colorPropertyMap).forEach(([key, value]) => {
-    document.body.style.setProperty(value, mergedColors[key as keyof ThemeCommonVars])
-  })
+    document.body.style.setProperty(value, mergedColors[key as keyof ThemeCommonVars]);
+  });
 }
 
-watch(isDark, writeThemeColorsToBody)
+watch(isDark, writeThemeColorsToBody);
 
 // ----- Content Height -----
 
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
-export const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3)
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS;
+export const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3);

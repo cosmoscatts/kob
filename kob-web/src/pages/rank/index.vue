@@ -3,38 +3,38 @@ import {
   Refresh as RefreshIcon,
   Search as SearchIcon,
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import { createColumns } from './columns'
-import type { Rank } from '~/types'
+} from '@vicons/ionicons5';
+import type { Rank } from '~/types';
+import { createColumns } from './columns';
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 const pagination = usePagination({ // 分页参数
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
-})
+});
 
 const columns = createColumns({
   createRowNumber: pagination.createRowNumber,
-})
+});
 
-let tableData = $ref<Rank[]>([])
-const searchModel = reactive<{ name?: string }>({ name: '' })
+let tableData = $ref<Rank[]>([]);
+const searchModel = reactive<{ name?: string }>({ name: '' });
 
 function fetchTableData() {
-  startLoading()
-  const { page, pageSize } = pagination
+  startLoading();
+  const { page, pageSize } = pagination;
   RankApi
     .getRankList({ page, pageSize, name: searchModel.name?.trim() })
     .then(({ data: { records = [], total = 0 } }) => {
-      tableData = records
-      pagination.itemCount = total
+      tableData = records;
+      pagination.itemCount = total;
     })
-    .finally(() => useTimeoutFn(endLoading, 1000))
+    .finally(() => useTimeoutFn(endLoading, 1000));
 }
-fetchTableData()
+fetchTableData();
 
-const { isMobile, labelHidden } = useResponsive()
+const { isMobile, labelHidden } = useResponsive();
 </script>
 
 <template>

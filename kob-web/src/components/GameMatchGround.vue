@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { GameControllerOutline } from '@vicons/ionicons5'
+import { GameControllerOutline } from '@vicons/ionicons5';
 
-const changePageIndex = inject('changePageIndex') as Function
+const changePageIndex = inject('changePageIndex') as Function;
 
-const { user } = storeToRefs(useUserStore())
-const { opponent, socket } = storeToRefs(usePkStore())
+const { user } = storeToRefs(useUserStore());
+const { opponent, socket } = storeToRefs(usePkStore());
 
-const selectedBot = ref()
-const botOptions = ref<{ value: number; label: string }[]>([])
+const selectedBot = ref();
+const botOptions = ref<{ value: number, label: string }[]>([]);
 
-let matchBtnText = $ref('开始匹配')
-const { loading, startLoading, endLoading } = useLoading()
+let matchBtnText = $ref('开始匹配');
+const { loading, startLoading, endLoading } = useLoading();
 function onClick() {
   if (matchBtnText === '开始匹配') {
-    startLoading()
-    matchBtnText = '取消匹配'
+    startLoading();
+    matchBtnText = '取消匹配';
     socket.value?.send(JSON.stringify({
       event: 'start-matching',
       botId: selectedBot.value,
-    }))
+    }));
   } else {
-    endLoading()
-    matchBtnText = '开始匹配'
+    endLoading();
+    matchBtnText = '开始匹配';
     socket.value?.send(JSON.stringify({
       event: 'stop-matching',
-    }))
+    }));
   }
 }
 
-const defaultBotOptions = [{ value: -1, label: '亲自出马' }]
+const defaultBotOptions = [{ value: -1, label: '亲自出马' }];
 function fetchBotList() {
   BotApi
     .getBotList({})
@@ -36,11 +36,11 @@ function fetchBotList() {
       botOptions.value = [
         ...defaultBotOptions,
         ...records?.map(i => ({ value: i.id, label: i.title })) || [],
-      ] as { value: number; label: string }[]
-      selectedBot.value = -1
-    })
+      ] as { value: number, label: string }[];
+      selectedBot.value = -1;
+    });
 }
-fetchBotList()
+fetchBotList();
 </script>
 
 <template>

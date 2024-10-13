@@ -3,9 +3,9 @@ import {
   Refresh as RefreshIcon,
   Search as SearchIcon,
   TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5'
-import { createColumns } from '../columns'
-import type { Record } from '~/types'
+} from '@vicons/ionicons5';
+import type { Record } from '~/types';
+import { createColumns } from '../columns';
 
 const {
   page = 1,
@@ -15,11 +15,11 @@ const {
   page?: number
   pageSize?: number
   name?: string
-}>()
+}>();
 
-const changeCurrentTab = inject<Function>('changeCurrentTab')!
+const changeCurrentTab = inject<Function>('changeCurrentTab')!;
 
-const { loading, startLoading, endLoading } = useLoading()
+const { loading, startLoading, endLoading } = useLoading();
 
 // 分页参数
 const pagination = usePagination({
@@ -27,11 +27,11 @@ const pagination = usePagination({
   pageSize,
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
-})
+});
 
 function canDelete(aId: number, bId: number): boolean {
-  const userId = useUserStore()?.user?.id
-  return userId === aId || userId === bId
+  const userId = useUserStore()?.user?.id;
+  return userId === aId || userId === bId;
 }
 
 function onRemoveRecord({ id }: Record) {
@@ -42,58 +42,58 @@ function onRemoveRecord({ id }: Record) {
         .deleteRecord(id as number)
         .then(({ code, msg }) => {
           if (code !== 0) {
-            $message.error(msg ?? '删除失败')
-            return
+            $message.error(msg ?? '删除失败');
+            return;
           }
-          $message.success('删除成功')
-          fetchTableData()
-        })
+          $message.success('删除成功');
+          fetchTableData();
+        });
     },
-  )
+  );
 }
 
-const { updateIsRecord, updateSteps, updateGame, updateLoser } = useRecordStore()
+const { updateIsRecord, updateSteps, updateGame, updateLoser } = useRecordStore();
 
 const convert2DArray = (map: string) => { // 将地图从字符串转为二维数组
-  const g: number[][] = []
+  const g: number[][] = [];
   for (let i = 0, k = 0; i < 13; i++) {
-    const line = []
+    const line = [];
     for (let j = 0; j < 14; j++, k++)
-      line.push([1, 0][Number(map[k] === '0')])
+      line.push([1, 0][Number(map[k] === '0')]);
 
-    g.push(line)
+    g.push(line);
   }
-  return g
-}
+  return g;
+};
 
-let tableData = $ref<Record[]>([])
-const searchModel = reactive<{ name?: string }>({ name })
+let tableData = $ref<Record[]>([]);
+const searchModel = reactive<{ name?: string }>({ name });
 
 function fetchTableData() {
-  startLoading()
-  const { page, pageSize } = pagination
+  startLoading();
+  const { page, pageSize } = pagination;
   RecordApi
     .getRecordList({ page, pageSize, name: searchModel.name?.trim() })
     .then(({ data: { records = [], total = 0 } }) => {
-      tableData = records
-      pagination.itemCount = total
+      tableData = records;
+      pagination.itemCount = total;
     })
-    .finally(() => useTimeoutFn(endLoading, 1000))
+    .finally(() => useTimeoutFn(endLoading, 1000));
 }
-fetchTableData()
+fetchTableData();
 
 function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, aAvatar, aName, bAvatar, bName }: Record) {
-  updateIsRecord(true)
-  updateSteps(aSteps, bSteps)
-  updateGame({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) })
-  updateLoser(loser as 'A' | 'B' | 'all' | 'none')
+  updateIsRecord(true);
+  updateSteps(aSteps, bSteps);
+  updateGame({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) });
+  updateLoser(loser as 'A' | 'B' | 'all' | 'none');
 
-  const { page, pageSize } = pagination
+  const { page, pageSize } = pagination;
   const playerInfoList = [
     { name: aName, avatar: aAvatar },
     { name: bName, avatar: bAvatar },
-  ]
-  changeCurrentTab(1, { page, pageSize }, playerInfoList, searchModel.name)
+  ];
+  changeCurrentTab(1, { page, pageSize }, playerInfoList, searchModel.name);
 }
 
 const columns = createColumns({
@@ -101,9 +101,9 @@ const columns = createColumns({
   canDelete,
   checkVideo,
   onRemoveRecord,
-})
+});
 
-const { isMobile, labelHidden } = useResponsive()
+const { isMobile, labelHidden } = useResponsive();
 </script>
 
 <template>

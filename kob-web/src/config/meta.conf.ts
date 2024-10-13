@@ -6,4 +6,4 @@ export const APP_META = {
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
   lastUpdate: '2023/01/10',
-}
+};

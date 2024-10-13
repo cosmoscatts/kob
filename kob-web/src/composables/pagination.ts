@@ -22,19 +22,19 @@ export function usePagination({
     showSizePicker,
     pageSizes,
     onChange: (page: number) => {
-      pagination.page = page
-      onChangeCallback?.()
+      pagination.page = page;
+      onChangeCallback?.();
     },
     onUpdatePageSize: (pageSize: number) => {
-      pagination.pageSize = pageSize
-      pagination.page = 1
-      onUpdatePageSizeCallback?.()
+      pagination.pageSize = pageSize;
+      pagination.page = 1;
+      onUpdatePageSizeCallback?.();
     },
     createRowNumber: (rowIndex: number) => {
-      const { page, pageSize } = pagination
-      return (page - 1) * pageSize + rowIndex + 1
+      const { page, pageSize } = pagination;
+      return (page - 1) * pageSize + rowIndex + 1;
     },
-  })
+  });
 
-  return pagination
+  return pagination;
 }

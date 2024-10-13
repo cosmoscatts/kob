@@ -6,4 +6,4 @@ export const APP_LAYOUT_PARAMS = {
   backTopRight: 20,
   backTopBottom: 200,
   backTopvisibilityHeight: 250,
-}
+};

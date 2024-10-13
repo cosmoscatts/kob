@@ -1,53 +1,56 @@
 <script setup lang="ts">
-import type { PlayerInfo } from '../columns'
-import { APP_LAYOUT_PARAMS } from '~/config'
-import defaultAvatar from '~/assets/default-avatar.png'
+import type { PlayerInfo } from '../columns';
+import defaultAvatar from '~/assets/default-avatar.png';
+import { APP_LAYOUT_PARAMS } from '~/config';
 
 const {
   playerInfoList = [],
 } = defineProps<{
   playerInfoList: PlayerInfo[]
-}>()
+}>();
 
-const changeCurrentTab = inject<Function>('changeCurrentTab')!
+const changeCurrentTab = inject<Function>('changeCurrentTab')!;
 
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS
+const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS;
 const diffHeight = computed(() => {
-  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50
-})
+  return navHeight + footHeight + contentPadding * 2 + 1 + 1 + 3 + 50;
+});
 
-const refGameMap = ref()
-const recordStore = useRecordStore()
-const { loser, recordFinished } = storeToRefs(recordStore)
+const refGameMap = ref();
+const recordStore = useRecordStore();
+const { loser, recordFinished } = storeToRefs(recordStore);
 
-const pause = () => refGameMap.value?.pauseVideo?.()
-const replay = () => refGameMap.value?.replayVideo?.()
-const resume = () => refGameMap.value?.resumeVideo?.()
+const pause = () => refGameMap.value?.pauseVideo?.();
+const replay = () => refGameMap.value?.replayVideo?.();
+const resume = () => refGameMap.value?.resumeVideo?.();
 
 function goBack() {
-  pause()
-  recordStore.clearVideo()
-  changeCurrentTab(0, {})
+  pause();
+  recordStore.clearVideo();
+  changeCurrentTab(0, {});
 }
 
-let recordPaused = $ref(false)
+let recordPaused = $ref(false);
 function doPause() {
-  if (recordPaused) resume()
-  else pause()
-  recordPaused = !recordPaused
+  if (recordPaused)
+    resume();
+  else pause();
+  recordPaused = !recordPaused;
 }
 
 onMounted(() => useLottie({
   containerId: '#lottie-trophy',
   path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
-}))
+}));
 
 document.addEventListener('visibilitychange', () => { // 判断是否离开页面
-  if (document.visibilityState === 'hidden') pause()
-  else {
-    if (!recordPaused) replay()
+  if (document.visibilityState === 'hidden') { pause();
   }
-})
+  else {
+    if (!recordPaused)
+      replay();
+  }
+});
 </script>
 
 <template>

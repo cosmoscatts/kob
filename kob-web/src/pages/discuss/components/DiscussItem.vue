@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Heart, HeartOutline } from '@vicons/ionicons5'
-import type { Discuss } from '~/types'
-import defaultAvatar from '~/assets/default-avatar.png'
+import { Heart, HeartOutline } from '@vicons/ionicons5';
+import defaultAvatar from '~/assets/default-avatar.png';
+import type { Discuss } from '~/types';
 
 const {
   item,
@@ -11,36 +11,36 @@ const {
   item?: Discuss
   loading?: boolean
   isAuthLike?: boolean
-}>()
+}>();
 
-const emits = defineEmits(['likeCallback'])
-const { width } = useWindowSize()
+const emits = defineEmits(['likeCallback']);
+const { width } = useWindowSize();
 
 const like = useThrottleFn((remarkId?: number) => {
   DiscussApi
     .likeDiscuss({ remarkId })
     .then(({ code, msg }) => {
       if (code !== 0) {
-        $message.error(msg || '支持失败，请重试')
-        return
+        $message.error(msg || '支持失败，请重试');
+        return;
       }
-      $message.success('已支持该意见')
-      emits('likeCallback', { id: remarkId, type: 'like' })
-    })
-}, 500)
+      $message.success('已支持该意见');
+      emits('likeCallback', { id: remarkId, type: 'like' });
+    });
+}, 500);
 
 const dislike = useThrottleFn((remarkId?: number) => {
   DiscussApi
     .dislikeDiscuss({ remarkId })
     .then(({ code, msg }) => {
       if (code !== 0) {
-        $message.error(msg || '取消支持失败，请重试')
-        return
+        $message.error(msg || '取消支持失败，请重试');
+        return;
       }
-      $message.success('已取消支持该意见')
-      emits('likeCallback', { id: remarkId, type: 'dislike' })
-    })
-}, 500)
+      $message.success('已取消支持该意见');
+      emits('likeCallback', { id: remarkId, type: 'dislike' });
+    });
+}, 500);
 </script>
 
 <template>

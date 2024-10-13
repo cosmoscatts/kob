@@ -1,4 +1,4 @@
-import type { Discuss, PageData, PageQuery } from '~/types'
+import type { Discuss, PageData, PageQuery } from '~/types';
 
 export const DiscussApi = {
   addDiscuss: (body: Discuss) => R.post('/api/discuss/remark', { body }),
@@ -9,4 +9,4 @@ export const DiscussApi = {
     R.get('/api/discuss/remark/like', { params }),
   dislikeDiscuss: (params: { remarkId?: number }) =>
     R.get('/api/discuss/remark/dislike', { params }),
-}
+};

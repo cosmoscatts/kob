@@ -1,7 +1,7 @@
-import type { User } from '~/types'
+import type { User } from '~/types';
 
 export const UserApi = {
-  getToken: (body?: { username: string; password: string }) =>
+  getToken: (body?: { username: string, password: string }) =>
     R.post<{ token: string }>('/api/user/account/token', { body }),
   register: (body?: {
     username: string
@@ -10,4 +10,4 @@ export const UserApi = {
   }) => R.post('/api/user/account/register', { body }),
   getLoginUserInfo: () => R.get<User>('/api/user/account/info'),
   updateLoginUserInfo: (body: User) => R.put('/api/user/account/info', { body }),
-}
+};
