@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vite --port 3333 --open",
     "build": "esno ./scripts/build.ts && NODE_OPTIONS=--max-old-space-size=8192 vite build && generate-version-file",
-
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
