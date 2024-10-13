@@ -1,92 +1,72 @@
 import defaultAvatar from '~/assets/default-avatar.png';
 import type { LoginState, User } from '~/types';
-import { Token } from '~/utils';
+import { tokenStorage } from '~/utils/token-storage';
 
-export const useUserStore = defineStore(
-  'userStore',
-  () => {
-    const user = ref<User>();
-    const hasLogin = ref(false); // 是否登录
-    const authModalVisible = ref(false); // 是否打开 [登录 / 注册] 模态框
+export const useUserStore = defineStore('userStore', () => {
+  const state = reactive({
+    user: null as User | null,
+    isLoggedIn: false,
+    isAuthModalVisible: false,
+  });
 
-    // setters
+  const setUser = (userData?: User | null) => {
+    state.user = userData ?? null;
+    state.isLoggedIn = !!userData;
+  };
 
-    const setUser = (data?: User) => user.value = data;
-    const setHasLogin = (state = false) => hasLogin.value = state;
-    const setAuthModalVisible = (state: boolean) => authModalVisible.value = state;
+  const setAuthModalVisibility = (isVisible: boolean) => {
+    state.isAuthModalVisible = isVisible;
+  };
 
-    // fn
+  const fetchAndUpdateUser = async () => {
+    try {
+      const result = await UserApi.getLoginUserInfo();
+      const { data = {} } = result.data;
+      setUser({
+        ...data,
+        avatar: data.avatar || defaultAvatar,
+      });
+    } catch (error) {
+      console.error('获取用户信息失败：', error);
+      setUser(null);
+    }
+  };
 
-    const updateUser = () => {
-      UserApi
-        .getLoginUserInfo()
-        .then(({ data = {} }) => {
-          if (!data.avatar) {
-            data.avatar = defaultAvatar;
-          }
-          setUser(data);
-        });
-    };
+  const login = async (token: string) => {
+    tokenStorage.set(token);
+    await fetchAndUpdateUser();
+  };
 
-    const removeUser = () => setUser();
+  const logout = () => {
+    setUser(null);
+    tokenStorage.remove();
+  };
 
-    const login = (token: string) => {
-      updateUser();
-      Token.set(token);
-      setHasLogin(true);
-    };
+  const checkLoginState = async (): Promise<LoginState> => {
+    const token = tokenStorage.get();
+    if (!token)
+      return 'unauthenticated';
+    if (state.isLoggedIn && state.user?.id)
+      return 'authenticated';
 
-    const logout = () => [setHasLogin, removeUser, Token.remove]
-      .forEach(fn => fn());
+    try {
+      await fetchAndUpdateUser();
+      return state.isLoggedIn ? 'authenticated' : 'tokenExpired';
+    } catch (error) {
+      console.error('Error checking login state:', error);
+      logout();
+      return 'tokenExpired';
+    }
+  };
 
-    /**
-     * 判断是否登录 && token 是否过期
-     * token 过期需要清空
-     * @return
-     *  - hasLogin - 已经登录 & token 未过期
-     *  - notLogin - 未登录
-     *  - expire - token 过期
-     */
-    const checkLoginState = () => {
-      const fns: [boolean, () => LoginState | Promise<LoginState>][] = [
-        [!Token.get(), () => {
-          hasLogin.value = false;
-          return 'notLogin';
-        }],
-        [hasLogin && !!user.value?.id, () => 'hasLogin'],
-        [true, async () => {
-          const { code, data = {} } = await UserApi.getLoginUserInfo();
-          const inValid = code !== 0 || !Object.keys(data).length;
-          hasLogin.value = !inValid;
-          if (inValid) {
-            logout();
-          } else {
-            if (!data.avatar)
-              data.avatar = defaultAvatar;
-            user.value = data;
-          }
-          return inValid
-            ? 'expire'
-            : 'hasLogin';
-        }],
-      ];
-      return ConditionalExecutor.executeFirstWithResult<LoginState>(fns) ?? 'notLogin';
-    };
-
-    return {
-      user,
-      hasLogin,
-      authModalVisible,
-      updateUser,
-      removeUser,
-      login,
-      logout,
-      checkLoginState,
-      setAuthModalVisible,
-    };
-  },
-  { persist: { enabled: true } },
-);
+  return {
+    ...toRefs(state),
+    login,
+    logout,
+    checkLoginState,
+    setAuthModalVisibility,
+  };
+}, { persist: { enabled: true } });
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot));
