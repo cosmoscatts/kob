@@ -19,22 +19,27 @@ const formModel = reactive<FormModel>({
   ...getBaseFormModel(),
 });
 
-function onSubmit(e: MouseEvent) {
+function onSubmit(e: Event) {
   e.preventDefault();
-  refForm.value?.validate((errors?: FormValidationError[]) => {
+  refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return;
     startLoading();
-    UserApi
-      .updateLoginUserInfo(useClone(formModel))
-      .then(({ code, msg }) => {
-        if (code === 0) {
-          $message.success('修改成功');
-          userStore.updateUser();
-        }
-        else { $message.error(msg || '修改失败'); }
-      })
-      .finally(() => useTimeoutFn(endLoading, 1000));
+    try {
+      const result = await UserApi.updateLoginUserInfo(useClone(formModel));
+      const { code, msg } = result.data;
+      if (code === 0) {
+        $message.success('修改成功');
+        userStore.fetchAndUpdateUser();
+      } else {
+        $message.error(msg || '修改失败');
+      }
+    } catch (e) {
+      console.error(e);
+      $message.error('修改失败');
+    } finally {
+      useTimeoutFn(endLoading, 1000);
+    }
   });
 }
 </script>

@@ -21,16 +21,21 @@ const columns = createColumns({
 const tableData = ref<Rank[]>([]);
 const searchModel = reactive<{ name?: string }>({ name: '' });
 
-function fetchTableData() {
+async function fetchTableData() {
   startLoading();
   const { page, pageSize } = pagination;
-  RankApi
-    .getRankList({ page, pageSize, name: searchModel.name?.trim() })
-    .then(({ data: { records = [], total = 0 } }) => {
-      tableData.value = records;
-      pagination.itemCount = total;
-    })
-    .finally(() => useTimeoutFn(endLoading, 1000));
+  try {
+    const result = await RankApi.getRankList({ page, pageSize, name: searchModel.name?.trim() });
+    const { data: { records = [], total = 0 } } = result.data;
+    tableData.value = records;
+    pagination.itemCount = total;
+  } catch (e) {
+    console.error(e);
+    tableData.value = [];
+    pagination.itemCount = 0;
+  } finally {
+    useTimeoutFn(endLoading, 1000);
+  }
 }
 fetchTableData();
 
