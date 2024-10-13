@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BugOutline, BulbOutline, DiamondOutline } from '@vicons/ionicons5';
-import { APP_CHANGE_LOG, APP_META } from '~/config';
+import { appChangelog, appMeta } from '~/config';
 
 type Type = 'add' | 'update' | 'fix';
 const getTimelineType = (type: Type) => ({
@@ -31,11 +31,11 @@ const getTimelineIcon = (type: Type) => ({
           <template #footer>
             <n-alert :show-icon="false">
               <div text-center>
-                上一次更新： {{ APP_META.lastUpdate }} @Cosmoscatts
+                上一次更新： {{ appMeta.lastUpdate }} @Cosmoscatts
               </div>
             </n-alert>
           </template>
-          <n-list-item v-for="item in APP_CHANGE_LOG" :key="item.date">
+          <n-list-item v-for="item in appChangelog" :key="item.date">
             <template #prefix>
               <n-tag> {{ item.date }} </n-tag>
             </template>

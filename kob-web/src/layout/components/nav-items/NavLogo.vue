@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logo from '~/assets/logo.png';
-import { APP_META } from '~/config';
+import { appMeta } from '~/config';
 
 const { breakpoints } = useResponsive();
 const hideTitle = breakpoints.between('sm', 'lg');
@@ -18,7 +18,7 @@ const hideTitle = breakpoints.between('sm', 'lg');
       :src="logo"
     />
     <span v-if="!hideTitle" font="bold" pl-16px text-24px>
-      {{ APP_META.name }}
+      {{ appMeta.name }}
     </span>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { APP_LAYOUT_PARAMS } from '~/config';
+import { layoutConfig } from '~/config';
 import { Machine, Match } from './components';
 
-const { navHeight, footHeight, contentPadding } = APP_LAYOUT_PARAMS;
+const { navHeight, footHeight, contentPadding } = layoutConfig;
 const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 1 + 1 + 6);
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
 const menuHeight = computed(() => `calc(100vh - ${diffHeight.value + 60}px - 24vh)`);

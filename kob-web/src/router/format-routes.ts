@@ -1,17 +1,13 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 const modules = import.meta.glob('./routes/*.ts', { eager: true });
-const formatModules = (_modules: any, result: RouteRecordRaw[]) => {
-  Object.keys(_modules).forEach((key) => {
-    const defaultModule = _modules[key].default;
-    if (!defaultModule)
-      return;
-    const moduleList = Array.isArray(defaultModule)
-      ? [...defaultModule]
-      : [defaultModule];
-    result.push(...moduleList);
-  });
-  return result;
+
+const formatModules = (modules: Record<string, any>): RouteRecordRaw[] => {
+  return Object.values(modules)
+    .flatMap(module => module.default)
+    .filter((route): route is RouteRecordRaw => route !== undefined);
 };
-const routes: RouteRecordRaw[] = formatModules(modules, []);
+
+const routes: RouteRecordRaw[] = formatModules(modules);
+
 export default routes;

@@ -1,6 +1,6 @@
 import type { ChangeLog } from '~/types';
 
-export const APP_CHANGE_LOG: ChangeLog[] = [
+export const appChangelog: ChangeLog[] = [
   {
     date: 'IDEAS 💡',
     title: '🧐 一些想法...',

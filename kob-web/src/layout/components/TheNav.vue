@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { APP_META } from '~/config';
+import { appMeta } from '~/config';
 import { NavAvatar, NavLogo, NavMenu, NavResponsivePanel } from './nav-items';
 
 const { isMobile } = useResponsive();
@@ -16,7 +16,7 @@ const development = isDevelopment;
       <a
         v-if="development"
         icon-btn text-lg i-uil-github-alt mr-5
-        :href="APP_META.github"
+        :href="appMeta.github"
         target="_blank" title="GitHub"
       />
       <DarkToggle mr-5 />
