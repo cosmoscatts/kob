@@ -3,12 +3,12 @@ import logo from '~/assets/logo.png';
 import { appMeta } from '~/config';
 
 const { breakpoints } = useResponsive();
-const hideTitle = breakpoints.between('sm', 'lg');
+const hideTitle = breakpoints.between('sm', 'xl');
 </script>
 
 <template>
   <div
-    flex-center hfull cursor-pointer
+    flex-center hfull cursor-pointer min-w-100px
     @click="$router.push('/')"
   >
     <n-avatar

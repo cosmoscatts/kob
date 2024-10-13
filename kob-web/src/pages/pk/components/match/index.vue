@@ -6,63 +6,88 @@ const contentHeight = diffHeight;
 const pkStore = usePkStore();
 const userStore = useUserStore();
 
-pkStore.updateOpponent(); // 更新对手信息
+// 重置对手信息
+pkStore.updateGameState({ opponent: undefined });
 
 const showFightAnimation = ref(false);
-const socket = useSocket((msg) => {
+
+const handleMatchSuccess = (data: any) => {
+  pkStore.updateGameState({
+    opponent: {
+      name: data?.opponentName || '-',
+      avatar: data?.opponentAvatar ?? defaultAvatar,
+    },
+    status: 'playing',
+  });
+  pkStore.updateGame(data.game);
+  $message.success('您的对手已找到');
+  showFightAnimation.value = true;
+  useTimeoutFn(() => { showFightAnimation.value = false; }, 5000);
+};
+
+const handleMove = (data: any) => {
+  pkStore.gameMapObject?.snakes.forEach((snake, index) =>
+    snake.setDirection([data.aDirection, data.bDirection][index]),
+  );
+};
+
+const handleResult = (data: any) => {
+  const [snake0, snake1] = pkStore.gameMapObject?.snakes || [];
+  if (['all', 'A'].includes(data.loser))
+    snake0.status = 'die';
+  if (['all', 'B'].includes(data.loser))
+    snake1.status = 'die';
+
+  const resultMap = {
+    all: 'draw',
+    A: 'playerBWon',
+    B: 'playerAWon',
+    none: 'ongoing',
+  } as const;
+  pkStore.updateGameState({ gameResult: resultMap[data.loser as keyof typeof resultMap] });
+};
+
+const socket = useSocket((msg: any) => {
   const data = JSON.parse(msg.data);
-  const fns: [boolean, Function][] = [
-    [data.event === 'match-success', () => { // 匹配成功
-      pkStore.updateOpponent({
-        name: data?.opponentName || '-',
-        avatar: data?.opponentAvatar ?? defaultAvatar,
-      });
-      pkStore.updateGame(data.game);
-      pkStore.updateStatus('play');
-      $message.success('您的对手已找到');
-      showFightAnimation.value = true;
-      useTimeoutFn(() => showFightAnimation.value = false, 5000);
-    }],
-    [data.event === 'move', () => pkStore.gameMapObject!.snakes.forEach((snake, index) =>
-      snake.setDirection([data.aDirection, data.bDirection][index]))],
-    [data.event === 'result', () => {
-      const [snake0, snake1] = pkStore.gameMapObject!.snakes;
-      if (['all', 'A'].includes(data.loser))
-        snake0.status = 'die';
-      if (['all', 'B'].includes(data.loser))
-        snake1.status = 'die';
-      pkStore.updateLoser(data.loser);
-    }],
+  const fns: [boolean, () => void][] = [
+    [data.event === 'match-success', () => handleMatchSuccess(data)],
+    [data.event === 'move', () => handleMove(data)],
+    [data.event === 'result', () => handleResult(data)],
   ];
   ConditionalExecutor.executeFirst(fns);
 });
 
-const clear = () => [
-  () => socket.close(),
-  () => pkStore.reset(),
-].forEach(fn => fn());
-onUnmounted(clear);
+onUnmounted(() => {
+  socket.close();
+  pkStore.resetGame();
+});
 
-const showConfetti = computed(() => ((pkStore.loser === 'A' && pkStore.players[1].id === userStore.user?.id)
-  || (pkStore.loser === 'B' && pkStore.players[0].id === userStore.user?.id)));
+const showConfetti = computed(() =>
+  (pkStore.gameResult === 'playerBWon' && pkStore.players[1]?.id === userStore.user?.id)
+  || (pkStore.gameResult === 'playerAWon' && pkStore.players[0]?.id === userStore.user?.id),
+);
+
+const playerPosition = computed(() => {
+  if (userStore.user?.id === pkStore.players[0]?.id)
+    return '左下角';
+  if (userStore.user?.id === pkStore.players[1]?.id)
+    return '右上角';
+  return null;
+});
 </script>
 
 <template>
   <div :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }" flex="col center">
-    <GameMatchGround v-if="pkStore.status === 'match'" />
-    <GamePlayground v-if="(pkStore.status === 'play' && !showFightAnimation)" />
-    <FightAnimation v-if="(pkStore.status === 'play' && showFightAnimation)" />
-    <ResultBoard v-if="pkStore.loser !== 'none'" />
+    <GameMatchGround v-if="pkStore.status === 'matching'" />
+    <GamePlayground v-if="pkStore.status === 'playing' && !showFightAnimation" />
+    <FightAnimation v-if="pkStore.status === 'playing' && showFightAnimation" />
+    <ResultBoard v-if="pkStore.gameResult !== 'ongoing'" />
     <Confetti :passed="showConfetti" />
 
-    <div v-if="pkStore.status === 'play'" mt-15px h-5vh>
-      <div v-if="userStore.user!.id === pkStore.players[0]?.id" text-24px font-bold flex-center>
+    <div v-if="pkStore.status === 'playing' && playerPosition" mt-15px h-5vh>
+      <div text-24px font-bold flex-center>
         <div i-akar-icons-face-wink mr-2 />
-        您在左下角
-      </div>
-      <div v-if="userStore.user!.id === pkStore.players[1]?.id" text-24px font-bold flex-center>
-        <div i-akar-icons-face-wink mr-2 />
-        您在右上角
+        您在{{ playerPosition }}
       </div>
     </div>
   </div>

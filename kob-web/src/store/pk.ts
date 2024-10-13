@@ -40,10 +40,19 @@ export const usePkStore = defineStore('pkStore', () => {
     gameResult: 'ongoing',
   });
 
-  const updateGameState = (newState: Partial<PkState>) => {
-    Object.assign(state, {
-      ...newState,
-      opponent: newState.opponent || state.opponent,
+  const updateGameState = <K extends keyof PkState>(
+    newState: Partial<Pick<PkState, K>> & { opponent?: PkState['opponent'] | null | undefined },
+  ) => {
+    (Object.keys(newState) as K[]).forEach((key) => {
+      if (key === 'opponent') {
+        if (newState[key] === null || newState[key] === undefined) {
+          (state[key] as PkState['opponent']) = DEFAULT_OPPONENT;
+        } else {
+          (state[key] as PkState['opponent']) = newState[key] as PkState['opponent'];
+        }
+      } else {
+        (state[key] as PkState[K]) = newState[key] as PkState[K];
+      }
     });
   };
 

@@ -29,16 +29,20 @@ function onClick() {
 }
 
 const defaultBotOptions = [{ value: -1, label: '亲自出马' }];
-function fetchBotList() {
-  BotApi
-    .getBotList({})
-    .then(({ data: { records = [] } }) => {
-      botOptions.value = [
-        ...defaultBotOptions,
-        ...records?.map(i => ({ value: i.id, label: i.title })) || [],
-      ] as { value: number, label: string }[];
-      selectedBot.value = -1;
-    });
+async function fetchBotList() {
+  try {
+    const result = await BotApi.getBotList({});
+    const { data: { records = [] } } = result.data;
+    botOptions.value = [
+      ...defaultBotOptions,
+      ...records?.map(i => ({ value: i.id, label: i.title })) || [],
+    ] as { value: number, label: string }[];
+    selectedBot.value = -1;
+  } catch (e) {
+    console.error(e);
+    botOptions.value = [...defaultBotOptions];
+    selectedBot.value = -1;
+  }
 }
 fetchBotList();
 </script>
