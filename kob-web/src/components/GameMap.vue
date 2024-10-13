@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GameMap } from '~/scripts/map';
+import { GameMap } from '~/game/map';
 
 const refParentEl = ref<HTMLElement>();
 const refCanvas = ref<HTMLCanvasElement>();

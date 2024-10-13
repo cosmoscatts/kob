@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reactive, toRefs } from 'vue';
 import opponentDefaultAvatar from '~/assets/opponent.png';
-import type { GameMap } from '~/scripts/map';
+import type { GameMap } from '~/game/map';
 import type { Game, User } from '~/types';
 
 type Opponent = Pick<User, 'name' | 'avatar'>;
