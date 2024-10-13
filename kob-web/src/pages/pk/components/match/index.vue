@@ -34,7 +34,7 @@ const socket = useSocket((msg) => {
       pkStore.updateLoser(data.loser);
     }],
   ];
-  Conditional.some(fns);
+  ConditionalExecutor.executeFirst(fns);
 });
 
 const clear = () => [

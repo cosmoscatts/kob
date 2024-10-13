@@ -9,7 +9,7 @@ export function createRouterGuard(router: Router): void {
     const state = needLogin
       ? userStore.checkLoginState()
       : 'noNeedLogin';
-    const fns: [boolean, Function][] = [
+    const fns: [boolean, () => void][] = [
       [['noNeedLogin', 'hasLogin'].includes(state), () => next()],
       [state === 'notLogin', () => {
         $message.error('您还未登录！');
@@ -22,7 +22,7 @@ export function createRouterGuard(router: Router): void {
         next('/home');
       }],
     ];
-    Conditional.some(fns);
+    ConditionalExecutor.executeFirst(fns);
   });
   router.afterEach((to, from, failure) => {
     useTitle(to.meta?.title as string ?? APP_META.shortName);

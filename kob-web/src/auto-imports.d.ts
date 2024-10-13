@@ -6,20 +6,13 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const $: typeof import('vue/macros')['$']
-  const $$: typeof import('vue/macros')['$$']
-  const $computed: typeof import('vue/macros')['$computed']
-  const $customRef: typeof import('vue/macros')['$customRef']
   const $dialog: typeof import('./composables/tools')['$dialog']
   const $discrete_api: typeof import('./composables/tools')['$discrete_api']
   const $loadingBar: typeof import('./composables/tools')['$loadingBar']
   const $message: typeof import('./composables/tools')['$message']
   const $notification: typeof import('./composables/tools')['$notification']
-  const $ref: typeof import('vue/macros')['$ref']
-  const $shallowRef: typeof import('vue/macros')['$shallowRef']
-  const $toRef: typeof import('vue/macros')['$toRef']
   const BotApi: typeof import('./server/api/bot')['BotApi']
-  const Conditional: typeof import('./composables/conditional')['Conditional']
+  const ConditionalExecutor: typeof import('./composables/conditional-executor')['ConditionalExecutor']
   const DiscussApi: typeof import('./server/api/remark')['DiscussApi']
   const EffectScope: typeof import('vue')['EffectScope']
   const R: typeof import('./composables/tools')['R']
@@ -360,7 +353,7 @@ declare module 'vue' {
     readonly $message: UnwrapRef<typeof import('./composables/tools')['$message']>
     readonly $notification: UnwrapRef<typeof import('./composables/tools')['$notification']>
     readonly BotApi: UnwrapRef<typeof import('./server/api/bot')['BotApi']>
-    readonly Conditional: UnwrapRef<typeof import('./composables/conditional')['Conditional']>
+    readonly ConditionalExecutor: UnwrapRef<typeof import('./composables/conditional-executor')['ConditionalExecutor']>
     readonly DiscussApi: UnwrapRef<typeof import('./server/api/remark')['DiscussApi']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly R: UnwrapRef<typeof import('./composables/tools')['R']>

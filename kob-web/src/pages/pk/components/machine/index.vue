@@ -12,7 +12,7 @@ const showFightAnimation = ref(false);
 
 const socket = useSocket((msg) => {
   const data = JSON.parse(msg.data);
-  const fns: [boolean, Function][] = [
+  const fns: [boolean, () => void][] = [
     [data.event === 'match-success', () => { // 匹配成功
       pkStore.updateOpponent({
         name: data?.opponentName || '-',
@@ -35,7 +35,7 @@ const socket = useSocket((msg) => {
       pkStore.updateLoser(data.loser);
     }],
   ];
-  Conditional.some(fns);
+  ConditionalExecutor.executeFirst(fns);
 });
 
 const clear = () => [
