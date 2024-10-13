@@ -11,7 +11,11 @@ const loadLottie = () => useTimeoutFn(() => useLottie({
   containerId: '#lottie-cap',
   path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
 }), 10);
-onMounted(loadLottie);
+onMounted(() => {
+  if (userStore.isLoggedIn) {
+    loadLottie();
+  }
+});
 watch(() => userStore.isLoggedIn, (val) => {
   if (val)
     loadLottie();
