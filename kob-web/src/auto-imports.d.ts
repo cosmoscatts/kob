@@ -60,6 +60,7 @@ declare global {
   const isDark: typeof import('./composables/theme')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isDevelopment: typeof import('./composables/env')['isDevelopment']
+  const isProduction: typeof import('./composables/env')['isProduction']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -400,6 +401,7 @@ declare module 'vue' {
     readonly isDark: UnwrapRef<typeof import('./composables/theme')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isDevelopment: UnwrapRef<typeof import('./composables/env')['isDevelopment']>
+    readonly isProduction: UnwrapRef<typeof import('./composables/env')['isProduction']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
