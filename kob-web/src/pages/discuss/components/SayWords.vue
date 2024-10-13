@@ -4,7 +4,7 @@ const emits = defineEmits(['refresh']);
 const words = ref('');
 const { loading, startLoading, endLoading } = useLoading();
 
-const submit = useThrottleFn(() => {
+const submit = useThrottleFn(async () => {
   const remark = words.value.trim();
   if (!remark?.length) {
     $message.warning('您不能什么也不说哦');
@@ -15,18 +15,22 @@ const submit = useThrottleFn(() => {
     return;
   }
   startLoading();
-  DiscussApi
-    .addDiscuss({ remark })
-    .then(({ code, msg }) => {
-      if (code !== 0) {
-        $message.error(msg || '提交失败');
-        return;
-      }
-      $message.success('提交成功');
-      words.value = '';
-      emits('refresh');
-    })
-    .finally(() => useTimeoutFn(endLoading, 200));
+  try {
+    const result = await DiscussApi.addDiscuss({ remark });
+    const { code, msg } = result.data;
+    if (code !== 0) {
+      $message.error(msg || '提交失败');
+      return;
+    }
+    $message.success('提交成功');
+    words.value = '';
+    emits('refresh');
+  } catch (e) {
+    console.error(e);
+    $message.error('提交失败');
+  } finally {
+    useTimeoutFn(endLoading, 200);
+  }
 }, 500);
 </script>
 

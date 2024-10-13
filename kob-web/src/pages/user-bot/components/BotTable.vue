@@ -28,35 +28,43 @@ function onUpdateBot(bot: Bot) {
   modalVisible.value = true;
 }
 
-function onSaveBotData(bot: Bot) {
+async function onSaveBotData(bot: Bot) {
   const { addBot: add, updateBot: update } = BotApi;
   const fn = [add, update][Number(modalAction.value === 'edit')];
   const msgPrefix = ['添加', '编辑'][Number(modalAction.value === 'edit')];
-  fn(bot).then(({ code, msg }) => {
+  try {
+    const result = await fn(bot);
+    const { code, msg } = result.data;
     if (code !== 0) {
-      $message.error(msg ?? `${msgPrefix}失败`);
+      $message.error(msg || `${msgPrefix}失败`);
       return;
     }
     $message.success(`${msgPrefix}成功`);
     modalVisible.value = false;
     fetchTableData();
-  });
+  } catch (e) {
+    console.error(e);
+    $message.error(`${msgPrefix}失败`);
+  }
 }
 
 function onRemoveBot({ id }: Bot) {
   useConfirm(
     '你确定要删除该Bot吗？',
-    () => {
-      BotApi
-        .deleteBot(id as number)
-        .then(({ code, msg }) => {
-          if (code !== 0) {
-            $message.error(msg ?? '删除失败');
-            return;
-          }
-          $message.success('删除成功');
-          fetchTableData();
-        });
+    async () => {
+      try {
+        const result = await BotApi.deleteBot(id as number);
+        const { code, msg } = result.data;
+        if (code !== 0) {
+          $message.error(msg ?? '删除失败');
+          return;
+        }
+        $message.success('删除成功');
+        fetchTableData();
+      } catch (e) {
+        console.error(e);
+        $message.error('删除失败');
+      }
     },
   );
 }
@@ -69,16 +77,21 @@ const columns = createColumns({
 
 const tableData = ref<Bot[]>([]);
 
-function fetchTableData() {
+async function fetchTableData() {
   startLoading();
   const { page, pageSize } = pagination;
-  BotApi
-    .getBotList({ page, pageSize })
-    .then(({ data: { records = [], total = 0 } }) => {
-      tableData.value = records;
-      pagination.itemCount = total;
-    })
-    .finally(() => useTimeoutFn(endLoading, 1000));
+  try {
+    const result = await BotApi.getBotList({ page, pageSize });
+    const { data: { records = [], total = 0 } } = result.data;
+    tableData.value = records;
+    pagination.itemCount = total;
+  } catch (e) {
+    console.error(e);
+    tableData.value = [];
+    pagination.itemCount = 0;
+  } finally {
+    useTimeoutFn(endLoading, 1000);
+  }
 }
 fetchTableData();
 
