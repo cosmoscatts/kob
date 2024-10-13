@@ -73,7 +73,7 @@ export const useUserStore = defineStore(
       return ConditionalExecutor.executeFirstWithResult<LoginState>(fns) ?? 'notLogin';
     };
 
-    return $$({
+    return {
       user,
       hasLogin,
       authModalVisible,
@@ -83,7 +83,7 @@ export const useUserStore = defineStore(
       logout,
       checkLoginState,
       setAuthModalVisible,
-    });
+    };
   },
   { persist: { enabled: true } },
 );

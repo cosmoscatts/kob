@@ -6,14 +6,11 @@ import {
   lightTheme,
 } from 'naive-ui';
 
-import { R } from '~/utils';
-
 const isDevelopment = import.meta.env.MODE === 'development';
 
 export {
   dayjs,
   isDevelopment,
-  R,
 };
 
 // ----- Naive Ui Global API -----

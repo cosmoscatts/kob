@@ -1,36 +1,41 @@
-import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { Token } from './token';
+import { tokenStorage } from './token-storage';
 
 const AXIOS_TIMEOUT = 15000;
 
-export function createAxios() {
-  const _axios = axios.create({
-    baseURL: import.meta.env.VITE_BASE_API_URL as string,
-    timeout: AXIOS_TIMEOUT,
-  });
-  _axios.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-      if (Token.get()) { // 统一在 header 中添加 token
-        config = {
-          ...config,
-          headers: {
-            Authorization: `Bearer ${Token.get()}`,
-          },
-        };
-      }
-      return config as InternalAxiosRequestConfig<any>;
-    },
-    (e: any) => { Promise.reject(e); },
-  );
-  _axios.interceptors.response.use(
-    async (response: AxiosResponse) => {
-      const {
-        data: { code, data, msg },
-      } = response;
-      return Promise.resolve({ code, data, msg }) as any;
-    },
-    (error: any) => Promise.reject(error),
-  );
-  return _axios;
+export interface ApiResponse<T = any> {
+  code: number
+  data: T
+  msg: string
 }
+
+const api: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_BASE_API_URL as string,
+  timeout: AXIOS_TIMEOUT,
+});
+
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    if (tokenStorage.get()) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${tokenStorage.get()}`;
+    }
+    return config;
+  },
+  (error: any) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (response: AxiosResponse): AxiosResponse<ApiResponse> => {
+    const apiResponse: ApiResponse = {
+      code: response.data.code,
+      data: response.data.data,
+      msg: response.data.msg,
+    };
+    return { ...response, data: apiResponse };
+  },
+  (error: any) => Promise.reject(error),
+);
+
+export default api;

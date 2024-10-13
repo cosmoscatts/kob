@@ -43,7 +43,7 @@ export const useRecordStore = defineStore(
       players.value = [];
     }
 
-    return $$({
+    return {
       isRecord,
       aSteps,
       bSteps,
@@ -57,7 +57,7 @@ export const useRecordStore = defineStore(
       updateLoser,
       clearVideo,
       updateRecordFinished,
-    });
+    };
   },
 );
 
