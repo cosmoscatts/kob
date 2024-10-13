@@ -1,4 +1,6 @@
-const GAME_OBJECTS: Game[] = [];
+// ----- 游戏对象管理 -----
+
+const GAME_OBJECTS: Set<Game> = new Set();
 
 // ----- 游戏对象基类 -----
 
@@ -7,36 +9,40 @@ export class Game {
   hasCalledStart = false;
 
   constructor() {
-    GAME_OBJECTS.push(this);
+    GAME_OBJECTS.add(this);
   }
 
-  start() {}
+  start(): void {}
 
-  update() {}
+  update(): void {}
 
-  beforeDestory() {}
+  beforeDestroy(): void {}
 
-  destory() {
-    this.beforeDestory();
-    const idx = GAME_OBJECTS.findIndex(i => i === toRaw(this));
-    if (~idx) {
-      GAME_OBJECTS.splice(idx); // 删除之后的所有对象
-    }
+  destroy(): void {
+    this.beforeDestroy();
+    GAME_OBJECTS.delete(this);
   }
 }
 
-let lastTimestamp = 0; // 上一次执行的时间
-const step = (timestamp: number) => {
-  GAME_OBJECTS.forEach((game) => {
+// ----- 游戏循环 -----
+
+let lastTimestamp = 0;
+
+const step = (timestamp: number): void => {
+  const timeDelta = timestamp - lastTimestamp;
+
+  for (const game of GAME_OBJECTS) {
     if (!game.hasCalledStart) {
       game.hasCalledStart = true;
       game.start();
     } else {
-      game.timeDelta = timestamp - lastTimestamp;
+      game.timeDelta = timeDelta;
       game.update();
     }
-  });
+  }
+
   lastTimestamp = timestamp;
-  requestAnimationFrame(step); // 递归调用
+  requestAnimationFrame(step);
 };
+
 requestAnimationFrame(step);
