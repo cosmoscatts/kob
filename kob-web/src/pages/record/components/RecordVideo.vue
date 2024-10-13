@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PlayerInfo } from '../columns';
-import { layoutConfig } from '~/config';
 import GameResult from './GameResult.vue';
 import PlayerInfoCard from './PlayerInfoCard.vue';
 
@@ -10,8 +9,7 @@ const props = defineProps<{
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!;
 
-const { navHeight, footHeight, contentPadding } = layoutConfig;
-const diffHeight = computed(() => navHeight + footHeight + contentPadding * 2 + 55);
+const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 55 });
 
 const refGameMap = ref();
 const recordStore = useRecordStore();
@@ -57,7 +55,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${diffHeight}px)` }" flex="col center">
+  <div :style="contentStyle" flex="col center">
     <div
       flex-center relative
       text="30px center"

@@ -15,7 +15,6 @@ declare global {
   const ConditionalExecutor: typeof import('./composables/conditional-executor')['ConditionalExecutor']
   const DiscussApi: typeof import('./server/api/discuss')['DiscussApi']
   const EffectScope: typeof import('vue')['EffectScope']
-  const R: typeof import('./composables/tools')['R']
   const RankApi: typeof import('./server/api/rank')['RankApi']
   const RecordApi: typeof import('./server/api/record')['RecordApi']
   const UserApi: typeof import('./server/api/user')['UserApi']
@@ -47,7 +46,6 @@ declare global {
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
-  const diffHeight: typeof import('./composables/content-height')['diffHeight']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
@@ -220,6 +218,7 @@ declare global {
   const useIntervalFn: typeof import('@vueuse/core')['useIntervalFn']
   const useKeyModifier: typeof import('@vueuse/core')['useKeyModifier']
   const useLastChanged: typeof import('@vueuse/core')['useLastChanged']
+  const useLayoutStyle: typeof import('./composables/content-height')['useLayoutStyle']
   const useLink: typeof import('vue-router')['useLink']
   const useListLottie: typeof import('./composables/lottie')['useListLottie']
   const useLoading: typeof import('./composables/bool')['useLoading']
@@ -335,7 +334,6 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
-  const writeThemeColorsToBody: typeof import('./composables/ui')['writeThemeColorsToBody']
 }
 // for type re-export
 declare global {
@@ -388,7 +386,6 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
-    readonly diffHeight: UnwrapRef<typeof import('./composables/content-height')['diffHeight']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
@@ -561,6 +558,7 @@ declare module 'vue' {
     readonly useIntervalFn: UnwrapRef<typeof import('@vueuse/core')['useIntervalFn']>
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
+    readonly useLayoutStyle: UnwrapRef<typeof import('./composables/content-height')['useLayoutStyle']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useListLottie: UnwrapRef<typeof import('./composables/lottie')['useListLottie']>
     readonly useLoading: UnwrapRef<typeof import('./composables/bool')['useLoading']>

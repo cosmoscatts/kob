@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const contentHeight = diffHeight;
+const { contentStyle } = useLayoutStyle({ additionalOffset: 8 });
 
 const emojiArray = [
   '\\(o_o)/',
@@ -25,7 +25,7 @@ onMounted(() => useLottie({
 <template>
   <div
     w-70vw mx-a flex="col center"
-    :style="{ height: `calc(100vh - ${contentHeight}px)` }"
+    :style="contentStyle"
   >
     <div id="lottie" w400px h300px mt10px />
     <div text-center font-bold mt="[-20px]">

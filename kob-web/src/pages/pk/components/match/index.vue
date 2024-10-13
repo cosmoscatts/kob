@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import defaultAvatar from '~/assets/default-avatar.png';
 
-const contentHeight = diffHeight;
-
 const pkStore = usePkStore();
 const userStore = useUserStore();
+const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
 
 // 重置对手信息
 pkStore.updateGameState({ opponent: undefined });
@@ -77,7 +76,7 @@ const playerPosition = computed(() => {
 </script>
 
 <template>
-  <div :style="{ minHeight: `calc(100vh - ${contentHeight}px)` }" flex="col center">
+  <div :style="contentStyle" flex="col center">
     <GameMatchGround v-if="pkStore.status === 'matching'" />
     <GamePlayground v-if="pkStore.status === 'playing' && !showFightAnimation" />
     <FightAnimation v-if="pkStore.status === 'playing' && showFightAnimation" />
