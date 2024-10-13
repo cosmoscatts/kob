@@ -12,33 +12,33 @@ const pagination = usePagination({ // 分页参数
   onUpdatePageSizeCallback: fetchTableData,
 });
 
-let modalVisible = $ref(false);
-let modalAction = $ref<'add' | 'edit'>();
-let selectedBot = $ref<Bot>();
+const modalVisible = ref(false);
+const modalAction = ref<'add' | 'edit'>();
+const selectedBot = ref<Bot>();
 
 function onAddBot() {
-  selectedBot = {};
-  modalAction = 'add';
-  modalVisible = true;
+  selectedBot.value = {};
+  modalAction.value = 'add';
+  modalVisible.value = true;
 }
 
 function onUpdateBot(bot: Bot) {
-  selectedBot = bot;
-  modalAction = 'edit';
-  modalVisible = true;
+  selectedBot.value = bot;
+  modalAction.value = 'edit';
+  modalVisible.value = true;
 }
 
 function onSaveBotData(bot: Bot) {
   const { addBot: add, updateBot: update } = BotApi;
-  const fn = [add, update][Number(modalAction === 'edit')];
-  const msgPrefix = ['添加', '编辑'][Number(modalAction === 'edit')];
+  const fn = [add, update][Number(modalAction.value === 'edit')];
+  const msgPrefix = ['添加', '编辑'][Number(modalAction.value === 'edit')];
   fn(bot).then(({ code, msg }) => {
     if (code !== 0) {
       $message.error(msg ?? `${msgPrefix}失败`);
       return;
     }
     $message.success(`${msgPrefix}成功`);
-    modalVisible = false;
+    modalVisible.value = false;
     fetchTableData();
   });
 }
@@ -67,7 +67,7 @@ const columns = createColumns({
   onRemoveBot,
 });
 
-let tableData = $ref<Bot[]>([]);
+const tableData = ref<Bot[]>([]);
 
 function fetchTableData() {
   startLoading();
@@ -75,7 +75,7 @@ function fetchTableData() {
   BotApi
     .getBotList({ page, pageSize })
     .then(({ data: { records = [], total = 0 } }) => {
-      tableData = records;
+      tableData.value = records;
       pagination.itemCount = total;
     })
     .finally(() => useTimeoutFn(endLoading, 1000));

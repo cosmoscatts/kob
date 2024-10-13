@@ -30,12 +30,12 @@ function goBack() {
   changeCurrentTab(0, {});
 }
 
-let recordPaused = $ref(false);
+const recordPaused = ref(false);
 function doPause() {
-  if (recordPaused)
+  if (recordPaused.value)
     resume();
   else pause();
-  recordPaused = !recordPaused;
+  recordPaused.value = !recordPaused.value;
 }
 
 onMounted(() => useLottie({
@@ -47,7 +47,7 @@ document.addEventListener('visibilitychange', () => { // 判断是否离开页�
   if (document.visibilityState === 'hidden') { pause();
   }
   else {
-    if (!recordPaused)
+    if (!recordPaused.value)
       replay();
   }
 });

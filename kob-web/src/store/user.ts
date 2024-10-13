@@ -5,15 +5,15 @@ import { Token } from '~/utils';
 export const useUserStore = defineStore(
   'userStore',
   () => {
-    let user = $ref<User>();
-    let hasLogin = $ref(false); // 是否登录
-    let authModalVisible = $ref(false); // 是否打开 [登录 / 注册] 模态框
+    const user = ref<User>();
+    const hasLogin = ref(false); // 是否登录
+    const authModalVisible = ref(false); // 是否打开 [登录 / 注册] 模态框
 
     // setters
 
-    const setUser = (data?: User) => user = data;
-    const setHasLogin = (state = false) => hasLogin = state;
-    const setAuthModalVisible = (state: boolean) => authModalVisible = state;
+    const setUser = (data?: User) => user.value = data;
+    const setHasLogin = (state = false) => hasLogin.value = state;
+    const setAuthModalVisible = (state: boolean) => authModalVisible.value = state;
 
     // fn
 
@@ -50,20 +50,20 @@ export const useUserStore = defineStore(
     const checkLoginState = () => {
       const fns: [boolean, Function][] = [
         [!Token.get(), () => {
-          hasLogin = false;
+          hasLogin.value = false;
           return 'notLogin';
         }],
-        [hasLogin && !!user?.id, () => 'hasLogin'],
+        [hasLogin && !!user.value?.id, () => 'hasLogin'],
         [true, async () => {
           const { code, data = {} } = await UserApi.getLoginUserInfo();
           const inValid = code !== 0 || !Object.keys(data).length;
-          hasLogin = !inValid;
+          hasLogin.value = !inValid;
           if (inValid) {
             logout();
           } else {
             if (!data.avatar)
               data.avatar = defaultAvatar;
-            user = data;
+            user.value = data;
           }
           return inValid
             ? 'expire'

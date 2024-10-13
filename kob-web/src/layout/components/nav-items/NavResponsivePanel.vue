@@ -3,8 +3,8 @@ import { APP_META } from '~/config';
 import NavAvatar from './NavAvatar.vue';
 import NavMenu from './NavMenu.vue';
 
-let showNavPanel = $ref(false);
-const toggle = () => showNavPanel = !showNavPanel;
+const showNavPanel = ref(false);
+const toggle = () => showNavPanel.value = !showNavPanel.value;
 const { hasLogin } = storeToRefs(useUserStore());
 const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
 </script>

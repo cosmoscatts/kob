@@ -22,23 +22,23 @@ const defaultOpponent = { // 初始对手信息
 export const usePkStore = defineStore(
   'pkStore',
   () => {
-    let status = $ref<Status>('match');
-    let socket = $ref<WebSocket>();
-    let opponent = $ref<Opponent>();
-    let gameMap = $ref<number[][]>();
-    let players = $ref<Player[]>([]);
-    let gameMapObject = $ref<GameMap>();
-    let loser = $ref<Loser>('none');
+    const status = ref<Status>('match');
+    const socket = ref<WebSocket>();
+    const opponent = ref<Opponent>();
+    const gameMap = ref<number[][]>();
+    const players = ref<Player[]>([]);
+    const gameMapObject = ref<GameMap>();
+    const loser = ref<Loser>('none');
 
-    const updateStatus = (value: Status) => status = value;
-    const updateSocket = (value: WebSocket) => socket = value;
-    const updateOpponent = (value = defaultOpponent) => opponent = value;
-    const updateGameMapObject = (value: GameMap) => gameMapObject = value;
-    const updateLoser = (value: Loser) => loser = value;
+    const updateStatus = (value: Status) => status.value = value;
+    const updateSocket = (value: WebSocket) => socket.value = value;
+    const updateOpponent = (value = defaultOpponent) => opponent.value = value;
+    const updateGameMapObject = (value: GameMap) => gameMapObject.value = value;
+    const updateLoser = (value: Loser) => loser.value = value;
 
     function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
-      gameMap = map;
-      players = [
+      gameMap.value = map;
+      players.value = [
         { id: aId, sx: aSx, sy: aSy },
         { id: bId, sx: bSx, sy: bSy },
       ];
@@ -48,9 +48,9 @@ export const usePkStore = defineStore(
       updateStatus('match');
       updateOpponent();
       updateLoser('none');
-      gameMap = undefined;
-      players = [];
-      gameMapObject = undefined;
+      gameMap.value = undefined;
+      players.value = [];
+      gameMapObject.value = undefined;
     }
 
     return $$({

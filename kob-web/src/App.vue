@@ -12,10 +12,10 @@ const themeOverrides = useThemeOverrides();
 writeThemeColorsToBody(); // 将 naive-ui 自带颜色写入 body
 
 // 关闭浏览器清空缓存
-let beginTime = $ref(0);
-window.addEventListener('beforeunload', () => beginTime = Date.now());
+const beginTime = ref(0);
+window.addEventListener('beforeunload', () => beginTime.value = Date.now());
 window.addEventListener('unload', () => {
-  if (Date.now() - beginTime <= 5)
+  if (Date.now() - beginTime.value <= 5)
     localStorage.clear();
 });
 </script>

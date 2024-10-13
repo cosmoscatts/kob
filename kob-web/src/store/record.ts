@@ -11,25 +11,25 @@ type Loser = 'all' | 'A' | 'B' | 'none';
 export const useRecordStore = defineStore(
   'recordStore',
   () => {
-    let isRecord = $ref(false); // 是否为录像
-    let aSteps = $ref<string | undefined>(); // 玩家 A 的操作字符串
-    let bSteps = $ref<string | undefined>(); // 玩家 B 的操作字符串
-    let gameMap = $ref<number[][]>();
-    let players = $ref<Player[]>([]);
-    let loser = $ref<Loser>('none');
-    let recordFinished = $ref(true); // 录像是否播放完毕
+    const isRecord = ref(false); // 是否为录像
+    const aSteps = ref<string | undefined>(); // 玩家 A 的操作字符串
+    const bSteps = ref<string | undefined>(); // 玩家 B 的操作字符串
+    const gameMap = ref<number[][]>();
+    const players = ref<Player[]>([]);
+    const loser = ref<Loser>('none');
+    const recordFinished = ref(true); // 录像是否播放完毕
 
-    const updateIsRecord = (value: boolean) => isRecord = value;
+    const updateIsRecord = (value: boolean) => isRecord.value = value;
     const updateSteps = (_aSteps?: string, _bSteps?: string) => {
-      aSteps = _aSteps;
-      bSteps = _bSteps;
+      aSteps.value = _aSteps;
+      bSteps.value = _bSteps;
     };
-    const updateLoser = (value: Loser) => loser = value;
-    const updateRecordFinished = (value: boolean) => recordFinished = value;
+    const updateLoser = (value: Loser) => loser.value = value;
+    const updateRecordFinished = (value: boolean) => recordFinished.value = value;
 
     function updateGame({ aId, aSx, aSy, bId, bSx, bSy, map }: Game) {
-      gameMap = map;
-      players = [
+      gameMap.value = map;
+      players.value = [
         { id: aId, sx: aSx, sy: aSy },
         { id: bId, sx: bSx, sy: bSy },
       ];
@@ -39,8 +39,8 @@ export const useRecordStore = defineStore(
       updateIsRecord(false);
       updateSteps(undefined, undefined);
       updateLoser('none');
-      gameMap = undefined;
-      players = [];
+      gameMap.value = undefined;
+      players.value = [];
     }
 
     return $$({

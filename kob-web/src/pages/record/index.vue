@@ -4,17 +4,17 @@ import type { PageQuery } from '~/types';
 import RecordTable from './components/RecordTable.vue';
 import RecordVideo from './components/RecordVideo.vue';
 
-let currentTab = $ref(0);
-let name = $ref<string | undefined>(''); // 搜索的玩家
-let pagination = $ref<PageQuery>();
-let playerInfoList = $ref<PlayerInfo[]>([]);
+const currentTab = ref(0);
+const name = ref<string | undefined>(''); // 搜索的玩家
+const pagination = ref<PageQuery>();
+const playerInfoList = ref<PlayerInfo[]>([]);
 
 const route = useRoute();
 watch(() => route.path, () => {
-  currentTab = 0;
-  name = undefined;
-  pagination = {};
-  playerInfoList = [];
+  currentTab.value = 0;
+  name.value = undefined;
+  pagination.value = {};
+  playerInfoList.value = [];
 });
 
 function changeCurrentTab(
@@ -24,13 +24,13 @@ function changeCurrentTab(
   _name = undefined,
 ) {
   if (tab === 1) { // 保存表格的分页数据
-    name = _name;
-    pagination = _pagination;
-    playerInfoList = _playerInfoList;
+    name.value = _name;
+    pagination.value = _pagination;
+    playerInfoList.value = _playerInfoList;
   } else {
-    playerInfoList = [];
+    playerInfoList.value = [];
   }
-  currentTab = tab;
+  currentTab.value = tab;
 }
 
 provide('changeCurrentTab', changeCurrentTab);

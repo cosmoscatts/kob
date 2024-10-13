@@ -18,7 +18,7 @@ const columns = createColumns({
   createRowNumber: pagination.createRowNumber,
 });
 
-let tableData = $ref<Rank[]>([]);
+const tableData = ref<Rank[]>([]);
 const searchModel = reactive<{ name?: string }>({ name: '' });
 
 function fetchTableData() {
@@ -27,7 +27,7 @@ function fetchTableData() {
   RankApi
     .getRankList({ page, pageSize, name: searchModel.name?.trim() })
     .then(({ data: { records = [], total = 0 } }) => {
-      tableData = records;
+      tableData.value = records;
       pagination.itemCount = total;
     })
     .finally(() => useTimeoutFn(endLoading, 1000));
@@ -35,6 +35,11 @@ function fetchTableData() {
 fetchTableData();
 
 const { isMobile, labelHidden } = useResponsive();
+
+function reset() {
+  searchModel.name = '';
+  fetchTableData();
+}
 </script>
 
 <template>
@@ -55,7 +60,7 @@ const { isMobile, labelHidden } = useResponsive();
             </template>
             <span font-bold>查询</span>
           </n-button>
-          <n-button secondary @click="searchModel.name = '' && fetchTableData()">
+          <n-button secondary @click="reset">
             <template #icon>
               <n-icon :component="RefreshIcon" />
             </template>

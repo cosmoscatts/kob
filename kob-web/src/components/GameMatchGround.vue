@@ -9,19 +9,19 @@ const { opponent, socket } = storeToRefs(usePkStore());
 const selectedBot = ref();
 const botOptions = ref<{ value: number, label: string }[]>([]);
 
-let matchBtnText = $ref('开始匹配');
+const matchBtnText = ref('开始匹配');
 const { loading, startLoading, endLoading } = useLoading();
 function onClick() {
-  if (matchBtnText === '开始匹配') {
+  if (matchBtnText.value === '开始匹配') {
     startLoading();
-    matchBtnText = '取消匹配';
+    matchBtnText.value = '取消匹配';
     socket.value?.send(JSON.stringify({
       event: 'start-matching',
       botId: selectedBot.value,
     }));
   } else {
     endLoading();
-    matchBtnText = '开始匹配';
+    matchBtnText.value = '开始匹配';
     socket.value?.send(JSON.stringify({
       event: 'stop-matching',
     }));

@@ -8,7 +8,7 @@ const userStore = useUserStore();
 
 pkStore.updateOpponent(); // 更新对手信息
 
-let showFightAnimation = $ref(false);
+const showFightAnimation = ref(false);
 
 const socket = useSocket((msg) => {
   const data = JSON.parse(msg.data);
@@ -21,8 +21,8 @@ const socket = useSocket((msg) => {
       pkStore.updateGame(data.game);
       pkStore.updateStatus('play');
       $message.success('人机试炼开始');
-      showFightAnimation = true;
-      useTimeoutFn(() => showFightAnimation = false, 5000);
+      showFightAnimation.value = true;
+      useTimeoutFn(() => showFightAnimation.value = false, 5000);
     }],
     [data.event === 'move', () => pkStore.gameMapObject!.snakes.forEach((snake, index) =>
       snake.setDirection([data.aDirection, data.bDirection][index]))],
