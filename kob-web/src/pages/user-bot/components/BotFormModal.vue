@@ -76,7 +76,7 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
     :segmented="segmented"
     :mask-closable="false"
     transform-origin="center"
-    style="width: 650px;"
+    style="width: 80%;"
     @esc="onCloseModal"
     @close="onCloseModal"
   >
@@ -88,7 +88,7 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
       label-width="auto"
       :show-require-mark="false"
       :style="{
-        maxWidth: '600px',
+        maxWidth: '100%',
       }"
     >
       <n-form-item label="标题" path="title">
@@ -108,7 +108,7 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
       <n-form-item label="代码" path="content">
         <Codemirror
           v-model="formModel.content"
-          :style="{ height: '300px', width: '100%' }"
+          :style="{ height: '350px', width: '100%', fontSize: '16px' }"
           :autofocus="false"
           :indent-with-tab="true"
           :tab-size="2"
@@ -131,7 +131,7 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
 
 <style>
 .ͼ1 .cm-scroller {
-  font-family: 'Consolas';
+  font-family: 'SF Mono';
 }
 
 .ͼo {
