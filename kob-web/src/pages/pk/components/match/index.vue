@@ -8,7 +8,7 @@ const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additiona
 // 重置对手信息
 pkStore.updateGameState({ opponent: undefined });
 
-const showFightAnimation = ref(false);
+const startDuelPrelude = ref(false);
 
 const handleMatchSuccess = (data: any) => {
   pkStore.updateGameState({
@@ -20,8 +20,8 @@ const handleMatchSuccess = (data: any) => {
   });
   pkStore.updateGame(data.game);
   $message.success('您的对手已找到');
-  showFightAnimation.value = true;
-  useTimeoutFn(() => { showFightAnimation.value = false; }, 5000);
+  startDuelPrelude.value = true;
+  useTimeoutFn(() => { startDuelPrelude.value = false; }, 5000);
 };
 
 const handleMove = (data: any) => {
@@ -78,8 +78,8 @@ const playerPosition = computed(() => {
 <template>
   <div :style="contentStyle" flex="col center">
     <GameMatchGround v-if="pkStore.status === 'matching'" />
-    <GamePlayground v-if="pkStore.status === 'playing' && !showFightAnimation" />
-    <FightAnimation v-if="pkStore.status === 'playing' && showFightAnimation" />
+    <GamePlayground v-if="pkStore.status === 'playing' && !startDuelPrelude" />
+    <DuelPreludeScreen v-if="pkStore.status === 'playing' && startDuelPrelude" />
     <ResultBoard v-if="pkStore.gameResult !== 'ongoing'" />
     <Confetti :passed="showConfetti" />
 
