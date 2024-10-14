@@ -1,8 +1,8 @@
 <script  setup lang="ts">
 import { layoutConfig } from '~/config';
-import TheContent from './components/TheContent.vue';
 import TheFoot from './components/TheFooter.vue';
-import TheNav from './components/TheNav.vue';
+import TheHeader from './components/TheHeader.vue';
+import TheMain from './components/TheMain.vue';
 
 const {
   navHeight,
@@ -17,7 +17,7 @@ const refWrapper = ref();
 <template>
   <n-layout hw-screen of-hidden>
     <n-layout-header bordered position="absolute">
-      <TheNav w-full :style="{ height: `${navHeight}px` }" />
+      <TheHeader w-full :style="{ height: `${navHeight}px` }" />
     </n-layout-header>
     <n-layout
       ref="refWrapper"
@@ -31,7 +31,7 @@ const refWrapper = ref();
       :native-scrollbar="true"
     >
       <n-layout-content position="absolute">
-        <TheContent
+        <TheMain
           :style="{
             padding: `${contentPadding}px`,
           }"

@@ -3,7 +3,7 @@ import logo from '~/assets/logo.png';
 import { appMeta } from '~/config';
 
 const { breakpoints } = useResponsive();
-const hideTitle = breakpoints.between('sm', 'xl');
+const hideAppName = breakpoints.between('sm', 'xl');
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const hideTitle = breakpoints.between('sm', 'xl');
       size="small"
       :src="logo"
     />
-    <span v-if="!hideTitle" font="bold" pl-16px text-24px>
+    <span v-if="!hideAppName" font="bold" pl-16px text-24px>
       {{ appMeta.name }}
     </span>
   </div>
