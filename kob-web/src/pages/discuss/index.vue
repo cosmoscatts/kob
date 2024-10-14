@@ -11,7 +11,10 @@ const pagination = usePagination({
 const { loading, startLoading, endLoading } = useLoading();
 
 const list = ref<Discuss[]>([]);
+const likes = ref<number[]>([]);
+
 const defaultLoadingData = [{ id: 1 }, { id: 2 }, { id: 3 }];
+
 async function fetchDiscussList() {
   startLoading();
   list.value = [...defaultLoadingData];
@@ -28,22 +31,18 @@ async function fetchDiscussList() {
     useTimeoutFn(endLoading, 500);
   }
 }
-fetchDiscussList();
 
-const likes = ref<number[]>([]);
 async function fetchCurrentUserLikes() {
   try {
-    const result = await DiscussApi.getCurrentUserLikes();
-    const { data = [] } = result.data;
+    const { data: { data = [] } } = await DiscussApi.getCurrentUserLikes();
     likes.value = data;
   } catch (e) {
     console.error(e);
     likes.value = [];
   }
 }
-fetchCurrentUserLikes();
 
-const getAuthLike = (remarkId?: number) => !!remarkId && likes.value?.includes(remarkId);
+const getAuthLike = (remarkId?: number) => !!remarkId && likes.value.includes(remarkId);
 
 function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
   if (!id)
@@ -51,9 +50,14 @@ function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
   fetchCurrentUserLikes();
   const item = list.value.find(i => i.id === id);
   if (item?.likes !== undefined) {
-    item.likes = item.likes + [1, -1][type === 'like' ? 0 : 1];
+    item.likes += type === 'like' ? 1 : -1;
   }
 }
+
+onMounted(() => {
+  fetchDiscussList();
+  fetchCurrentUserLikes();
+});
 </script>
 
 <template>
@@ -80,7 +84,7 @@ function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
             />
           </n-list-item>
         </n-list>
-        <div v-if="list?.length > 0" mt10px flex justify-end>
+        <div v-if="list.length > 0" mt10px flex justify-end>
           <n-pagination
             :page="pagination.page"
             :item-count="pagination.itemCount"
