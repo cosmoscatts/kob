@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { appMeta } from '~/config';
-import NavAvatar from './NavAvatar.vue';
-import NavMenu from './AppMenu.vue';
+import AppAvatar from './AppAvatar.vue';
+import AppMenu from './AppMenu.vue';
 
-const showNavPanel = ref(false);
-const toggle = () => showNavPanel.value = !showNavPanel.value;
-const { isLoggedIn } = storeToRefs(useUserStore());
-const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value)]);
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore);
+
+const isMobilePanelVisible = ref(false);
+const toggleNavPanel = () => isMobilePanelVisible.value = !isMobilePanelVisible.value;
+
+const mobilePanelBackgroundColor = computed(() => isDark.value ? '#121212' : '#FFFFFF');
 </script>
 
 <template>
@@ -15,24 +18,22 @@ const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value
       v-if="isLoggedIn"
       icon-btn text-lg
       i-carbon-menu
-      @click="toggle"
+      @click="toggleNavPanel"
     />
-    <NavAvatar v-else />
+    <AppAvatar v-else />
   </div>
 
   <n-drawer
-    :style="{
-      backgroundColor: panelBodyColor,
-    }"
+    :style="{ backgroundColor: mobilePanelBackgroundColor }"
     :width="240"
     :auto-focus="false"
-    :show="showNavPanel"
+    :show="isMobilePanelVisible"
     placement="right"
     display-directive="show"
-    @mask-click="showNavPanel = false"
+    @mask-click="isMobilePanelVisible = false"
   >
     <div flex-y-center h-50px ml-3>
-      <NavAvatar />
+      <AppAvatar />
       <div flex-auto />
       <a
         icon-btn text-lg i-carbon-logo-github mx-3
@@ -41,6 +42,6 @@ const panelBodyColor = computed(() => ['#FFFFFF', '#121212'][Number(isDark.value
       />
       <DarkToggle mr-3 />
     </div>
-    <NavMenu mode="vertical" />
+    <AppMenu mode="vertical" />
   </n-drawer>
 </template>

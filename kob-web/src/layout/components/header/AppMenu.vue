@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { MenuOption } from 'naive-ui';
 import type { Component } from 'vue';
-import { NEllipsis, NIcon, NMenu } from 'naive-ui';
-import { computed } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
-
+import { NEllipsis, NIcon } from 'naive-ui';
+import { RouterLink } from 'vue-router';
 import { appMenuIconMap, appMenus } from '~/config';
 import type { Menu } from '~/types';
 
@@ -39,7 +37,7 @@ const selectedOptionValues = computed(() => {
 </script>
 
 <template>
-  <NMenu
+  <n-menu
     mode="horizontal"
     :value="selectedOptionValues"
     :options="options"
