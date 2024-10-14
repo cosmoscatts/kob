@@ -4,6 +4,9 @@ import { NAvatar, NEllipsis, NIcon } from 'naive-ui';
 import defaultAvatar from '~/assets/default-avatar.png';
 import type { Rank } from '~/types';
 
+const TOP_RANKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const MEDAL_COLORS = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA'];
+
 export function createColumns({
   createRowNumber,
 }: {
@@ -14,9 +17,7 @@ export function createColumns({
       key: 'id',
       title: '序号',
       align: 'center',
-      render(_row, rowIndex) {
-        return createRowNumber?.(rowIndex);
-      },
+      render: (_row, rowIndex) => createRowNumber?.(rowIndex),
     },
     {
       title: '玩家',
@@ -26,15 +27,13 @@ export function createColumns({
     },
     {
       title: '天梯分',
-      key: 'loser',
+      key: 'rating',
       align: 'center',
-      render({ rating }) {
-        return `${rating} 分`;
-      },
+      render: ({ rating }) => `${rating} 分`,
     },
     {
       title: '创建时间',
-      key: 'description',
+      key: 'createTime',
       align: 'center',
       render: ({ createTime }) => formatDate({ date: createTime }),
     },
@@ -42,29 +41,10 @@ export function createColumns({
 }
 
 function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
-  const reward = [];
-  if (rankNum && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(rankNum)) {
-    const colors = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA'];
-    const color = rankNum <= 3 ? colors[rankNum - 1] : colors[3];
-    const component = rankNum <= 3 ? Trophy : Medal;
-    reward.push(h(
-      NIcon,
-      {
-        component,
-        color,
-        size: 16,
-        style: {
-          marginLeft: '15px',
-        },
-      },
-    ));
-  }
+  const reward = renderReward(rankNum);
+
   return h('div', {
-    style: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+    class: 'flex justify-center items-center',
   }, [
     h(NAvatar, {
       size: 'small',
@@ -73,10 +53,23 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
     }),
     h(NEllipsis, {
       maxWidth: '200px',
-      style: {
-        marginLeft: '15px',
-      },
+      class: 'ml-4',
     }, () => name),
-    ...reward,
+    reward,
   ]);
+}
+
+function renderReward(rankNum?: number) {
+  if (!rankNum || !TOP_RANKS.includes(rankNum))
+    return null;
+
+  const color = rankNum <= 3 ? MEDAL_COLORS[rankNum - 1] : MEDAL_COLORS[3];
+  const component = rankNum <= 3 ? Trophy : Medal;
+
+  return h(NIcon, {
+    component,
+    color,
+    size: 16,
+    class: 'ml-4',
+  });
 }
