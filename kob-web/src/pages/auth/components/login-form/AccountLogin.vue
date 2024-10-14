@@ -39,7 +39,7 @@ const { loading, startLoading, endLoading } = useLoading();
 async function onSubmit(e: MouseEvent) {
   e.preventDefault();
   const errors = await refForm.value?.validate();
-  if (errors)
+  if (errors && errors.warnings?.length)
     return;
 
   startLoading();
