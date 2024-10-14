@@ -1,20 +1,31 @@
 <script setup lang="ts">
 import { BulbOutline } from '@vicons/ionicons5';
 import type { Bot } from '~/types';
-import { createColumns } from '../columns';
-import BotTableForm from './BotTableForm.vue';
-import How2Code from './How2Code.vue';
+import { createColumns } from '../utils/columns';
+import BotCodeExampleDrawer from './BotCodeExampleDrawer.vue';
+import BotFormModal from './BotFormModal.vue';
 
 const { loading, startLoading, endLoading } = useLoading();
 
-const pagination = usePagination({ // 分页参数
+const pagination = usePagination({
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
 });
 
 const modalVisible = ref(false);
 const modalAction = ref<'add' | 'edit'>();
-const selectedBot = ref<Bot>();
+const selectedBot = ref<Bot>({});
+
+const tableData = ref<Bot[]>([]);
+const botCodeExampleDrawerVisible = ref(false);
+
+const { isMobile } = useResponsive();
+
+const columns = createColumns({
+  createRowNumber: pagination.createRowNumber,
+  onUpdateBot,
+  onRemoveBot,
+});
 
 function onAddBot() {
   selectedBot.value = {};
@@ -29,9 +40,8 @@ function onUpdateBot(bot: Bot) {
 }
 
 async function onSaveBotData(bot: Bot) {
-  const { addBot: add, updateBot: update } = BotApi;
-  const fn = [add, update][Number(modalAction.value === 'edit')];
-  const msgPrefix = ['添加', '编辑'][Number(modalAction.value === 'edit')];
+  const fn = modalAction.value === 'edit' ? BotApi.updateBot : BotApi.addBot;
+  const msgPrefix = modalAction.value === 'edit' ? '编辑' : '添加';
   try {
     const result = await fn(bot);
     const { code, msg } = result.data;
@@ -69,14 +79,6 @@ function onRemoveBot({ id }: Bot) {
   );
 }
 
-const columns = createColumns({
-  createRowNumber: pagination.createRowNumber,
-  onUpdateBot,
-  onRemoveBot,
-});
-
-const tableData = ref<Bot[]>([]);
-
 async function fetchTableData() {
   startLoading();
   const { page, pageSize } = pagination;
@@ -93,17 +95,15 @@ async function fetchTableData() {
     useTimeoutFn(endLoading, 1000);
   }
 }
-fetchTableData();
 
-const { isMobile } = useResponsive();
-const how2CodeVisible = ref(false);
+onMounted(fetchTableData);
 </script>
 
 <template>
   <div w-full>
     <n-card title="我的Bot" hoverable>
       <template #header-extra>
-        <n-button v-if="!isMobile" text :style="{ marginRight: '10px' }" @click="how2CodeVisible = true">
+        <n-button v-if="!isMobile" text :style="{ marginRight: '10px' }" @click="botCodeExampleDrawerVisible = true">
           <template #icon>
             <n-icon>
               <BulbOutline />
@@ -125,25 +125,16 @@ const how2CodeVisible = ref(false);
         :pagination="pagination"
         :paginate-single-page="false"
       />
-      <div
-        v-else
-        hw-full
-        flex-center
-        text-lg
-      >
-        {  请在客户端访问 :). }
+      <div v-else hw-full flex-center text-lg>
+        { 请在客户端访问 :). }
       </div>
     </n-card>
-    <BotTableForm
+    <BotFormModal
       v-model:modal-visible="modalVisible"
-      v-bind="{
-        type: modalAction,
-        form: selectedBot,
-      }"
+      :type="modalAction"
+      :form="selectedBot"
       @save-bot-data="onSaveBotData"
     />
-    <How2Code
-      v-model:visible="how2CodeVisible"
-    />
+    <BotCodeExampleDrawer v-model:visible="botCodeExampleDrawerVisible" />
   </div>
 </template>
