@@ -1,94 +1,67 @@
 <script setup lang="ts">
-import type {
-  FormInst,
-  FormItemRule,
-  FormRules,
-  FormValidationError,
-} from 'naive-ui';
+import type { FormInst, FormRules } from 'naive-ui';
 import {
   Glasses as GlassesIcon,
   GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5';
-import FuncBar from './FuncBar.vue';
+import { validateUsername } from '../../utils';
+import AuthFunctionBar from '../AuthFunctionBar.vue';
 
 const loginCallback = inject<Function>('loginCallback');
 
 interface ModelType {
-  username?: string
-  password?: string
+  username: string
+  password: string
 }
 
 const refForm = ref<FormInst | null>(null);
-const baseFormModel = isDevelopment // 表单基础数据
-  ? {
-      username: 'admin',
-      password: '123456',
-    }
-  : {
-      username: '',
-      password: '',
-    };
-const formModel = reactive<ModelType>({
-  ...baseFormModel,
-});
+const refInputUserName = ref<HTMLInputElement | null>(null);
+
+const baseFormModel: ModelType = isDevelopment
+  ? { username: 'admin', password: '123456' }
+  : { username: '', password: '' };
+
+const formModel = reactive<ModelType>({ ...baseFormModel });
 
 const rules: FormRules = {
   username: [
-    {
-      required: true,
-      message: '请输入账号',
-    },
-    {
-      validator(_rule: FormItemRule, value: string) {
-        return value.length >= 1 && value.length <= 20;
-      },
-      message: '账号的长度为 1 ~ 20',
-      trigger: ['input', 'blur'],
-    },
+    { required: true, message: '请输入账号' },
+    { validator: validateUsername, trigger: ['input', 'blur'] },
   ],
   password: [
-    {
-      required: true,
-      message: '请输入密码',
-    },
+    { required: true, message: '请输入密码' },
   ],
 };
 
 const { loading, startLoading, endLoading } = useLoading();
 
-function onSubmit(e: MouseEvent) {
+async function onSubmit(e: MouseEvent) {
   e.preventDefault();
-  refForm.value?.validate(async (errors?: FormValidationError[]) => {
-    if (errors)
+  const errors = await refForm.value?.validate();
+  if (errors)
+    return;
+
+  startLoading();
+  try {
+    const result = await UserApi.getToken(useClone(formModel));
+    const { code, data, msg } = result.data;
+    if (code !== 0) {
+      $message.error(msg || '账号或密码错误');
       return;
-    startLoading();
-    try {
-      const result = await UserApi.getToken(useClone(formModel));
-      const { code, data, msg } = result.data;
-      if (code !== 0) {
-        useTimeoutFn(endLoading, 1000);
-        $message.error(msg ?? '账号或密码错误');
-        return;
-      }
-      useTimeoutFn(() => {
-        loginCallback?.(data.token);
-      }, 1000);
-    } catch (e) {
-      console.error(e);
-      $message.error('登录发生异常');
-    } finally {
-      endLoading();
     }
-  });
+    useTimeoutFn(() => loginCallback?.(data.token), 1000);
+  } catch (error) {
+    console.error(error);
+    $message.error('登录发生异常');
+  } finally {
+    endLoading();
+  }
 }
 
-const refInputUserName = ref();
 const focusFirstInput = () => refInputUserName.value?.focus();
 
-defineExpose({
-  focusFirstInput,
-});
+defineExpose({ focusFirstInput });
 </script>
 
 <template>
@@ -134,11 +107,15 @@ defineExpose({
       </n-input>
     </n-form-item>
     <n-button
-      block type="primary" :loading="loading"
-      mt-3 text-color="white" @click="onSubmit"
+      block
+      type="primary"
+      :loading="loading"
+      class="mt-3"
+      text-color="white"
+      @click="onSubmit"
     >
-      <span font-bold text-lag>登录</span>
+      <span class="font-bold text-lag">登录</span>
     </n-button>
   </n-form>
-  <FuncBar />
+  <AuthFunctionBar />
 </template>

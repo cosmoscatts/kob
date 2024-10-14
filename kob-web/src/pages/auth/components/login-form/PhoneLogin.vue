@@ -1,54 +1,31 @@
 <script setup lang="ts">
-import type {
-  FormInst,
-  FormItemRule,
-  FormRules,
-  FormValidationError,
-} from 'naive-ui';
-import {
-  TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5';
-import FuncBar from './FuncBar.vue';
-import { countSendingSmsCode, getSmsCode, REGEXP_PHONE } from './helper';
+import type { FormInst, FormRules } from 'naive-ui';
+import { TrashBinOutline as TrashBinOutlineIcon } from '@vicons/ionicons5';
+import { computed, reactive, ref } from 'vue';
+import { getSmsCode, REGEXP_PHONE, useCountdownTimer, validatePhoneNumber } from '../../utils';
+import AuthFunctionBar from '../AuthFunctionBar.vue';
 
 interface ModelType {
-  phone?: string
-  code?: string
+  phone: string
+  code: string
 }
-const refForm = ref<FormInst | null>(null);
-const baseFormModel = isDevelopment
-  ? {
-      phone: '13650223322',
-      code: '123456',
-    }
-  : {
-      phone: '',
-      code: '',
-    };
-const formModel = reactive<ModelType>({
-  ...baseFormModel,
-});
 
-const validatePhone = (value: string) => REGEXP_PHONE.test(value);
+const refForm = ref<FormInst | null>(null);
+const refInputPhone = ref<HTMLInputElement | null>(null);
+
+const baseFormModel: ModelType = isDevelopment
+  ? { phone: '13650223322', code: '123456' }
+  : { phone: '', code: '' };
+
+const formModel = reactive<ModelType>({ ...baseFormModel });
+
 const rules: FormRules = {
   phone: [
-    {
-      required: true,
-      message: '请输入手机号',
-    },
-    {
-      validator(_rule: FormItemRule, value: string) {
-        return validatePhone(value);
-      },
-      message: '请输入正确的手机号',
-      trigger: ['input'],
-    },
+    { required: true, message: '请输入手机号' },
+    { validator: validatePhoneNumber, message: '请输入正确的手机号', trigger: ['input'] },
   ],
   code: [
-    {
-      required: true,
-      message: '请输入验证码',
-    },
+    { required: true, message: '请输入验证码' },
   ],
 };
 
@@ -56,7 +33,7 @@ const { loading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
   e.preventDefault();
-  refForm.value?.validate((errors?: FormValidationError[]) => {
+  refForm.value?.validate((errors) => {
     if (errors)
       return;
     if (formModel.code !== '123456') {
@@ -67,36 +44,25 @@ function onSubmit(e: MouseEvent) {
   });
 }
 
-const refInputPhone = ref();
 const focusFirstInput = () => refInputPhone.value?.focus();
 
-// 禁用验证码及发送按钮
-const codeInputDisabled = computed(() => (!formModel.phone || !validatePhone(formModel.phone)));
+const codeInputDisabled = computed(() => !formModel.phone || !REGEXP_PHONE.test(formModel.phone));
 
-const {
-  loading: smsLoading,
-  startLoading: startSmsLoading,
-  endLoading: endSmsLoading,
-} = useLoading(false);
+const { loading: smsLoading, startLoading: startSmsLoading, endLoading: endSmsLoading } = useLoading(false);
 
-const {
-  isCounting,
-  sendCodeBtnLabel,
-  startCounting,
-} = countSendingSmsCode();
+const { isCounting, sendCodeBtnLabel, startCounting } = useCountdownTimer();
 
 function handleSmsCode() {
   startSmsLoading();
-  useTimeoutFn(() => {
-    $message.success('验证码发送成功')
-    ;[endSmsLoading, startCounting, getSmsCode]
-      .forEach(fn => fn());
+  setTimeout(() => {
+    $message.success('验证码发送成功');
+    endSmsLoading();
+    startCounting();
+    getSmsCode();
   }, 1000);
 }
 
-defineExpose({
-  focusFirstInput,
-});
+defineExpose({ focusFirstInput });
 </script>
 
 <template>
@@ -135,7 +101,9 @@ defineExpose({
         </n-input>
         <div class="w-18px" />
         <n-button
-          size="large" type="primary" text-color="white"
+          size="large"
+          type="primary"
+          text-color="white"
           :disabled="codeInputDisabled || isCounting"
           :loading="!codeInputDisabled && smsLoading"
           @click="handleSmsCode"
@@ -145,11 +113,15 @@ defineExpose({
       </div>
     </n-form-item>
     <n-button
-      block type="primary" :loading="loading"
-      mt-3 text-color="white" @click="onSubmit"
+      block
+      type="primary"
+      :loading="loading"
+      class="mt-3"
+      text-color="white"
+      @click="onSubmit"
     >
-      <span font-bold text-lag>登录</span>
+      <span class="font-bold text-lag">登录</span>
     </n-button>
   </n-form>
-  <FuncBar />
+  <AuthFunctionBar />
 </template>

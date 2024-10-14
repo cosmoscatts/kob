@@ -56,7 +56,7 @@ function onRemoveBot({ id }: Bot) {
         const result = await BotApi.deleteBot(id as number);
         const { code, msg } = result.data;
         if (code !== 0) {
-          $message.error(msg ?? '删除失败');
+          $message.error(msg || '删除失败');
           return;
         }
         $message.success('删除成功');

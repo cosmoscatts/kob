@@ -42,7 +42,7 @@ function onRemoveRecord({ id }: Record) {
         const result = await RecordApi.deleteRecord(id as number);
         const { code, msg } = result.data;
         if (code !== 0) {
-          $message.error(msg ?? '删除失败');
+          $message.error(msg || '删除失败');
           return;
         }
         $message.success('删除成功');
