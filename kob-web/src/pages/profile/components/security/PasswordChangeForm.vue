@@ -1,90 +1,49 @@
 <script setup lang="ts">
-import type {
-  FormInst,
-  FormItemInst,
-  FormItemRule,
-  FormRules,
-  FormValidationError,
-} from 'naive-ui';
-import {
-  Glasses as GlassesIcon,
-  GlassesOutline as GlassesOutlineIcon,
-  TrashBinOutline as TrashBinOutlineIcon,
-} from '@vicons/ionicons5';
+import type { FormInst, FormItemInst, FormItemRule, FormRules, FormValidationError } from 'naive-ui';
+import { Glasses, GlassesOutline, TrashBinOutline } from '@vicons/ionicons5';
 
-const securityActionCallback = inject<Function>('securityActionCallback');
+const securityActionCallback = inject<() => void>('securityActionCallback');
 
-interface ModelType {
-  oldPass?: string
-  newPass?: string
-  reenteredNewPass?: string
+interface PasswordForm {
+  oldPass: string
+  newPass: string
+  reenteredNewPass: string
 }
 
 const refForm = ref<FormInst | null>(null);
-const baseFormModel = {
+const refRPasswordFormItem = ref<FormItemInst | null>(null);
+const refInputOldPass = ref<HTMLInputElement | null>(null);
+
+const formModel = reactive<PasswordForm>({
   oldPass: '',
   newPass: '',
   reenteredNewPass: '',
-};
-const formModel = reactive<ModelType>({
-  ...baseFormModel,
 });
 
-const refRPasswordFormItem = ref<FormItemInst | null>(null);
-function handlePasswordInput() {
+const handlePasswordInput = () => {
   if (formModel.reenteredNewPass) {
     refRPasswordFormItem.value?.validate({ trigger: 'password-input' });
   }
-}
+};
 
-function validatePasswordStartWith(
-  _rule: FormItemRule,
-  value: string,
-): boolean {
-  return (
-    !!formModel.newPass
-    && formModel.newPass.startsWith(value)
-    && formModel.newPass.length >= value.length
-  );
-}
+const validatePasswordStartWith = (_rule: FormItemRule, value: string): boolean =>
+  !!formModel.newPass && formModel.newPass.startsWith(value) && formModel.newPass.length >= value.length;
 
 const validatePasswordSame = (_rule: FormItemRule, value: string) => value === formModel.newPass;
 
 const rules: FormRules = {
-  oldPass: [
-    {
-      required: true,
-      message: '请输入原密码',
-    },
-  ],
-  newPass: [
-    {
-      required: true,
-      message: '请输入新密码',
-    },
-  ],
+  oldPass: [{ required: true, message: '请输入原密码' }],
+  newPass: [{ required: true, message: '请输入新密码' }],
   reenteredNewPass: [
-    {
-      required: true,
-      message: '请再次输入新密码',
-      trigger: ['input', 'blur'],
-    },
-    {
-      validator: validatePasswordStartWith,
-      message: '两次密码输入不一致',
-      trigger: 'input',
-    },
-    {
-      validator: validatePasswordSame,
-      message: '两次密码输入不一致',
-      trigger: ['blur', 'password-input'],
-    },
+    { required: true, message: '请再次输入新密码', trigger: ['input', 'blur'] },
+    { validator: validatePasswordStartWith, message: '两次密码输入不一致', trigger: 'input' },
+    { validator: validatePasswordSame, message: '两次密码输入不一致', trigger: ['blur', 'password-input'] },
   ],
 };
 
 const { loading, startLoading, endLoading } = useLoading();
 
-function onSubmit(e: MouseEvent) {
+const onSubmit = (e: MouseEvent) => {
   e.preventDefault();
   refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
@@ -99,9 +58,7 @@ function onSubmit(e: MouseEvent) {
         return;
       }
       $message.success('保存成功');
-      useTimeoutFn(() => {
-        securityActionCallback?.();
-      }, 1000);
+      useTimeoutFn(() => securityActionCallback?.(), 1000);
     } catch (e) {
       console.error(e);
       $message.error('保存失败');
@@ -109,14 +66,11 @@ function onSubmit(e: MouseEvent) {
       endLoading();
     }
   });
-}
+};
 
-const refInputOldPass = ref();
 const focusFirstInput = () => refInputOldPass.value?.focus();
 
-defineExpose({
-  focusFirstInput,
-});
+defineExpose({ focusFirstInput });
 </script>
 
 <template>
@@ -139,13 +93,13 @@ defineExpose({
         @keydown.enter.prevent
       >
         <template #clear-icon>
-          <n-icon :component="TrashBinOutlineIcon" />
+          <n-icon :component="TrashBinOutline" />
         </template>
         <template #password-visible-icon>
-          <n-icon :size="16" :component="GlassesOutlineIcon" />
+          <n-icon :size="16" :component="GlassesOutline" />
         </template>
         <template #password-invisible-icon>
-          <n-icon :size="16" :component="GlassesIcon" />
+          <n-icon :size="16" :component="Glasses" />
         </template>
       </n-input>
     </n-form-item>
@@ -160,13 +114,13 @@ defineExpose({
         @input="handlePasswordInput"
       >
         <template #clear-icon>
-          <n-icon :component="TrashBinOutlineIcon" />
+          <n-icon :component="TrashBinOutline" />
         </template>
         <template #password-visible-icon>
-          <n-icon :size="16" :component="GlassesOutlineIcon" />
+          <n-icon :size="16" :component="GlassesOutline" />
         </template>
         <template #password-invisible-icon>
-          <n-icon :size="16" :component="GlassesIcon" />
+          <n-icon :size="16" :component="Glasses" />
         </template>
       </n-input>
     </n-form-item>
@@ -185,23 +139,24 @@ defineExpose({
         @keydown.enter.prevent
       >
         <template #clear-icon>
-          <n-icon :component="TrashBinOutlineIcon" />
+          <n-icon :component="TrashBinOutline" />
         </template>
         <template #password-visible-icon>
-          <n-icon :size="16" :component="GlassesOutlineIcon" />
+          <n-icon :size="16" :component="GlassesOutline" />
         </template>
         <template #password-invisible-icon>
-          <n-icon :size="16" :component="GlassesIcon" />
+          <n-icon :size="16" :component="Glasses" />
         </template>
       </n-input>
     </n-form-item>
     <n-button
-      block type="primary"
+      block mt-3
+      type="primary"
       :loading="loading"
-      mt-3 text-color="white"
+      text-color="white"
       @click="onSubmit"
     >
-      <span font-bold text-lag>保存</span>
+      <span class="font-bold text-lag">保存</span>
     </n-button>
   </n-form>
 </template>
