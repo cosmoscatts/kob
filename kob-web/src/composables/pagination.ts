@@ -41,16 +41,16 @@ export function usePagination(options: PaginationOptions = {}): Pagination {
       return Math.ceil(this.itemCount / this.pageSize);
     },
     onChange(newPage: number) {
-      this.page = newPage;
+      state.page = newPage;
       onChangeCallback?.();
     },
     onUpdatePageSize(newPageSize: number) {
-      this.pageSize = newPageSize;
-      this.page = 1;
+      state.pageSize = newPageSize;
+      state.page = 1;
       onUpdatePageSizeCallback?.();
     },
     createRowNumber(rowIndex: number) {
-      return (this.page - 1) * this.pageSize + rowIndex + 1;
+      return (state.page - 1) * state.pageSize + rowIndex + 1;
     },
   });
 
