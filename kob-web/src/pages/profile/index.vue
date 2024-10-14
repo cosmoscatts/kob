@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BaseInformation from './components/BaseInformation.vue';
 import SecuritySettings from './components/SecuritySettings.vue';
-import UserPanel from './components/UserPanel.vue';
+import UserAvatarUpload from './components/UserAvatarUpload.vue';
+import UserProfileForm from './components/UserProfileForm.vue';
 </script>
 
 <template>
@@ -12,11 +12,11 @@ import UserPanel from './components/UserPanel.vue';
     w-70vw mx-a ha
   >
     <div col-span-1 ha>
-      <UserPanel />
+      <UserAvatarUpload />
     </div>
     <div col-span-3 lt-md="col-span-1">
       <div flex="~ col" w-full gap-y-5>
-        <BaseInformation />
+        <UserProfileForm />
         <SecuritySettings />
       </div>
     </div>
