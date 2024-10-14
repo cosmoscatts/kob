@@ -11,7 +11,7 @@ import {
   GlassesOutline as GlassesOutlineIcon,
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5';
-import FuncBar from './FuncBar.vue';
+import FuncBar from './AuthFunctionBar.vue';
 
 const registerCallback = inject<Function>('registerCallback');
 
@@ -95,21 +95,25 @@ const { loading, startLoading, endLoading } = useLoading();
 
 function onSubmit(e: MouseEvent) {
   e.preventDefault();
-  refForm.value?.validate((errors?: FormValidationError[]) => {
+  refForm.value?.validate(async (errors?: FormValidationError[]) => {
     if (errors)
       return;
     startLoading();
-    UserApi
-      .register(useClone(formModel))
-      .then(({ code, msg }) => {
-        if (code !== 0) {
-          $message.error(msg ?? '注册失败');
-          return;
-        }
-        $message.success('注册成功');
-        registerCallback?.();
-      })
-      .finally(() => useTimeoutFn(endLoading, 1000));
+    try {
+      const result = await UserApi.register(useClone(formModel));
+      const { code, msg } = result.data;
+      if (code !== 0) {
+        $message.error(msg || '注册失败');
+        return;
+      }
+      $message.success('注册成功');
+      registerCallback?.();
+    } catch (e) {
+      console.error(e);
+      $message.error('注册失败');
+    } finally {
+      useTimeoutFn(endLoading, 1000);
+    }
   });
 }
 

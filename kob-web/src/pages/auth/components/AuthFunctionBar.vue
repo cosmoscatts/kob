@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Ref } from 'vue';
-import type { Tab } from './helper';
+import type { AuthTab } from '../utils';
 
-const tab = inject<Ref<Tab>>('tab')!;
+const tab = inject<Ref<AuthTab>>('tab')!;
 const changeTab = inject<(Function)>('changeTab');
 
 const actionName = computed(() => {
@@ -10,7 +10,7 @@ const actionName = computed(() => {
     account: '验证码登录',
     phone: '其他方式登录',
     register: '账密登录',
-  } as Record<Tab, string>)[tab.value ?? 'account'];
+  } as Record<AuthTab, string>)[tab.value ?? 'account'];
 });
 const go2 = () => {
   const map = { account: 'phone', phone: 'account', register: 'account' };
