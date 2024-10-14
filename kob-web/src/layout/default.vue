@@ -1,7 +1,7 @@
 <script  setup lang="ts">
 import { layoutConfig } from '~/config';
 import TheContent from './components/TheContent.vue';
-import TheFoot from './components/TheFoot.vue';
+import TheFoot from './components/TheFooter.vue';
 import TheNav from './components/TheNav.vue';
 
 const {

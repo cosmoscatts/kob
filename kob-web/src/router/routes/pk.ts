@@ -1,4 +1,4 @@
-import { BaseLayout } from '~/layout';
+import BaseLayout from '~/layout/default.vue';
 
 export default {
   path: '/pk',
