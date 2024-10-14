@@ -24,15 +24,13 @@ const generateMenuOption = ({ id, label, icon, path, children }: Menu): MenuOpti
 const options = computed(() => appMenus.map(generateMenuOption));
 
 const selectedOptionValues = computed(() => {
-  const flattenOptions = (menuOptions: MenuOption[]): MenuOption[] =>
-    menuOptions.flatMap(option =>
-      option.children
-        ? [option, ...flattenOptions(option.children as MenuOption[])]
-        : [option],
+  const flattenMenus = (menus: typeof appMenus): typeof appMenus =>
+    menus.flatMap(menu => menu.children
+      ? [menu, ...flattenMenus(menu.children)]
+      : [menu],
     );
-
-  const allOptions = flattenOptions(options.value);
-  return allOptions.find(option => option.path === route.path)?.key ?? null;
+  const allMenuOptions = flattenMenus(appMenus);
+  return allMenuOptions.find(menu => menu.path === route.path)?.id ?? null;
 });
 </script>
 

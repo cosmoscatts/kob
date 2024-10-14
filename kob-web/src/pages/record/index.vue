@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PlayerInfo } from './utils/columns';
+import type { PlayerInfo } from './utils/types';
 import type { PageQuery } from '~/types';
 import RecordTable from './components/RecordTable.vue';
 import RecordVideo from './components/RecordVideo.vue';
@@ -48,11 +48,12 @@ provide('changeCurrentTab', changeCurrentTab);
 <template>
   <div class="w-full">
     <Transition name="fade-slide" mode="out-in" appear>
-      <component
-        :is="currentTabComponent"
-        v-bind="currentTab === 0 ? { ...pagination, name } : { playerInfoList }"
-        @change-tab="changeCurrentTab"
-      />
+      <div>
+        <component
+          :is="currentTabComponent"
+          v-bind="currentTab === 0 ? { ...pagination, name } : { playerInfoList }"
+        />
+      </div>
     </Transition>
   </div>
 </template>

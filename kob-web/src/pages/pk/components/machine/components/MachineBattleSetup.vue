@@ -93,7 +93,7 @@ onMounted(fetchBotList);
         <n-card my25px h30vh>
           <n-tabs v-model:value="selectedTab" size="large" justify-content="space-evenly">
             <n-tab-pane name="standard" tab="标准模式">
-              <div flex="col" items-center>
+              <div flex="~ col" items-center>
                 <n-h3 prefix="bar" align-text>
                   请选择人机难度
                 </n-h3>

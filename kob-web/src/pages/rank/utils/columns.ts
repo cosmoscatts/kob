@@ -44,7 +44,11 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
   const reward = renderReward(rankNum);
 
   return h('div', {
-    class: 'flex justify-center items-center',
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   }, [
     h(NAvatar, {
       size: 'small',
@@ -53,7 +57,7 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
     }),
     h(NEllipsis, {
       maxWidth: '200px',
-      class: 'ml-4',
+      style: { marginLeft: '15px' },
     }, () => name),
     reward,
   ]);
@@ -70,6 +74,6 @@ function renderReward(rankNum?: number) {
     component,
     color,
     size: 16,
-    class: 'ml-4',
+    style: { marginLeft: '15px' },
   });
 }
