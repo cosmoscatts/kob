@@ -3,50 +3,42 @@ import { Heart, HeartOutline } from '@vicons/ionicons5';
 import defaultAvatar from '~/assets/default-avatar.png';
 import type { Discuss } from '~/types';
 
-const {
-  item,
-  loading = false,
-  isAuthLike = false,
-} = defineProps<{
+interface Props {
   item?: Discuss
   loading?: boolean
   isAuthLike?: boolean
-}>();
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+  isAuthLike: false,
+});
 
 const emits = defineEmits(['likeCallback']);
 const { width } = useWindowSize();
 
-const like = useThrottleFn(async (remarkId?: number) => {
-  try {
-    const result = await DiscussApi.likeDiscuss({ remarkId });
-    const { code, msg } = result.data;
-    if (code !== 0) {
-      $message.error(msg || '支持失败，请重试');
-      return;
-    }
-    $message.success('已支持该意见');
-    emits('likeCallback', { id: remarkId, type: 'like' });
-  } catch (e) {
-    console.error(e);
-    $message.error('支持失败，请重试');
-  }
-}, 500);
+const handleLikeAction = async (action: 'like' | 'dislike') => {
+  const apiMethod = action === 'like' ? DiscussApi.likeDiscuss : DiscussApi.dislikeDiscuss;
+  const successMessage = action === 'like' ? '已支持该意见' : '已取消支持该意见';
+  const errorMessage = `${action === 'like' ? '支持' : '取消支持'}失败，请重试`;
 
-const dislike = useThrottleFn(async (remarkId?: number) => {
   try {
-    const result = await DiscussApi.dislikeDiscuss({ remarkId });
+    const result = await apiMethod({ remarkId: props.item?.id });
     const { code, msg } = result.data;
     if (code !== 0) {
-      $message.error(msg || '取消支持失败，请重试');
+      $message.error(msg || errorMessage);
       return;
     }
-    $message.success('已取消支持该意见');
-    emits('likeCallback', { id: remarkId, type: 'dislike' });
+    $message.success(successMessage);
+    emits('likeCallback', { id: props.item?.id, type: action });
   } catch (e) {
     console.error(e);
-    $message.error('取消支持失败，请重试');
+    $message.error(errorMessage);
   }
-}, 500);
+};
+
+const like = useThrottleFn(() => handleLikeAction('like'), 500);
+const dislike = useThrottleFn(() => handleLikeAction('dislike'), 500);
 </script>
 
 <template>
@@ -74,10 +66,10 @@ const dislike = useThrottleFn(async (remarkId?: number) => {
         <div flex-y-center justify-between>
           <div>发表于 {{ formatDate({ date: item?.createTime }) }}</div>
           <div flex-y-center>
-            <n-icon v-if="isAuthLike" size="18" color="red" @click="dislike(item?.id)">
+            <n-icon v-if="isAuthLike" size="18" color="red" @click="dislike">
               <Heart />
             </n-icon>
-            <n-icon v-else size="18" @click="like(item?.id)">
+            <n-icon v-else size="18" @click="like">
               <HeartOutline />
             </n-icon>
             <span ml2>{{ item?.likes ?? 0 }}</span>

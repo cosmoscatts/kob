@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { codeExample } from '../utils/code';
 
-const props = withDefaults(defineProps<{
-  visible?: boolean
-}>(), {
-  visible: false,
-});
-
-const emit = defineEmits(['update:visible']);
+const visible = defineModel('visible', { default: false });
 
 const { width } = useWindowSize();
 const drawerWidth = computed(() => width.value > 600 ? 600 : 502);
@@ -24,14 +18,14 @@ function handleCopy() {
 }
 
 function closeDrawer() {
-  emit('update:visible', false);
+  visible.value = false;
 }
 </script>
 
 <template>
   <n-drawer
     :width="drawerWidth"
-    :show="props.visible"
+    :show="visible"
     placement="right"
     @mask-click="closeDrawer"
     @on-esc="closeDrawer"

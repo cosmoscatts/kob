@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Discuss } from '~/types';
 import DiscussItem from './components/DiscussItem.vue';
-import SayWords from './components/SayWords.vue';
+import DiscussSubmitForm from './components/DiscussSubmitForm.vue';
 
 const pagination = usePagination({
   onChangeCallback: fetchDiscussList,
@@ -69,7 +69,7 @@ function likeCallback({ id, type }: { id?: number, type: 'like' | 'dislike' }) {
       <div mt20px>
         <n-list bordered clickable>
           <n-list-item>
-            <SayWords @refresh="fetchDiscussList" />
+            <DiscussSubmitForm @refresh="fetchDiscussList" />
           </n-list-item>
           <n-list-item v-for="item in list" :key="item.id">
             <DiscussItem
