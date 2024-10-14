@@ -9,7 +9,7 @@ const options = createDropdownOptions(router, userStore);
 
 const loadLottie = () => useTimeoutFn(() => useLottie({
   containerId: '#lottie-cap',
-  path: 'https://assets3.lottiefiles.com/packages/lf20_zmIJEx.json',
+  path: '/public/lottie/cap.json',
 }), 10);
 onMounted(() => {
   if (userStore.isLoggedIn) {
