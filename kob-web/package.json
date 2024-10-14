@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 3333 --open",
-    "build": "esno ./scripts/build.ts && NODE_OPTIONS=--max-old-space-size=8192 vite build && generate-version-file",
+    "build": "esno ./scripts/build.ts && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build && generate-version-file",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -42,6 +42,7 @@
     "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^5.1.4",
+    "cross-env": "^7.0.3",
     "eslint": "^9.12.0",
     "esno": "^4.8.0",
     "fs-extra": "^11.2.0",
