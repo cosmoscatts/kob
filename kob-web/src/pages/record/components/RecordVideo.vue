@@ -43,7 +43,7 @@ const handleVisibilityChange = () => {
 onMounted(() => {
   useLottie({
     containerId: '#lottie-trophy',
-    path: 'https://assets8.lottiefiles.com/packages/lf20_touohxv0.json',
+    path: '/lottie/trophy.json',
   });
 
   document.addEventListener('visibilitychange', handleVisibilityChange);

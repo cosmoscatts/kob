@@ -27,6 +27,19 @@ export const appChangelog: ChangeLog[] = [
     ],
   },
   {
+    date: '24/10/13',
+    title: '💎 项目重构',
+    description: '',
+    changes: [
+      {
+        id: '24/10/13/1',
+        type: 'update',
+        title: '重构了大部分代码并且优化了样式',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '23/01/10',
     title: '💎 样式更新',
     description: '',

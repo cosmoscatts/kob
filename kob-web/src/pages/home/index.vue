@@ -35,7 +35,7 @@ const animationClass = computed(() => isAnimating.value ? 'animate-bounce' : '')
 
 onMounted(() => useLottie({
   containerId: '#lottie-car',
-  path: '/public/lottie/home.json',
+  path: '/lottie/home.json',
 }));
 </script>
 
