@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SelectOption } from 'naive-ui';
 
-const emit = defineEmits(['changePage']);
+const changePageIndex = inject<(ndex: number) => void>('changePageIndex')!;
 
 const { user } = storeToRefs(useUserStore());
 const { socket } = storeToRefs(usePkStore());
@@ -71,7 +71,7 @@ onMounted(fetchBotList);
       <div text="primary 30px" font-800>
         人机试炼
       </div>
-      <n-button size="large" type="primary" text-color="white" @click="emit('changePage', 0)">
+      <n-button size="large" type="primary" text-color="white" @click="changePageIndex(0)">
         返回
       </n-button>
     </div>

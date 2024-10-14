@@ -28,7 +28,7 @@ async function fetchDiscussList() {
     console.error(e);
     list.value = [];
   } finally {
-    useTimeoutFn(endLoading, 500);
+    endLoading();
   }
 }
 
