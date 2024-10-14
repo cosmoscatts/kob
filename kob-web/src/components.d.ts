@@ -47,5 +47,6 @@ declare module 'vue' {
     ResultBoard: typeof import('./components/ResultBoard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SplashScreen: typeof import('./components/SplashScreen.vue')['default']
   }
 }
