@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PlayerInfo } from './columns';
+import type { PlayerInfo } from './utils/columns';
 import type { PageQuery } from '~/types';
 import RecordTable from './components/RecordTable.vue';
 import RecordVideo from './components/RecordVideo.vue';

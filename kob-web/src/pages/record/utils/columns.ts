@@ -4,20 +4,19 @@ import { NAvatar, NButton, NEllipsis, NIcon, NIconWrapper, NTag } from 'naive-ui
 import defaultAvatar from '~/assets/default-avatar.png';
 import type { Record } from '~/types';
 
-/**
- * 创建表格列
- */
+interface ColumnOptions {
+  createRowNumber?: (rowIndex: number) => number
+  canDelete?: (aId: number, bId: number) => boolean
+  checkVideo?: (record: Record) => void | Promise<void>
+  onRemoveRecord?: (record: Record) => void | Promise<void>
+}
+
 export function createColumns({
   createRowNumber,
   canDelete,
   checkVideo,
   onRemoveRecord,
-}: {
-  createRowNumber?: (rowIndex: number) => number
-  canDelete?: (aId: number, bid: number) => boolean
-  checkVideo?: (record: Record) => void | Promise<void>
-  onRemoveRecord?: (record: Record) => void | Promise<void>
-}): DataTableColumns<Record> {
+}: ColumnOptions): DataTableColumns<Record> {
   return [
     {
       key: 'id',
@@ -43,24 +42,23 @@ export function createColumns({
       title: '对局模式',
       key: 'mode',
       align: 'center',
-      render: ({ mode }) => (h(
+      render: ({ mode }) => h(
         NTag,
         { type: mode === 'match' ? 'error' : 'warning' },
         () => mode === 'match' ? '匹配对战' : '人机试炼',
-      )),
+      ),
     },
     {
       title: '对战结果',
       key: 'loser',
       align: 'center',
-      render({ loser }) {
-        return loser === 'A'
-          ? '玩家B获胜'
-          : loser === 'B'
-            ? '玩家A获胜'
-            : loser === 'all'
-              ? '平局'
-              : '-';
+      render: ({ loser }) => {
+        const resultMap = {
+          A: '玩家B获胜',
+          B: '玩家A获胜',
+          all: '平局',
+        };
+        return resultMap[loser as keyof typeof resultMap] ?? '-';
       },
     },
     {
@@ -73,7 +71,7 @@ export function createColumns({
       title: '操作',
       key: 'actions',
       align: 'center',
-      render(row) {
+      render: (row) => {
         const btnArray = [
           h(
             NButton,
@@ -86,7 +84,8 @@ export function createColumns({
             { default: () => '查看录像' },
           ),
         ];
-        if (canDelete?.(row.aId, row.bId) ?? false) {
+
+        if (canDelete?.(row.aId, row.bId)) {
           btnArray.push(
             h(
               NButton,
@@ -102,11 +101,7 @@ export function createColumns({
           );
         }
 
-        return h(
-          'div',
-          {},
-          btnArray,
-        );
+        return h('div', {}, btnArray);
       },
     },
   ];
@@ -114,39 +109,30 @@ export function createColumns({
 
 function renderPlayer(avatar?: string, name?: string, win = false) {
   const widgets = [
-    h(
-      NAvatar,
-      {
-        size: 'small',
-        round: true,
-        src: avatar ?? defaultAvatar,
-      },
-    ),
-    h(
-      NEllipsis,
-      {
-        maxWidth: '200px',
-        style: {
-          marginLeft: '10px',
-        },
-      },
-      () => name,
-    ),
+    h(NAvatar, {
+      size: 'small',
+      round: true,
+      src: avatar ?? defaultAvatar,
+    }),
+    h(NEllipsis, {
+      maxWidth: '200px',
+      style: { marginLeft: '10px' },
+    }, () => name),
   ];
+
   if (win) {
     widgets.push(h(NIconWrapper, {
       size: 24,
       borderRadius: 10,
       color: '#886BFA',
       iconColor: 'white',
-      style: {
-        marginLeft: '10px',
-      },
+      style: { marginLeft: '10px' },
     }, () => h(NIcon, {
       size: 16,
       component: Paw,
     })));
   }
+
   return h('div', {
     style: {
       display: 'flex',
@@ -154,9 +140,4 @@ function renderPlayer(avatar?: string, name?: string, win = false) {
       alignItems: 'center',
     },
   }, widgets);
-}
-
-export interface PlayerInfo {
-  name: string
-  avatar: string
 }

@@ -5,79 +5,67 @@ import {
   TrashBinOutline as TrashBinOutlineIcon,
 } from '@vicons/ionicons5';
 import type { Record } from '~/types';
-import { createColumns } from '../columns';
+import { createColumns } from '../utils/columns';
 
-const {
-  page = 1,
-  pageSize = 10,
-  name = '',
-} = defineProps<{
+const props = withDefaults(defineProps<{
   page?: number
   pageSize?: number
   name?: string
-}>();
+}>(), {
+  page: 1,
+  pageSize: 10,
+  name: '',
+});
 
 const changeCurrentTab = inject<Function>('changeCurrentTab')!;
-
 const { loading, startLoading, endLoading } = useLoading();
+const { setRecordingState, setSteps, updateGameState, setGameResult } = useRecordStore();
+const userStore = useUserStore();
 
-// 分页参数
+const tableData = ref<Record[]>([]);
+const searchModel = reactive({ name: props.name });
+
 const pagination = usePagination({
-  page,
-  pageSize,
+  page: props.page,
+  pageSize: props.pageSize,
   onChangeCallback: fetchTableData,
   onUpdatePageSizeCallback: fetchTableData,
 });
 
 function canDelete(aId: number, bId: number): boolean {
-  const userId = useUserStore()?.user?.id;
+  const userId = userStore.user?.id;
   return userId === aId || userId === bId;
 }
 
 function onRemoveRecord({ id }: Record) {
-  useConfirm(
-    '你确定要删除该对局吗？',
-    async () => {
-      try {
-        const result = await RecordApi.deleteRecord(id as number);
-        const { code, msg } = result.data;
-        if (code !== 0) {
-          $message.error(msg || '删除失败');
-          return;
-        }
-        $message.success('删除成功');
-        fetchTableData();
-      } catch (e) {
-        console.error(e);
-        $message.error('删除失败');
+  try {
+    useConfirm('你确定要删除该对局吗？', async () => {
+      const result = await RecordApi.deleteRecord(id as number);
+      const { code, msg } = result.data;
+      if (code !== 0) {
+        $message.error(msg || '删除失败');
+        return;
       }
-    },
-  );
+      $message.success('删除成功');
+      fetchTableData();
+    });
+  } catch (e) {
+    console.error(e);
+    $message.error('删除失败');
+  }
 }
 
-const { setRecordingState, setSteps, updateGameState, setGameResult } = useRecordStore();
-
-const convert2DArray = (map: string) => { // 将地图从字符串转为二维数组
-  const g: number[][] = [];
-  for (let i = 0, k = 0; i < 13; i++) {
-    const line = [];
-    for (let j = 0; j < 14; j++, k++)
-      line.push([1, 0][Number(map[k] === '0')]);
-
-    g.push(line);
-  }
-  return g;
-};
-
-const tableData = ref<Record[]>([]);
-const searchModel = reactive<{ name?: string }>({ name });
+const convert2DArray = (map: string): number[][] =>
+  Array.from({ length: 13 }, (_, i) =>
+    Array.from({ length: 14 }, (_, j) =>
+      Number(map[i * 14 + j] !== '0')));
 
 async function fetchTableData() {
   startLoading();
   const { page, pageSize } = pagination;
   try {
     const result = await RecordApi.getRecordList({ page, pageSize, name: searchModel.name?.trim() });
-    const { data: { records = [], total = 0 } } = result.data;
+    const { records = [], total = 0 } = result.data.data;
     tableData.value = records;
     pagination.itemCount = total;
   } catch (e) {
@@ -88,19 +76,12 @@ async function fetchTableData() {
     useTimeoutFn(endLoading, 1000);
   }
 }
-fetchTableData();
 
 function checkVideo({ aId, aSx, aSy, bId, bSx, bSy, map, aSteps, bSteps, loser, aAvatar, aName, bAvatar, bName }: Record) {
   setRecordingState(true);
   setSteps(aSteps, bSteps);
   updateGameState({ aId, aSx, aSy, bId, bSx, bSy, map: convert2DArray(map) });
-  const resultMap = {
-    all: 'draw',
-    A: 'playerBWon',
-    B: 'playerAWon',
-    none: 'ongoing',
-  } as const;
-  setGameResult(resultMap[loser as keyof typeof resultMap]);
+  setGameResult(getGameResult(loser));
 
   const { page, pageSize } = pagination;
   const playerInfoList = [
@@ -127,6 +108,8 @@ function reset() {
   searchModel.name = '';
   fetchTableData();
 }
+
+onMounted(fetchTableData);
 </script>
 
 <template>
@@ -175,4 +158,5 @@ function reset() {
       </div>
     </n-card>
   </div>
+  template>
 </template>
