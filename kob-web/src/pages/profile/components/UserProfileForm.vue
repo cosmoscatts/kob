@@ -21,8 +21,9 @@ async function onSubmit(e: Event) {
   e.preventDefault();
   try {
     const errors = await refForm.value?.validate();
-    if (errors)
+    if (errors && errors.warnings?.length)
       return;
+
     startLoading();
     const result = await UserApi.updateLoginUserInfo(useClone(formModel));
     const { code, msg } = result.data;
