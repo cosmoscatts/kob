@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import defaultAvatar from '~/assets/default-avatar.png';
-import ChooseLevel from './components/ChooseLevel.vue';
+import MachineBattleSetup from './components/MachineBattleSetup.vue';
 
 const pkStore = usePkStore();
 const userStore = useUserStore();
@@ -63,7 +63,7 @@ const showConfetti = computed(() => {
 
 <template>
   <div flex="col center" :style="contentStyle">
-    <ChooseLevel v-if="pkStore.status === 'matching'" />
+    <MachineBattleSetup v-if="pkStore.status === 'matching'" />
     <GamePlayground v-if="pkStore.status === 'playing' && !startDuelPrelude" />
     <DuelPreludeScreen v-if="pkStore.status === 'playing' && startDuelPrelude" />
     <ResultBoard v-if="pkStore.gameResult !== 'ongoing'" />

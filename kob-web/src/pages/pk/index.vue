@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { Machine, Match } from './components';
+import MachineBattleArena from './components/machine/MachineBattleArena.vue';
+import MatchDuelArena from './components/match/MatchDuelArena.vue';
 
 const { layoutOffsetHeight } = useLayoutStyle();
 const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
+
 const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
 const menuHeight = computed(() => `calc(100vh - ${layoutOffsetHeight.value + 60}px - 24vh)`);
 
@@ -34,18 +36,18 @@ provide('changePageIndex', changePageIndex);
         </n-card>
 
         <div flex-y-center justify-between my5vh>
-          <div class="menu" @click="changePageIndex(1)">
+          <div class="menu" role="button" aria-label="匹配对战" @click="changePageIndex(1)">
             <span text-10vw>匹</span>配
             <div i-ri-sword-line class="icon" />
           </div>
-          <div class="menu" @click="changePageIndex(2)">
+          <div class="menu" role="button" aria-label="人机对战" @click="changePageIndex(2)">
             <span text-10vw>人</span>机
             <div i-carbon-bot class="icon" />
           </div>
         </div>
       </div>
-      <Match v-else-if="currentPageIndex === 1" />
-      <Machine v-else />
+      <MatchDuelArena v-else-if="currentPageIndex === 1" />
+      <MachineBattleArena v-else />
     </Transition>
   </div>
 </template>
@@ -84,12 +86,12 @@ provide('changePageIndex', changePageIndex);
   opacity: 0;
   font-size: 20vw;
   z-index: 2;
+  transition: 0.3s;
 }
 
 .menu:hover .icon {
   opacity: 0.5;
   top: 2vh;
   left: 10vw;
-  transition: 0.3s;
 }
 </style>

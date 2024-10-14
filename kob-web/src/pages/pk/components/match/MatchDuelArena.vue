@@ -32,22 +32,19 @@ const handleMove = (data: any) => {
 
 const handleResult = (data: any) => {
   const [snake0, snake1] = pkStore.gameMapObject?.snakes || [];
-  if (['all', 'A'].includes(data.loser))
-    snake0.status = 'die';
-  if (['all', 'B'].includes(data.loser))
-    snake1.status = 'die';
-
+  ['all', 'A'].includes(data.loser) && (snake0.status = 'die');
+  ['all', 'B'].includes(data.loser) && (snake1.status = 'die');
   pkStore.updateGameState({ gameResult: getGameResult(data.loser) });
 };
 
 const socket = useSocket((msg: any) => {
   const data = JSON.parse(msg.data);
-  const fns: [boolean, () => void][] = [
+  const handlers: [boolean, () => void][] = [
     [data.event === 'match-success', () => handleMatchSuccess(data)],
     [data.event === 'move', () => handleMove(data)],
     [data.event === 'result', () => handleResult(data)],
   ];
-  ConditionalExecutor.executeFirst(fns);
+  ConditionalExecutor.executeFirst(handlers);
 });
 
 onUnmounted(() => {
@@ -55,15 +52,18 @@ onUnmounted(() => {
   pkStore.resetGame();
 });
 
-const showConfetti = computed(() =>
-  (pkStore.gameResult === 'playerBWon' && pkStore.players[1]?.id === userStore.user?.id)
-  || (pkStore.gameResult === 'playerAWon' && pkStore.players[0]?.id === userStore.user?.id),
-);
+const showConfetti = computed(() => {
+  const { gameResult, players } = pkStore;
+  const userId = userStore.user?.id;
+  return (gameResult === 'playerBWon' && players[1]?.id === userId)
+    || (gameResult === 'playerAWon' && players[0]?.id === userId);
+});
 
 const playerPosition = computed(() => {
-  if (userStore.user?.id === pkStore.players[0]?.id)
+  const userId = userStore.user?.id;
+  if (userId === pkStore.players[0]?.id)
     return '左下角';
-  if (userStore.user?.id === pkStore.players[1]?.id)
+  if (userId === pkStore.players[1]?.id)
     return '右上角';
   return null;
 });
