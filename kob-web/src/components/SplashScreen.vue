@@ -17,7 +17,7 @@ const gradientStyle = computed(() => ({
 onMounted(() => {
   useLottie({
     containerId: '#lottie-container',
-    path: '/public/lottie/load.json',
+    path: '/lottie/load.json',
     loop: true,
   });
 });

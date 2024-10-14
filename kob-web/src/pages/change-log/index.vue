@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BugOutline, BulbOutline, DiamondOutline } from '@vicons/ionicons5';
 import { appChangelog, appMeta } from '~/config';
+import { version } from '../../../package.json';
 
 type Type = 'add' | 'update' | 'fix';
 
@@ -27,6 +28,7 @@ const lastUpdate = computed(() => appMeta.lastUpdate);
     <n-card>
       <div text="1.6rem center" font-800>
         更新日志
+        <span text-lg ml-2 text-orange>v{{ version }}</span>
       </div>
       <div mt20px>
         <n-list bordered clickable>
