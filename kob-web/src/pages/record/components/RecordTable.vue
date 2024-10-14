@@ -158,5 +158,4 @@ onMounted(fetchTableData);
       </div>
     </n-card>
   </div>
-  template>
 </template>
