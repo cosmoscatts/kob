@@ -5,7 +5,7 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { TrashBinOutline as TrashBinOutlineIcon } from '@vicons/ionicons5';
 import { Codemirror } from 'vue-codemirror';
 import type { Bot } from '~/types';
-import { createRules } from '../rules';
+import { createRules } from '../utils/rules';
 
 const props = withDefaults(defineProps<{
   type?: 'add' | 'edit'
@@ -17,12 +17,10 @@ const props = withDefaults(defineProps<{
   form: () => ({}),
 });
 
-const emits = defineEmits(['update:modal-visible', 'saveBotData']);
+const emit = defineEmits(['update:modal-visible', 'saveBotData']);
 
 const title = computed(() => props.type === 'add' ? '添加Bot' : '编辑Bot');
-
 const segmented = { content: 'soft', footer: 'soft' } as const;
-
 const refForm = ref<FormInst | null>(null);
 
 type FormModel = Pick<Bot, 'id' | 'userId' | 'title' | 'description'> & { content: string };
@@ -37,20 +35,16 @@ const formModel = reactive<FormModel>({ ...baseFormModel });
 
 const { loading, startLoading, endLoading } = useLoading();
 
-function assign() {
+function resetForm() {
   const source = props.modalVisible && props.type === 'edit'
     ? unref(props.form) as Bot
     : baseFormModel;
 
-  Object.keys(formModel).forEach((key) => {
-    if (key in source) {
-      (formModel as any)[key] = (source as any)[key];
-    }
-  });
+  Object.assign(formModel, source);
 }
 
 watch(() => props.modalVisible, () => {
-  assign();
+  resetForm();
   endLoading();
   refForm.value?.restoreValidation();
 });
@@ -61,12 +55,14 @@ function onSubmit(e: MouseEvent) {
     if (errors)
       return;
     startLoading();
-    emits('saveBotData', useClone(formModel));
-    useTimeoutFn(endLoading, 2000);
+    emit('saveBotData', useClone(formModel));
+    setTimeout(endLoading, 2000);
   });
 }
 
-const onCloseModal = () => emits('update:modal-visible', false);
+function onCloseModal() {
+  emit('update:modal-visible', false);
+}
 
 const rules = createRules();
 const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
@@ -83,8 +79,8 @@ const extensions = computed(() => isDark.value ? [java(), oneDark] : [java()]);
     :mask-closable="false"
     transform-origin="center"
     style="width: 650px;"
-    :on-esc="onCloseModal"
-    :on-close="onCloseModal"
+    @esc="onCloseModal"
+    @close="onCloseModal"
   >
     <n-form
       ref="refForm"
