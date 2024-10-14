@@ -2,47 +2,44 @@
 import MachineBattleArena from './components/machine/MachineBattleArena.vue';
 import MatchDuelArena from './components/match/MatchDuelArena.vue';
 
-const { layoutOffsetHeight } = useLayoutStyle();
-const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
-
-const borderColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.09)' : 'rgb(239, 239, 245)');
-const menuHeight = computed(() => `calc(100vh - ${layoutOffsetHeight.value + 60}px - 24vh)`);
-
 const currentPageIndex = ref(0);
 const changePageIndex = (index: number) => currentPageIndex.value = index;
 provide('changePageIndex', changePageIndex);
+
+const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
 </script>
 
 <template>
-  <div>
-    <Transition name="fade-slide" mode="out-in" appear>
-      <div
-        v-if="currentPageIndex === 0"
-        flex="col" w60vw mxa rounded-10px
-        :style="{
-          ...contentStyle,
-          border: `1px solid ${borderColor}`,
-          padding: '0 8vw',
-        }"
-      >
-        <n-card mt7vh>
-          <div
-            flex justify-center items-center h60px
-            text="2rem center" lt-md="text-[1.6rem]" font-bold
-          >
-            <div i-emojione-v1-snake />
-            ：是兄弟就来玩！
+  <div class="main-container" :class="{ dark: isDark }" :style="contentStyle">
+    <Transition name="fade" mode="out-in" appear>
+      <div v-if="currentPageIndex === 0" class="content-container">
+        <h1 class="title">
+          选择对战模式
+        </h1>
+        <div class="options-container">
+          <div class="option" @click="changePageIndex(1)">
+            <div class="option-content">
+              <div class="icon-wrapper match">
+                <div class="icon" i-ri-sword-line />
+              </div>
+              <h2>匹配对战</h2>
+              <p>与其他玩家一较高下，体验紧张刺激的实时对决</p>
+            </div>
+            <div class="option-overlay">
+              <span>开始匹配</span>
+            </div>
           </div>
-        </n-card>
-
-        <div flex-y-center justify-between my5vh>
-          <div class="menu" role="button" aria-label="匹配对战" @click="changePageIndex(1)">
-            <span text-10vw>匹</span>配
-            <div i-ri-sword-line class="icon" />
-          </div>
-          <div class="menu" role="button" aria-label="人机对战" @click="changePageIndex(2)">
-            <span text-10vw>人</span>机
-            <div i-carbon-bot class="icon" />
+          <div class="option" @click="changePageIndex(2)">
+            <div class="option-content">
+              <div class="icon-wrapper machine">
+                <div class="icon" i-carbon-bot />
+              </div>
+              <h2>人机对战</h2>
+              <p>挑战智能AI对手，提升你的策略和技巧</p>
+            </div>
+            <div class="option-overlay">
+              <span>开始挑战</span>
+            </div>
           </div>
         </div>
       </div>
@@ -53,45 +50,156 @@ provide('changePageIndex', changePageIndex);
 </template>
 
 <style scoped>
-.menu {
+.content-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: var(--color-heading);
+  font-weight: bold;
+}
+
+.options-container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.option {
+  width: 300px;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--color-background-soft);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   position: relative;
+  border: 1px solid var(--color-border);
+}
+
+.option-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.icon-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  grid-column: span 1 / span 1;
-  height: v-bind(menuHeight);
-  min-height: 200px;
-  width: 25vw;
-  font-size: 6vw;
-  font-weight: 800;
-  vertical-align: top;
-  transition-duration: 200ms;
-  border: 1px solid v-bind(borderColor);
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
 }
 
-.menu:hover {
-  background-color: #507C59;
-  color: white;
-  transition-duration: 300ms;
+.icon-wrapper.match {
+  background: linear-gradient(135deg, #3498db, #8e44ad);
+}
+
+.icon-wrapper.machine {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
 }
 
 .icon {
-  position: absolute;
+  font-size: 3rem;
   color: white;
-  top: 50px;
-  left: 50px;
-  opacity: 0;
-  font-size: 20vw;
-  z-index: 2;
-  transition: 0.3s;
 }
 
-.menu:hover .icon {
-  opacity: 0.5;
-  top: 2vh;
-  left: 10vw;
+h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--color-heading);
+  transition: all 0.3s ease;
+}
+
+p {
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.option-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding-bottom: 2rem;
+}
+
+.option-overlay span {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.option:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.option:hover .icon-wrapper {
+  transform: scale(1.1);
+}
+
+.option:hover .option-content {
+  transform: translateY(-40px);
+}
+
+.option:hover h2 {
+  color: white;
+}
+
+.option:hover p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.option:hover .option-overlay {
+  opacity: 1;
+  height: 100%;
+}
+
+.option:hover .option-overlay span {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .options-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .option {
+    width: 100%;
+    max-width: 300px;
+    height: 350px;
+    margin-bottom: 2rem;
+  }
 }
 </style>
