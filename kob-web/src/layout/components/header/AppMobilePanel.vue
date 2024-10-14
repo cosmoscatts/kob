@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { appMeta } from '~/config';
 import NavAvatar from './NavAvatar.vue';
-import NavMenu from './NavMenu.vue';
+import NavMenu from './AppMenu.vue';
 
 const showNavPanel = ref(false);
 const toggle = () => showNavPanel.value = !showNavPanel.value;

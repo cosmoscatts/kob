@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { appMeta } from '~/config';
-import { NavAvatar, NavLogo, NavMenu, NavResponsivePanel } from './nav-items';
+import AppAvatar from './header/AppAvatar.vue';
+import AppLogo from './header/AppLogo.vue';
+import AppMenu from './header/AppMenu.vue';
+import AppMobilePanel from './header/AppMobilePanel.vue';
 
 const { breakpoints } = useResponsive();
 
@@ -11,8 +14,8 @@ const showExtraButtons = breakpoints.greaterOrEqual('lg');
 
 <template>
   <div flex-y-center>
-    <NavLogo ml6 w-250px />
-    <NavMenu v-if="showFullNavigation" mx-5 />
+    <AppLogo ml6 w-250px />
+    <AppMenu v-if="showFullNavigation" mx-5 />
     <div flex-auto />
     <div v-if="showFullNavigation" flex-y-center mr-10>
       <template v-if="showExtraButtons">
@@ -25,8 +28,8 @@ const showExtraButtons = breakpoints.greaterOrEqual('lg');
         />
         <DarkToggle mr-5 />
       </template>
-      <NavAvatar />
+      <AppAvatar />
     </div>
-    <NavResponsivePanel v-if="showMobilePanel" />
+    <AppMobilePanel v-if="showMobilePanel" />
   </div>
 </template>
