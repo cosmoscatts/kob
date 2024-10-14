@@ -4,16 +4,23 @@ const emits = defineEmits(['refresh']);
 const words = ref('');
 const { loading, startLoading, endLoading } = useLoading();
 
-const submit = useThrottleFn(async () => {
-  const remark = words.value.trim();
-  if (!remark?.length) {
+const validateInput = (remark: string) => {
+  if (!remark.length) {
     $message.warning('您不能什么也不说哦');
-    return;
+    return false;
   }
   if (remark.length > 1000) {
     $message.warning('字数太多了哦');
-    return;
+    return false;
   }
+  return true;
+};
+
+const submit = useThrottleFn(async () => {
+  const remark = words.value.trim();
+  if (!validateInput(remark))
+    return;
+
   startLoading();
   try {
     const result = await DiscussApi.addDiscuss({ remark });

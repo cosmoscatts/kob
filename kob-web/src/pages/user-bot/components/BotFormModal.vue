@@ -9,15 +9,13 @@ import { createRules } from '../utils/rules';
 
 const props = withDefaults(defineProps<{
   type?: 'add' | 'edit'
-  modalVisible?: boolean
   form?: Bot
 }>(), {
   type: 'add',
-  modalVisible: false,
   form: () => ({}),
 });
-
-const emit = defineEmits(['update:modal-visible', 'saveBotData']);
+const emit = defineEmits(['saveBotData']);
+const modalVisible = defineModel('modalVisible', { default: false });
 
 const title = computed(() => props.type === 'add' ? '添加Bot' : '编辑Bot');
 const segmented = { content: 'soft', footer: 'soft' } as const;
@@ -36,14 +34,14 @@ const formModel = reactive<FormModel>({ ...baseFormModel });
 const { loading, startLoading, endLoading } = useLoading();
 
 function resetForm() {
-  const source = props.modalVisible && props.type === 'edit'
+  const source = modalVisible.value && props.type === 'edit'
     ? unref(props.form) as Bot
     : baseFormModel;
 
   Object.assign(formModel, source);
 }
 
-watch(() => props.modalVisible, () => {
+watch(modalVisible, () => {
   resetForm();
   endLoading();
   refForm.value?.restoreValidation();
@@ -61,7 +59,7 @@ function onSubmit(e: MouseEvent) {
 }
 
 function onCloseModal() {
-  emit('update:modal-visible', false);
+  modalVisible.value = false;
 }
 
 const rules = createRules();
