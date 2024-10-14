@@ -4,9 +4,9 @@ import opponentDefaultAvatar from '~/assets/opponent.png';
 import type { GameMap } from '~/game/map';
 import type { Game, User } from '~/types';
 
-type Opponent = Pick<User, 'name' | 'avatar'>;
-type GameStatus = 'matching' | 'playing';
-type GameResult = 'draw' | 'playerAWon' | 'playerBWon' | 'ongoing';
+export type Opponent = Pick<User, 'name' | 'avatar'>;
+export type GameStatus = 'matching' | 'playing';
+export type GameResult = 'draw' | 'playerAWon' | 'playerBWon' | 'ongoing';
 
 interface Player {
   id: number

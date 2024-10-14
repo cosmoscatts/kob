@@ -37,13 +37,7 @@ const handleResult = (data: any) => {
   if (['all', 'B'].includes(data.loser))
     snake1.status = 'die';
 
-  const resultMap = {
-    all: 'draw',
-    A: 'playerBWon',
-    B: 'playerAWon',
-    none: 'ongoing',
-  } as const;
-  pkStore.updateGameState({ gameResult: resultMap[data.loser as keyof typeof resultMap] });
+  pkStore.updateGameState({ gameResult: getGameResult(data.loser) });
 };
 
 const socket = useSocket((msg: any) => {

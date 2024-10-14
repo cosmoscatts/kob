@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PlayerInfo } from '../columns';
+import type { PlayerInfo } from '../../utils/types';
 import defaultAvatar from '~/assets/default-avatar.png';
 
 defineProps<{

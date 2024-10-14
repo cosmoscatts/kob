@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PlayerInfo } from '../columns';
-import GameResult from './GameResult.vue';
-import PlayerInfoCard from './PlayerInfoCard.vue';
+import type { PlayerInfo } from '../utils/types';
+import GameResult from './video/GameResult.vue';
+import PlayerInfoCard from './video/PlayerInfoCard.vue';
 
 const props = defineProps<{
   playerInfoList: PlayerInfo[]
