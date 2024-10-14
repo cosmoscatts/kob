@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SecuritySettings from './components/SecuritySettings.vue';
 import UserAvatarUpload from './components/UserAvatarUpload.vue';
 import UserProfileForm from './components/UserProfileForm.vue';
+import UserSecuritySettings from './components/UserSecuritySettings.vue';
 </script>
 
 <template>
@@ -17,7 +17,7 @@ import UserProfileForm from './components/UserProfileForm.vue';
     <div col-span-3 lt-md="col-span-1">
       <div flex="~ col" w-full gap-y-5>
         <UserProfileForm />
-        <SecuritySettings />
+        <UserSecuritySettings />
       </div>
     </div>
   </div>
