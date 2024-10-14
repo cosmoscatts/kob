@@ -38,7 +38,7 @@ async function fetchTableData() {
     tableData.value = [];
     pagination.itemCount = 0;
   } finally {
-    useTimeoutFn(endLoading, 1000);
+    endLoading();
   }
 }
 

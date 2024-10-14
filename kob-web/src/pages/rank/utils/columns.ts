@@ -5,7 +5,13 @@ import defaultAvatar from '~/assets/default-avatar.png';
 import type { Rank } from '~/types';
 
 const TOP_RANKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const MEDAL_COLORS = ['#F7BA1E', '#8E8E8E', '#774B04', '#3491FA'];
+
+const MEDAL_COLORS = computed(() => [
+  isDark.value ? '#FFD700' : '#DAA520', // 金色
+  isDark.value ? '#E6E8FA' : '#A9A9A9', // 银色
+  isDark.value ? '#FFA500' : '#CD7F32', // 铜色
+  isDark.value ? '#3491FA' : '#1E90FF', // 其他排名的颜色
+]);
 
 export function createColumns({
   createRowNumber,
@@ -29,7 +35,7 @@ export function createColumns({
       title: '天梯分',
       key: 'rating',
       align: 'center',
-      render: ({ rating }) => `${rating} 分`,
+      render: ({ rating, rankNum }) => renderRating(rating || 0, rankNum),
     },
     {
       title: '创建时间',
@@ -42,6 +48,7 @@ export function createColumns({
 
 function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
   const reward = renderReward(rankNum);
+  const color = rankNum && rankNum <= 3 ? MEDAL_COLORS.value[rankNum - 1] : undefined;
 
   return h('div', {
     style: {
@@ -57,17 +64,32 @@ function renderPlayer(avatar?: string, name?: string, rankNum?: number) {
     }),
     h(NEllipsis, {
       maxWidth: '200px',
-      style: { marginLeft: '15px' },
+      style: {
+        marginLeft: '15px',
+        color,
+        fontWeight: rankNum && rankNum <= 3 ? '800' : 'normal',
+      },
     }, () => name),
     reward,
   ]);
+}
+
+function renderRating(rating: number, rankNum?: number) {
+  const color = rankNum && rankNum <= 3 ? MEDAL_COLORS.value[rankNum - 1] : undefined;
+
+  return h('span', {
+    style: {
+      color,
+      fontWeight: rankNum && rankNum <= 3 ? '800' : 'normal',
+    },
+  }, `${rating} 分`);
 }
 
 function renderReward(rankNum?: number) {
   if (!rankNum || !TOP_RANKS.includes(rankNum))
     return null;
 
-  const color = rankNum <= 3 ? MEDAL_COLORS[rankNum - 1] : MEDAL_COLORS[3];
+  const color = rankNum <= 3 ? MEDAL_COLORS.value[rankNum - 1] : MEDAL_COLORS.value[3];
   const component = rankNum <= 3 ? Trophy : Medal;
 
   return h(NIcon, {
