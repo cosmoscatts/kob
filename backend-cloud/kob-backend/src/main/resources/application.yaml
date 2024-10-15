@@ -10,7 +10,15 @@ spring:
   redis:
     host: localhost
     port: 6379
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+minio:
+  endpoint: http://your-minio-server:9000
+  accessKey: your-access-key
+  secretKey: your-secret-key
+  bucket: your-bucket-name
 
 
 
