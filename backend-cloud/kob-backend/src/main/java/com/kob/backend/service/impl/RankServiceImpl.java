@@ -1,4 +1,4 @@
-package com.kob.backend.biz.rank;
+package com.kob.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -10,6 +10,7 @@ import com.kob.backend.controller.rank.vo.RankRespVO;
 import com.kob.backend.controller.record.vo.RecordSearchVO;
 import com.kob.backend.convert.UserConverter;
 import com.kob.backend.dataobject.UserDO;
+import com.kob.backend.service.RankService;
 import com.kob.backend.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RankBizImpl implements RankBiz {
+public class RankServiceImpl implements RankService {
     @Resource
     private UserService userService;
 

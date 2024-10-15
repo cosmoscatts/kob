@@ -1,9 +1,9 @@
-package com.kob.backend.biz.user;
+package com.kob.backend.service;
 
 import com.kob.backend.common.Result;
 import com.kob.backend.controller.user.vo.AcCodeVO;
 
-public interface AcWebBiz {
+public interface AcWebService {
     Result<?> applyCode();
 
     // 接受请求结果

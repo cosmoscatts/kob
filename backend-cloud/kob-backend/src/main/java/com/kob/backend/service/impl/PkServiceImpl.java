@@ -1,12 +1,17 @@
-package com.kob.backend.biz.pk;
-
-import org.springframework.stereotype.Service;
+package com.kob.backend.service.impl;
 
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.consumer.utils.Game;
+import com.kob.backend.service.PkService;
+import org.springframework.stereotype.Service;
 
 @Service
-public class ReceiveBotMoveBizImpl implements ReceiveBotMoveBiz {
+public class PkServiceImpl implements PkService {
+    @Override
+    public void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
+        WebSocketServer.createGame(aId, aBotId, bId, bBotId, "match");
+    }
+
     @Override
     public String receiveBotMove(Integer userId, Integer direction) {
         if (WebSocketServer.users.get(userId) != null) {

@@ -1,9 +1,9 @@
-package com.kob.backend.biz.user;
+package com.kob.backend.service;
 
 import com.kob.backend.controller.user.vo.UpdatePasswordReqVO;
 import com.kob.backend.controller.user.vo.UserSecurityRespVO;
 
-public interface UserSecurityBiz {
+public interface UserSecurityService {
     // 检查用户的安全设置
     UserSecurityRespVO checkSecurity();
 

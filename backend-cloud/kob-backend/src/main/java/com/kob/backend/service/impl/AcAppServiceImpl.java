@@ -1,12 +1,13 @@
-package com.kob.backend.biz.user;
+package com.kob.backend.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.kob.backend.biz.user.utils.HttpClientUtil;
+import com.kob.backend.utils.HttpClientUtil;
 import com.kob.backend.common.Result;
 import com.kob.backend.controller.user.vo.AcCodeVO;
 import com.kob.backend.controller.user.vo.AccountRespVO;
 import com.kob.backend.dataobject.UserDO;
+import com.kob.backend.service.AcAppService;
 import com.kob.backend.service.UserService;
 import com.kob.backend.utils.JwtUtil;
 import org.apache.http.NameValuePair;
@@ -21,7 +22,7 @@ import java.time.Duration;
 import java.util.*;
 
 @Service
-public class AcAppBizImpl implements AcAppBiz {
+public class AcAppServiceImpl implements AcAppService {
     private final static String APP_ID = "3626";
     private final static String APP_SECRET = "7505fa4e14694db9b0993e691f462e76";
     private final static String REDIRECT_URI = "https://app3626.acapp.acwing.com.cn/api/user/account/acwing/acapp/receive_code/"; // 回调链接

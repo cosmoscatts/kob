@@ -1,20 +1,20 @@
-package com.kob.backend.biz.user;
-
-import javax.annotation.Resource;
-
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+package com.kob.backend.service.impl;
 
 import com.kob.backend.controller.user.vo.UpdatePasswordReqVO;
 import com.kob.backend.controller.user.vo.UserSecurityRespVO;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.security.UserDetailsImpl;
+import com.kob.backend.service.UserSecurityService;
 import com.kob.backend.service.UserService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
-public class UserSecurityBizImpl implements UserSecurityBiz {
+public class UserSecurityServiceImpl implements UserSecurityService {
     @Resource
     private UserService userService;
     @Resource
@@ -23,7 +23,7 @@ public class UserSecurityBizImpl implements UserSecurityBiz {
     @Override
     public UserSecurityRespVO checkSecurity() {
         UsernamePasswordAuthenticationToken authentication =
-            (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
         UserDO user = loginUser.getUser();
@@ -36,7 +36,7 @@ public class UserSecurityBizImpl implements UserSecurityBiz {
             return "两次输入的密码不一致";
         }
         UsernamePasswordAuthenticationToken authentication =
-            (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+                (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
 
         UserDetailsImpl loginUser = (UserDetailsImpl)authentication.getPrincipal();
         UserDO user = loginUser.getUser();
