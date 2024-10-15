@@ -6,16 +6,16 @@ const currentPageIndex = ref(0);
 const changePageIndex = (index: number) => currentPageIndex.value = index;
 provide('changePageIndex', changePageIndex);
 
-const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
+const { contentStyle } = useLayoutStyle({ additionalOffset: 5 });
 </script>
 
 <template>
-  <div class="main-container" :class="{ dark: isDark }" :style="contentStyle">
+  <div class="main-container theme" :class="[{ dark: isDark }]" :style="contentStyle">
     <Transition name="fade" mode="out-in" appear>
       <div v-if="currentPageIndex === 0" class="content-container">
-        <h1 class="title">
+        <div class="title">
           选择对战模式
-        </h1>
+        </div>
         <div class="options-container">
           <div class="option" @click="changePageIndex(1)">
             <div class="option-content">
@@ -26,7 +26,7 @@ const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
               <p>与其他玩家一较高下，体验紧张刺激的实时对决</p>
             </div>
             <div class="option-overlay">
-              <span>开始匹配</span>
+              <span text-hex-8B4513 dark:text-hex-FFE4B5>开始匹配</span>
             </div>
           </div>
           <div class="option" @click="changePageIndex(2)">
@@ -38,7 +38,7 @@ const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
               <p>挑战智能AI对手，提升你的策略和技巧</p>
             </div>
             <div class="option-overlay">
-              <span>开始挑战</span>
+              <span text-hex-1B4B49 dark:text-hex-B2E6E2>开始挑战</span>
             </div>
           </div>
         </div>
@@ -50,16 +50,34 @@ const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
 </template>
 
 <style scoped>
+.theme {
+  --color-heading-darker: #000000;
+  --color-heading: #1D2129;
+  --color-background-soft: #FFFFFF;
+  --color-background-option-overlay: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+  --color-border: rgb(239, 239, 245);
+  --color-text: #4E5969;
+}
+
+.theme.dark {
+  --color-heading-darker: #FFFFFF;
+  --color-heading: #F6F6F6;
+  --color-background-soft: #121212;
+  --color-background-option-overlay: linear-gradient(to top, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0));
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-text: #C5C5C5;
+}
+
 .content-container {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 10px 2rem;
 }
 
 .title {
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   color: var(--color-heading);
   font-weight: bold;
@@ -107,11 +125,19 @@ const { contentStyle } = useLayoutStyle({ additionalOffset: 10 });
 }
 
 .icon-wrapper.match {
-  background: linear-gradient(135deg, #3498db, #8e44ad);
+  background: linear-gradient(135deg, #F0C987, #E6A157);
+}
+
+.dark .icon-wrapper.match {
+  background: linear-gradient(135deg, #B07D62, #8C5D3F);
 }
 
 .icon-wrapper.machine {
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  background: linear-gradient(135deg, #7ECECA, #4DAFAA);
+}
+
+.dark .icon-wrapper.machine {
+  background: linear-gradient(135deg, #3D7A76, #265E5A);
 }
 
 .icon {
@@ -140,17 +166,17 @@ p {
   left: 0;
   width: 100%;
   height: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  background: var(--color-background-option-overlay);
   display: flex;
   justify-content: center;
   align-items: flex-end;
   opacity: 0;
   transition: all 0.3s ease;
   padding-bottom: 2rem;
+  z-index: -1;
 }
 
 .option-overlay span {
-  color: white;
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -161,7 +187,6 @@ p {
 
 .option:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .option:hover .icon-wrapper {
@@ -173,11 +198,11 @@ p {
 }
 
 .option:hover h2 {
-  color: white;
+  color: var(--color-heading-darker);
 }
 
 .option:hover p {
-  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.75;
 }
 
 .option:hover .option-overlay {
