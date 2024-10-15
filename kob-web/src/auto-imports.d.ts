@@ -17,6 +17,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const RankApi: typeof import('./server/api/rank')['RankApi']
   const RecordApi: typeof import('./server/api/record')['RecordApi']
+  const UploadApi: typeof import('./server/api/upload')['UploadApi']
   const UserApi: typeof import('./server/api/user')['UserApi']
   const UserSecurityApi: typeof import('./server/api/user-security')['UserSecurityApi']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -360,6 +361,7 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly RankApi: UnwrapRef<typeof import('./server/api/rank')['RankApi']>
     readonly RecordApi: UnwrapRef<typeof import('./server/api/record')['RecordApi']>
+    readonly UploadApi: UnwrapRef<typeof import('./server/api/upload')['UploadApi']>
     readonly UserApi: UnwrapRef<typeof import('./server/api/user')['UserApi']>
     readonly UserSecurityApi: UnwrapRef<typeof import('./server/api/user-security')['UserSecurityApi']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UploadFileInfo } from 'naive-ui';
+import { appOssPrefix } from '~/config';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -12,13 +13,18 @@ async function onChange({ file }: { file: UploadFileInfo }) {
 
   isUploading.value = true;
   try {
-    const imageAsDataURL = await getFileBase64(file.file);
-    const result = await UserApi.updateLoginUserInfo({ avatar: imageAsDataURL });
-    if (result.data.code === 0) {
+    const uploadResult = await UploadApi.uploadFile(file.file);
+    if (uploadResult.data.code !== 0 || !uploadResult.data.data) {
+      $message.error('上传失败');
+      return;
+    }
+    const imageUrl = appOssPrefix + uploadResult.data.data;
+    const upadteResult = await UserApi.updateLoginUserInfo({ avatar: imageUrl });
+    if (upadteResult.data.code === 0) {
       $message.success('上传成功');
       await userStore.fetchAndUpdateUser();
     } else {
-      $message.error(result.data.msg || '上传失败');
+      $message.error(upadteResult.data.msg || '更新用户头像失败');
     }
   } catch (error) {
     console.error(error);

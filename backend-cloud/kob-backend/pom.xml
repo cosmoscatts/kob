@@ -17,6 +17,16 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>4.10.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- spring-web -->
         <dependency>
@@ -111,6 +121,12 @@
             <groupId>com.vdurmont</groupId>
             <artifactId>emoji-java</artifactId>
         </dependency>
+        <!-- minio -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.2</version>
+        </dependency>
         <!-- spring-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -168,5 +184,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
