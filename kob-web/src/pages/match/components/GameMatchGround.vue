@@ -52,10 +52,12 @@ fetchBotList();
 function navigateTo(path: string) {
   router.push(path);
 }
+
+const { isMobile } = useResponsive();
 </script>
 
 <template>
-  <div w60vw mxa ha flex="col" :style="contentStyle">
+  <div w60vw mxa ha flex="col" :style="contentStyle" lt-md:w-full>
     <div flex-y-center justify-between mb-10px>
       <div text="primary 30px" font-800>
         匹配对抗
@@ -68,12 +70,13 @@ function navigateTo(path: string) {
     <n-card>
       <div grid="~ cols-2" md:grid-flow-row-dense>
         <div col-span-2 flex="col center" pb-10px>
-          <n-alert title="注意事项" type="warning" :style="{ width: '40vw' }">
+          <n-alert title="注意事项" type="warning" :style="{ width: isMobile ? '100%' : '40vw' }">
             选择亲自出马时，使用`W`、`A`、`S`、`D`控制方向.
           </n-alert>
+
           <n-select
             v-model:value="selectedBot" :options="botOptions"
-            :style="{ width: '20vw', textAlign: 'center', marginTop: '20px' }"
+            :style="{ width: isMobile ? '200px' : '20vw', textAlign: 'center', marginTop: '20px' }"
           />
         </div>
 
