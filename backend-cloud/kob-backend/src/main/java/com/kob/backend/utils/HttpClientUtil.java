@@ -1,4 +1,4 @@
-package com.kob.backend.biz.user.utils;
+package com.kob.backend.utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;

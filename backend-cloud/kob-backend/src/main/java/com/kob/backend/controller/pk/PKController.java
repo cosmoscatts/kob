@@ -1,6 +1,6 @@
 package com.kob.backend.controller.pk;
 
-import com.kob.backend.biz.pk.StartGameBiz;
+import com.kob.backend.service.PkService;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.Objects;
 @RequestMapping("/pk")
 public class PKController {
     @Resource
-    private StartGameBiz startGameBiz;
+    private PkService pkService;
 
     @PostMapping("/start/game")
     public String startGame(@RequestParam MultiValueMap<String, String> data) {
@@ -22,7 +22,7 @@ public class PKController {
         Integer aBotId = Integer.parseInt(Objects.requireNonNull(data.getFirst("aBotId")));
         Integer bId = Integer.parseInt(Objects.requireNonNull(data.getFirst("bId")));
         Integer bBotId = Integer.parseInt(Objects.requireNonNull(data.getFirst("bBotId")));
-        startGameBiz.startGame(aId, aBotId, bId, bBotId);
+        pkService.startGame(aId, aBotId, bId, bBotId);
         return null;
     }
 }
