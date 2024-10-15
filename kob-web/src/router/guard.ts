@@ -32,8 +32,12 @@ export function createRouterGuard(router: Router): void {
     ConditionalExecutor.executeFirst(fns);
   });
 
-  router.afterEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, failure: any) => {
+  router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized, failure: any) => {
     useTitle(to.meta?.title as string ?? appMeta.shortName);
-    failure ? $loadingBar.error() : $loadingBar.finish();
+    if (to.path !== from.path) {
+      failure ? $loadingBar.error() : $loadingBar.finish();
+    } else {
+      $loadingBar.finish();
+    }
   });
 }
