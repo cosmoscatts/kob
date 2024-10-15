@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SelectOption } from 'naive-ui';
 
-const changePageIndex = inject<(ndex: number) => void>('changePageIndex')!;
+const router = useRouter();
 
 const { user } = storeToRefs(useUserStore());
 const { socket } = storeToRefs(usePkStore());
@@ -62,6 +62,10 @@ watch(selectedTab, (val) => {
 
 const { isMobile } = useResponsive();
 
+function navigateTo(path: string) {
+  router.push(path);
+}
+
 onMounted(fetchBotList);
 </script>
 
@@ -71,7 +75,7 @@ onMounted(fetchBotList);
       <div text="primary 30px" font-800>
         人机试炼
       </div>
-      <n-button size="large" type="primary" text-color="white" @click="changePageIndex(0)">
+      <n-button size="large" type="primary" text-color="white" @click="navigateTo('/pk')">
         返回
       </n-button>
     </div>

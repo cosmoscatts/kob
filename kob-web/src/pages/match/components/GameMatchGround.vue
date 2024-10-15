@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { GameControllerOutline } from '@vicons/ionicons5';
 
-const changePageIndex = inject('changePageIndex') as Function;
+const router = useRouter();
 
 const { user } = storeToRefs(useUserStore());
 const { opponent, socket } = storeToRefs(usePkStore());
@@ -45,6 +45,10 @@ async function fetchBotList() {
   }
 }
 fetchBotList();
+
+function navigateTo(path: string) {
+  router.push(path);
+}
 </script>
 
 <template>
@@ -53,7 +57,7 @@ fetchBotList();
       <div text="primary 30px" font-800>
         匹配对抗
       </div>
-      <n-button size="large" type="primary" text-color="white" @click="changePageIndex?.(0)">
+      <n-button size="large" type="primary" text-color="white" @click="navigateTo('/pk')">
         返回
       </n-button>
     </div>

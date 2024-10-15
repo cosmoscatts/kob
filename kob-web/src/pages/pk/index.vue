@@ -1,51 +1,45 @@
 <script setup lang="ts">
-import MachineBattleArena from './components/machine/MachineBattleArena.vue';
-import MatchDuelArena from './components/match/MatchDuelArena.vue';
-
-const currentPageIndex = ref(0);
-const changePageIndex = (index: number) => currentPageIndex.value = index;
-provide('changePageIndex', changePageIndex);
-
+const router = useRouter();
 const { contentStyle } = useLayoutStyle({ additionalOffset: 5 });
+
+function navigateTo(path: string) {
+  router.push(path);
+}
 </script>
 
 <template>
   <div class="main-container theme" :class="[{ dark: isDark }]" :style="contentStyle">
-    <Transition name="fade" mode="out-in" appear>
-      <div v-if="currentPageIndex === 0" class="content-container">
-        <div class="title">
-          选择对战模式
-        </div>
-        <div class="options-container">
-          <div class="option" @click="changePageIndex(1)">
-            <div class="option-content">
-              <div class="icon-wrapper match">
-                <div class="icon" i-ri-sword-line />
-              </div>
-              <h2>匹配对战</h2>
-              <p>与其他玩家一较高下，体验紧张刺激的实时对决</p>
+    <div class="content-container">
+      <div class="title">
+        选择对战模式
+      </div>
+      <div class="options-container">
+        <div class="option" @click="navigateTo('/match')">
+          <div class="option-content">
+            <div class="icon-wrapper match">
+              <div class="icon" i-ri-sword-line />
             </div>
-            <div class="option-overlay">
-              <span text-hex-8B4513 dark:text-hex-FFE4B5>开始匹配</span>
-            </div>
+            <h2>匹配对战</h2>
+            <p>与其他玩家一较高下，体验紧张刺激的实时对决</p>
           </div>
-          <div class="option" @click="changePageIndex(2)">
-            <div class="option-content">
-              <div class="icon-wrapper machine">
-                <div class="icon" i-carbon-bot />
-              </div>
-              <h2>人机对战</h2>
-              <p>挑战智能AI对手，提升你的策略和技巧</p>
+          <div class="option-overlay">
+            <span text-hex-8B4513 dark:text-hex-FFE4B5>开始匹配</span>
+          </div>
+        </div>
+        <div class="option" @click="navigateTo('/machine')">
+          <div class="option-content">
+            <div class="icon-wrapper machine">
+              <div class="icon" i-carbon-bot />
             </div>
-            <div class="option-overlay">
-              <span text-hex-1B4B49 dark:text-hex-B2E6E2>开始挑战</span>
-            </div>
+            <h2>人机对战</h2>
+            <p>挑战智能AI对手，提升你的策略和技巧</p>
+          </div>
+          <div class="option-overlay">
+            <span text-hex-1B4B49 dark:text-hex-B2E6E2>开始挑战</span>
           </div>
         </div>
       </div>
-      <MatchDuelArena v-else-if="currentPageIndex === 1" />
-      <MachineBattleArena v-else />
-    </Transition>
+    </div>
   </div>
 </template>
 

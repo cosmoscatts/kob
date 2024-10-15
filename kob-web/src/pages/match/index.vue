@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import defaultAvatar from '~/assets/default-avatar.png';
+import GameMatchGround from './components/GameMatchGround.vue';
 
 const pkStore = usePkStore();
 const userStore = useUserStore();
