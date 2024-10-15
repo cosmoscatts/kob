@@ -14,7 +14,7 @@ function navigateTo(path: string) {
         选择对战模式
       </div>
       <div class="options-container">
-        <div class="option" @click="navigateTo('/match')">
+        <div class="option" @click="navigateTo('/pk/match')">
           <div class="option-content">
             <div class="icon-wrapper match">
               <div class="icon" i-ri-sword-line />
@@ -26,7 +26,7 @@ function navigateTo(path: string) {
             <span text-hex-8B4513 dark:text-hex-FFE4B5>开始匹配</span>
           </div>
         </div>
-        <div class="option" @click="navigateTo('/machine')">
+        <div class="option" @click="navigateTo('/pk/machine')">
           <div class="option-content">
             <div class="icon-wrapper machine">
               <div class="icon" i-carbon-bot />

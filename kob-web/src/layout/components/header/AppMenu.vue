@@ -30,7 +30,7 @@ const selectedOptionValues = computed(() => {
       : [menu],
     );
   const allMenuOptions = flattenMenus(appMenus);
-  return allMenuOptions.find(menu => menu.path === route.path)?.id ?? null;
+  return allMenuOptions.find(menu => route.path.startsWith(menu.path))?.id ?? null;
 });
 </script>
 

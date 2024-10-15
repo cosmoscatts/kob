@@ -77,7 +77,7 @@ function navigateTo(path: string) {
             <n-avatar
               :style="{
                 width: '100%',
-                maxWidth: '180px',
+                maxWidth: '150px',
                 height: 'auto',
                 cursor: 'pointer',
               }"
@@ -102,7 +102,7 @@ function navigateTo(path: string) {
             <n-avatar
               :style="{
                 width: '100%',
-                maxWidth: '180px',
+                maxWidth: '150px',
                 height: 'auto',
                 cursor: 'pointer',
               }"
