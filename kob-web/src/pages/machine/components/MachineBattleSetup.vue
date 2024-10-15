@@ -15,14 +15,8 @@ const machineBotId = ref<number>();
 
 const DEFAULT_BOT_OPTIONS: SelectOption[] = [{ value: -1, label: '亲自出马' }];
 
-const LEVEL_OPTIONS: SelectOption[] = [
-  { value: 0, label: '黑铁' },
-  { value: 1, label: '黄金' },
-  { value: 2, label: '钻石' },
-  { value: 3, label: '王者' },
-];
-
-const botOptions = computed<(SelectOption)[]>(() => [
+const levelOptions = ref<SelectOption[]>([]);
+const botOptions = computed<SelectOption[]>(() => [
   ...DEFAULT_BOT_OPTIONS,
   ...botList.value,
 ]);
@@ -54,10 +48,23 @@ const fetchBotList = async () => {
   }
 };
 
+const fetchMachineBots = async () => {
+  try {
+    const result = await BotApi.getMachineBots();
+    const { data = [] } = result.data;
+    levelOptions.value = data.map(i => ({ value: i.id, label: i.title })) || [];
+    machineBotId.value = undefined;
+  } catch (e) {
+    console.error(e);
+    levelOptions.value = [];
+    machineBotId.value = undefined;
+  }
+};
+
 const selectedTab = ref<'standard' | 'selfDefine'>('standard');
 
 watch(selectedTab, (val) => {
-  machineId.value = val === 'standard' ? -1 : user.value?.id ?? -1;
+  machineId.value = val === 'standard' ? 1 : user.value?.id ?? -1;
   machineBotId.value = undefined;
 });
 
@@ -68,7 +75,10 @@ function navigateTo(path: string) {
 const { isMobile } = useResponsive();
 const tabsPlacement = computed(() => isMobile.value ? 'top' : 'left');
 
-onMounted(fetchBotList);
+onMounted(() => {
+  fetchBotList();
+  fetchMachineBots();
+});
 </script>
 
 <template>
@@ -105,7 +115,7 @@ onMounted(fetchBotList);
                 <span text-lg font-800>请选择人机难度：</span>
                 <n-radio-group v-model:value="machineBotId" name="radiobuttongroup1">
                   <n-radio-button
-                    v-for="item in LEVEL_OPTIONS"
+                    v-for="item in levelOptions"
                     :key="item.value"
                     :value="item.value"
                     :label="item.label as string"

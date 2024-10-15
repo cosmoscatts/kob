@@ -8,9 +8,14 @@ import com.kob.backend.controller.user.vo.BotReqVO;
 import com.kob.backend.controller.user.vo.BotRespVO;
 import com.kob.backend.dataobject.BotDO;
 
+import java.util.List;
+
 public interface BotService extends IService<BotDO> {
     // 获取 bot 列表
     PageMap<BotRespVO> getList(PageQuery pageQuery);
+
+    // 获取人机 bot 列表
+    List<BotRespVO> getMachineBots();
 
     // 添加 bot
     String add(BotReqVO botReqVO);
