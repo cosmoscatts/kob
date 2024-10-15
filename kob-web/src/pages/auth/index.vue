@@ -5,6 +5,7 @@ import AccountLogin from './components/login-form/AccountLogin.vue';
 import PhoneLogin from './components/login-form/PhoneLogin.vue';
 import RegisterForm from './components/RegisterForm.vue';
 
+const route = useRoute();
 const router = useRouter();
 
 const userStore = useUserStore();
@@ -48,7 +49,8 @@ watch(isAuthModalVisible, (val) => {
 watch(currentTab, () => useTimeoutFn(inputAutoFocus, 200));
 
 const loginCallback = (token: string) => {
-  router.push('/');
+  const path = route.query?.redirect as string || '/';
+  router.push(path);
   login(token);
   $notification.success({
     title: '登录成功',

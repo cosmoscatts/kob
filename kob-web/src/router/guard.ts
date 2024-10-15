@@ -20,12 +20,12 @@ export function createRouterGuard(router: Router): void {
       [state === 'unauthenticated', () => {
         $message.error('您还未登录！');
         userStore.setAuthModalVisibility(true);
-        next('/home');
+        next(`/home?redirect=${to.fullPath}`);
       }],
       [state === 'tokenExpired', () => {
         $message.error('您的登录已过期！');
         userStore.setAuthModalVisibility(true);
-        next('/home');
+        next(`/home?redirect=${to.fullPath}`);
       }],
     ];
 
