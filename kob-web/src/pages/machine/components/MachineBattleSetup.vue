@@ -2,6 +2,7 @@
 import type { SelectOption } from 'naive-ui';
 
 const router = useRouter();
+const { contentStyle } = useLayoutStyle({ heightProperty: 'minHeight', additionalOffset: 8 });
 
 const { user } = storeToRefs(useUserStore());
 const { socket } = storeToRefs(usePkStore());
@@ -60,18 +61,19 @@ watch(selectedTab, (val) => {
   machineBotId.value = undefined;
 });
 
-const { isMobile } = useResponsive();
-
 function navigateTo(path: string) {
   router.push(path);
 }
+
+const { isMobile } = useResponsive();
+const tabsPlacement = computed(() => isMobile.value ? 'top' : 'left');
 
 onMounted(fetchBotList);
 </script>
 
 <template>
-  <div w60vw mxa ha flex="col">
-    <div flex-y-center justify-between mb15px>
+  <div w60vw mxa ha flex="~ col" :style="contentStyle" lt-md:w-full>
+    <div flex-y-center justify-between mb-10px>
       <div text="primary 30px" font-800>
         人机试炼
       </div>
@@ -79,28 +81,28 @@ onMounted(fetchBotList);
         返回
       </n-button>
     </div>
-    <n-card :style="{ minHeight: '65vh', padding: '30px' }">
-      <template v-if="!isMobile">
-        <div w45vw mxa>
-          <n-alert title="注意事项" type="warning">
-            请选择我方出战的bot和人机难度，也可以选择我方bot作为对手。
-            选择亲自出马时，使用`W`、`A`、`S`、`D`控制方向.
-          </n-alert>
-        </div>
-        <n-card my25px>
-          <div h10vh flex-center>
+
+    <n-card style="height: 100%;">
+      <div w-full mxa>
+        <n-alert title="注意事项" type="warning">
+          请选择我方出战的bot和人机难度，也可以选择我方bot作为对手。
+          选择亲自出马时，使用`W`、`A`、`S`、`D`控制方向.
+        </n-alert>
+      </div>
+
+      <div grid="~ cols-2 gap-3" lt-md:grid-cols-1 py-15px min-h-260px>
+        <n-card col-span-1>
+          <div flex-center h-full flex-col gap-y-5 lt-md:flex-row>
             <span text-lg font-800>我方出战：</span>
-            <n-select v-model:value="selectedBot" :options="botOptions" :style="{ width: '20vw', textAlign: 'center' }" />
+            <n-select v-model:value="selectedBot" :options="botOptions" :style="{ width: isMobile ? '200px' : '15vw', textAlign: 'center' }" />
           </div>
         </n-card>
 
-        <n-card my25px h30vh>
-          <n-tabs v-model:value="selectedTab" size="large" justify-content="space-evenly">
+        <n-card col-span-1>
+          <n-tabs v-model:value="selectedTab" :placement="tabsPlacement" justify-content="space-evenly" style="height: 100%;">
             <n-tab-pane name="standard" tab="标准模式">
-              <div flex="~ col" items-center>
-                <n-h3 prefix="bar" align-text>
-                  请选择人机难度
-                </n-h3>
+              <div flex="center col" h-full gap-y-5>
+                <span text-lg font-800>请选择人机难度：</span>
                 <n-radio-group v-model:value="machineBotId" name="radiobuttongroup1">
                   <n-radio-button
                     v-for="item in LEVEL_OPTIONS"
@@ -111,26 +113,22 @@ onMounted(fetchBotList);
                 </n-radio-group>
               </div>
             </n-tab-pane>
+
             <n-tab-pane name="selfDefine" tab="自定义Bot">
-              <div h10vh flex-center>
+              <div flex-center h-full flex-col gap-y-5 lt-md:flex-row>
                 <span text-lg font-800>敌方出战：</span>
-                <n-select v-model:value="machineBotId" :options="botOptions.slice(1)" :style="{ width: '20vw', textAlign: 'center' }" />
+                <n-select v-model:value="machineBotId" :options="botOptions.slice(1)" :style="{ width: isMobile ? '200px' : '15vw', textAlign: 'center' }" />
               </div>
             </n-tab-pane>
           </n-tabs>
         </n-card>
+      </div>
 
-        <div flex-center h-full>
-          <n-button size="large" type="warning" text-color="white" @click="startBattle">
-            开始战斗
-          </n-button>
-        </div>
-      </template>
-      <template v-else>
-        <div w-full min-h-60vh flex-center text-lg>
-          请在客户端访问 :).
-        </div>
-      </template>
+      <div flex-center h-full>
+        <n-button size="large" type="warning" text-color="white" @click="startBattle">
+          开始战斗
+        </n-button>
+      </div>
     </n-card>
   </div>
 </template>
