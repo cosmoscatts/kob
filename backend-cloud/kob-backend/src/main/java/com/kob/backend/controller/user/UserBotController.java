@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -24,6 +25,11 @@ public class UserBotController {
     @GetMapping("/list")
     public Result<PageMap<BotRespVO>> list(PageQuery pageQuery) {
         return Result.success(botService.getList(pageQuery));
+    }
+
+    @GetMapping("/machines")
+    public Result<List<BotRespVO>> getMachineBots() {
+        return Result.success(botService.getMachineBots());
     }
 
     @PostMapping("/add")

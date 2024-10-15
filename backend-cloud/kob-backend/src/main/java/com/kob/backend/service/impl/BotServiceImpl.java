@@ -1,5 +1,6 @@
 package com.kob.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,6 +45,13 @@ public class BotServiceImpl extends ServiceImpl<BotMapper, BotDO> implements Bot
 
         return PageMap.data(page.getTotal(),
                 list.stream().map(BotConverter.INSTANCE::do2vo).collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<BotRespVO> getMachineBots() {
+        LambdaQueryWrapper<BotDO> queryWrapper = Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, 1);
+        List<BotDO> list = this.list(queryWrapper);
+        return list.stream().map(BotConverter.INSTANCE::do2vo).collect(Collectors.toList());
     }
 
     @Override
