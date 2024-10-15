@@ -1,6 +1,5 @@
 import type { GameMap } from './map';
 import { SnakeCell } from './snake-cell';
-import { drawEllipse } from './utils';
 
 export interface SnakeInfo {
   id: number
@@ -132,52 +131,162 @@ export class Snake {
   }
 
   public render() {
-    if (this.status === 'move') // 更新蛇的移动
+    if (this.status === 'move') {
       this.move();
+    }
 
-    const { gameMap, color, cells, eps, status, eyeDirection, eyeDx, eyeDy } = this;
+    const { gameMap, color, cells, status, eyeDirection, eyeDx, eyeDy } = this;
     const { ctx, L } = gameMap;
 
-    // 蛇死亡 > 白色身体
-    ctx.fillStyle = status === 'die'
-      ? ['#BEDAFF', '#FDCDC5'][Number(this.id === 1)]
-      : color;
+    // 蛇的基本颜色
+    const baseColor = status === 'die' ? ['#BEDAFF', '#FDCDC5'][Number(this.id === 1)] : color;
 
-    for (const { x, y } of cells) {
-      ctx.beginPath();
-      ctx.arc(x * L, y * L, L / 2 * 0.8, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    // 绘制蛇身
+    ctx.strokeStyle = baseColor;
+    ctx.lineWidth = L * 0.8;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
-    // 用长方形补全蛇身体
-    for (let i = 1; i < cells.length; i++) {
-      const [a, b] = [cells[i - 1], cells[i]];
-      if (Math.abs(a.x - b.x) < eps && Math.abs(a.y - b.y) < eps)
-        continue;
-      if (Math.abs(a.x - b.x) < eps) // 垂直方向
-        ctx.fillRect((a.x - 0.5 + 0.1) * L, Math.min(a.y, b.y) * L, L * 0.8, Math.abs(a.y - b.y) * L);
-      else // 水平方向
-        ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.5 + 0.1) * L, Math.abs(a.x - b.x) * L, L * 0.8);
-    }
+    ctx.beginPath();
+    cells.forEach(({ x, y }, index) => {
+      if (index === 0) {
+        ctx.moveTo(x * L, y * L);
+      } else {
+        ctx.lineTo(x * L, y * L);
+      }
+    });
+    ctx.stroke();
 
-    // 画蛇眼睛
-    ctx.fillStyle = 'black';
+    // 绘制蛇头
     const { x: headX, y: headY } = cells[0];
-    const hPoint = [headX, headY];
-    for (let i = 0; i < 2; i++) {
-      const [eyeX, eyeY] = [eyeDx, eyeDy].map(
-        (dt, idx) => ((hPoint[idx] + dt[eyeDirection][i] * 0.15) * L),
-      );
-      // 先画外围椭圆
-      ctx.fillStyle = 'white';
-      const width = [0.3 * L, 0.4 * L][Number([1, 3].includes(eyeDirection))];
-      const height = [0.4 * L, 0.3 * L][Number([1, 3].includes(eyeDirection))];
-      drawEllipse(ctx, eyeX - width / 2, eyeY - height / 2, width, height);
+    ctx.fillStyle = baseColor;
+    ctx.beginPath();
+    ctx.arc(headX * L, headY * L, L / 2 * 0.9, 0, Math.PI * 2);
+    ctx.fill();
 
+    // 绘制眼睛
+    const eyeSize = L * 0.15;
+    const eyeOffset = L * 0.2;
+    for (let i = 0; i < 2; i++) {
+      const eyeX = headX * L + eyeDx[eyeDirection][i] * eyeOffset;
+      const eyeY = headY * L + eyeDy[eyeDirection][i] * eyeOffset;
+
+      if (status === 'die') {
+        // 死亡时眼睛变成 X
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        const crossSize = eyeSize * 0.7;
+        ctx.beginPath();
+        ctx.moveTo(eyeX - crossSize, eyeY - crossSize);
+        ctx.lineTo(eyeX + crossSize, eyeY + crossSize);
+        ctx.moveTo(eyeX + crossSize, eyeY - crossSize);
+        ctx.lineTo(eyeX - crossSize, eyeY + crossSize);
+        ctx.stroke();
+      } else {
+        // 正常眼睛
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(eyeX, eyeY, eyeSize, 0, Math.PI * 2);
+        ctx.fill();
+
+        const pupilSize = eyeSize * 0.6;
+        const pupilOffset = eyeSize * 0.2;
+        const pupilX = eyeX + eyeDx[eyeDirection][i] * pupilOffset;
+        const pupilY = eyeY + eyeDy[eyeDirection][i] * pupilOffset;
+
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(pupilX, pupilY, pupilSize, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(pupilX - pupilSize * 0.3, pupilY - pupilSize * 0.3, pupilSize * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // 绘制蛇尾（保持原样）
+    if (cells.length > 1) {
+      const { x: tailX, y: tailY } = cells[cells.length - 1];
+      ctx.fillStyle = baseColor;
       ctx.beginPath();
-      ctx.fillStyle = 'black';
-      ctx.arc(eyeX, eyeY, L * 0.05, 0, Math.PI * 2);
+      ctx.arc(tailX * L, tailY * L, L / 2 * 0.8, 0, Math.PI * 2);
       ctx.fill();
     }
+
+    // 只有在蛇活着时才添加动效
+    if (status !== 'die') {
+      this.addMovementEffect(ctx, L, baseColor);
+    }
+  }
+
+  private addMovementEffect(ctx: CanvasRenderingContext2D, L: number, baseColor: string) {
+    if (this.cells.length < 2) {
+      // 如果蛇的长度小于2，只画一个圆
+      const { x, y } = this.cells[0];
+      ctx.fillStyle = baseColor;
+      ctx.beginPath();
+      ctx.arc(x * L, y * L, L / 2, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
+
+    const time = Date.now() / 1000;
+    const waveAmplitude = L * 0.08;
+    const waveFrequency = 3;
+
+    // 创建渐变
+    const gradient = ctx.createLinearGradient(0, 0, L, L);
+    gradient.addColorStop(0, this.adjustColor(baseColor, 20));
+    gradient.addColorStop(1, this.adjustColor(baseColor, -20));
+
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = L * 0.15;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+
+    for (let i = 0; i < this.cells.length; i++) {
+      const { x, y } = this.cells[i];
+      const waveOffset = Math.sin(time * waveFrequency + i * 0.5) * waveAmplitude;
+
+      let angle;
+      if (i === 0) {
+        // 蛇头
+        const nextCell = this.cells[1];
+        angle = Math.atan2(nextCell.y - y, nextCell.x - x);
+      } else if (i === this.cells.length - 1) {
+        // 蛇尾
+        const prevCell = this.cells[i - 1];
+        angle = Math.atan2(y - prevCell.y, x - prevCell.x);
+      } else {
+        // 蛇身
+        const prevCell = this.cells[i - 1];
+        const nextCell = this.cells[i + 1];
+        angle = Math.atan2(nextCell.y - prevCell.y, nextCell.x - prevCell.x);
+      }
+
+      const offsetX = Math.cos(angle + Math.PI / 2) * waveOffset;
+      const offsetY = Math.sin(angle + Math.PI / 2) * waveOffset;
+
+      if (i === 0) {
+        ctx.moveTo(x * L + offsetX, y * L + offsetY);
+      } else {
+        ctx.lineTo(x * L + offsetX, y * L + offsetY);
+      }
+    }
+
+    ctx.stroke();
+  }
+
+  private adjustColor(color: string, amount: number): string {
+    const clamp = (num: number) => Math.min(255, Math.max(0, num));
+    const hex = color.replace('#', '');
+    const r = clamp(Number.parseInt(hex.substr(0, 2), 16) + amount);
+    const g = clamp(Number.parseInt(hex.substr(2, 2), 16) + amount);
+    const b = clamp(Number.parseInt(hex.substr(4, 2), 16) + amount);
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
   }
 }
