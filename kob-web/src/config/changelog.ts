@@ -27,6 +27,31 @@ export const appChangelog: ChangeLog[] = [
     ],
   },
   {
+    date: '24/10/15',
+    title: '💎 项目优化',
+    description: '',
+    changes: [
+      {
+        id: '24/10/15/1',
+        type: 'update',
+        title: '优化了前端大部分页面样式，重写了匹配动画、PK页面等',
+        content: '',
+      },
+      {
+        id: '24/10/15/2',
+        type: 'update',
+        title: '增加了打包压缩',
+        content: '',
+      },
+      {
+        id: '24/10/15/3',
+        type: 'update',
+        title: '增加了生产环境版本自动检测更新',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '24/10/13',
     title: '💎 项目重构',
     description: '',

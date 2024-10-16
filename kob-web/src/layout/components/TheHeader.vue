@@ -21,7 +21,6 @@ const showExtraButtons = breakpoints.greaterOrEqual('lg');
       <template v-if="showExtraButtons">
         <div i-carbon-debug icon-btn text-lg mx-5 @click="$router.push('/changelog')" />
         <a
-          v-if="isDevelopment"
           icon-btn text-lg i-uil-github-alt mr-5
           :href="appMeta.github"
           target="_blank" title="GitHub"
