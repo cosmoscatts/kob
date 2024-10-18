@@ -50,5 +50,6 @@ const refWrapper = ref();
     >
       <TheFoot hw-full />
     </n-layout-footer>
+    <ChatRoom />
   </n-layout>
 </template>
