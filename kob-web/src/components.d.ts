@@ -7,11 +7,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatRoom: typeof import('./components/chat/ChatRoom.vue')['default']
     Confetti: typeof import('./components/Confetti.vue')['default']
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']
     DuelPreludeScreen: typeof import('./components/DuelPreludeScreen.vue')['default']
     GameMap: typeof import('./components/GameMap.vue')['default']
     GamePlayground: typeof import('./components/GamePlayground.vue')['default']
+    NAffix: typeof import('naive-ui')['NAffix']
     NAlert: typeof import('naive-ui')['NAlert']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']

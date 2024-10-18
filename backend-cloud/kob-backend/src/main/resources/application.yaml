@@ -19,6 +19,7 @@ minio:
   accessKey: your-access-key
   secretKey: your-secret-key
   bucket: your-bucket-name
-
+netty:
+  port: 8888
 
 
