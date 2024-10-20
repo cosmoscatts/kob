@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
 @Component
 public class NettyServer {
 
-    @Autowired
+    @Resource
     private ServerBootstrap serverBootstrap;
 
     @Value("${netty.port}")
