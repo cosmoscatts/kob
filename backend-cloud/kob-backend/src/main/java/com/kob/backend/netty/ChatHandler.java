@@ -1,36 +1,40 @@
 package com.kob.backend.netty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.AttributeKey;
 import lombok.Data;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     private static final ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<>();
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final AtomicInteger userIdCounter = new AtomicInteger(1);
+    private static final AttributeKey<Integer> USER_ID_KEY = AttributeKey.valueOf("userId");
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        String userId = "User" + userIdCounter.getAndIncrement();
-        channelMap.put(userId, ctx.channel());
-        System.out.println("Client connected - " + ctx.channel().remoteAddress() + " (UserId: " + userId + ")");
-        broadcastSystemMessage(userId, "进入了聊天室");
-        broadcastUserList();
+    public void channelActive(ChannelHandlerContext ctx) {
+        Integer userId = ctx.channel().attr(USER_ID_KEY).get();
+        if (userId != null) {
+            channelMap.put(String.valueOf(userId), ctx.channel());
+            System.out.println("Client connected - " + ctx.channel().remoteAddress() + " (UserId: " + userId + ")");
+            broadcastSystemMessage(String.valueOf(userId), "进入了聊天室");
+            broadcastUserList();
+        }
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         String userId = getUserIdByChannel(ctx.channel());
         if (userId != null) {
             channelMap.remove(userId);
@@ -42,16 +46,20 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) throws Exception {
-        String message = frame.text();
-        System.out.println("Received message: " + message);
+        String userId = getUserIdByChannel(ctx.channel());
+        if (userId != null) {
+            String message = frame.text();
+            System.out.println("Received message: " + message);
 
-        ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
-        broadcastChatMessage(chatMessage);
+            ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
+            chatMessage.setUserId(userId);
+            broadcastChatMessage(chatMessage);
+        }
     }
 
     private void broadcastSystemMessage(String userId, String action) {
         String timestamp = getCurrentTimestamp();
-        SystemMessage systemMessage = new SystemMessage(timestamp, userId, action);
+        SystemMessage systemMessage = new SystemMessage(userId, timestamp, action);
         broadcastMessage(systemMessage);
     }
 
@@ -64,8 +72,13 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     private void broadcastMessage(Object message) {
         try {
             String jsonMessage = objectMapper.writeValueAsString(message);
-            TextWebSocketFrame frame = new TextWebSocketFrame(jsonMessage);
-            channelMap.values().forEach(channel -> channel.writeAndFlush(frame.retain()));
+            byte[] bytes = jsonMessage.getBytes(StandardCharsets.UTF_8);
+            channelMap.values().forEach(channel -> {
+                if (channel.isActive()) {
+                    TextWebSocketFrame frame = new TextWebSocketFrame(Unpooled.wrappedBuffer(bytes));
+                    channel.writeAndFlush(frame);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,13 +116,13 @@ class ChatMessage {
 @Data
 class SystemMessage {
     private String type = "SYSTEM";
-    private String timestamp;
     private String userId;
+    private String timestamp;
     private String action;
 
-    public SystemMessage(String timestamp, String userId, String action) {
-        this.timestamp = timestamp;
+    public SystemMessage(String userId, String timestamp, String action) {
         this.userId = userId;
+        this.timestamp = timestamp;
         this.action = action;
     }
 }

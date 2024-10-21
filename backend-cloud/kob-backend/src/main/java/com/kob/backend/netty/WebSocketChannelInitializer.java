@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
-
     @Override
     protected void initChannel(SocketChannel ch) {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(65536));
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+        pipeline.addLast(new TokenExtractorHandler());
+        pipeline.addLast(new WebSocketServerProtocolHandler("/chat"));
+        pipeline.addLast(new AuthenticationHandler());
         pipeline.addLast(new ChatHandler());
     }
 }

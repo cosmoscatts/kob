@@ -16,4 +16,7 @@ export const UserApi = {
 
   updateLoginUserInfo: (body: User) =>
     api.put<ApiResponseWithoutData>('/api/user/account/info', body),
+
+  getUserInfoById: (id: string | number) =>
+    api.get<ApiResponse<User>>('/api/user/account/infoById', { params: { id } }),
 };

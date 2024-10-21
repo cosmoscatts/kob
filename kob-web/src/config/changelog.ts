@@ -27,6 +27,19 @@ export const appChangelog: ChangeLog[] = [
     ],
   },
   {
+    date: '24/10/21',
+    title: '💎 新功能',
+    description: '',
+    changes: [
+      {
+        id: '24/10/21/1',
+        type: 'add',
+        title: '使用Netty作为服务端，实现聊天大厅功能，支持多人聊天',
+        content: '',
+      },
+    ],
+  },
+  {
     date: '24/10/15',
     title: '💎 项目优化',
     description: '',

@@ -63,7 +63,7 @@ async function onSubmit(e: Event) {
         @submit.prevent="onSubmit"
       >
         <n-form-item label="用户名" path="name">
-          <n-input v-model:value="formModel.name" placeholder="请输入用户名" clearable>
+          <n-input v-model:value="formModel.name" placeholder="请输入用户名" clearable maxlength="15" show-count>
             <template #clear-icon>
               <n-icon :component="TrashBinOutlineIcon" />
             </template>
