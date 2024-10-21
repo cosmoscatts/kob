@@ -51,4 +51,9 @@ public class UserController {
         userService.updateUserInfo(userInfoReqVO);
         return Result.success("修改成功");
     }
+
+    @GetMapping("/infoById")
+    public Result<?> getInfoById(@RequestParam Integer id) {
+        return Result.success(userService.getUserInfoById(id));
+    }
 }

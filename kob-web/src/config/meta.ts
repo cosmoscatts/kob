@@ -5,5 +5,5 @@ export const appMeta = {
   author: 'Cosmoscatts',
   github: 'https://github.com/cosmoscatts/kob',
   copyRight: 'KING OF BOTS © COSMOSCATTS',
-  lastUpdate: '2024-10-16',
+  lastUpdate: '2024-10-21',
 };

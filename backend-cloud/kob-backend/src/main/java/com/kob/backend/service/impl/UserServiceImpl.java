@@ -92,4 +92,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         userInfoReqVO.setId(user.getId());
         this.updateById(UserConverter.INSTANCE.vo2do(userInfoReqVO));
     }
+
+    @Override
+    public UserRespVO getUserInfoById(Integer id) {
+        UserDO user = this.getById(id);
+        return UserConverter.INSTANCE.do2vo(user);
+    }
 }
