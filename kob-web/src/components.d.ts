@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatMessageItem: typeof import('./components/chat/ChatMessageItem.vue')['default']
     ChatRoom: typeof import('./components/chat/ChatRoom.vue')['default']
     Confetti: typeof import('./components/Confetti.vue')['default']
     DarkToggle: typeof import('./components/DarkToggle.vue')['default']

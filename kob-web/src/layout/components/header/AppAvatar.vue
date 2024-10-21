@@ -5,7 +5,7 @@ import { createDropdownOptions } from './avatar';
 
 const router = useRouter();
 const userStore = useUserStore();
-const options = createDropdownOptions(router, userStore);
+const options = createDropdownOptions(router);
 
 const loadLottie = () => useTimeoutFn(() => useLottie({
   containerId: '#lottie-cap',
