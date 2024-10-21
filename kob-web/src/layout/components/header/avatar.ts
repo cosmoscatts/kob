@@ -1,3 +1,4 @@
+import type { DropdownMixedOption } from 'naive-ui/es/dropdown/src/interface';
 import type { Component } from 'vue';
 import type { Router } from 'vue-router';
 import { RobotOutlined as BotIcon } from '@vicons/antd';
@@ -9,16 +10,7 @@ import { NIcon } from 'naive-ui';
 
 const renderIcon = (icon: Component) => () => h(NIcon, null, { default: () => h(icon) });
 
-interface DropdownOption {
-  label: string
-  key: string
-  icon: ReturnType<typeof renderIcon>
-  props: {
-    onClick: () => void
-  }
-}
-
-export const createDropdownOptions = (router: Router): DropdownOption[] => {
+export const createDropdownOptions = (router: Router): DropdownMixedOption[] => {
   const userStore = useUserStore();
 
   const navigateTo = (path: string) => () => router.push(path);
