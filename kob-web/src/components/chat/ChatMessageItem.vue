@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
 
 const isSystem = computed(() => props.type === 'SYSTEM');
 const placement = computed(() => props.owner ? 'right' : 'left');
-const backgroundColor = computed(() => props.owner ? '#4ade80' : '#60a5fa');
+const backgroundColor = computed(() => isSystem.value ? '#facc15' : props.owner ? '#4ade80' : '#60a5fa');
 const avatar = computed(() => isSystem.value ? systemAvatar : props.user?.avatar || defaultAvatar);
 const userName = computed(() => isSystem.value ? '系统消息' : props.user?.name || '匿名用户');
 </script>
@@ -35,9 +35,9 @@ const userName = computed(() => isSystem.value ? '系统消息' : props.user?.na
           {{ userName }}
         </n-ellipsis>
 
-        <div flex items-center gap-1>
-          <span :class="isSystem ? 'text-yellow' : online ? 'bg-green' : 'bg-gray'" w2 h2 rounded-full />
-          <span v-if="!isSystem" :class="online ? 'text-green' : 'text-gray'" text-sm>{{ online ? '在线' : '离线' }}</span>
+        <div v-if="!isSystem" flex items-center gap-1>
+          <span :class="online ? 'bg-green' : 'bg-gray'" w2 h2 rounded-full />
+          <span :class="online ? 'text-green' : 'text-gray'" text-sm>{{ online ? '在线' : '离线' }}</span>
         </div>
 
         <span text-sm op-50>{{ timestamp }}</span>
