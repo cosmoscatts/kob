@@ -1,26 +1,7 @@
 package com.kob.backend.consumer;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kob.backend.consumer.utils.Game;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.consumer.utils.Player;
@@ -29,6 +10,21 @@ import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.BotService;
 import com.kob.backend.service.RecordService;
 import com.kob.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint("/websocket/{token}")
@@ -208,8 +204,6 @@ public class WebSocketServer {
             Integer machineBotId = data.getInteger("machineBotId");
             String mode = "selfTrain";
             if (machineId == 1) { // 匹配的是人机，不是玩家的 bot
-                List<BotDO> list = botService.list(Wrappers.<BotDO>lambdaQuery().eq(BotDO::getUserId, machineId));
-                machineBotId = list.get(machineBotId).getId();
                 mode = "machine";
             }
             String str = new SimpleDateFormat("HHmmss").format(new Date());

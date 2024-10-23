@@ -66,7 +66,7 @@ const selectedTab = ref<'standard' | 'selfDefine'>('standard');
 watch(selectedTab, (val) => {
   machineId.value = val === 'standard' ? 1 : user.value?.id ?? -1;
   machineBotId.value = undefined;
-});
+}, { immediate: true });
 
 function navigateTo(path: string) {
   router.push(path);
