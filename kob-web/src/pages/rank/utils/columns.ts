@@ -13,17 +13,13 @@ const MEDAL_COLORS = computed(() => [
   isDark.value ? '#3491FA' : '#1E90FF', // 其他排名的颜色
 ]);
 
-export function createColumns({
-  createRowNumber,
-}: {
-  createRowNumber?: (rowIndex: number) => number
-}): DataTableColumns<Rank> {
+export function createColumns(): DataTableColumns<Rank> {
   return [
     {
       key: 'id',
-      title: '序号',
+      title: '排名',
       align: 'center',
-      render: (_row, rowIndex) => createRowNumber?.(rowIndex),
+      render: ({ rankNum = 0 }) => rankNum,
     },
     {
       title: '玩家',

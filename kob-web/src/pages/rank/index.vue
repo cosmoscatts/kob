@@ -14,12 +14,16 @@ const pagination = usePagination({
   onUpdatePageSizeCallback: fetchTableData,
 });
 
-const columns = createColumns({
-  createRowNumber: pagination.createRowNumber,
-});
+const columns = createColumns();
 
 const tableData = ref<Rank[]>([]);
 const searchModel = reactive({ name: '' });
+
+watch(() => searchModel.name, (n, o) => {
+  if (n !== o) {
+    pagination.page = 1;
+  }
+});
 
 async function fetchTableData() {
   startLoading();
