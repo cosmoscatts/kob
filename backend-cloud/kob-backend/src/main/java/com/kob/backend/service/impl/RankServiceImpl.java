@@ -1,9 +1,6 @@
 package com.kob.backend.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kob.backend.common.PageMap;
 import com.kob.backend.common.PageQuery;
 import com.kob.backend.controller.rank.vo.RankRespVO;
@@ -101,49 +98,35 @@ public class RankServiceImpl implements RankService {
     }
 
     private PageMap<RankRespVO> getListFromDB(PageQuery pageQuery, RecordSearchVO searchVO) {
-        // 1. 首先获取所有用户并按rating降序排序（用于计算实际排名）
-        List<UserDO> allUsers = userService.list(
-                Wrappers.<UserDO>lambdaQuery()
-                        .ne(UserDO::getId, 1)
-                        .orderByDesc(UserDO::getRating)
+        int offset = (pageQuery.getPage() - 1) * pageQuery.getPageSize();
+        List<UserDO> users = userService.selectUserWithRank(
+                searchVO.getName(),
+                offset,
+                pageQuery.getPageSize()
         );
 
-        // 创建排名映射，记录每个用户ID对应的实际排名
-        Map<Integer, Integer> rankMap = new HashMap<>();
-        for (int i = 0; i < allUsers.size(); i++) {
-            rankMap.put(allUsers.get(i).getId(), i + 1);
-        }
-
-        // 2. 使用MyBatis-Plus的分页查询
-        IPage<UserDO> page = new Page<>(pageQuery.getPage(), pageQuery.getPageSize());
-        LambdaQueryWrapper<UserDO> wrapper = Wrappers.<UserDO>lambdaQuery()
-                .ne(UserDO::getId, 1)
-                .orderByDesc(UserDO::getRating);
-
-        // 添加名称筛选条件（如果有）
-        if (StringUtils.hasText(searchVO.getName())) {
-            wrapper.like(UserDO::getName, searchVO.getName());
-        }
-
-        // 执行分页查询
-        page = userService.page(page, wrapper);
-        List<UserDO> pageRecords = page.getRecords();
-
-        if (pageRecords.isEmpty()) {
+        if (users.isEmpty()) {
             return PageMap.empty();
         }
 
-        // 3. 转换为VO并设置实际排名
-        List<RankRespVO> data = pageRecords.stream()
+        List<RankRespVO> data = users.stream()
                 .map(user -> {
                     RankRespVO rankVO = UserConverter.INSTANCE.do2RankVO(user);
-                    rankVO.setRankNum(rankMap.get(user.getId())); // 设置实际排名
+                    rankVO.setRankNum(user.getRankNum());
                     return rankVO;
                 })
                 .collect(Collectors.toList());
 
-        return PageMap.data(page.getTotal(), data);
+        // 获取总数
+        long total = userService.count(Wrappers.<UserDO>lambdaQuery()
+                .ne(UserDO::getId, 1)
+                .like(StringUtils.hasText(searchVO.getName()),
+                        UserDO::getName,
+                        searchVO.getName()));
+
+        return PageMap.data(total, data);
     }
+
 
     @Scheduled(fixedRate = 3600000) // 每小时执行一次
     public void refreshRankingCache() {
