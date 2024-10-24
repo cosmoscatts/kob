@@ -98,4 +98,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         UserDO user = this.getById(id);
         return UserConverter.INSTANCE.do2vo(user);
     }
+
+    @Override
+    public List<UserDO> selectUserWithRank(String name, int offset, int size) {
+        return this.selectUserWithRank(name, offset, size);
+    }
 }
