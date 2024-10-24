@@ -33,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private AuthenticationManager authenticationManager;
     @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public AccountRespVO getToken(AccountReqVO accountReqVO) throws BusinessException {
@@ -101,6 +103,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public List<UserDO> selectUserWithRank(String name, int offset, int size) {
-        return this.selectUserWithRank(name, offset, size);
+        return userMapper.selectUserWithRank(name, offset, size);
     }
 }
