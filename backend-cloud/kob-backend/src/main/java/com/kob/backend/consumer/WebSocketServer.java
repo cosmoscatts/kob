@@ -8,6 +8,7 @@ import com.kob.backend.consumer.utils.Player;
 import com.kob.backend.dataobject.BotDO;
 import com.kob.backend.dataobject.UserDO;
 import com.kob.backend.service.BotService;
+import com.kob.backend.service.RankService;
 import com.kob.backend.service.RecordService;
 import com.kob.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class WebSocketServer {
     private final static String REMOVE_PLAYER_URL = "http://127.0.0.1:3001/player/remove/";
     public static RecordService recordService;
     public static UserService userService;
+    public static RankService rankService;
     public static BotService botService;
     public static RestTemplate restTemplate;
     public Game game;
@@ -112,6 +114,11 @@ public class WebSocketServer {
     @Autowired
     public void setRecordService(RecordService recordService) {
         WebSocketServer.recordService = recordService;
+    }
+
+    @Autowired
+    public void setRankService(RankService rankService) {
+        WebSocketServer.rankService = rankService;
     }
 
     @Autowired

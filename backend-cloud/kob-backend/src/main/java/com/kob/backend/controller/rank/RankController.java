@@ -20,6 +20,6 @@ public class RankController {
 
     @GetMapping("/list")
     public Result<PageMap<RankRespVO>> getList(PageQuery pageQuery, RecordSearchVO searchVO) {
-        return Result.success(rankService.getList(pageQuery, searchVO));
+        return Result.success(rankService.getRankingList(pageQuery, searchVO));
     }
 }
