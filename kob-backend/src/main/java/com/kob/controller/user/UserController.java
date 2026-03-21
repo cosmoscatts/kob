@@ -1,5 +1,6 @@
 package com.kob.controller.user;
 
+import com.kob.common.RateLimit;
 import com.kob.common.Result;
 import com.kob.model.vo.request.AccountReqVO;
 import com.kob.model.vo.response.AccountRespVO;
@@ -22,6 +23,7 @@ public class UserController {
     /**
      * 登录获取 token
      */
+    @RateLimit(window = 60, maxRequests = 10, message = "登录尝试过于频繁")
     @PostMapping("/token")
     public Result<AccountRespVO> getToken(@Valid @RequestBody AccountReqVO accountReqVO) {
         return Result.success(userService.getToken(accountReqVO));
@@ -30,6 +32,7 @@ public class UserController {
     /**
      * 注册
      */
+    @RateLimit(window = 60, maxRequests = 5, message = "注册尝试过于频繁")
     @PostMapping("/register")
     public Result<?> register(@Validated({ExtraGroup.class}) @RequestBody AccountReqVO accountReqVO) {
         String errorMessage = userService.register(accountReqVO);

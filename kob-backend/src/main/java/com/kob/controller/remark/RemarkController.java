@@ -2,6 +2,7 @@ package com.kob.controller.remark;
 
 import com.kob.common.PageMap;
 import com.kob.common.PageQuery;
+import com.kob.common.RateLimit;
 import com.kob.common.Result;
 import com.kob.model.vo.request.RemarkReqVO;
 import com.kob.model.vo.response.RemarkRespVO;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class RemarkController {
     private final RemarkService remarkService;
 
+    @RateLimit(window = 60, maxRequests = 10, dimension = "user", message = "发言过于频繁")
     @PostMapping("/remark")
     public Result<?> addRemark(@Valid @RequestBody RemarkReqVO remarkReqVO) {
         String errorMessage = remarkService.addRemark(remarkReqVO);
