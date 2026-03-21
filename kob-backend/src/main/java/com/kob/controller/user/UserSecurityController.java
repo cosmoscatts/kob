@@ -25,7 +25,7 @@ public class UserSecurityController {
     public Result<?> updatePassword(@Valid @RequestBody UpdatePasswordReqVO passwordReqVO) {
         String errorMessage = userSecurityService.updatePassword(passwordReqVO);
         if (Objects.isNull(errorMessage))
-            return Result.success("保存成功");
+            return Result.successMsg("保存成功");
         return Result.error(errorMessage);
     }
 }

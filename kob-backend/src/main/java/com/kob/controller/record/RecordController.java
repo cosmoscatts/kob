@@ -31,7 +31,7 @@ public class RecordController {
         String errorMessage = recordService.delete(query);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("对局删除成功");
+        return Result.successMsg("对局删除成功");
     }
 
     @GetMapping("/getById")

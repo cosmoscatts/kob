@@ -1,7 +1,6 @@
 package com.kob.common;
 
 import com.kob.exception.ErrorCodeEnum;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,43 +11,39 @@ public class Result<T> {
     private T data;
     private String msg;
 
-    public static <T> Result<T> set(Integer code, T data, String msg) {
+    private static <T> Result<T> of(Integer code, T data, String msg) {
         return new Result<T>().setCode(code).setData(data).setMsg(msg);
     }
 
     public static <T> Result<T> success() {
-        return set(0, null, null);
+        return of(0, null, null);
     }
 
     public static <T> Result<T> success(T data) {
-        return set(0, data, null);
+        return of(0, data, null);
     }
 
-    public static <T> Result<T> success(String msg) {
-        return set(0, null, msg);
-    }
-
-    public static <T> Result<T> success(T data, String msg) {
-        return set(0, data, msg);
-    }
-
-    public static <T> Result<T> error() {
-        return set(-1, null, null);
+    public static Result<String> successMsg(String msg) {
+        return of(0, null, msg);
     }
 
     public static <T> Result<T> error(String msg) {
-        return set(-1, null, msg);
-    }
-
-    public static <T> Result<T> error(Integer code) {
-        return set(code, null, null);
-    }
-
-    public static <T> Result<T> error(ErrorCodeEnum errorCodeEnum) {
-        return set(errorCodeEnum.getCode(), null, errorCodeEnum.getMsg());
+        return of(-1, null, msg);
     }
 
     public static <T> Result<T> error(Integer code, String msg) {
-        return set(code, null, msg);
+        return of(code, null, msg);
+    }
+
+    public static <T> Result<T> error() {
+        return of(-1, null, null);
+    }
+
+    public static <T> Result<T> error(ErrorCodeEnum errorCode) {
+        return of(errorCode.getCode(), null, errorCode.getMsg());
+    }
+
+    public static <T> Result<T> success(T data, String msg) {
+        return of(0, data, msg);
     }
 }

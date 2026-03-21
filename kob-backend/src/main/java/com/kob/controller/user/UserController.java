@@ -37,7 +37,7 @@ public class UserController {
     public Result<?> register(@Validated({ExtraGroup.class}) @RequestBody AccountReqVO accountReqVO) {
         String errorMessage = userService.register(accountReqVO);
         if (Objects.isNull(errorMessage))
-            return Result.success("注册成功");
+            return Result.successMsg("注册成功");
         return Result.error(errorMessage);
     }
 
@@ -52,7 +52,7 @@ public class UserController {
     @PutMapping("/info")
     public Result<?> updateInfo(@RequestBody UserInfoReqVO userInfoReqVO) {
         userService.updateUserInfo(userInfoReqVO);
-        return Result.success("修改成功");
+        return Result.successMsg("修改成功");
     }
 
     @GetMapping("/infoById")

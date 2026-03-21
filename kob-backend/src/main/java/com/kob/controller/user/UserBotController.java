@@ -37,7 +37,7 @@ public class UserBotController {
         String errorMessage = botService.add(botReqVO);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("添加成功");
+        return Result.successMsg("添加成功");
     }
 
     @PutMapping("/update")
@@ -45,7 +45,7 @@ public class UserBotController {
         String errorMessage = botService.update(botReqVO);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("修改成功");
+        return Result.successMsg("修改成功");
     }
 
     @DeleteMapping("/delete")
@@ -53,6 +53,6 @@ public class UserBotController {
         String errorMessage = botService.delete(query);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("删除成功");
+        return Result.successMsg("删除成功");
     }
 }

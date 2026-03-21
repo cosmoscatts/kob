@@ -42,7 +42,7 @@ public class RateLimitAspect {
 
         if (count > rateLimit.maxRequests()) {
             log.warn("接口限流触发 [key={}, count={}, max={}]", key, count, rateLimit.maxRequests());
-            throw new BusinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION, rateLimit.message());
+            throw new BusinessException(ErrorCodeEnum.RATE_LIMIT_EXCEPTION, rateLimit.message());
         }
 
         return joinPoint.proceed();

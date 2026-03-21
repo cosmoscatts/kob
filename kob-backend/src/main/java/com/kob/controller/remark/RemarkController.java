@@ -26,7 +26,7 @@ public class RemarkController {
         String errorMessage = remarkService.addRemark(remarkReqVO);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("提交成功");
+        return Result.successMsg("提交成功");
     }
 
     @GetMapping("/remark/list")
@@ -44,7 +44,7 @@ public class RemarkController {
         String errorMessage = remarkService.likeRemark(remarkId);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("支持成功");
+        return Result.successMsg("支持成功");
     }
 
     @GetMapping("/remark/dislike")
@@ -52,6 +52,6 @@ public class RemarkController {
         String errorMessage = remarkService.dislikeRemark(remarkId);
         if (!Objects.isNull(errorMessage))
             return Result.error(errorMessage);
-        return Result.success("取消支持成功");
+        return Result.successMsg("取消支持成功");
     }
 }

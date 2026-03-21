@@ -1,78 +1,72 @@
 package com.kob.exception;
 
+import com.kob.common.Result;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.kob.common.Result;
-
-import lombok.extern.slf4j.Slf4j;
-
-/**
- * 全局异常处理器
- */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    /**
-     * 业务异常
-     *
-     * @param e 异常
-     * @return 异常结果
-     */
+
     @ExceptionHandler(BusinessException.class)
     public Result<?> handleBusinessException(BusinessException e) {
-        log.error("BusinessException", e);
+        log.warn("业务异常 [code={}, msg={}]", e.getCode(), e.getMessage());
         return Result.error(e.getCode(), e.getMessage());
     }
 
-    /**
-     * 处理 GET 请求参数验证抛出的异常
-     *
-     * @param e BindException 实例
-     * @return 错误响应结果
-     */
     @ExceptionHandler(BindException.class)
-    public Result<?> bindExceptionException(final BindException e) {
-        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMsg();
-        if (e.getFieldError() != null) {
-            errorMessage = e.getFieldError().getDefaultMessage();
-        }
-        log.error("BindExceptionException", e);
-        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), errorMessage);
+    public Result<?> handleBindException(BindException e) {
+        String msg = e.getFieldError() != null ? e.getFieldError().getDefaultMessage() : ErrorCodeEnum.VALID_EXCEPTION.getMsg();
+        log.warn("参数绑定异常: {}", msg);
+        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), msg);
     }
 
-    /**
-     * 处理 POST / PUT 请求参数验证抛出的异常
-     *
-     * @param e MethodArgumentNotValidException 实例
-     * @return 错误响应结果
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result<?> methodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        log.error("数据校验失败：{}，异常类型：{}", e.getMessage(), e.getClass());
-
+    public Result<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
-        String errorMessage = ErrorCodeEnum.VALID_EXCEPTION.getMsg();
-
+        String msg = ErrorCodeEnum.VALID_EXCEPTION.getMsg();
         if (bindingResult.hasErrors()) {
-            errorMessage = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            msg = bindingResult.getFieldErrors().get(0).getDefaultMessage();
         }
-
-        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), errorMessage);
+        log.warn("参数校验失败: {}", msg);
+        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), msg);
     }
 
-    /**
-     * 运行时异常
-     *
-     * @param e 异常
-     * @return 异常结果
-     */
-    @ExceptionHandler(RuntimeException.class)
-    public Result<?> handleRuntimeException(RuntimeException e) {
-        log.error("RuntimeException", e);
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public Result<?> handleMissingParam(MissingServletRequestParameterException e) {
+        log.warn("缺少请求参数: {}", e.getParameterName());
+        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), "缺少参数: " + e.getParameterName());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<?> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
+        log.warn("请求体解析失败: {}", e.getMessage());
+        return Result.error(ErrorCodeEnum.VALID_EXCEPTION.getCode(), "请求体格式错误");
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Result<?> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+        log.warn("不支持的请求方法: {}", e.getMethod());
+        return Result.error(ErrorCodeEnum.UNKNOWN_EXCEPTION.getCode(), "不支持的请求方法: " + e.getMethod());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public Result<?> handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("访问被拒绝: {}", e.getMessage());
+        return Result.error(ErrorCodeEnum.FORBIDDEN_EXCEPTION.getCode(), ErrorCodeEnum.FORBIDDEN_EXCEPTION.getMsg());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Result<?> handleException(Exception e) {
+        log.error("未捕获异常", e);
         return Result.error(ErrorCodeEnum.UNKNOWN_EXCEPTION.getCode(), ErrorCodeEnum.UNKNOWN_EXCEPTION.getMsg());
     }
 }
