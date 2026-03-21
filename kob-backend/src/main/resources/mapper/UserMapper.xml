@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kob.mapper.UserMapper">
+
+    <select id="selectUserWithRank" resultType="com.kob.model.entity.User">
+        WITH ranked_users AS (
+            SELECT u.*,
+                (SELECT COUNT(1) FROM user t
+                 WHERE t.id != 1
+                 AND (t.rating > u.rating
+                      OR (t.rating = u.rating AND UNIX_TIMESTAMP(t.create_time) &lt; UNIX_TIMESTAMP(u.create_time)))
+                ) + 1 AS rank_num
+            FROM user u
+            WHERE u.id != 1
+            <if test="name != null and name != ''">
+                AND u.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        )
+        SELECT *
+        FROM ranked_users
+        ORDER BY rating DESC, create_time ASC
+        LIMIT #{offset}, #{size}
+    </select>
+
+</mapper>
