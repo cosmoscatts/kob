@@ -8,5 +8,9 @@
 # OS
 .DS_Store
 
+# Local config (contains secrets)
+**/application-local.yaml
+**/application-local.yml
+
 # Logs
 *.log
