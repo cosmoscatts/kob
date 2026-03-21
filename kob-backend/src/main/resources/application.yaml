@@ -2,6 +2,9 @@
 server:
   port: 3000
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:3306/kob?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
     username: root
