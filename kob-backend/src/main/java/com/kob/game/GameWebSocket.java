@@ -144,12 +144,15 @@ public class GameWebSocket {
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token) throws IOException {
         this.session = session;
-        // 根据 token 获取用户 id
+        // 30秒无消息则判定连接失效（配合前端15秒心跳）
+        session.setMaxIdleTimeout(30000);
+
         int userId = JwtAuthentication.getUserId(token);
         this.user = userService.getById(userId);
 
         if (!Objects.isNull(this.user)) {
             users.put(userId, this);
+            log.info("WebSocket 连接建立 [userId={}]", userId);
         } else {
             this.session.close();
         }
@@ -160,8 +163,18 @@ public class GameWebSocket {
      */
     @OnClose
     public void onClose() {
-        if (!Objects.isNull(user)) {
-            users.remove(user.getId());
+        if (Objects.isNull(user)) return;
+
+        Integer userId = user.getId();
+        log.info("WebSocket 连接关闭 [userId={}]", userId);
+        users.remove(userId);
+
+        // 如果在匹配中，移除匹配队列
+        matchingPool.removePlayer(userId);
+
+        // 如果在游戏中，通知游戏引擎玩家断线
+        if (game != null && game.getGameState() == GameState.PLAYING) {
+            game.setPlayerDisconnected(userId);
         }
     }
 
@@ -201,6 +214,10 @@ public class GameWebSocket {
     public void onMessage(String message, Session session) {
         JSONObject data = JSON.parseObject(message);
         String event = data.getString("event");
+        if ("ping".equals(event)) {
+            sendMessage("{\"event\":\"pong\"}");
+            return;
+        }
         if ("start-matching".equals(event)) {
             startMatching(data.getInteger("botId"));
         } else if ("start-machine-training".equals(event)) {

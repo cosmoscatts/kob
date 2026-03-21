@@ -7,6 +7,7 @@ import type { Game, User } from '~/types';
 export type Opponent = Pick<User, 'name' | 'avatar'>;
 export type GameStatus = 'matching' | 'playing';
 export type GameResult = 'draw' | 'playerAWon' | 'playerBWon' | 'ongoing';
+export type ConnectionStatus = 'connected' | 'disconnected' | 'reconnecting';
 
 interface Player {
   id: number
@@ -22,6 +23,7 @@ interface PkState {
   players: Player[]
   gameMapObject: GameMap | null
   gameResult: GameResult
+  connectionStatus: ConnectionStatus
 }
 
 const DEFAULT_OPPONENT: Opponent = {
@@ -38,6 +40,7 @@ export const usePkStore = defineStore('pkStore', () => {
     players: [],
     gameMapObject: null,
     gameResult: 'ongoing',
+    connectionStatus: 'disconnected',
   });
 
   const updateGameState = <K extends keyof PkState>(

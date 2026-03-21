@@ -1,7 +1,6 @@
 package com.kob.game;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kob.game.GameWebSocket;
 import com.kob.model.entity.Bot;
 import com.kob.model.entity.Record;
 import com.kob.game.bot.BotTask;
@@ -13,9 +12,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 public class GameEngine extends Thread {
-    private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
-    // 当前对局的模式：匹配、人机
-    private final String mode; // machine / selfTrain / match
+    private static final int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+    /** 游戏总时长上限 10 分钟 */
+    private static final long GAME_TIMEOUT_MS = 10 * 60 * 1000;
+
+    private final String mode;
     private final Integer rows;
     private final Integer cols;
     private final Integer insideRandomWallNum;
@@ -23,14 +24,12 @@ public class GameEngine extends Thread {
     private final Player playerA;
     private final Player playerB;
     private final ReentrantLock lock = new ReentrantLock();
-    // 玩家 A 的下一步操作
+
     private Integer nextStepA;
-    // 玩家 B 的下一步操作
     private Integer nextStepB;
-    // ['playing', 'finished']
-    private String status = "playing";
-    // ['all', 'A', 'B']
+    private volatile GameState state = GameState.WAITING;
     private String loser;
+    private long gameStartTime;
 
     public GameEngine(Integer rows, Integer cols, Integer insideRandomWallNum, Integer idA, Bot botA, Integer idB,
         Bot botB, String mode) {
@@ -52,7 +51,6 @@ public class GameEngine extends Thread {
 
         this.playerA = new Player(idA, botIdA, botCodeA, rows - 2, 1, new ArrayList<>());
         this.playerB = new Player(idB, botIdB, botCodeB, 1, cols - 2, new ArrayList<>());
-
         this.mode = mode;
     }
 
@@ -70,6 +68,10 @@ public class GameEngine extends Thread {
 
     public Player getPlayerB() {
         return playerB;
+    }
+
+    public GameState getGameState() {
+        return state;
     }
 
     public Integer getNextStepA() {
@@ -98,6 +100,26 @@ public class GameEngine extends Thread {
         }
     }
 
+    /**
+     * 玩家断线处理：断线方判负，立即结束游戏
+     */
+    public void setPlayerDisconnected(Integer userId) {
+        lock.lock();
+        try {
+            if (state != GameState.PLAYING) return;
+
+            state = GameState.FINISHED;
+            if (playerA.getId().equals(userId)) {
+                loser = "A";
+            } else if (playerB.getId().equals(userId)) {
+                loser = "B";
+            }
+            log.info("玩家断线 [userId={}], 判定 {} 负", userId, loser);
+        } finally {
+            lock.unlock();
+        }
+    }
+
     private boolean checkConnectivity(int sx, int sy, int tx, int ty) {
         if (sx == tx && sy == ty)
             return true;
@@ -117,9 +139,6 @@ public class GameEngine extends Thread {
         return false;
     }
 
-    /**
-     * 画地图
-     */
     private boolean draw() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -160,9 +179,6 @@ public class GameEngine extends Thread {
         }
     }
 
-    /**
-     * 将当前局面信息编码成字符串 地图 # meSx # meSy # 我的操作 # youSx # youSy # 对手操作
-     */
     private String getInput(Player player) {
         Player me, you;
         if (playerA.getId().equals(player.getId())) {
@@ -176,9 +192,6 @@ public class GameEngine extends Thread {
             + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
     }
 
-    /**
-     * 将 bot 代码提交到 BotPool 执行 — 直接内部调用，不再通过 HTTP
-     */
     private void sendBotCode(Player player) {
         if (player.getBotId().equals(-1))
             return;
@@ -187,19 +200,23 @@ public class GameEngine extends Thread {
     }
 
     /**
-     * 获取两名玩家的下一步操作
+     * 获取两名玩家的下一步操作，最多等待 5 秒
+     * 期间检查游戏是否已因断线而结束
      */
     private boolean getNextStep() {
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            return false;
         }
 
         sendBotCode(playerA);
         sendBotCode(playerB);
 
         for (int i = 0; i < 50; i++) {
+            // 如果游戏已因断线结束，立即返回
+            if (state == GameState.FINISHED) return false;
+
             try {
                 Thread.sleep(100);
                 lock.lock();
@@ -213,18 +230,15 @@ public class GameEngine extends Thread {
                     lock.unlock();
                 }
             } catch (InterruptedException e) {
-                log.error("Interrupted while waiting for next step", e);
+                log.error("等待玩家操作时被中断", e);
+                return false;
             }
         }
         return false;
     }
 
-    /**
-     * 检测目标位置是否合法，未撞到两条蛇的身体或者墙
-     */
     private boolean checkValid(List<Cell> cellsA, List<Cell> cellsB) {
         int n = cellsA.size();
-        // A 的蛇头
         Cell cell = cellsA.get(n - 1);
         if (g[cell.x][cell.y] == 1)
             return false;
@@ -242,16 +256,13 @@ public class GameEngine extends Thread {
         return true;
     }
 
-    /**
-     * 判断两名玩家下一步操作是否合法
-     */
     private void judge() {
         List<Cell> cellsA = playerA.getCells(), cellsB = playerB.getCells();
 
         boolean validA = checkValid(cellsA, cellsB);
         boolean validB = checkValid(cellsB, cellsA);
         if (!validA || !validB) {
-            status = "finished";
+            state = GameState.FINISHED;
 
             if (!validA && !validB) {
                 loser = "all";
@@ -272,9 +283,6 @@ public class GameEngine extends Thread {
         }
     }
 
-    /**
-     * 向客户端返回两名玩家操作信息
-     */
     private void sendMove() {
         lock.lock();
         try {
@@ -289,9 +297,6 @@ public class GameEngine extends Thread {
         }
     }
 
-    /**
-     * 将地图转为字符串保存
-     */
     private String getMapString() {
         StringBuilder ans = new StringBuilder();
         for (int i = 0; i < rows; i++) {
@@ -307,21 +312,12 @@ public class GameEngine extends Thread {
     }
 
     private void saveToDatabase() {
-        // 只有匹配模式，playerB 才是真实 id
         Integer playerBId = "machine".equals(mode) ? 1 : "match".equals(mode) ? playerB.getId() : playerA.getId();
 
         Integer ratingA = GameWebSocket.userService.getById(playerA.getId()).getRating();
         Integer ratingB = GameWebSocket.userService.getById(playerBId).getRating();
 
         if ("match".equals(mode) && !Objects.equals(playerA.getId(), playerB.getId())) {
-//            if ("A".equals(loser)) {
-//                ratingA -= 2;
-//                ratingB += 5;
-//            } else if ("B".equals(loser)) {
-//                ratingA += 5;
-//                ratingB -= 2;
-//            }
-
             int newRatingA = GameWebSocket.rankService.calculateNewRating(ratingA, ratingB, !"A".equals(loser));
             int newRatingB = GameWebSocket.rankService.calculateNewRating(ratingB, ratingA, !"B".equals(loser));
 
@@ -338,9 +334,6 @@ public class GameEngine extends Thread {
         GameWebSocket.recordService.save(record);
     }
 
-    /**
-     * 向两名玩家发送对局结果
-     */
     private void sendResult() {
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
@@ -351,19 +344,41 @@ public class GameEngine extends Thread {
 
     @Override
     public void run() {
+        state = GameState.PLAYING;
+        gameStartTime = System.currentTimeMillis();
+
         for (int i = 0; i < 1000; i++) {
-            // 判断是否获取两名玩家的下一步操作
+            // 检查游戏总时长超时
+            if (System.currentTimeMillis() - gameStartTime > GAME_TIMEOUT_MS) {
+                state = GameState.FINISHED;
+                loser = "all";
+                log.info("游戏超时（10分钟），判定平局");
+                sendResult();
+                break;
+            }
+
+            // 如果已因断线结束
+            if (state == GameState.FINISHED) {
+                sendResult();
+                break;
+            }
+
             if (getNextStep()) {
                 judge();
-                if ("playing".equals(status)) {
+                if (state == GameState.PLAYING) {
                     sendMove();
                 } else {
                     sendResult();
                     break;
                 }
             } else {
-                // 游戏结束
-                status = "finished";
+                // 如果是断线导致的结束，loser 已设置
+                if (state == GameState.FINISHED) {
+                    sendResult();
+                    break;
+                }
+                // 超时未操作
+                state = GameState.FINISHED;
                 lock.lock();
                 try {
                     if (nextStepA == null && nextStepB == null) {

@@ -1,16 +1,20 @@
 package com.kob.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.kob.model.vo.request.AccountReqVO;
-import com.kob.model.vo.response.AccountRespVO;
-import com.kob.model.vo.request.UserInfoReqVO;
-import com.kob.model.vo.response.UserRespVO;
-import com.kob.model.converter.UserConverter;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kob.exception.BusinessException;
 import com.kob.exception.ErrorCodeEnum;
-import com.kob.security.UserDetailsImpl;
+import com.kob.mapper.UserMapper;
+import com.kob.model.converter.UserConverter;
+import com.kob.model.entity.User;
+import com.kob.model.vo.request.AccountReqVO;
+import com.kob.model.vo.request.UserInfoReqVO;
+import com.kob.model.vo.response.AccountRespVO;
+import com.kob.model.vo.response.UserRespVO;
 import com.kob.security.JwtUtil;
-import lombok.RequiredArgsConstructor;
+import com.kob.security.UserDetailsImpl;
+import com.kob.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,20 +23,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kob.model.entity.User;
-import com.kob.mapper.UserMapper;
-import com.kob.service.UserService;
-
 import java.util.Date;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+
+    public UserServiceImpl(@Lazy AuthenticationManager authenticationManager,
+                           PasswordEncoder passwordEncoder,
+                           UserMapper userMapper) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public AccountRespVO getToken(AccountReqVO accountReqVO) throws BusinessException {

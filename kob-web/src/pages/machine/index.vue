@@ -38,7 +38,7 @@ const handleResult = (data: any) => {
   pkStore.updateGameState({ gameResult: getGameResult(data.loser) });
 };
 
-const socket = useSocket((msg) => {
+const { close: closeSocket } = useSocket((msg) => {
   const data = JSON.parse(msg.data);
   const fns: [boolean, () => void][] = [
     [data.event === 'match-success', () => handleMatchSuccess(data)],
@@ -49,7 +49,7 @@ const socket = useSocket((msg) => {
 });
 
 onUnmounted(() => {
-  socket.close();
+  closeSocket();
   pkStore.resetGame();
 });
 
